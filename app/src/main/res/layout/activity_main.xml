@@ -98,13 +98,14 @@
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".7" />
 
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:id="@+id/Player_Tabs"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#ff9900ff"
+            android:background="@android:color/transparent"
+            android:orientation="vertical"
+            android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/Base_Cards"
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent="1"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,7 +113,33 @@
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".1">
 
-        </android.support.constraint.ConstraintLayout>
+            <!-- TODO: External citation @ https://developer.android.com/training/improving-layouts/reusing-layouts -->
+            <include
+                layout="@layout/player_tab"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <include
+                layout="@layout/player_tab"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <include
+                layout="@layout/player_tab"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_margin="0dp"
+                android:layout_weight="1" />
+
+            <include
+                layout="@layout/player_tab"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_margin="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.Guideline
