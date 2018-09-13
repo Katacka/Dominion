@@ -98,7 +98,7 @@
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".7" />
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/Player_Tabs"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -116,30 +116,53 @@
 
             <!-- TODO: External citation @ https://developer.android.com/training/improving-layouts/reusing-layouts -->
             <include
-                android:id="@+id/player1"
+                android:id="@+id/playerTab1"
                 layout="@layout/player_tab"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/playerTab2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="@dimen/tabActive"
+                />
 
             <include
+                android:id="@+id/playerTab2"
                 layout="@layout/player_tab"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/playerTab3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/playerTab1"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="@dimen/tabInactive"
+                 />
 
             <include
+                android:id="@+id/playerTab3"
                 layout="@layout/player_tab"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/playerTab4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/playerTab2"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="@dimen/tabInactive"
+                 />
 
             <include
+                android:id="@+id/playerTab4"
                 layout="@layout/player_tab"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-        </LinearLayout>
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/playerTab3"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="@dimen/tabInactive"
+                 />
+        </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.Guideline
