@@ -3,25 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutPlayerTab"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_weight="1"
     android:background="@drawable/player_tab_background"
-    android:gravity="center"
-    android:orientation="horizontal"
-    android:rotation="0"
     android:showDividers="none">
 
     <TextView
         android:id="@+id/playerName"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:ellipsize="end"
         android:gravity="center_vertical|fill_horizontal"
-        android:maxLines="1"
         android:rotation="0"
-        android:text="Human"
+        android:singleLine="true"
+        android:text="HumanHumanHuman"
+        android:textSize="12sp"
         android:visibility="visible" />
+
 </LinearLayout>

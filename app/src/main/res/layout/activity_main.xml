@@ -102,6 +102,7 @@
             android:id="@+id/Player_Tabs"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="1dp"
             android:background="@android:color/transparent"
             android:orientation="vertical"
             android:scrollbars="none"
@@ -115,29 +116,28 @@
 
             <!-- TODO: External citation @ https://developer.android.com/training/improving-layouts/reusing-layouts -->
             <include
+                android:id="@+id/player1"
                 layout="@layout/player_tab"
-                android:layout_width="60dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
 
             <include
                 layout="@layout/player_tab"
-                android:layout_width="30dp"
+                android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
 
             <include
                 layout="@layout/player_tab"
-                android:layout_width="30dp"
+                android:layout_width="70dp"
                 android:layout_height="match_parent"
-                android:layout_margin="0dp"
                 android:layout_weight="1" />
 
             <include
                 layout="@layout/player_tab"
-                android:layout_width="30dp"
+                android:layout_width="70dp"
                 android:layout_height="match_parent"
-                android:layout_margin="0dp"
                 android:layout_weight="1" />
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
