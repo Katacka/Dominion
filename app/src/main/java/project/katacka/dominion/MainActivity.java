@@ -1,6 +1,8 @@
 package project.katacka.dominion;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         int totalOpponentCards = 5;
         displayCards((TableRow) findViewById(R.id.Opponent_Cards), totalOpponentCards, new int[]{R.drawable.opponent_card});
 
-        int totalPlayerCards = 5;
+        int totalPlayerCards = 3;
         displayCards((TableRow) findViewById(R.id.User_Cards), totalPlayerCards, new Cards(totalPlayerCards));
 
         //generateStack((ConstraintLayout) findViewById(R.id.OpponentDiscard_Constraint), 1, R.drawable.dominion);
@@ -54,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
             TableRow.LayoutParams trParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
             trParams.weight = 1.0f;
             trParams.setMargins(10, 10, 10, 10);
+            GradientDrawable border = new GradientDrawable();
+            border.setColor(0xFFFFFFFF); //white background
+            border.setStroke(1, 0xFF000000); //black border with full opacity
+            rlCard.setBackground(border);
             rlCard.setLayoutParams(trParams);
 
             RelativeLayout.LayoutParams rlParam0 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -78,22 +84,24 @@ public class MainActivity extends AppCompatActivity {
             //ivCard.setScaleType(ImageView.ScaleType.FIT_XY);
             rlCard.addView(ivCard, rlParam1);
 
-            RelativeLayout.LayoutParams rlParam2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams rlParam2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             rlParam2.addRule(RelativeLayout.BELOW, ivCard.getId());
 
             //Card Text
             final TextView tvCardText = new TextView(this);
             tvCardText.setText(cards.cardStack.get(i).cText);
             tvCardText.setId(2);
+            tvCardText.setBackgroundColor(Color.parseColor("#ADB7C1"));
             rlCard.addView(tvCardText, rlParam2);
 
-            RelativeLayout.LayoutParams rlParam3 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams rlParam3 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             rlParam3.addRule(rlCard.ALIGN_PARENT_BOTTOM, tvCardText.getId());
 
             //Card Type
             final TextView tvCardType = new TextView(this);
             tvCardType.setText(cards.cardStack.get(i).cType);
             tvCardType.setId(3);
+            tvCardType.setBackgroundColor(Color.parseColor("#ADB7C1"));
             rlCard.addView(tvCardType, rlParam3);
 
             //rlParams.addRule(RelativeLayout.BELOW, ivCard.getId());
