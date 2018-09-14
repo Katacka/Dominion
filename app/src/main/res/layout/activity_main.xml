@@ -69,19 +69,67 @@
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_weight="1" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_weight="1" />
+            </TableRow>
+
+
         </TableLayout>
 
         <TableRow
@@ -89,6 +137,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="#ff0ffff0"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/Shop_Cards"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_default="percent"
