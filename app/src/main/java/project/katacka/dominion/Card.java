@@ -1,4 +1,4 @@
-package project.katacka.dominion_interface;
+package project.katacka.dominion;
 
 public class Card {
     //Graphic Properties
@@ -8,15 +8,11 @@ public class Card {
     protected int cCost;
     protected String cType;
 
-    Card(String name, int photoId, String text, int cost, String type){
+    public Card (String name, int photoId, String text, int cost, String type){
         cName = name;
         cPhotoId = photoId;
         cText = text;
         cCost = cost;
         cType = type;
-    }
-
-    static void cInteraction(Runnable method) {
-        method.run();
     }
 }
