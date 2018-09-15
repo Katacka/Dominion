@@ -110,22 +110,32 @@
 
                 <include
                     layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
                 <include
                     layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
                 <include
                     layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
                 <include
                     layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
                 <include
                     layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1" />
             </TableRow>
 
@@ -310,7 +320,9 @@
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".2">
-
+            <include
+                layout="@layout/user_buttons"
+                />
         </android.support.constraint.ConstraintLayout>
 
         <TableRow
