@@ -16,7 +16,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -25,10 +24,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         int totalOpponentCards = 5;
-        displayCards((TableRow) findViewById(R.id.Opponent_Cards), totalOpponentCards, new int[]{R.drawable.opponent_card});
+        displayCards(findViewById(R.id.Opponent_Cards), totalOpponentCards, new int[]{R.drawable.opponent_card});
 
         int totalPlayerCards = 5;
-        displayCards((TableRow) findViewById(R.id.User_Cards), totalPlayerCards, new Cards(totalPlayerCards));
+        displayCards(findViewById(R.id.User_Cards), totalPlayerCards, new Cards(totalPlayerCards));
 
         //generateStack((ConstraintLayout) findViewById(R.id.OpponentDiscard_Constraint), 1, R.drawable.dominion);
         //generateStack((ConstraintLayout) findViewById(R.id.OpponentDraw_Constraint), 1, R.drawable.dominion);
@@ -47,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
             targetLayout.addView(ivOpponentCard);
         }
     }
+
 
     protected void displayCards(TableRow targetLayout, int totalCards, Cards cards) {
         for (int i = 0; i < totalCards; i++){
