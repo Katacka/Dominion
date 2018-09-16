@@ -248,6 +248,13 @@
 
             <!--android:background="#ff0000ff"-->
 
+            <!--TODO: add indents for actions, buys and treasures.
+                use res strings, not hard code
+                use a better font
+
+                Later: add animation for draw card
+            -->
+
             <TextView
                 android:id="@+id/tvActions"
                 android:layout_width="0dp"
