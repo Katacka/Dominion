@@ -24,40 +24,79 @@
         <TableLayout
             android:id="@+id/Base_Cards"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="#ffff0000"
+            android:layout_height="wrap_content"
+            android:background="#ffffffff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/Shop_Cards"
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent="0.8"
             app:layout_constraintStart_toEndOf="@+id/Player_Tabs"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
 
             app:layout_constraintWidth_percent=".2">
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </TableRow>
+
+
         </TableLayout>
 
         <TableLayout
             android:id="@+id/Shop_Cards"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="#fffff000"
+            android:layout_height="wrap_content"
+            android:background="#ffffffff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_default="percent"
@@ -312,7 +351,7 @@
             android:id="@+id/User_Buttons"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#ff00ff00"
+            android:background="#ffffffff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/User_Hand"
@@ -320,9 +359,56 @@
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".2">
-            <include
-                layout="@layout/user_buttons"
-                />
+
+            <Button
+                android:id="@+id/buttonPlayAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Play all "
+                app:layout_constraintBottom_toTopOf="@+id/buttonEndAll"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/buttonEndAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="End Turn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonPlayAll" />
+
+            <ImageView
+                android:id="@+id/imageViewDiscard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonEndAll"
+                app:srcCompat="@drawable/dominion" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:background="#FF0000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageViewDiscard">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="10" />
+            </FrameLayout>
+
         </android.support.constraint.ConstraintLayout>
 
         <TableRow
