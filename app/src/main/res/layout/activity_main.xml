@@ -11,15 +11,13 @@
         android:id="@+id/Gameplay_Constraint"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layout_constraintEnd_toStartOf="@+id/Log_Constraint"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.6"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.9"
-        app:layout_constraintBottom_toTopOf="@+id/g60_Horizontal"
-        app:layout_constraintEnd_toStartOf="@+id/Log_Constraint"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.9">
 
         <TableLayout
             android:id="@+id/Base_Cards"
@@ -117,22 +115,22 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/OpponentDiscard_Constraint"
             android:layout_width="0dp"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".09"
             android:layout_height="0dp"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent=".2"
-            android:gravity="top"
             android:layout_marginBottom="0dp"
             android:layout_marginEnd="0dp"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
+            android:gravity="top"
             app:layout_constraintBottom_toTopOf="@+id/Shop_Cards"
             app:layout_constraintEnd_toStartOf="@+id/Opponent_Cards"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent=".2"
             app:layout_constraintStart_toEndOf="@+id/Base_Cards"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".09">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -148,22 +146,22 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/OpponentDraw_Constraint"
             android:layout_width="0dp"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".09"
             android:layout_height="0dp"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent=".2"
-            android:foregroundGravity="top"
             android:layout_marginBottom="0dp"
             android:layout_marginEnd="0dp"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
+            android:foregroundGravity="top"
             app:layout_constraintBottom_toTopOf="@+id/Shop_Cards"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent=".2"
             app:layout_constraintStart_toEndOf="@+id/Opponent_Cards"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".09">
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -178,63 +176,6 @@
         </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.constraint.Guideline
-        android:id="@+id/g25_Horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="174dp" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/g60_Horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.60" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/g22.5_Vert"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="231dp" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/g77.5_Vert"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.775" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/g7.5_Vert"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.075" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/g92.5_Vert"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp"
-        app:layout_constraintGuide_percent=".925" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/g32.5_Vert"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.325" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/g12.5_Horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".125" />
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/User_Constraint"
         android:layout_width="0dp"
@@ -242,8 +183,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="@+id/Log_Constraint"
-        app:layout_constraintTop_toBottomOf="@+id/g60_Horizontal"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintTop_toBottomOf="@+id/Gameplay_Constraint"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent=".8">
 
