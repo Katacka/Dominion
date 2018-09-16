@@ -15,6 +15,6 @@ Push Failure: <br />
   git add -A && git commit -m "<Your_Message>" #In case any files have not been committed <br />
   
   git remote add origin https://github.com/Katacka/Dominion/ #Stores a reference to this repo in the alias origin <br />
-  git push origin master --force #Actually pushes to the repo. As things stand I'll have to merge any changes, but wew can develop    a better model in the future <br />
+  git push origin master --force #Actually pushes to the repo. As things stand I'll have to merge any changes, but we can develop    a better model in the future <br />
   
   Hopefully that worked to some degree or other! <br />
