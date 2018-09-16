@@ -102,9 +102,11 @@
             android:id="@+id/Player_Tabs"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#ff9900ff"
+            android:layout_margin="1dp"
+            android:background="@android:color/transparent"
+            android:orientation="vertical"
+            android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/Base_Cards"
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent="1"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,6 +114,54 @@
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".1">
 
+            <!-- TODO: External citation @ https://developer.android.com/training/improving-layouts/reusing-layouts -->
+            <include
+                android:id="@+id/playerTab1"
+                layout="@layout/player_tab"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/playerTab2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="@dimen/tabActive"
+                />
+
+            <include
+                android:id="@+id/playerTab2"
+                layout="@layout/player_tab"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/playerTab3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/playerTab1"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="@dimen/tabInactive"
+                 />
+
+            <include
+                android:id="@+id/playerTab3"
+                layout="@layout/player_tab"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/playerTab4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/playerTab2"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="@dimen/tabInactive"
+                 />
+
+            <include
+                android:id="@+id/playerTab4"
+                layout="@layout/player_tab"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/playerTab3"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="@dimen/tabInactive"
+                 />
         </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 
@@ -188,7 +238,6 @@
             android:id="@+id/User_Stats"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#ff0000ff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/User_Hand"
             app:layout_constraintStart_toStartOf="parent"
@@ -197,6 +246,47 @@
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".2">
 
+            <!--android:background="#ff0000ff"-->
+
+            <TextView
+                android:id="@+id/tvActions"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Actions left:"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvBuys"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Buys left:"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvActions" />
+
+            <TextView
+                android:id="@+id/tvTreasures"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Treasure:"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvBuys" />
+
+            <ImageView
+                android:id="@+id/ivDrawCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTreasures"
+                app:srcCompat="@drawable/dominion" />
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
