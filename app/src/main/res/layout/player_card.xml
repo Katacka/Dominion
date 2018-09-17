@@ -11,9 +11,11 @@
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintHorizontal_weight="1"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent=".08"
         android:layout_marginHorizontal="5dp"
+        android:layout_marginVertical="5dp"
         android:gravity="center"
         android:text="Title"
         android:textStyle="bold"
@@ -131,7 +133,7 @@
         app:layout_constraintBottom_toTopOf="@+id/constraintChild"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent=".51"
+        app:layout_constraintHeight_percent=".48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewArt" />
 

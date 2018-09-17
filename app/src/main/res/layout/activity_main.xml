@@ -23,7 +23,6 @@
             android:id="@+id/Base_Cards"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#ffffffff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/Shop_Cards"
             app:layout_constraintHeight_default="percent"
@@ -94,7 +93,6 @@
             android:id="@+id/Shop_Cards"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#ffffffff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_default="percent"
@@ -105,11 +103,12 @@
             app:layout_constraintWidth_percent=".7">
 
             <TableRow
+                android:id="@+id/Shop_Row1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <include
+                <!--<include
                     layout="@layout/shop_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -137,15 +136,16 @@
                     layout="@layout/shop_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1" />-->
             </TableRow>
 
             <TableRow
+                android:id="@+id/Shop_Row2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <include
+                <!-- <include
                     layout="@layout/shop_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -173,7 +173,7 @@
                     layout="@layout/shop_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1" />-->
             </TableRow>
 
 
@@ -183,7 +183,6 @@
             android:id="@+id/Opponent_Cards"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#ff0ffff0"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/Shop_Cards"
             app:layout_constraintEnd_toEndOf="parent"
@@ -265,12 +264,7 @@
             android:id="@+id/OpponentDiscard_Constraint"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
+            android:layout_margin="0dp"
             android:gravity="top"
             app:layout_constraintBottom_toTopOf="@+id/Shop_Cards"
             app:layout_constraintEnd_toStartOf="@+id/Opponent_Cards"
@@ -395,7 +389,6 @@
             android:id="@+id/User_Buttons"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#ffffffff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/User_Cards"
@@ -442,7 +435,6 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="8dp"
-                android:background="#FF0000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imageViewDiscard">
 
