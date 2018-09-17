@@ -9,22 +9,23 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Cards {
     protected ArrayList<Card> cardStack;
-    protected int uniqueCards; //This can't be zero, else generateStack will throw a div zero error
+    protected int totalCards;
+    protected final static int uniqueCards = 10; //This can't be zero, else generateStack will throw a div zero error
 
-    public Cards(int stackSize) {
-        uniqueCards = 10;
-        cardStack = new ArrayList<>(stackSize);
-        generateStack(stackSize); //Populates cardStack
+    public Cards(int totalCards) {
+        this.cardStack = new ArrayList<>(totalCards);
+        this.totalCards = totalCards;
+        generateStack(); //Populates cardStack
     }
 
     //Credit: https://stackoverflow.com/questions/4307273/how-can-i-create-and-display-an-arraylist-of-random-numbers-in-java
-    private void generateStack(int stackSize){
+    private void generateStack(){
         //int[] randomCardInit = new int[stackSize];
         Random randomObj = new Random();
         randomObj.setSeed(System.currentTimeMillis());
 
         //I'd prefer this, but we'd have to agree to Java/Android version restrictions
-        ThreadLocalRandom.current().ints(0, uniqueCards - 1).distinct().limit(stackSize).forEach(randomInt -> initializeCards(randomInt));
+        ThreadLocalRandom.current().ints(0, uniqueCards).distinct().limit(totalCards).forEach(randomInt -> initializeCards(randomInt));
     }
 
     private void initializeCards(int randomCard) {
@@ -45,7 +46,7 @@ public class Cards {
                 cardStack.add(new Card("Artisan", R.drawable.dominion_artisan, "Gain a card to your hand costing up to 5 Gold. Put a card from your hand onto your deck", 6, "ACTION"));
                 break;
             case(5): //Witch
-                cardStack.add(new Card("Witch", R.drawable.dominion_witch, "+2 Cards\nEach other player gains a curse", 5, "ACTION - ATTACK"));
+                cardStack.add(new Card("Witch", R.drawable.dominion_witch, "+2 Cards\nEach other player gains a curse", 5, "ATTACK"));
                 break;
             case(6): //Library
                 cardStack.add(new Card("Library", R.drawable.dominion_library, "Draw until you have 7 cards in hand, skipping any Action cards you choose to; set those aside, discarding them afterwards", 5, "ACTION"));
@@ -54,10 +55,11 @@ public class Cards {
                 cardStack.add(new Card("Laboratory", R.drawable.dominion_laboratory, "+2 Cards\n+1 Action", 5, "ACTION"));
                 break;
             case(8): //Militia
-                cardStack.add(new Card("Militia", R.drawable.dominion_militia, "+2 Gold\nEach other player discards down to 3 cards in hand", 4, "ACTION - ATTACK"));
+                cardStack.add(new Card("Militia", R.drawable.dominion_militia, "+2 Gold\nEach other player discards down to 3 cards in hand", 4, "ATTACK"));
                 break;
             case(9): //Harbinger
                 cardStack.add(new Card("Harbinger", R.drawable.dominion_harbinger, "+1 Card\n+1 Action\nLook through your discard pile. You may put a card from it onto your deck", 3, "ACTION"));
+                break;
             default:
                 Log.e("initalizeCards","An exception has occured. No card has been assigned to this value");
         }

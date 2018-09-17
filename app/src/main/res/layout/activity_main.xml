@@ -22,40 +22,77 @@
         <TableLayout
             android:id="@+id/Base_Cards"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="#ffff0000"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/Shop_Cards"
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent="0.8"
             app:layout_constraintStart_toEndOf="@+id/Player_Tabs"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
 
             app:layout_constraintWidth_percent=".2">
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </TableRow>
+
+
         </TableLayout>
 
         <TableLayout
             android:id="@+id/Shop_Cards"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="#fffff000"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_default="percent"
@@ -66,26 +103,87 @@
             app:layout_constraintWidth_percent=".7">
 
             <TableRow
+                android:id="@+id/Shop_Row1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <!--<include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />-->
+            </TableRow>
 
             <TableRow
+                android:id="@+id/Shop_Row2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                <!-- <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/shop_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />-->
+            </TableRow>
+
+
         </TableLayout>
 
         <TableRow
             android:id="@+id/Opponent_Cards"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/Shop_Cards"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_default="percent"
@@ -100,9 +198,11 @@
             android:id="@+id/Player_Tabs"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#ff9900ff"
+            android:layout_margin="1dp"
+            android:background="@android:color/transparent"
+            android:orientation="vertical"
+            android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/Base_Cards"
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent=".4"
             app:layout_constraintStart_toStartOf="parent"
@@ -110,18 +210,61 @@
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".1">
 
+            <!-- TODO: External citation @ https://developer.android.com/training/improving-layouts/reusing-layouts -->
+            <include
+                android:id="@+id/playerTab1"
+                layout="@layout/player_tab"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/playerTab2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="@dimen/tabActive"
+                />
+
+            <include
+                android:id="@+id/playerTab2"
+                layout="@layout/player_tab"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/playerTab3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/playerTab1"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="@dimen/tabInactive"
+                 />
+
+            <include
+                android:id="@+id/playerTab3"
+                layout="@layout/player_tab"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/playerTab4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/playerTab2"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="@dimen/tabInactive"
+                 />
+
+            <include
+                android:id="@+id/playerTab4"
+                layout="@layout/player_tab"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/playerTab3"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="@dimen/tabInactive"
+                 />
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/OpponentDiscard_Constraint"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
+            android:layout_margin="0dp"
             android:gravity="top"
             app:layout_constraintBottom_toTopOf="@+id/Shop_Cards"
             app:layout_constraintEnd_toStartOf="@+id/Opponent_Cards"
@@ -191,7 +334,6 @@
             android:id="@+id/User_Stats"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#ff0000ff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/User_Cards"
             app:layout_constraintStart_toStartOf="parent"
@@ -200,13 +342,53 @@
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".2">
 
+            <!--android:background="#ff0000ff"-->
+
+            <TextView
+                android:id="@+id/tvActions"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Actions left:"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvBuys"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Buys left:"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvActions" />
+
+            <TextView
+                android:id="@+id/tvTreasures"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Treasure:"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvBuys" />
+
+            <ImageView
+                android:id="@+id/ivDrawCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTreasures"
+                app:srcCompat="@drawable/dominion" />
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/User_Buttons"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#ff00ff00"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/User_Cards"
@@ -214,6 +396,54 @@
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".2">
+
+            <Button
+                android:id="@+id/buttonPlayAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Play all "
+                app:layout_constraintBottom_toTopOf="@+id/buttonEndAll"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/buttonEndAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="End Turn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonPlayAll" />
+
+            <ImageView
+                android:id="@+id/imageViewDiscard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonEndAll"
+                app:srcCompat="@drawable/dominion" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageViewDiscard">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="10" />
+            </FrameLayout>
 
         </android.support.constraint.ConstraintLayout>
 
