@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <rotate xmlns:android="http://schemas.android.com/apk/res/android"
     android:fromDegrees="0">
     <shape
         android:shape="rectangle">
+        <solid
+            android:color="#FFFFFFFF" />
         <!--TODO: External citation: https://stackoverflow.com/questions/8203606/android-how-to-draw-a-border-to-a-linearlayout-->
         <stroke
             android:color="@color/tabBackground"

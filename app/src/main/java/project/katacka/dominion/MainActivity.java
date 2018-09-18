@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         displayCards(findViewById(R.id.Opponent_Cards), 5, new int[]{R.drawable.opponent_card});
 
         //Populates and displays the player cards
-        displayCards(findViewById(R.id.User_Cards), R.layout.player_card, new Cards(3), false, true);
+        displayCards(findViewById(R.id.User_Cards), R.layout.player_card, new Cards(5), false, true);
 
         //Populates and displays the Shop cards
         displayCards(findViewById(R.id.Shop_Cards), R.layout.shop_card, new Cards(10), true, false);
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected ViewGroup populateCard(int layoutID, Card cardData, Boolean isVisible){
+    protected ViewGroup populateCard(int layoutID, Card cardData, boolean isVisible){
         //Inflates and stores a reference to the XML card layout
         ViewGroup cardLayout = (ViewGroup) getLayoutInflater().inflate(layoutID, null);
 
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         return cardLayout;
     }
 
-    protected void displayCards(ViewGroup cardLayout, int layoutID, Cards cards, Boolean isTableLayout, Boolean isVisible) {
+    protected void displayCards(ViewGroup cardLayout, int layoutID, Cards cards, boolean isTableLayout, boolean isVisible) {
         //Declares and defines parameters used to define parent-child relationship attributes
         TableRow.LayoutParams trParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.MATCH_PARENT);
         trParams.weight = 1.0f;
