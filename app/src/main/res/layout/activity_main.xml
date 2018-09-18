@@ -4,16 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/background2">
 
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/Gameplay_Constraint"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintEnd_toStartOf="@+id/Log_Constraint"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.6"
+        app:layout_constraintHeight_percent="0.55"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_default="percent"
@@ -23,6 +25,7 @@
             android:id="@+id/Base_Cards"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/Shop_Cards"
             app:layout_constraintHeight_default="percent"
@@ -93,6 +96,7 @@
             android:id="@+id/Shop_Cards"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_default="percent"
@@ -100,7 +104,7 @@
             app:layout_constraintStart_toEndOf="@+id/Base_Cards"
             app:layout_constraintTop_toBottomOf="@+id/Opponent_Cards"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".7">
+            app:layout_constraintWidth_percent=".65">
 
             <TableRow
                 android:id="@+id/Shop_Row1"
@@ -183,7 +187,6 @@
             android:id="@+id/Opponent_Cards"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/Shop_Cards"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_default="percent"

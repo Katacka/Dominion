@@ -80,8 +80,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void displayCards(ViewGroup cardLayout, int layoutID, Cards cards, Boolean isTableLayout, Boolean isVisible) {
-        TableRow.LayoutParams trParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+        TableRow.LayoutParams trParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.MATCH_PARENT);
         trParams.weight = 1.0f;
+        trParams.setMargins(5,5,5,5);
 
         int numRows = (isTableLayout) ? cardLayout.getChildCount() : 1;
 
