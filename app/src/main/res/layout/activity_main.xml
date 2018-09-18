@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,17 +8,17 @@
     tools:context=".MainActivity"
     android:background="@drawable/background2">
 
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/Gameplay_Constraint"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="12dp"
         app:layout_constraintEnd_toStartOf="@+id/Log_Constraint"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.55"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/User_Constraint"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.9">
 
@@ -25,14 +26,13 @@
             android:id="@+id/Base_Cards"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/Shop_Cards"
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent="0.8"
             app:layout_constraintStart_toEndOf="@+id/Player_Tabs"
             app:layout_constraintWidth_default="percent"
-
             app:layout_constraintWidth_percent=".2">
 
             <TableRow
@@ -111,36 +111,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
-
-                <!--<include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />-->
             </TableRow>
 
             <TableRow
@@ -148,36 +118,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
-
-                <!-- <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />-->
             </TableRow>
 
 
@@ -322,6 +262,20 @@
         </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 
+    <!-- Game Log -->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Log_Constraint"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#ff000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Gameplay_Constraint"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!-- User Cards/Discard(Buttons)/Draw(Stats) Constraint Layout -->
     <android.support.constraint.ConstraintLayout
         android:id="@+id/User_Constraint"
         android:layout_width="0dp"
@@ -344,8 +298,6 @@
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".2">
-
-            <!--android:background="#ff0000ff"-->
 
             <TextView
                 android:id="@+id/tvActions"
@@ -461,18 +413,6 @@
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".6" />
-    </android.support.constraint.ConstraintLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/Log_Constraint"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="#ff000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Gameplay_Constraint"
-        app:layout_constraintTop_toTopOf="parent">
-
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

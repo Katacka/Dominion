@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,15 +23,23 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Removes the title and notification bars respectively
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Ryan's Player Tab code
+        //TODO: Consider writing this into a multi-purpose tab function
         String[] names = {"Smart AI", "Dumb AI", "Player 1", "Player 2"};
         setNames(names);
 
-        int totalOpponentCards = 5;
-        displayCards(findViewById(R.id.Opponent_Cards), totalOpponentCards, new int[]{R.drawable.opponent_card});
+        //Populates and displays the opponent cards
+        displayCards(findViewById(R.id.Opponent_Cards), 5, new int[]{R.drawable.opponent_card});
 
         //Populates and displays the player cards
         displayCards(findViewById(R.id.User_Cards), R.layout.player_card, new Cards(3), false, true);
@@ -39,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Currently used to display opponent cards
+    //TODO: Wrap this functionality into populateCard/displayCards
     protected void displayCards(TableRow targetLayout, int totalCards, int[] imageID) {
         for (int i = 0; i < totalCards; i++){
             ImageView ivOpponentCard = new ImageView (this);
@@ -63,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         //Setting the card's image
         ((ImageView) cardLayout.findViewById(R.id.imageViewArt)).setImageResource(cardData.cPhotoId);
 
-        //Setting the card's text
+        //Setting the card's text and text visibility
         TextView cardText = cardLayout.findViewById(R.id.textViewText);
         cardText.setText(cardData.cText);
         if (isVisible) cardText.setVisibility(View.VISIBLE);
@@ -74,18 +86,19 @@ public class MainActivity extends AppCompatActivity {
         //Setting the card's type
         ((TextView) cardLayout.findViewById(R.id.textViewType)).setText(cardData.cType);
 
-        if (isVisible) cardLayout.setVisibility(View.VISIBLE);
-
         return cardLayout;
     }
 
     protected void displayCards(ViewGroup cardLayout, int layoutID, Cards cards, Boolean isTableLayout, Boolean isVisible) {
+        //Declares and defines parameters used to define parent-child relationship attributes
         TableRow.LayoutParams trParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.MATCH_PARENT);
         trParams.weight = 1.0f;
         trParams.setMargins(5,5,5,5);
 
+        //Renders the function more extensuble allowing for cardLayout to be a TableLayout or TableRow
         int numRows = (isTableLayout) ? cardLayout.getChildCount() : 1;
 
+        //Iterates over the TableLayout's TableRows populating each one
         for (int i = 0; i < numRows; i++) {
             for (int j = (i * 5); j < (cards.totalCards/numRows) + (i * 5); j++) {
                 if (isTableLayout) ((TableRow) cardLayout.getChildAt(i)).addView(populateCard(layoutID, cards.cardStack.get(j), isVisible), trParams);
