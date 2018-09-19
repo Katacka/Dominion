@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
+    android:screenOrientation="landscape"
     android:background="@drawable/background2">
 
     <android.support.constraint.ConstraintLayout
@@ -429,6 +430,7 @@
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Gameplay_Constraint">
 
@@ -436,7 +438,6 @@
             android:id="@+id/User_Stats_Buttons"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/User_Cards"
             app:layout_constraintStart_toStartOf="parent"
@@ -454,27 +455,27 @@
                 android:id="@+id/tvActions"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginStart="24dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="22dp"
+                android:layout_marginStart="22dp"
                 android:background="#CCA566"
                 android:gravity="center"
                 android:text="Actions left: 3"
                 android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/tvBuys"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
                 android:id="@+id/tvBuys"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginStart="24dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="22dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="4dp"
                 android:background="#CCA566"
                 android:gravity="center"
                 android:text="Buys left: 2"
@@ -488,10 +489,9 @@
                 android:id="@+id/tvTreasures"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginStart="24dp"
+                android:layout_marginEnd="22dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="4dp"
                 android:background="#CCA566"
                 android:gravity="center"
                 android:text="Treasure: 5"
@@ -505,13 +505,12 @@
                 android:id="@+id/buttonPlayAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
                 android:background="#339999"
                 android:text="Play all "
                 app:layout_constraintBottom_toTopOf="@+id/buttonEndTurn"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTreasures" />
 
@@ -519,11 +518,11 @@
                 android:id="@+id/buttonEndTurn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:background="#339999"
+                android:elevation="24dp"
                 android:text="End Turn"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/buttonPlayAll" />
 
@@ -544,7 +543,8 @@
             <ImageView
                 android:id="@+id/ivDrawCard"
                 android:layout_width="93dp"
-                android:layout_height="154dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="48dp"
                 android:layout_marginStart="48dp"
                 android:layout_marginTop="12dp"
@@ -557,31 +557,15 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/dominion" />
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/ivDrawCard"
-                app:layout_constraintTop_toTopOf="@+id/ivDrawCard">
-
-                <TextView
-                    android:id="@+id/textViewDrawCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#ffff0000"
-                    android:text=" 4" />
-            </FrameLayout>
-
             <ImageView
                 android:id="@+id/imageViewDiscard"
-                android:layout_width="94dp"
-                android:layout_height="179dp"
+                android:layout_width="93dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="48dp"
-                android:layout_marginLeft="48dp"
-                android:layout_marginRight="48dp"
                 android:layout_marginStart="48dp"
+                android:layout_marginTop="8dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.506"
@@ -590,16 +574,38 @@
                 app:srcCompat="@drawable/dominion" />
 
             <FrameLayout
+                android:id="@+id/frameLayoutDrawCount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="72dp"
+                android:layout_marginTop="2dp"
+                app:layout_constraintEnd_toEndOf="@+id/ivDrawCard"
+                app:layout_constraintStart_toStartOf="@+id/ivDrawCard"
+                app:layout_constraintTop_toTopOf="@+id/ivDrawCard">
+
+                <TextView
+                    android:id="@+id/textViewDrawCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#ffff0000"
+                    android:gravity="center"
+                    android:text="4" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/frameLayoutDiscardCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginRight="2dp"
+                android:layout_marginStart="72dp"
+                android:layout_marginTop="2dp"
+                app:layout_constraintRight_toRightOf="@+id/imageViewDiscard"
+                app:layout_constraintStart_toStartOf="@+id/imageViewDiscard"
                 app:layout_constraintTop_toTopOf="@+id/imageViewDiscard">
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/textViewDiscardCount"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#ffff0000"
