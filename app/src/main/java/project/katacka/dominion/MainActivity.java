@@ -1,7 +1,9 @@
 package project.katacka.dominion;
 
+import android.app.ActionBar;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -20,6 +23,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,11 +47,13 @@ public class MainActivity extends AppCompatActivity {
         displayCards(findViewById(R.id.Opponent_Cards), 5, new int[]{R.drawable.opponent_card});
 
         //Populates and displays the player cards
-        displayCards(findViewById(R.id.User_Cards), R.layout.player_card, new Cards(5), false, true);
+        displayCards(findViewById(R.id.User_Cards), R.layout.player_card, new Cards(3), false, true);
 
         //Populates and displays the Shop cards
         displayCards(findViewById(R.id.Shop_Cards), R.layout.shop_card, new Cards(10), true, false);
 
+        //Populates the base cards (Treasure and Victory points)
+        setBaseCards();
     }
 
     //Currently used to display opponent cards
@@ -189,9 +196,44 @@ public class MainActivity extends AppCompatActivity {
     protected void setNames(String[] names) {
         if (names.length != 4) return;
 
-        ((TextView) (findViewById(R.id.playerTab1).findViewById(R.id.playerName))).setText(names[0]);
-        ((TextView) (findViewById(R.id.playerTab2).findViewById(R.id.playerName))).setText(names[1]);
-        ((TextView) (findViewById(R.id.playerTab3).findViewById(R.id.playerName))).setText(names[2]);
-        ((TextView) (findViewById(R.id.playerTab4).findViewById(R.id.playerName))).setText(names[3]);
+        ((TextView) findViewById(R.id.playerTab1).findViewById(R.id.playerName)).setText(names[0]);
+        ((TextView) findViewById(R.id.playerTab2).findViewById(R.id.playerName)).setText(names[1]);
+        ((TextView) findViewById(R.id.playerTab3).findViewById(R.id.playerName)).setText(names[2]);
+        ((TextView) findViewById(R.id.playerTab4).findViewById(R.id.playerName)).setText(names[3]);
+    }
+
+    protected void setBaseCards(){
+        TableLayout baseCards = findViewById(R.id.Base_Cards);
+
+        TableRow top = (TableRow) baseCards.getChildAt(0);
+        View cardCopper = top.getChildAt(0);
+        setCard(cardCopper, "Copper", R.drawable.dominion_copper, "TREASURE", 0, 10);
+        View cardEstate = top.getChildAt(1);
+        setCard(cardEstate, "Estate", R.drawable.dominion_estate, "VICTORY", 2, 10);
+
+        TableRow mid = (TableRow) baseCards.getChildAt(1);
+        View cardSilver = mid.getChildAt(0);
+        setCard(cardSilver, "Silver", R.drawable.dominion_silver, "TREASURE", 3, 10);
+        View cardDuchy = mid.getChildAt(1);
+        setCard(cardDuchy, "Duchy", R.drawable.dominion_duchy, "VICTORY", 5, 10);
+
+        TableRow bot = (TableRow) baseCards.getChildAt(2);
+        View cardGold = bot.getChildAt(0);
+        setCard(cardGold, "Gold", R.drawable.dominion_gold, "TREASURE", 6, 10);
+        View cardProvince = bot.getChildAt(1);
+        setCard(cardProvince, "Province", R.drawable.dominion_province, "VICTORY", 8, 10);
+    }
+
+    protected void setCard(View view, String title, int artResID, String type, int cost, int amount){
+        ((TextView) view.findViewById(R.id.textViewTitle))
+                .setText(title);
+        ((ImageView) view.findViewById(R.id.imageViewArt))
+                .setImageResource(artResID);
+        ((TextView) view.findViewById(R.id.textViewType))
+                .setText(type);
+        ((TextView) view.findViewById(R.id.textViewCost))
+                .setText(String.format(Locale.US, "%d", cost));
+        ((TextView) view.findViewById(R.id.textViewAmount))
+                .setText(String.format(Locale.US, "%d", amount));
     }
 }
