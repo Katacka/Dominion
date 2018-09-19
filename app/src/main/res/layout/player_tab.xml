@@ -17,10 +17,8 @@
         android:layout_weight="1"
         android:ellipsize="end"
         android:gravity="center_vertical|fill_horizontal"
-        android:rotation="0"
         android:singleLine="true"
         android:text="HumanHumanHuman"
-        android:textSize="12sp"
-        android:visibility="visible" />
+        android:textSize="12sp" />
 
 </LinearLayout>

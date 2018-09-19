@@ -10,7 +10,13 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Cards {
     protected ArrayList<Card> cardStack;
     protected int totalCards;
-    protected final static int uniqueCards = 10; //This can't be zero, else generateStack will throw a div zero error
+    protected final static int uniqueCards = 10;
+
+    public Cards() {
+        this.cardStack = new ArrayList<>(6);
+        this.totalCards = 6;
+        initializeBaseCards();
+    }
 
     public Cards(int totalCards) {
         this.cardStack = new ArrayList<>(totalCards);
@@ -20,15 +26,12 @@ public class Cards {
 
     //Credit: https://stackoverflow.com/questions/4307273/how-can-i-create-and-display-an-arraylist-of-random-numbers-in-java
     private void generateStack(){
-        //int[] randomCardInit = new int[stackSize];
-        Random randomObj = new Random();
-        randomObj.setSeed(System.currentTimeMillis());
-
-        //I'd prefer this, but we'd have to agree to Java/Android version restrictions
-        ThreadLocalRandom.current().ints(0, uniqueCards).distinct().limit(totalCards).forEach(randomInt -> initializeCards(randomInt));
+        ThreadLocalRandom.current().ints(0, uniqueCards)
+                .distinct().limit(totalCards)
+                .forEach(randomInt -> initializeRandomCards(randomInt));
     }
 
-    private void initializeCards(int randomCard) {
+    private void initializeRandomCards(int randomCard) {
         switch(randomCard) {
             case(0): //Festival
                 cardStack.add(new Card("Festival", R.drawable.dominion_festival, "+2 Actions\n+1 Buy\n+2 Gold", 5, "ACTION"));
@@ -63,5 +66,14 @@ public class Cards {
             default:
                 Log.e("initalizeCards","An exception has occured. No card has been assigned to this value");
         }
+    }
+
+    protected void initializeBaseCards() {
+        cardStack.add(new Card( "Copper", R.drawable.dominion_copper, "+1 Gold", 0, "TREASURE"));
+        cardStack.add(new Card("Estate", R.drawable.dominion_estate, "1 Victory Point", 2, "VICTORY"));
+        cardStack.add(new Card("Silver", R.drawable.dominion_silver, "+2 Gold", 3, "TREASURE"));
+        cardStack.add(new Card("Duchy", R.drawable.dominion_duchy, "3 Victory Points", 5, "VICTORY"));
+        cardStack.add(new Card("Gold", R.drawable.dominion_gold, "+3 Gold", 6, "TREASURE"));
+        cardStack.add(new Card("Province", R.drawable.dominion_province, "6 Victory Points", 8, "VICTORY"));
     }
 }

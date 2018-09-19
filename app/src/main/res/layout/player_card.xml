@@ -50,6 +50,7 @@
         android:layout_marginHorizontal="6dp"
         android:adjustViewBounds="true"
         android:background="#000000"
+        android:padding="2dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/textViewText"
         app:layout_constraintEnd_toEndOf="parent"

@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Ryan's Player Tab code
+        //Player Tab code
         //TODO: Consider writing this into a multi-purpose tab function
         String[] names = {"Smart AI", "Dumb AI", "Player 1", "Player 2"};
         setNames(names);
@@ -47,13 +47,13 @@ public class MainActivity extends AppCompatActivity {
         displayCards(findViewById(R.id.Opponent_Cards), 5, new int[]{R.drawable.opponent_card});
 
         //Populates and displays the player cards
-        displayCards(findViewById(R.id.User_Cards), R.layout.player_card, new Cards(3), false, true);
+        displayCards(findViewById(R.id.User_Cards), R.layout.player_card, new Cards(4));
 
-        //Populates and displays the Shop cards
-        displayCards(findViewById(R.id.Shop_Cards), R.layout.shop_card, new Cards(10), true, false);
+        //Populates and displays the shop cards
+        displayCards(findViewById(R.id.Shop_Cards), R.layout.shop_card, 5, new Cards(10));
 
         //Populates the base cards (Treasure and Victory points)
-        setBaseCards();
+        displayCards(findViewById(R.id.Base_Cards), R.layout.shop_card, 2, new Cards());
     }
 
     //Currently used to display opponent cards
@@ -72,126 +72,71 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected ViewGroup populateCard(int layoutID, Card cardData, boolean isVisible){
-        //Inflates and stores a reference to the XML card layout
-        ViewGroup cardLayout = (ViewGroup) getLayoutInflater().inflate(layoutID, null);
+    protected View populateCardLayout(View cardLayout, Card card){
 
-        //Setting the card's title
-        ((TextView) cardLayout.findViewById(R.id.textViewTitle)).setText(cardData.cTitle);
+        ((TextView) cardLayout.findViewById(R.id.textViewTitle))
+                .setText(card.cTitle);
 
-        //Setting the card's image
-        ((ImageView) cardLayout.findViewById(R.id.imageViewArt)).setImageResource(cardData.cPhotoId);
+        ((ImageView) cardLayout.findViewById(R.id.imageViewArt))
+                .setImageResource(card.cPhotoId);
 
-        //Setting the card's text and text visibility
-        TextView cardText = cardLayout.findViewById(R.id.textViewText);
-        cardText.setText(cardData.cText);
-        if (isVisible) cardText.setVisibility(View.VISIBLE);
+        ((TextView) cardLayout.findViewById(R.id.textViewText))
+                .setText(card.cText);
 
-        //Setting the card's cost
-        //((TextView) cardLayout.findViewById(R.id.constraintChild).findViewById(R.id.frameLayout).findViewById(R.id.textViewCost)).setText(cardData.cCost);
+        ((TextView) cardLayout.findViewById(R.id.textViewCost))
+                .setText(String.format(Locale.US, "%d", card.cCost));
 
-        //Setting the card's type
-        ((TextView) cardLayout.findViewById(R.id.textViewType)).setText(cardData.cType);
+        ((TextView) cardLayout.findViewById(R.id.textViewAmount))
+                .setText(String.format(Locale.US, "%d", card.cAmount));
+
+        ((TextView) cardLayout.findViewById(R.id.textViewType))
+                .setText(card.cType);
 
         return cardLayout;
     }
 
-    protected void displayCards(ViewGroup cardLayout, int layoutID, Cards cards, boolean isTableLayout, boolean isVisible) {
+    protected View populatePlayerCardLayout(View cardLayout, Card card) {
+        cardLayout.findViewById(R.id.textViewText)
+                .setVisibility(View.VISIBLE);
+
+        cardLayout.findViewById(R.id.frameLayout2)
+                .setVisibility(View.INVISIBLE);
+
+        return populateCardLayout(cardLayout, card);
+    }
+
+    //Used to generate player cards
+    protected void displayCards(ViewGroup cardsLayout, int layoutID, Cards cards) {
         //Declares and defines parameters used to define parent-child relationship attributes
-        TableRow.LayoutParams trParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.MATCH_PARENT);
+        TableRow.LayoutParams trParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                TableRow.LayoutParams.MATCH_PARENT);
         trParams.weight = 1.0f;
         trParams.setMargins(5,5,5,5);
 
-        //Renders the function more extensuble allowing for cardLayout to be a TableLayout or TableRow
-        int numRows = (isTableLayout) ? cardLayout.getChildCount() : 1;
+        int totalCards = cards.totalCards;
 
         //Iterates over the TableLayout's TableRows populating each one
-        for (int i = 0; i < numRows; i++) {
-            for (int j = (i * 5); j < (cards.totalCards/numRows) + (i * 5); j++) {
-                if (isTableLayout) ((TableRow) cardLayout.getChildAt(i)).addView(populateCard(layoutID, cards.cardStack.get(j), isVisible), trParams);
-                else cardLayout.addView(populateCard(layoutID, cards.cardStack.get(j), isVisible), trParams);
-            }
+        for (int i = 0; i < totalCards; i++) {
+            ViewGroup cardLayout = (ViewGroup) getLayoutInflater().inflate(layoutID, null);
+            cardsLayout.addView(populatePlayerCardLayout(cardLayout, cards.cardStack.get(i)), trParams);
         }
     }
 
-    /*protected void displayCards(TableRow cardRow, int layoutID, Cards cards) {
-        TableRow.LayoutParams trParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-        trParams.weight = 1.0f;
+    //Used to generate shop cards
+    protected void displayCards(ViewGroup cardsLayout, int layoutID, int cardsPerRow, Cards cards) {
+        int numRows = cardsLayout.getChildCount();
+        int indexOffset = 0;
 
-        for (int j = 0; j < cards.totalCards; j++) {
-            cardRow.addView(populateCard(layoutID, cards.cardStack.get(j)), trParams);
+        //Iterates over the TableLayout's TableRows populating each one
+        for (int i = 0; i < numRows; i++, indexOffset+=cardsPerRow) {
+            TableRow cardRow = (TableRow) cardsLayout.getChildAt(i);
+
+            for (int j = 0; j < cardsPerRow; j++) {
+                //cardRow.getChildAt(j).setLayoutParams(trParams);
+                populateCardLayout(cardRow.getChildAt(j), cards.cardStack.get(j + indexOffset));
+            }
         }
-    }*/
-
-    /*protected void displayCards(TableRow targetLayout, int totalCards, Cards cards) {
-        for (int i = 0; i < totalCards; i++){
-            final RelativeLayout rlCard = new RelativeLayout(this);
-            TableRow.LayoutParams trParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
-            trParams.weight = 1.0f;
-            trParams.setMargins(10, 10, 10, 10);
-            GradientDrawable border = new GradientDrawable();
-            border.setColor(0xFFADB7C1); //white background
-            border.setStroke(3, 0xFF000000); //black border with full opacity
-            rlCard.setBackground(border);
-            rlCard.setLayoutParams(trParams);
-
-            RelativeLayout.LayoutParams rlParam0 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            rlParam0.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-            rlParam0.setMargins(3, 3, 3, 0);
-
-            //Card Title
-            final TextView tvCardName = new TextView(this);
-            tvCardName.setText(cards.cardStack.get(i).cTitle);
-            tvCardName.setTypeface(null, Typeface.BOLD);
-            tvCardName.setTextSize(18);
-            tvCardName.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
-            tvCardName.setGravity(Gravity.CENTER_HORIZONTAL);
-            tvCardName.setId(1);
-            rlCard.addView(tvCardName, rlParam0);
-
-            RelativeLayout.LayoutParams rlParam1 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            rlParam1.addRule(RelativeLayout.BELOW, tvCardName.getId());
-            rlParam1.setMargins(3, 0, 3, 0);
-
-
-            //Card Image
-            final ImageView ivCard = new ImageView (this);
-            ivCard.setImageDrawable(getResources().getDrawable(cards.cardStack.get(i).cPhotoId));
-            ivCard.setId(4);
-            ivCard.setAdjustViewBounds(true);
-            //ivCard.setScaleType(ImageView.ScaleType.FIT_XY);
-            rlCard.addView(ivCard, rlParam1);
-
-            RelativeLayout.LayoutParams rlParam2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            rlParam2.addRule(RelativeLayout.BELOW, ivCard.getId());
-            rlParam2.setMargins(3, 0, 3, 0);
-
-
-            //Card Text
-            final TextView tvCardText = new TextView(this);
-            tvCardText.setText(cards.cardStack.get(i).cText);
-            tvCardText.setId(2);
-
-            rlCard.addView(tvCardText, rlParam2);
-
-            RelativeLayout.LayoutParams rlParam3 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            rlParam3.addRule(rlCard.ALIGN_PARENT_BOTTOM, tvCardText.getId());
-            rlParam3.setMargins(3, 0, 3, 3);
-
-
-            //Card Type
-            final TextView tvCardType = new TextView(this);
-            tvCardType.setText(cards.cardStack.get(i).cType);
-            tvCardType.setId(3);
-            tvCardType.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
-            tvCardType.setGravity(Gravity.CENTER_HORIZONTAL);
-            rlCard.addView(tvCardType, rlParam3);
-
-            //rlParams.addRule(RelativeLayout.BELOW, ivCard.getId());
-
-            targetLayout.addView(rlCard);
-        }
-    }*/
+    }
 
     protected void setNames(String[] names) {
         if (names.length != 4) return;
@@ -206,34 +151,33 @@ public class MainActivity extends AppCompatActivity {
         TableLayout baseCards = findViewById(R.id.Base_Cards);
 
         TableRow top = (TableRow) baseCards.getChildAt(0);
-        View cardCopper = top.getChildAt(0);
-        setCard(cardCopper, "Copper", R.drawable.dominion_copper, "TREASURE", 0, 10);
-        View cardEstate = top.getChildAt(1);
-        setCard(cardEstate, "Estate", R.drawable.dominion_estate, "VICTORY", 2, 10);
+
+        View cardLayoutCopper = top.getChildAt(0);
+        Card cardDataCopper = new Card( "Copper", R.drawable.dominion_copper, "+1 Gold", 0, "TREASURE");
+        populateCardLayout(cardLayoutCopper, cardDataCopper);
+
+        View cardLayoutEstate = top.getChildAt(1);
+        Card cardDataEstate = new Card("Estate", R.drawable.dominion_estate, "1 Victory Point", 2, "VICTORY");
+        populateCardLayout(cardLayoutEstate, cardDataEstate);
 
         TableRow mid = (TableRow) baseCards.getChildAt(1);
-        View cardSilver = mid.getChildAt(0);
-        setCard(cardSilver, "Silver", R.drawable.dominion_silver, "TREASURE", 3, 10);
-        View cardDuchy = mid.getChildAt(1);
-        setCard(cardDuchy, "Duchy", R.drawable.dominion_duchy, "VICTORY", 5, 10);
+
+        View cardLayoutSilver = mid.getChildAt(0);
+        Card cardDataSilver = new Card("Silver", R.drawable.dominion_silver, "+2 Gold", 3, "TREASURE");
+        populateCardLayout(cardLayoutSilver, cardDataSilver);
+
+        View cardLayoutDuchy = mid.getChildAt(1);
+        Card cardDataDuchy = new Card("Duchy", R.drawable.dominion_duchy, "3 Victory Points", 5, "VICTORY");
+        populateCardLayout(cardLayoutDuchy, cardDataDuchy);
 
         TableRow bot = (TableRow) baseCards.getChildAt(2);
-        View cardGold = bot.getChildAt(0);
-        setCard(cardGold, "Gold", R.drawable.dominion_gold, "TREASURE", 6, 10);
-        View cardProvince = bot.getChildAt(1);
-        setCard(cardProvince, "Province", R.drawable.dominion_province, "VICTORY", 8, 10);
-    }
 
-    protected void setCard(View view, String title, int artResID, String type, int cost, int amount){
-        ((TextView) view.findViewById(R.id.textViewTitle))
-                .setText(title);
-        ((ImageView) view.findViewById(R.id.imageViewArt))
-                .setImageResource(artResID);
-        ((TextView) view.findViewById(R.id.textViewType))
-                .setText(type);
-        ((TextView) view.findViewById(R.id.textViewCost))
-                .setText(String.format(Locale.US, "%d", cost));
-        ((TextView) view.findViewById(R.id.textViewAmount))
-                .setText(String.format(Locale.US, "%d", amount));
+        View cardLayoutGold = bot.getChildAt(0);
+        Card cardDataGold = new Card("Gold", R.drawable.dominion_gold, "+3 Gold", 6, "TREASURE");
+        populateCardLayout(cardLayoutGold, cardDataGold);
+
+        View cardLayoutProvince = bot.getChildAt(1);
+        Card cardDataProvince = new Card("Province", R.drawable.dominion_province, "6 Victory Points", 8, "VICTORY");
+        populateCardLayout(cardLayoutProvince, cardDataProvince);
     }
 }
