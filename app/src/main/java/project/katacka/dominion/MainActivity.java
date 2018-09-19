@@ -61,12 +61,12 @@ public class MainActivity extends AppCompatActivity {
     protected void displayCards(TableRow targetLayout, int totalCards, int[] imageID) {
         for (int i = 0; i < totalCards; i++){
             ImageView ivOpponentCard = new ImageView (this);
-            //ivOpponentCard.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1));
+            ivOpponentCard.setScaleType(ImageView.ScaleType.FIT_XY);
             ivOpponentCard.setImageDrawable(getResources().getDrawable(imageID[0]));
             TableRow.LayoutParams trParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
             trParams.weight = 1.0f;
             trParams.gravity = Gravity.TOP;
-            //ivOpponentCard.layout
+
             ivOpponentCard.setLayoutParams(trParams);
             targetLayout.addView(ivOpponentCard);
         }
@@ -86,13 +86,23 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) cardLayout.findViewById(R.id.textViewCost))
                 .setText(String.format(Locale.US, "%d", card.cCost));
 
+        //TODO: Remove randomization used for example GUI
+        int randomAmount = (int) (Math.random() * 11);
         ((TextView) cardLayout.findViewById(R.id.textViewAmount))
-                .setText(String.format(Locale.US, "%d", card.cAmount));
+                .setText(String.format(Locale.US, "%d", randomAmount));
 
         ((TextView) cardLayout.findViewById(R.id.textViewType))
                 .setText(card.cType);
 
-        return cardLayout;
+        if (randomAmount == 0) {
+            LinearLayout grayOverlay = new LinearLayout(this);
+            grayOverlay.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT));
+            grayOverlay.setBackgroundColor(Color.parseColor("#c8000000"));
+            ((ConstraintLayout) cardLayout).addView(grayOverlay);
+        }
+
+            return cardLayout;
     }
 
     protected View populatePlayerCardLayout(View cardLayout, Card card) {
