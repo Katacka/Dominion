@@ -278,22 +278,35 @@
         app:layout_constraintWidth_percent=".8">
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/User_Stats"
-            android:layout_width="0dp"
+            android:id="@+id/User_Stats_Buttons"
+            android:layout_width="160dp"
             android:layout_height="0dp"
+            android:layout_marginTop="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/User_Cards"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintVertical_bias="1.0"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".2">
 
+            <!--www.perbang.dk/rbg/339999/
+            External Citation
+            9/18/18
+            Problem: Didn't know specific hex for shade
+            Solution: found it-->
             <TextView
                 android:id="@+id/tvActions"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Actions left:"
+                android:layout_marginEnd="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginStart="24dp"
+                android:background="#CCA566"
+                android:gravity="center"
+                android:text="Actions left: 3"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -303,7 +316,15 @@
                 android:id="@+id/tvBuys"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Buys left:"
+                android:layout_marginEnd="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginStart="24dp"
+                android:background="#CCA566"
+                android:gravity="center"
+                android:text="Buys left: 2"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/tvTreasures"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvActions" />
@@ -312,27 +333,50 @@
                 android:id="@+id/tvTreasures"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Treasure:"
+                android:layout_marginEnd="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginStart="24dp"
+                android:background="#CCA566"
+                android:gravity="center"
+                android:text="Treasure: 5"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/buttonPlayAll"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvBuys" />
 
-            <ImageView
-                android:id="@+id/ivDrawCard"
-                android:layout_width="0dp"
+            <Button
+                android:id="@+id/buttonPlayAll"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
+                android:layout_marginBottom="40dp"
+                android:layout_marginTop="5dp"
+                android:background="#339999"
+                android:text="Play all "
+                app:layout_constraintBottom_toTopOf="@+id/buttonEndTurn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTreasures"
-                app:srcCompat="@drawable/dominion" />
+                app:layout_constraintTop_toBottomOf="@+id/tvTreasures" />
+
+            <Button
+                android:id="@+id/buttonEndTurn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="#339999"
+                android:text="End Turn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonPlayAll" />
+
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/User_Buttons"
-            android:layout_width="0dp"
+            android:id="@+id/User_Draw_Discard"
+            android:layout_width="117dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -342,36 +386,54 @@
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".2">
 
-            <Button
-                android:id="@+id/buttonPlayAll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Play all "
-                app:layout_constraintBottom_toTopOf="@+id/buttonEndAll"
+            <ImageView
+                android:id="@+id/ivDrawCard"
+                android:layout_width="94dp"
+                android:layout_height="154dp"
+                android:layout_marginEnd="48dp"
+                android:layout_marginLeft="48dp"
+                android:layout_marginRight="48dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="12dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toTopOf="@+id/imageViewDiscard"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/dominion" />
 
-            <Button
-                android:id="@+id/buttonEndAll"
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="End Turn"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buttonPlayAll" />
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/ivDrawCard"
+                app:layout_constraintTop_toTopOf="@+id/ivDrawCard">
+
+                <TextView
+                    android:id="@+id/textViewDrawCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#ffff0000"
+                    android:text=" 4" />
+            </FrameLayout>
 
             <ImageView
                 android:id="@+id/imageViewDiscard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginStart="10dp"
+                android:layout_width="94dp"
+                android:layout_height="179dp"
+                android:layout_marginEnd="48dp"
+                android:layout_marginLeft="48dp"
+                android:layout_marginRight="48dp"
+                android:layout_marginStart="48dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.506"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buttonEndAll"
+                app:layout_constraintTop_toBottomOf="@+id/ivDrawCard"
                 app:srcCompat="@drawable/dominion" />
 
             <FrameLayout
@@ -379,7 +441,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imageViewDiscard">
 
@@ -387,6 +449,7 @@
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="#ffff0000"
                     android:text="10" />
             </FrameLayout>
 
@@ -397,8 +460,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/User_Buttons"
-            app:layout_constraintStart_toEndOf="@+id/User_Stats"
+            app:layout_constraintEnd_toStartOf="@+id/User_Draw_Discard"
+            app:layout_constraintStart_toEndOf="@+id/User_Stats_Buttons"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_default="percent"
