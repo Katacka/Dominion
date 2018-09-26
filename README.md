@@ -20,34 +20,34 @@ Push Failure: <br />
   Hopefully that worked to some degree or other! <br />
   
   
-### Generic Git Workflow
+### Generic Git Workflow <br />
 
-When starting from scratch, follow all steps as listed below. If you have already intialized a git repo, feel free to skip the first step and instead begin at the point as marked below.
+When starting from scratch, follow all steps as listed below. If you have already intialized a git repo, feel free to skip the first step and instead begin at the point as marked below.<br />
 
-Initialization:
-  `git clone https://github.com/Katacka/Dominion.git` #Serves to download the repo, setting your remote origin for future pushes
+Initialization:<br />
+  `git clone https://github.com/Katacka/Dominion.git` #Serves to download the repo, setting your remote origin for future pushes<br />
 
-Pulling Changes Down from Upstream:
-  `git pull` #Origin should be set automatically (having once cloned the proper repo) if errors arise run the following command
-  `git remote set-url origin https://github.com/Katacka/Dominion.git` #With any luck, this should reset your origin
-  #Re-running `git pull` should now work
+Pulling Changes Down from Upstream:<br />
+  `git pull` #Origin should be set automatically (having once cloned the proper repo) if errors arise run the following command<br />
+  `git remote set-url origin https://github.com/Katacka/Dominion.git` #With any luck, this should reset your origin<br />
+  #Re-running `git pull` should now work<br />
 
 Checking out a Local Branch:
-  `git checkout <Your_Name>_<Push_Description>` #The push description should describe the changes you imagine you'll be making
-  #Admittedly, its ultimately arbitrary what you call the branch, so anything conventionally clear will work
+  `git checkout <Your_Name>_<Push_Description>` #The push description should describe the changes you imagine you'll be making<br />
+  #Admittedly, its ultimately arbitrary what you call the branch, so anything conventionally clear will work<br />
 
-Saving Changes to Local Branch:
-  `git add --all` #Add every file not specified within the project-level relevant .gitignore
-  `git commit -m "<Message>"` #Commit all the files just added under the commit description, `<Message>`
+Saving Changes to Local Branch:<br />
+  `git add --all` #Add every file not specified within the project-level relevant .gitignore<br />
+  `git commit -m "<Message>"` #Commit all the files just added under the commit description, `<Message>`<br />
   
-Pushing Changes to Upstream:
-  `git push origin <Your_Branch_Name>` #This will push your branch to upstream
-  #If for some reason you cannot recall your branch name run `git status`
-  #If origin errors, try resetting it with `git remote set-url origin https://github.com/Katacka/Dominion.git`
+Pushing Changes to Upstream:<br />
+  `git push origin <Your_Branch_Name>` #This will push your branch to upstream<br />
+  #If for some reason you cannot recall your branch name run `git status`<br />
+  #If origin errors, try resetting it with `git remote set-url origin https://github.com/Katacka/Dominion.git`<br />
   
-#This following section should not be considered part of a generic workflow, however may prove useful when dealing with merge conflicts. While these really shouldn't arise based on our weekly push philosophy, where we will all sync up, its better to be safe than sorry..?
+#This following section should not be considered part of a generic workflow, however may prove useful when dealing with merge conflicts. While these really shouldn't arise based on our weekly push philosophy, where we will all sync up, its better to be safe than sorry..?<br />
 
-Resolving Merge Conflicts:
-  #If you receive a merge error run `git mergetool`
-  #Or edit the file by hand to remove the conflict, this is probably more work in most cases
+Resolving Merge Conflicts:<br />
+  #If you receive a merge error run `git mergetool`<br />
+  #Or edit the file by hand to remove the conflict, this is probably more work in most cases<br />
   
