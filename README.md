@@ -1,5 +1,7 @@
 # Dominion
 
+## Verbose Project Intialization and Upstream Management
+
 If for whatever reason the GUI is failing to work, attempt the following solutions as applicable.
 Note: These are UNIX solutions as Windows terminal support is awful. Ryan, best of luck.
 
@@ -20,7 +22,7 @@ Note: These are UNIX solutions as Windows terminal support is awful. Ryan, best 
   Hopefully that worked to some degree or other! <br />
   
   
-### Generic Git Workflow <br />
+## Generic Git Workflow <br />
 
 When starting from scratch, follow all steps as listed below. If you have already intialized a git repo, feel free to skip the first step and instead begin at the point as marked below.<br />
 
