@@ -36,11 +36,16 @@ public class MainActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        //Player tab code
+        //Dominion State code
+        setContentView(R.layout.game_state);
+
+        //Dominion GUI code
+        /*setContentView(R.layout.activity_main);
+
+        //DominionPlayerState tab code
         //TODO: Consider writing this into a multi-purpose tab function
-        String[] names = {"Smart AI", "Dumb AI", "Player 1", "Player 2"};
+        String[] names = {"Smart AI", "Dumb AI", "DominionPlayerState 1", "DominionPlayerState 2"};
         setNames(names);
 
         //Populates and displays the opponent cards
@@ -53,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         displayCards(findViewById(R.id.Shop_Cards), R.layout.shop_card, 5, new Cards(10));
 
         //Populates and displays the player cards
-        displayCards(findViewById(R.id.User_Cards), R.layout.player_card, new Cards(4));
+        displayCards(findViewById(R.id.User_Cards), R.layout.player_card, new Cards(4));*/
     }
 
     //Generates and displays a row of images within a TableRow
@@ -88,19 +93,19 @@ public class MainActivity extends AppCompatActivity {
     protected View populateCardLayout(View cardLayout, Card card){
         //Sets the card title
         ((TextView) cardLayout.findViewById(R.id.textViewTitle))
-                .setText(card.cTitle);
+                .setText(card.mTitle);
 
         //Sets the card image
         ((ImageView) cardLayout.findViewById(R.id.imageViewArt))
-                .setImageResource(card.cPhotoId);
+                .setImageResource(card.mPhotoId);
 
         //Sets the card text
         ((TextView) cardLayout.findViewById(R.id.textViewText))
-                .setText(card.cText);
+                .setText(card.mText);
 
         //Sets the card cost text
         ((TextView) cardLayout.findViewById(R.id.textViewCost))
-                .setText(String.format(Locale.US, "%d", card.cCost));
+                .setText(String.format(Locale.US, "%d", card.mCost));
 
         //Sets the card amount text
         //TODO: Remove randomization used for example GUI
@@ -110,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Sets the card type text
         ((TextView) cardLayout.findViewById(R.id.textViewType))
-                .setText(card.cType);
+                .setText(card.mType);
 
         //Grays out the card layout if empty
         if (randomAmount == 0) {
