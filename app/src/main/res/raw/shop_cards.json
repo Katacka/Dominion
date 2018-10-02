@@ -7,7 +7,7 @@
       "cost": 5,
       "type": "ACTION",
       "amount": 10,
-      "action": "public action() { return true }"
+      "action": "public action() { return true; }"
     },
     "merchant": {
       "name": "Merchant",
@@ -16,7 +16,7 @@
       "cost": 3,
       "type": "ACTION",
       "amount": 10,
-      "action": "public action() { return true }"
+      "action": "public action() { return true; }"
     },
     "remodel": {
       "name": "Remodel",
@@ -25,7 +25,7 @@
       "cost": 4,
       "type": "ACTION",
       "amount": 10,
-      "action": "public action() { return true }"
+      "action": "public action() { return true; }"
     },
     "throneRoom": {
       "name": "Throne Room",
@@ -34,7 +34,7 @@
       "cost": 4,
       "type": "ACTION",
       "amount": 10,
-      "action": "public action() { return true }"
+      "action": "public action() { return true; }"
     },
     "artisan": {
       "name": "Artisan",
@@ -43,7 +43,7 @@
       "cost": 6,
       "type": "ACTION",
       "amount": 10,
-      "action": "public action() { return true }"
+      "action": "public action() { return true; }"
     },
     "witch": {
       "name": "Witch",
@@ -52,7 +52,7 @@
       "cost": 5,
       "type": "ATTACK",
       "amount": 10,
-      "action": "public action() { return true }"
+      "action": "public action() { return true; }"
     },
     "library": {
       "name": "Library",
@@ -61,7 +61,7 @@
       "cost": 5,
       "type": "ACTION",
       "amount": 10,
-      "action": "public action() { return true }"
+      "action": "public action() { return true; }"
     },
     "laboratory": {
       "name": "Laboratory",
@@ -70,7 +70,7 @@
       "cost": 5,
       "type": "ACTION",
       "amount": 10,
-      "action": "public action() { return true }"
+      "action": "public action() { return true; }"
     },
     "militia": {
       "name": "Militia",
@@ -79,7 +79,7 @@
       "cost": 4,
       "type": "ATTACK",
       "amount": 10,
-      "action": "public action() { return true }"
+      "action": "public action() { return true; }"
     },
     "harbinger": {
       "name": "Harbinger",
@@ -88,7 +88,7 @@
       "cost": 3,
       "type": "ACTION",
       "amount": 10,
-      "action": "public action() { return true }"
+      "action": "public action() { return true; }"
     }
   }
 }

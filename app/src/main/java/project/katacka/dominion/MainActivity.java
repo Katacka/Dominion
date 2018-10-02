@@ -78,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //commenting for fun
+
     //Generates and adds a gray filter on top of some pre-existing layout
     protected void displayEmptyStack(View cardLayout) {
         //Defines constraints and coloring for the gray overlay
