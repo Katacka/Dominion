@@ -49,16 +49,16 @@ public class MainActivity extends AppCompatActivity {
         setNames(names);
 
         //Populates and displays the opponent cards
-        displayImages(findViewById(R.id.Opponent_Cards), 5, R.drawable.opponent_card);
+        displayImages(findViewById(R.id.Opponent_Cards), 5, R.drawable.dominion_opponent_card_back);
 
         //Populates the base cards (Treasure and Victory points)
-        displayCards(findViewById(R.id.Base_Cards), R.layout.shop_card, 2, new Cards());
+        displayCards(findViewById(R.id.Base_Cards), R.layout.shop_card, 2, new shop_cards());
 
         //Populates and displays the shop cards
-        displayCards(findViewById(R.id.Shop_Cards), R.layout.shop_card, 5, new Cards(10));
+        displayCards(findViewById(R.id.Shop_Cards), R.layout.shop_card, 5, new shop_cards(10));
 
         //Populates and displays the player cards
-        displayCards(findViewById(R.id.User_Cards), R.layout.player_card, new Cards(4));*/
+        displayCards(findViewById(R.id.User_Cards), R.layout.player_card, new shop_cards(4));*/
     }
 
     //Generates and displays a row of images within a TableRow

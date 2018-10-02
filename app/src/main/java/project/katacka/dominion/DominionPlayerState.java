@@ -11,7 +11,7 @@ public class DominionPlayerState {
     protected int mVP;
 
     protected DominionPlayerState(String name) {
-        this(name, 5);
+        this(name, 5); //Default starting hand size is 5
     }
 
     protected DominionPlayerState(String name, int numCards) {

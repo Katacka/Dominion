@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("project.katacka.dominion", appContext.getPackageName());
+        assertEquals("project.katacka.dominion_card_back", appContext.getPackageName());
     }
 }

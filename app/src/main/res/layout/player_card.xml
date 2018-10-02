@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/blank"
+    android:background="@drawable/dominion_card_border_squared"
     android:minWidth="20dp"
     android:padding="2dp"
     app:layout_constraintHeight_default="percent"
@@ -56,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
-        app:srcCompat="@drawable/advisor" />
+        app:srcCompat="@drawable/dominion_advisor" />
 
     <!-- Card Cost/Type/Quantity Layout -->
     <android.support.constraint.ConstraintLayout

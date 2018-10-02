@@ -23,7 +23,7 @@ public class DominionGameState {
 
         try{
             clone = (DominionGameState) super.clone();
-            clone.mDominionPlayers = mDominionPlayers;
+            clone.mDominionPlayers = new ArrayList<>(mDominionPlayers);
         }
         catch(CloneNotSupportedException cnse) {
             Log.e(TAG, "Error while cloning DominionGameState: ", cnse);

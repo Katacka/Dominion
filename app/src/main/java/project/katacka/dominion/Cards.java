@@ -2,6 +2,8 @@ package project.katacka.dominion;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -24,10 +26,17 @@ public class Cards {
 
     //Credit: https://stackoverflow.com/questions/4307273/how-can-i-create-and-display-an-arraylist-of-random-numbers-in-java
     private void generateStack(){
+        //Gson gson = new Gson(); //ToDo: FInish GSON implementation
+        //Card card = gson.fromJson(R.raw.shop_cards, Card.class);
         ThreadLocalRandom.current().ints(0, uniqueCards)
                 .distinct().limit(totalCards)
                 .forEach(randomInt -> initializeRandomCards(randomInt));
     }
+
+    /*private void initializeRandomCard(int randomCard) {
+
+        Card card
+    }*/
 
     private void initializeRandomCards(int randomCard) {
         switch(randomCard) {
@@ -47,13 +56,13 @@ public class Cards {
                 cardStack.add(new Card("Artisan", R.drawable.dominion_artisan, "Gain a card to your hand costing up to 5 Gold. Put a card from your hand onto your deck", 6, "ACTION", 10));
                 break;
             case(5): //Witch
-                cardStack.add(new Card("Witch", R.drawable.dominion_witch, "+2 Cards\nEach other player gains a curse", 5, "ATTACK", 10));
+                cardStack.add(new Card("Witch", R.drawable.dominion_witch, "+2 shop_cards\nEach other player gains a curse", 5, "ATTACK", 10));
                 break;
             case(6): //Library
                 cardStack.add(new Card("Library", R.drawable.dominion_library, "Draw until you have 7 cards in hand, skipping any Action cards you choose to; set those aside, discarding them afterwards", 5, "ACTION", 10));
                 break;
             case(7): //Laboratory
-                cardStack.add(new Card("Laboratory", R.drawable.dominion_laboratory, "+2 Cards\n+1 Action", 5, "ACTION", 10));
+                cardStack.add(new Card("Laboratory", R.drawable.dominion_laboratory, "+2 shop_cards\n+1 Action", 5, "ACTION", 10));
                 break;
             case(8): //Militia
                 cardStack.add(new Card("Militia", R.drawable.dominion_militia, "+2 Gold\nEach other player discards down to 3 cards in hand", 4, "ATTACK", 10));
