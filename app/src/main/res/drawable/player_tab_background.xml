@@ -9,10 +9,10 @@
         <!--
             EXTERNAL CITATION
                 Date:       11 September 2018
-                Problem:    Wanted to create a background for the player tabs
+                Problem:    Wanted to create a background_cosmic_forest for the player tabs
                 Resource:
                     https://stackoverflow.com/questions/8203606/android-how-to-draw-a-border-to-a-linearlayout
-                Solution: Used stroke and corners to create background
+                Solution: Used stroke and corners to create background_cosmic_forest
         -->
         <stroke
             android:color="@color/tabBackground"

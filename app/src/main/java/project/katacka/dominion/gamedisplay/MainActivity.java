@@ -1,30 +1,21 @@
-package project.katacka.dominion;
+package project.katacka.dominion.gamedisplay;
 
-import android.app.ActionBar;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.Locale;
+
+import project.katacka.dominion.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,15 +27,17 @@ public class MainActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         super.onCreate(savedInstanceState);
+
+        //Dominion GUI code
         setContentView(R.layout.activity_main);
 
-        //Player tab code
+        //PlayerState tab code
         //TODO: Consider writing this into a multi-purpose tab function
-        String[] names = {"Smart AI", "Dumb AI", "Player 1", "Player 2"};
+        String[] names = {"Smart AI", "Dumb AI", "PlayerState 1", "PlayerState 2"};
         setNames(names);
 
         //Populates and displays the opponent cards
-        displayImages(findViewById(R.id.Opponent_Cards), 5, R.drawable.opponent_card);
+        displayImages(findViewById(R.id.Opponent_Cards), 5, R.drawable.dominion_opponent_card_back);
 
         //Populates the base cards (Treasure and Victory points)
         displayCards(findViewById(R.id.Base_Cards), R.layout.shop_card, 2, new Cards());
@@ -88,19 +81,19 @@ public class MainActivity extends AppCompatActivity {
     protected View populateCardLayout(View cardLayout, Card card){
         //Sets the card title
         ((TextView) cardLayout.findViewById(R.id.textViewTitle))
-                .setText(card.cTitle);
+                .setText(card.mTitle);
 
         //Sets the card image
         ((ImageView) cardLayout.findViewById(R.id.imageViewArt))
-                .setImageResource(card.cPhotoId);
+                .setImageResource(card.mPhotoId);
 
         //Sets the card text
         ((TextView) cardLayout.findViewById(R.id.textViewText))
-                .setText(card.cText);
+                .setText(card.mText);
 
         //Sets the card cost text
         ((TextView) cardLayout.findViewById(R.id.textViewCost))
-                .setText(String.format(Locale.US, "%d", card.cCost));
+                .setText(String.format(Locale.US, "%d", card.mCost));
 
         //Sets the card amount text
         //TODO: Remove randomization used for example GUI
@@ -110,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Sets the card type text
         ((TextView) cardLayout.findViewById(R.id.textViewType))
-                .setText(card.cType);
+                .setText(card.mType);
 
         //Grays out the card layout if empty
         if (randomAmount == 0) {
