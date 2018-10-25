@@ -26,4 +26,17 @@ public class PlayerState {
         this.mVP = 0;
     }
 
+    public String toString(){
+        String string = "Card Name: " + mName;
+        return string;
+    }
+
+    /*
+    [5%] Add a toString() method to the game state class the describes the state of the game as a
+    string. This method should print the values of all the variables in your game state. If the
+    variable is an array (or similar aggregate type) all its values must be printed. Your string
+    should have sufficient formatting so its reasonable for you to tell values go with which variables.
+    Be sure to put the @Override tag on your toString() method to verify it has the proper signature.
+     */
+
 }
