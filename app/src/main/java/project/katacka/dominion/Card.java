@@ -1,24 +1,49 @@
 package project.katacka.dominion;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 public class Card {
     //Graphic Properties
-    protected String cTitle;
-    protected int cPhotoId;
-    protected String cText;
-    protected int cCost;
-    protected String cType;
-    protected int cAmount;
+    protected String mTitle;
+    protected int mPhotoId;
+    protected String mText;
+    protected int mCost;
+    protected String mType;
+    protected int mAmount;
+    Method action;
 
-    public Card (String name, int photoId, String text, int cost, String type){
-        cTitle = name;
-        cPhotoId = photoId;
-        cText = text;
-        cCost = cost;
-        cType = type;
-        cAmount = 10;
+    public Card(Card jsonCard) {
+        //this = jsonCard;
     }
 
-    public void setcAmount(int cAmount) {
-        this.cAmount = cAmount;
+    public Card (String name, int photoId, String text, int cost, String type, int amount){
+        mTitle = name;
+        mPhotoId = photoId;
+        mText = text;
+        mCost = cost;
+        mType = type;
+        mAmount = amount;
+    }
+
+    public void setmAmount(int mAmount) {
+        this.mAmount = mAmount;
+    }
+
+    public boolean cardAction() {
+        try {
+            action.invoke(this); //return state after it recognizes boolean nature
+            return true;
+        }
+        catch (IllegalArgumentException e) {
+
+        }
+        catch (IllegalAccessException e) {
+
+        }
+        catch (InvocationTargetException e) {
+
+        }
+        return false;
     }
 }

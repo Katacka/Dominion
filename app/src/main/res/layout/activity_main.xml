@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:screenOrientation="landscape"
-    android:background="@drawable/background2">
+    android:background="@drawable/background_sunken_temple">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/Gameplay_Constraint"
@@ -315,7 +315,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/opponent_card" />
+                app:srcCompat="@drawable/dominion_opponent_card_back" />
 
             <FrameLayout
                 android:id="@+id/frameLayout"
@@ -372,7 +372,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/opponent_card" />
+                app:srcCompat="@drawable/dominion_opponent_card_back" />
 
             <FrameLayout
                 android:id="@+id/frameLayout2"
@@ -421,7 +421,7 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <!-- User Cards/Discard(Buttons)/Draw(Stats) Constraint Layout -->
+    <!-- User shop_cards/Discard(Buttons)/Draw(Stats) Constraint Layout -->
     <android.support.constraint.ConstraintLayout
         android:id="@+id/User_Constraint"
         android:layout_width="0dp"
@@ -555,7 +555,7 @@
                 app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/dominion" />
+                app:srcCompat="@drawable/dominion_card_back" />
 
             <ImageView
                 android:id="@+id/imageViewDiscard"
@@ -571,7 +571,7 @@
                 app:layout_constraintHorizontal_bias="0.506"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivDrawCard"
-                app:srcCompat="@drawable/dominion" />
+                app:srcCompat="@drawable/dominion_card_back" />
 
             <FrameLayout
                 android:id="@+id/frameLayoutDrawCount"
