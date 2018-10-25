@@ -1,4 +1,4 @@
-package project.katacka.dominion;
+package project.katacka.dominion.gamedisplay;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
