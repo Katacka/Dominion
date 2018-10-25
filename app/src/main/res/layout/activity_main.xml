@@ -1,250 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:screenOrientation="landscape"
-    android:background="@drawable/background_sunken_temple">
+    tools:context=".MainActivity">
+
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/Gameplay_Constraint"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintEnd_toStartOf="@+id/Log_Constraint"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.55"
+        app:layout_constraintHeight_percent="0.6"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintBottom_toTopOf="@+id/g60_Horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/Log_Constraint"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/User_Constraint">
+        >
 
         <TableLayout
             android:id="@+id/Base_Cards"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:orientation="horizontal"
+            android:layout_height="0dp"
+            android:background="#ffff0000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/Shop_Cards"
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent="0.8"
             app:layout_constraintStart_toEndOf="@+id/Player_Tabs"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
+
             app:layout_constraintWidth_percent=".2">
 
             <TableRow
-                android:id="@+id/baseCardTop"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1" />
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1" />
-            </TableRow>
+                android:layout_height="match_parent" />
 
             <TableRow
-                android:id="@+id/baseCardMiddle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1" />
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"  />
-            </TableRow>
+                android:layout_height="match_parent" />
 
             <TableRow
-                android:id="@+id/baseCardBottom"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_height="match_parent" />
 
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"  />
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"  />
-            </TableRow>
-
-
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </TableLayout>
 
         <TableLayout
             android:id="@+id/Shop_Cards"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
+            android:layout_height="0dp"
+            android:background="#fffff000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent=".8"
+            app:layout_constraintHeight_percent=".6"
             app:layout_constraintStart_toEndOf="@+id/Base_Cards"
             app:layout_constraintTop_toBottomOf="@+id/Opponent_Cards"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".65">
+            app:layout_constraintWidth_percent=".7">
 
             <TableRow
-                android:id="@+id/Shop_Row1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"  />
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"  />
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"  />
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"  />
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"  />
-
-            </TableRow>
+                android:layout_height="match_parent" />
 
             <TableRow
-                android:id="@+id/Shop_Row2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_height="match_parent" />
 
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"  />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"  />
-
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"  />
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"  />
-
-                <include
-                    layout="@layout/shop_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"  />
-
-            </TableRow>
-
-
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </TableLayout>
 
         <TableRow
             android:id="@+id/Opponent_Cards"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:background="#ff0ffff0"
+            app:layout_constraintBottom_toTopOf="@+id/Shop_Cards"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent=".15"
+            app:layout_constraintHeight_percent=".4"
             app:layout_constraintStart_toEndOf="@+id/Base_Cards"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".45" />
+            app:layout_constraintWidth_percent=".7" />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/Player_Tabs"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="1dp"
-            android:layout_marginStart="1dp"
             android:background="@android:color/transparent"
             android:orientation="vertical"
             android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent=".8"
+            app:layout_constraintHeight_percent="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".075">
+            app:layout_constraintWidth_percent=".1">
 
-            <!--
-                EXTERNAL CITATION
-
-                Date:       11 September 2018
-                Problem:    Did not want to copy-paste cards
-                Resource:
-                    https://developer.android.com/training/improving-layouts/reusing-layouts
-                Solution: Using include tags
-            -->
+            <!-- TODO: External citation @ https://developer.android.com/training/improving-layouts/reusing-layouts -->
             <include
                 android:id="@+id/playerTab1"
                 layout="@layout/player_tab"
@@ -253,9 +123,9 @@
                 app:layout_constraintBottom_toTopOf="@+id/playerTab2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_weight="1"
                 app:layout_constraintWidth_default="percent"
-                app:layout_constraintWidth_percent="@dimen/tabActive" />
+                app:layout_constraintWidth_percent="@dimen/tabActive"
+                />
 
             <include
                 android:id="@+id/playerTab2"
@@ -265,9 +135,9 @@
                 app:layout_constraintBottom_toTopOf="@+id/playerTab3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/playerTab1"
-                android:layout_weight="1"
                 app:layout_constraintWidth_default="percent"
-                app:layout_constraintWidth_percent="@dimen/tabInactive" />
+                app:layout_constraintWidth_percent="@dimen/tabInactive"
+                 />
 
             <include
                 android:id="@+id/playerTab3"
@@ -277,9 +147,9 @@
                 app:layout_constraintBottom_toTopOf="@+id/playerTab4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/playerTab2"
-                android:layout_weight="1"
                 app:layout_constraintWidth_default="percent"
-                app:layout_constraintWidth_percent="@dimen/tabInactive" />
+                app:layout_constraintWidth_percent="@dimen/tabInactive"
+                 />
 
             <include
                 android:id="@+id/playerTab4"
@@ -289,198 +159,117 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/playerTab3"
-                android:layout_weight="1"
                 app:layout_constraintWidth_default="percent"
-                app:layout_constraintWidth_percent="@dimen/tabInactive" />
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/OpponentDiscard_Constraint"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:foregroundGravity="top"
-            app:layout_constraintEnd_toStartOf="@id/Opponent_Cards"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent=".15"
-            app:layout_constraintStart_toEndOf="@id/Base_Cards"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".09">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/dominion_opponent_card_back" />
-
-            <FrameLayout
-                android:id="@+id/frameLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginEnd="3dp"
-                android:layout_marginBottom="5dp"
-                app:layout_constraintHeight_default="percent"
-                app:layout_constraintHeight_percent=".3"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <ImageView
-                    android:id="@+id/imageViewAmount"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitStart"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0"
-                    app:srcCompat="@drawable/red_square" />
-
-                <TextView
-                    android:id="@+id/textViewAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="4" />
-            </FrameLayout>
-
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/OpponentDraw_Constraint"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:foregroundGravity="top"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent=".15"
-            app:layout_constraintStart_toEndOf="@+id/Opponent_Cards"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".09">
-
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/dominion_opponent_card_back" />
-
-            <FrameLayout
-                android:id="@+id/frameLayout2"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginEnd="3dp"
-                android:layout_marginBottom="5dp"
-                app:layout_constraintHeight_default="percent"
-                app:layout_constraintHeight_percent=".3"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <ImageView
-                    android:id="@+id/imageViewAmount2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitStart"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0"
-                    app:srcCompat="@drawable/red_square" />
-
-                <TextView
-                    android:id="@+id/textViewAmount2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="6" />
-            </FrameLayout>
-
+                app:layout_constraintWidth_percent="@dimen/tabInactive"
+                 />
         </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 
-    <!-- Game Log -->
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/Log_Constraint"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="#ff000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <android.support.constraint.Guideline
+        android:id="@+id/g25_Horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="174dp" />
 
-    </android.support.constraint.ConstraintLayout>
+    <android.support.constraint.Guideline
+        android:id="@+id/g60_Horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.60" />
 
-    <!-- User shop_cards/Discard(Buttons)/Draw(Stats) Constraint Layout -->
+    <android.support.constraint.Guideline
+        android:id="@+id/g22.5_Vert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="231dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/g77.5_Vert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.775" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/g7.5_Vert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.075" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/g92.5_Vert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp"
+        app:layout_constraintGuide_percent=".925" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/g32.5_Vert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.325" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/g12.5_Horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".125" />
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/User_Constraint"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Gameplay_Constraint">
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/Log_Constraint"
+        app:layout_constraintTop_toBottomOf="@+id/g60_Horizontal"
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent=".8">
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/User_Stats_Buttons"
+            android:id="@+id/User_Stats"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/User_Cards"
+            app:layout_constraintEnd_toStartOf="@+id/User_Hand"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".15">
+            app:layout_constraintWidth_percent=".2">
 
-            <!--www.perbang.dk/rbg/339999/
-            External Citation
-            9/18/18
-            Problem: Didn't know specific hex for shade
-            Solution: found it-->
+            <!--android:background="#ff0000ff"-->
+
+            <!--TODO: add indents for actions, buys and treasures.
+                use res strings, not hard code
+                use a better font
+
+                Later: add animation for draw card
+            -->
+
             <TextView
                 android:id="@+id/tvActions"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:layout_marginEnd="22dp"
-                android:layout_marginStart="22dp"
-                android:background="#CCA566"
-                android:gravity="center"
-                android:text="Actions left: 3"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/tvBuys"
+                android:text="Actions left:"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvBuys"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:layout_marginEnd="22dp"
-                android:layout_marginStart="22dp"
-                android:layout_marginTop="4dp"
-                android:background="#CCA566"
-                android:gravity="center"
-                android:text="Buys left: 2"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/tvTreasures"
+                android:text="Buys left:"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvActions" />
@@ -489,142 +278,63 @@
                 android:id="@+id/tvTreasures"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="22dp"
-                android:layout_marginStart="22dp"
-                android:layout_marginTop="4dp"
-                android:background="#CCA566"
-                android:gravity="center"
-                android:text="Treasure: 5"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/buttonPlayAll"
+                android:text="Treasure:"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvBuys" />
 
-            <Button
-                android:id="@+id/buttonPlayAll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp"
-                android:background="#339999"
-                android:text="Play all "
-                app:layout_constraintBottom_toTopOf="@+id/buttonEndTurn"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTreasures" />
-
-            <Button
-                android:id="@+id/buttonEndTurn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#339999"
-                android:elevation="24dp"
-                android:text="End Turn"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buttonPlayAll" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/User_Draw_Discard"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/User_Cards"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".15">
-
             <ImageView
                 android:id="@+id/ivDrawCard"
-                android:layout_width="93dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="48dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="12dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                app:layout_constraintBottom_toTopOf="@+id/imageViewDiscard"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/dominion_card_back" />
+                app:layout_constraintTop_toBottomOf="@+id/tvTreasures"
+                app:srcCompat="@drawable/dominion" />
+        </android.support.constraint.ConstraintLayout>
 
-            <ImageView
-                android:id="@+id/imageViewDiscard"
-                android:layout_width="93dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="48dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="8dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.506"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivDrawCard"
-                app:srcCompat="@drawable/dominion_card_back" />
-
-            <FrameLayout
-                android:id="@+id/frameLayoutDrawCount"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="2dp"
-                android:layout_marginStart="72dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintEnd_toEndOf="@+id/ivDrawCard"
-                app:layout_constraintStart_toStartOf="@+id/ivDrawCard"
-                app:layout_constraintTop_toTopOf="@+id/ivDrawCard">
-
-                <TextView
-                    android:id="@+id/textViewDrawCount"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#ffff0000"
-                    android:gravity="center"
-                    android:text="4" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/frameLayoutDiscardCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="2dp"
-                android:layout_marginStart="72dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintRight_toRightOf="@+id/imageViewDiscard"
-                app:layout_constraintStart_toStartOf="@+id/imageViewDiscard"
-                app:layout_constraintTop_toTopOf="@+id/imageViewDiscard">
-
-                <TextView
-                    android:id="@+id/textViewDiscardCount"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#ffff0000"
-                    android:text="10" />
-            </FrameLayout>
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/User_Buttons"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#ff00ff00"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/User_Hand"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".2">
 
         </android.support.constraint.ConstraintLayout>
 
         <TableRow
-            android:id="@+id/User_Cards"
+            android:id="@+id/User_Hand"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:background="#ffff00ff"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/User_Draw_Discard"
-            app:layout_constraintStart_toEndOf="@+id/User_Stats_Buttons"
+            app:layout_constraintEnd_toStartOf="@+id/User_Buttons"
+            app:layout_constraintStart_toEndOf="@+id/User_Stats"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".7" />
+            app:layout_constraintWidth_percent=".6" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Log_Constraint"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#ff000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Gameplay_Constraint"
+        app:layout_constraintTop_toTopOf="parent">
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
