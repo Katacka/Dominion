@@ -1,32 +1,32 @@
-package project.katacka.dominion;
+package project.katacka.dominion.gamedisplay;
 
 import android.util.Log;
 import java.util.ArrayList;
 import static android.content.ContentValues.TAG;
 
-public class DominionGameState {
-    protected ArrayList<DominionPlayerState> mDominionPlayers; //Sorted by order of turn
+public class GameState {
+    protected ArrayList<PlayerState> mDominionPlayers; //Sorted by order of turn
     protected int mCurrentTurn; //-1 when game ended
 
-    protected DominionGameState(int numPlayers) {
+    protected GameState(int numPlayers) {
         mDominionPlayers = new ArrayList<>(numPlayers);
         for (int i = 0; i < numPlayers; i++) {
-            mDominionPlayers.add(new DominionPlayerState("Player"+i));
+            mDominionPlayers.add(new PlayerState("Player"+i));
         }
 
         mCurrentTurn = 0;
     }
 
     @Override
-    protected DominionGameState clone() {
-        DominionGameState clone = null;
+    protected GameState clone() {
+        GameState clone = null;
 
         try{
-            clone = (DominionGameState) super.clone();
+            clone = (GameState) super.clone();
             clone.mDominionPlayers = new ArrayList<>(mDominionPlayers);
         }
         catch(CloneNotSupportedException cnse) {
-            Log.e(TAG, "Error while cloning DominionGameState: ", cnse);
+            Log.e(TAG, "Error while cloning GameState: ", cnse);
         }
 
         return clone;

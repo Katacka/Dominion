@@ -1,6 +1,6 @@
-package project.katacka.dominion;
+package project.katacka.dominion.gamedisplay;
 
-public class DominionPlayerState {
+public class PlayerState {
     protected String mName;
     protected Cards mDeckPile;
     protected Cards mDiscardPile;
@@ -10,11 +10,11 @@ public class DominionPlayerState {
     protected int mGold;
     protected int mVP;
 
-    protected DominionPlayerState(String name) {
+    protected PlayerState(String name) {
         this(name, 5); //Default starting hand size is 5
     }
 
-    protected DominionPlayerState(String name, int numCards) {
+    protected PlayerState(String name, int numCards) {
         this.mName = name;
         this.mDeckPile = new Cards(numCards);
         this.mDiscardPile = new Cards(0);

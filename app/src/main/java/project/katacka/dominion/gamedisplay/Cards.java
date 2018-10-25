@@ -1,11 +1,11 @@
-package project.katacka.dominion;
+package project.katacka.dominion.gamedisplay;
 
 import android.util.Log;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
+
+import project.katacka.dominion.R;
 
 public class Cards {
     protected ArrayList<Card> cardStack;

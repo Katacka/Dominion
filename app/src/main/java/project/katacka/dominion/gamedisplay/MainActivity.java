@@ -1,30 +1,21 @@
-package project.katacka.dominion;
+package project.katacka.dominion.gamedisplay;
 
-import android.app.ActionBar;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.Locale;
+
+import project.katacka.dominion.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,28 +28,25 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        //Dominion State code
-        setContentView(R.layout.game_state);
-
         //Dominion GUI code
-        /*setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
-        //DominionPlayerState tab code
+        //PlayerState tab code
         //TODO: Consider writing this into a multi-purpose tab function
-        String[] names = {"Smart AI", "Dumb AI", "DominionPlayerState 1", "DominionPlayerState 2"};
+        String[] names = {"Smart AI", "Dumb AI", "PlayerState 1", "PlayerState 2"};
         setNames(names);
 
         //Populates and displays the opponent cards
         displayImages(findViewById(R.id.Opponent_Cards), 5, R.drawable.dominion_opponent_card_back);
 
         //Populates the base cards (Treasure and Victory points)
-        displayCards(findViewById(R.id.Base_Cards), R.layout.shop_card, 2, new shop_cards());
+        displayCards(findViewById(R.id.Base_Cards), R.layout.shop_card, 2, new Cards());
 
         //Populates and displays the shop cards
-        displayCards(findViewById(R.id.Shop_Cards), R.layout.shop_card, 5, new shop_cards(10));
+        displayCards(findViewById(R.id.Shop_Cards), R.layout.shop_card, 5, new Cards(10));
 
         //Populates and displays the player cards
-        displayCards(findViewById(R.id.User_Cards), R.layout.player_card, new shop_cards(4));*/
+        displayCards(findViewById(R.id.User_Cards), R.layout.player_card, new Cards(4));
     }
 
     //Generates and displays a row of images within a TableRow

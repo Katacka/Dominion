@@ -1,94 +1,180 @@
 {
-  "baseSet": {
-    "festival": {
-      "name": "Festival",
-      "id": "R.drawable.dominion_festival",
-      "text": "+2 Actions\n+1 Buy\n+2 Gold",
+  "base": [
+    {
+      "title": "Moat",
+      "photoStringID": "dominion_moat",
+      "text": "+2 Cards\nWhen another player plays an Attack card, you may first reveal this from your hand to be unaffected by it",
+      "cost": 2,
+      "type": "ACTION",
+      "amount": 10,
+      "action": "moatAction",
+      "addedDraw": 2
+    },
+    {
+      "title": "Market",
+      "photoStringID": "dominion_market",
+      "text": "+1 Card\n+1 Action\n+1 Buy\n+1 Gold",
       "cost": 5,
       "type": "ACTION",
       "amount": 10,
-      "action": "public action() { return true; }"
+      "action": "baseAction",
+      "addedCards": 1,
+      "addedActions": 1,
+      "addedBuys": 1,
+      "addedTreasure": 1
     },
-    "merchant": {
-      "name": "Merchant",
-      "id": "R.drawable.dominion_merchant",
+    {
+      "title": "Laboratory",
+      "photoStringID": "dominion_festival",
+      "text": "+2 Cards\n+1 Action",
+      "cost": 5,
+      "type": "ACTION",
+      "amount": 10,
+      "action": "baseAction",
+      "addedCards": 2,
+      "addedActions": 1
+    },
+    {
+      "title": "Merchant",
+      "photoStringID": "dominion_merchant",
       "text": "+1 Card\n+1 Action\nThe first time you play a Silver this turn, +1 Gold",
       "cost": 3,
       "type": "ACTION",
       "amount": 10,
-      "action": "public action() { return true; }"
+      "action": "merchantAction",
+      "addedCards": 1,
+      "addedActions": 1
     },
-    "remodel": {
-      "name": "Remodel",
-      "id": "R.drawable.dominion_remodel",
-      "text": "Trash a card from your hand. Gain a card costing up to 2 Gold more than it",
+    {
+      "title": "Gardens",
+      "photoStringID": "dominion_gardens",
+      "text": "Worth 1 Victory Point per 10 cards you have, rounded down",
       "cost": 4,
-      "type": "ACTION",
+      "type": "VICTORY",
       "amount": 10,
-      "action": "public action() { return true; }"
+      "action": "baseAction"
     },
-    "throneRoom": {
-      "name": "Throne Room",
-      "id": "R.drawable.dominion_throne_room",
-      "text": "You may play an action from your hand twice",
-      "cost": 4,
-      "type": "ACTION",
-      "amount": 10,
-      "action": "public action() { return true; }"
-    },
-    "artisan": {
-      "name": "Artisan",
-      "id": "R.drawable.dominion_artisan",
-      "text": "Add a card to your hand costing up to 5 Gold. Put a card from your hand onto your deck",
-      "cost": 6,
-      "type": "ACTION",
-      "amount": 10,
-      "action": "public action() { return true; }"
-    },
-    "witch": {
-      "name": "Witch",
-      "id": "R.drawable.dominion_witch",
-      "text": "+2 Cards\nEach other player gains a curse",
-      "cost": 5,
-      "type": "ATTACK",
-      "amount": 10,
-      "action": "public action() { return true; }"
-    },
-    "library": {
-      "name": "Library",
-      "id": "R.drawable.dominion_library",
-      "text": "Draw until you have 7 cards in hand, skipping any Action cards you choose to. Set those cards aside, discarding them afterwards",
-      "cost": 5,
-      "type": "ACTION",
-      "amount": 10,
-      "action": "public action() { return true; }"
-    },
-    "laboratory": {
-      "name": "Laboratory",
-      "id": "R.drawable.dominion_festival",
+    {
+      "title": "Festival",
+      "photoStringID": "dominion_festival",
       "text": "+2 Actions\n+1 Buy\n+2 Gold",
       "cost": 5,
       "type": "ACTION",
       "amount": 10,
-      "action": "public action() { return true; }"
+      "action": "baseAction",
+      "addedActions": 2,
+      "addedBuys": 1,
+      "addedTreasure": 2
     },
-    "militia": {
-      "name": "Militia",
-      "id": "R.drawable.dominion_militia",
+    {
+      "title": "Smithy",
+      "photoStringID": "dominion_smithy",
+      "text": "+3 cards",
+      "cost": 4,
+      "type": "ACTION",
+      "amount": 10,
+      "action": "baseAction",
+      "addedDraw": 3
+    },
+    {
+      "title": "Village",
+      "photoStringID": "dominion_village",
+      "text": "+1 Card\n+2 Actions",
+      "cost": 3,
+      "type": "ACTION",
+      "amount": 10,
+      "action": "baseAction",
+      "addedDraw": 1,
+      "addedActions": 2
+    },
+    {
+      "title": "Council Room",
+      "photoStringID": "dominion_council_room",
+      "text": "+4 Cards\n+1 Buy\nEach other player draws a card",
+      "cost": 5,
+      "type": "ACTION",
+      "amount": 10,
+      "action": "councilRoomAction",
+      "addedDraw": 4,
+      "addedBuys": 1
+    },
+    {
+      "title": "Moneylender",
+      "photoStringID": "dominion_moneylender",
+      "text": "You may trash a Copper from your hand for +3 Gold",
+      "cost": 4,
+      "type": "ACTION",
+      "amount": 10,
+      "action": "moneylenderAction"
+    }
+  ],
+  "temp": [
+    {
+      "title": "Remodel",
+      "photoStringID": "dominion_remodel",
+      "text": "Trash a card from your hand. Gain a card costing up to 2 Gold more than it",
+      "cost": 4,
+      "type": "ACTION",
+      "amount": 10,
+      "action": "remodelAction"
+    },
+    {
+      "title": "Throne Room",
+      "photoStringID": "dominion_throne_room",
+      "text": "You may play an action from your hand twice",
+      "cost": 4,
+      "type": "ACTION",
+      "amount": 10,
+      "action": "throneAction"
+    },
+    {
+      "title": "Artisan",
+      "photoStringID": "dominion_artisan",
+      "text": "Add a card to your hand costing up to 5 Gold. Put a card from your hand onto your deck",
+      "cost": 6,
+      "type": "ACTION",
+      "amount": 10,
+      "action": "artisanAction"
+    },
+    {
+      "title": "Witch",
+      "photoStringID": "dominion_witch",
+      "text": "+2 Cards\nEach other player gains a curse",
+      "cost": 5,
+      "type": "ATTACK",
+      "amount": 10,
+      "action": "witchAction",
+      "addedCards": 2
+    },
+    {
+      "title": "Library",
+      "photoStringID": "dominion_library",
+      "text": "Draw until you have 7 cards in hand, skipping any Action cards you choose to. Set those cards aside, discarding them afterwards",
+      "cost": 5,
+      "type": "ACTION",
+      "amount": 10,
+      "action": "libraryAction"
+    },
+    {
+      "title": "Militia",
+      "photoStringID": "dominion_militia",
       "text": "+2 Gold\nEach other player discards down to 3 cards in hand",
       "cost": 4,
       "type": "ATTACK",
       "amount": 10,
-      "action": "public action() { return true; }"
+      "action": "militiaAction",
+      "addedTreasure": 2
     },
-    "harbinger": {
-      "name": "Harbinger",
-      "id": "R.drawable.dominion_harbinger",
+    {
+      "title": "Harbinger",
+      "photoStringID": "dominion_harbinger",
       "text": "+1 Card\n+1 Action\nLook through your discard pile. You may put a card from it onto your deck",
       "cost": 3,
       "type": "ACTION",
       "amount": 10,
-      "action": "public action() { return true; }"
+      "action": "harbingerAction",
+      "addedCards": 1,
+      "addedActions": 1
     }
-  }
+  ]
 }
