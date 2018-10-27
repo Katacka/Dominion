@@ -3,7 +3,7 @@ package project.katacka.dominion.gamedisplay;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class Card {
+public class CardView {
     //Graphic Properties
     protected String mTitle;
     protected int mPhotoId;
@@ -13,11 +13,11 @@ public class Card {
     protected int mAmount;
     Method action;
 
-    public Card(Card jsonCard) {
+    public CardView(project.katacka.dominion.gamedisplay.CardView jsonCard) {
         //this = jsonCard;
     }
 
-    public Card (String name, int photoId, String text, int cost, String type, int amount){
+    public CardView(String name, int photoId, String text, int cost, String type, int amount){
         mTitle = name;
         mPhotoId = photoId;
         mText = text;

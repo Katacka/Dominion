@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import static android.content.ContentValues.TAG;
 
 public class GameState {
-    protected ArrayList<PlayerState> mDominionPlayers; //Sorted by order of turn
+    //TODO: may need to delete this class
+
+    protected ArrayList<DominionHumanPlayer> mDominionPlayers; //Sorted by order of turn
     protected int mCurrentTurn; //-1 when game ended
 
     protected GameState(int numPlayers) {
         mDominionPlayers = new ArrayList<>(numPlayers);
         for (int i = 0; i < numPlayers; i++) {
-            mDominionPlayers.add(new PlayerState("Player"+i));
+            mDominionPlayers.add(new DominionHumanPlayer("Player"+i));
         }
 
         mCurrentTurn = 0;

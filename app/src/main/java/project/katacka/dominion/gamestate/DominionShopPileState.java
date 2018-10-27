@@ -44,7 +44,7 @@ public class DominionShopPileState {
 
     @Override
     public String toString(){
-        String ret = String.format(Locale.US, "\nCard pile. Card: %s, Amount: %d", card.getTitle(), amount);
+        String ret = String.format(Locale.US, "\nCardView pile. CardView: %s, Amount: %d", card.getTitle(), amount);
         return ret;
     }
 }

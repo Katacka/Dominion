@@ -14,7 +14,7 @@ import static android.content.ContentValues.TAG;
  * @author Julian Donovan, Hayden Liao, Ashika Mulagada
  */
 public class DominionCardState {
-    //Card attributes
+    //CardView attributes
     //Final because only one instance is made per card. Changing an attribute would change all copies
     private final String title;
     private final String photoID;
@@ -53,7 +53,7 @@ public class DominionCardState {
         this.type = DominionCardType.getTypeFromString(type);
         if (this.type == null){
             Log.e(TAG, "Illegal type for card " + this.title);
-            throw new IllegalArgumentException("Card type does not exist.");
+            throw new IllegalArgumentException("CardView type does not exist.");
         }
 
         //Dynamically assigned by method reflection, allowing for a String method reference to be held in JSON
@@ -106,7 +106,7 @@ public class DominionCardState {
         }
         catch (NoSuchMethodException e) {
             Log.e(TAG, "Error encountered reflecting action method: " + e + " with card " + this.title);
-            throw new IllegalArgumentException("Card function does not exist", e);
+            throw new IllegalArgumentException("CardView function does not exist", e);
         }
     }
 

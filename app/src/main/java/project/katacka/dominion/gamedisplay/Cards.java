@@ -24,12 +24,10 @@ public class Cards {
         generateStack(); //Populates cardStack
     }
 
-    public String
-
     //Credit: https://stackoverflow.com/questions/4307273/how-can-i-create-and-display-an-arraylist-of-random-numbers-in-java
     private void generateStack(){
         //Gson gson = new Gson(); //ToDo: Finish GSON implementation
-        //Card card = gson.fromJson(R.raw.shop_cards, Card.class);
+        //CardView card = gson.fromJson(R.raw.shop_cards, CardView.class);
         ThreadLocalRandom.current().ints(0, uniqueCards)
                 .distinct().limit(totalCards)
                 .forEach(randomInt -> initializeRandomCards(randomInt));
@@ -37,7 +35,7 @@ public class Cards {
 
     /*private void initializeRandomCard(int randomCard) {
 
-        Card card
+        CardView card
     }*/
 
     private void initializeRandomCards(int randomCard) {
@@ -46,7 +44,7 @@ public class Cards {
                 cardStack.add(new Card("Festival", R.drawable.dominion_festival, "+2 Actions\n+1 Buy\n+2 Gold", 5, "ACTION", 10));
                 break;
             case(1): //Merchant
-                cardStack.add(new Card("Merchant", R.drawable.dominion_merchant, "+1 Card\n+1 Action\nThe first time you play a Silver this turn, +1 Gold", 3, "ACTION", 10));
+                cardStack.add(new Card("Merchant", R.drawable.dominion_merchant, "+1 CardView\n+1 Action\nThe first time you play a Silver this turn, +1 Gold", 3, "ACTION", 10));
                 break;
             case(2): //Remodel
                 cardStack.add(new Card("Remodel", R.drawable.dominion_remodel, "Trash a card from your hand. Gain a card costing up to 2 Gold more than it", 4, "ACTION", 10));
@@ -70,7 +68,7 @@ public class Cards {
                 cardStack.add(new Card("Militia", R.drawable.dominion_militia, "+2 Gold\nEach other player discards down to 3 cards in hand", 4, "ATTACK", 10));
                 break;
             case(9): //Harbinger
-                cardStack.add(new Card("Harbinger", R.drawable.dominion_harbinger, "+1 Card\n+1 Action\nLook through your discard pile. You may put a card from it onto your deck", 3, "ACTION", 10));
+                cardStack.add(new Card("Harbinger", R.drawable.dominion_harbinger, "+1 CardView\n+1 Action\nLook through your discard pile. You may put a card from it onto your deck", 3, "ACTION", 10));
                 break;
             default:
                 Log.e("initalizeCards","An exception has occured. No card has been assigned to this value");

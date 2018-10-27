@@ -142,7 +142,7 @@ public class DominionDeckState {
     /**
      * Add many copies of a card to the discard pile.
      * Used to create starter deck.
-     * @param card Card to add
+     * @param card CardView to add
      * @param count Number of cards to add
      */
     public void addManyToDiscard(DominionCardState card, int count){

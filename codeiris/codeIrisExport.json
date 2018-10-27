@@ -1,0 +1,449 @@
+[{
+  "packageName": "project.katacka.dominion.gameframework",
+  "superClass": null,
+  "className": "GameComputerPlayer",
+  "associations": ["project.katacka.dominion.gameframework.infoMsg.BindGameInfo", "project.katacka.dominion.gameframework.infoMsg.GameInfo", "project.katacka.dominion.gameframework.util.GameTimer", "project.katacka.dominion.gameframework.GameMainActivity", "project.katacka.dominion.gameframework.Game"],
+  "usages": [],
+  "interfaces": ["project.katacka.dominion.gameframework.GamePlayer", "project.katacka.dominion.gameframework.util.Tickable"],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gamedisplay",
+  "superClass": null,
+  "className": "Card",
+  "associations": ["project.katacka.dominion.gamedisplay.Card"],
+  "usages": ["project.katacka.dominion.gamedisplay.Cards", "project.katacka.dominion.gamedisplay.Card"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework",
+  "superClass": null,
+  "className": "Game",
+  "associations": ["project.katacka.dominion.gameframework.actionMsg.GameAction"],
+  "usages": ["project.katacka.dominion.gameframework.GameHumanPlayer", "project.katacka.dominion.gameframework.infoMsg.BindGameInfo", "project.katacka.dominion.gameframework.ProxyPlayer", "project.katacka.dominion.gameframework.GameComputerPlayer", "project.katacka.dominion.gameframework.infoMsg.GameInfo", "project.katacka.dominion.gameframework.GameMainActivity"],
+  "interfaces": [],
+  "type": "INTERFACE"
+}, {
+  "packageName": "project.katacka.dominion.gamedisplay",
+  "superClass": null,
+  "className": "Cards",
+  "associations": ["project.katacka.dominion.gamedisplay.Card"],
+  "usages": ["project.katacka.dominion.gamedisplay.PlayerState", "project.katacka.dominion.gamedisplay.Cards$$Lambda$0"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework",
+  "superClass": null,
+  "className": "GameConfig",
+  "associations": ["project.katacka.dominion.gameframework.GameConfig", "project.katacka.dominion.gameframework.GamePlayer", "project.katacka.dominion.gameframework.GamePlayerType", "project.katacka.dominion.gameframework.GameMainActivity"],
+  "usages": ["project.katacka.dominion.gamedisplay.MainActivity", "project.katacka.dominion.gameframework.GameConfig", "project.katacka.dominion.MainActivity", "project.katacka.dominion.gameframework.GameMainActivity"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion",
+  "superClass": null,
+  "className": "ExampleUnitTest",
+  "associations": [],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion",
+  "superClass": "project.katacka.dominion.gameframework.GameMainActivity",
+  "className": "MainActivity",
+  "associations": ["project.katacka.dominion.gameframework.GameConfig", "project.katacka.dominion.gameframework.LocalGame"],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.actionMsg",
+  "superClass": null,
+  "className": "GameAction",
+  "associations": ["project.katacka.dominion.gameframework.GamePlayer"],
+  "usages": ["project.katacka.dominion.gameframework.ProxyPlayer", "project.katacka.dominion.gameframework.ProxyGame", "project.katacka.dominion.localgame.DominionLocalGame", "project.katacka.dominion.gameframework.LocalGame", "project.katacka.dominion.gameframework.Game"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.config",
+  "superClass": null,
+  "className": "GameConfig",
+  "associations": ["project.katacka.dominion.gameframework.GamePlayer", "project.katacka.dominion.gameframework.config.GameConfig", "project.katacka.dominion.gameframework.GameMainActivity", "project.katacka.dominion.gameframework.config.GamePlayerType"],
+  "usages": ["project.katacka.dominion.gameframework.config.GameConfig"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.config",
+  "superClass": null,
+  "className": "GamePlayerType",
+  "associations": ["project.katacka.dominion.gameframework.GamePlayer"],
+  "usages": ["project.katacka.dominion.gameframework.config.GameConfig"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.actionMsg",
+  "superClass": "project.katacka.dominion.gameframework.actionMsg.GameAction",
+  "className": "GameOverAckAction",
+  "associations": ["project.katacka.dominion.gameframework.GamePlayer"],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework",
+  "superClass": null,
+  "className": "GamePlayer",
+  "associations": ["project.katacka.dominion.gameframework.infoMsg.GameInfo", "project.katacka.dominion.gameframework.GameMainActivity"],
+  "usages": ["project.katacka.dominion.gameframework.actionMsg.ReadyAction", "project.katacka.dominion.gameframework.actionMsg.GameAction", "project.katacka.dominion.gameframework.LocalGame", "project.katacka.dominion.gameframework.GamePlayerType", "project.katacka.dominion.gameframework.config.GamePlayerType", "project.katacka.dominion.gameframework.GameConfig", "project.katacka.dominion.gamedisplay.DominionPlayCardAction", "project.katacka.dominion.gameframework.actionMsg.MyNameIsAction", "project.katacka.dominion.gameframework.config.GameConfig", "project.katacka.dominion.gameframework.ProxyGame", "project.katacka.dominion.gameframework.actionMsg.GameOverAckAction", "project.katacka.dominion.localgame.DominionLocalGame", "project.katacka.dominion.gameframework.GameMainActivity", "project.katacka.dominion.gamedisplay.DominionBuyCardAction"],
+  "interfaces": [],
+  "type": "INTERFACE"
+}, {
+  "packageName": "project.katacka.dominion.gamedisplay",
+  "superClass": null,
+  "className": "Cards$$Lambda$0",
+  "associations": ["project.katacka.dominion.gamedisplay.Cards"],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gamedisplay",
+  "superClass": "project.katacka.dominion.gameframework.actionMsg.GameAction",
+  "className": "DominionBuyCardAction",
+  "associations": ["project.katacka.dominion.gameframework.GamePlayer"],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework",
+  "superClass": null,
+  "className": "GameMainActivity",
+  "associations": ["project.katacka.dominion.gameframework.GameConfig", "project.katacka.dominion.gameframework.GamePlayer", "project.katacka.dominion.gameframework.ProxyGame", "project.katacka.dominion.gameframework.GamePlayerType", "project.katacka.dominion.gameframework.LocalGame", "project.katacka.dominion.gameframework.Game"],
+  "usages": ["project.katacka.dominion.gameframework.GameHumanPlayer", "project.katacka.dominion.gameframework.ProxyPlayer", "project.katacka.dominion.gameframework.GameComputerPlayer", "project.katacka.dominion.gameframework.GameConfig", "project.katacka.dominion.gameframework.GamePlayer", "project.katacka.dominion.gameframework.config.GameConfig", "project.katacka.dominion.gameplayer.DominionHumanPlayer", "project.katacka.dominion.gameplayer.DominionComputerPlayer"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework",
+  "superClass": null,
+  "className": "GameHumanPlayer",
+  "associations": ["project.katacka.dominion.gameframework.infoMsg.BindGameInfo", "project.katacka.dominion.gameframework.infoMsg.GameInfo", "project.katacka.dominion.gameframework.util.GameTimer", "project.katacka.dominion.gameframework.GameMainActivity", "project.katacka.dominion.gameframework.Game"],
+  "usages": [],
+  "interfaces": ["project.katacka.dominion.gameframework.GamePlayer", "project.katacka.dominion.gameframework.util.Tickable"],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion",
+  "superClass": null,
+  "className": "R",
+  "associations": [],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.actionMsg",
+  "superClass": "project.katacka.dominion.gameframework.actionMsg.GameAction",
+  "className": "ReadyAction",
+  "associations": ["project.katacka.dominion.gameframework.GamePlayer"],
+  "usages": ["project.katacka.dominion.gameframework.LocalGame"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.actionMsg",
+  "superClass": "project.katacka.dominion.gameframework.actionMsg.GameAction",
+  "className": "MyNameIsAction",
+  "associations": ["project.katacka.dominion.gameframework.GamePlayer"],
+  "usages": ["project.katacka.dominion.gameframework.LocalGame"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gamedisplay",
+  "superClass": "project.katacka.dominion.gameframework.actionMsg.GameAction",
+  "className": "DominionPlayCardAction",
+  "associations": ["project.katacka.dominion.gameframework.GamePlayer"],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gamedisplay",
+  "superClass": null,
+  "className": "GameState",
+  "associations": ["project.katacka.dominion.gamedisplay.GameState", "project.katacka.dominion.gamedisplay.PlayerState"],
+  "usages": ["project.katacka.dominion.gamedisplay.GameState"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework",
+  "superClass": null,
+  "className": "ProxyGame",
+  "associations": ["project.katacka.dominion.gameframework.actionMsg.GameAction", "project.katacka.dominion.gameframework.GamePlayer", "project.katacka.dominion.gameframework.ProxyGame", "project.katacka.dominion.gameframework.infoMsg.GameInfo", "project.katacka.dominion.gameframework.util.NetworkObjectPasser"],
+  "usages": ["project.katacka.dominion.gameframework.ProxyGame", "project.katacka.dominion.gameframework.GameMainActivity"],
+  "interfaces": ["project.katacka.dominion.gameframework.Game"],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework",
+  "superClass": null,
+  "className": "LocalGame",
+  "associations": ["project.katacka.dominion.gameframework.actionMsg.ReadyAction", "project.katacka.dominion.gameframework.actionMsg.GameAction", "project.katacka.dominion.gameframework.GamePlayer", "project.katacka.dominion.gameframework.actionMsg.MyNameIsAction", "project.katacka.dominion.gameframework.LocalGame", "project.katacka.dominion.gameframework.util.GameTimer"],
+  "usages": ["project.katacka.dominion.gamedisplay.MainActivity", "project.katacka.dominion.MainActivity", "project.katacka.dominion.gameframework.LocalGame", "project.katacka.dominion.gameframework.GameMainActivity"],
+  "interfaces": ["project.katacka.dominion.gameframework.Game", "project.katacka.dominion.gameframework.util.Tickable"],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework",
+  "superClass": null,
+  "className": "GamePlayerType",
+  "associations": ["project.katacka.dominion.gameframework.GamePlayer"],
+  "usages": ["project.katacka.dominion.gameframework.GameConfig", "project.katacka.dominion.gameframework.GameMainActivity"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.actionMsg",
+  "superClass": "project.katacka.dominion.gameframework.actionMsg.GameAction",
+  "className": "TimerAction",
+  "associations": ["project.katacka.dominion.gameframework.util.GameTimer"],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gamedisplay",
+  "superClass": null,
+  "className": "PlayerState",
+  "associations": ["project.katacka.dominion.gamedisplay.Cards"],
+  "usages": ["project.katacka.dominion.gamedisplay.GameState"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework",
+  "superClass": null,
+  "className": "ProxyPlayer",
+  "associations": ["project.katacka.dominion.gameframework.actionMsg.GameAction", "project.katacka.dominion.gameframework.infoMsg.GameInfo", "project.katacka.dominion.gameframework.util.NetworkObjectPasser", "project.katacka.dominion.gameframework.GameMainActivity", "project.katacka.dominion.gameframework.Game"],
+  "usages": [],
+  "interfaces": ["project.katacka.dominion.gameframework.GamePlayer"],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gamedisplay",
+  "superClass": "project.katacka.dominion.gameframework.GameMainActivity",
+  "className": "MainActivity",
+  "associations": ["project.katacka.dominion.gameframework.GameConfig", "project.katacka.dominion.gameframework.LocalGame"],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.infoMsg",
+  "superClass": "project.katacka.dominion.gameframework.infoMsg.GameInfo",
+  "className": "BindGameInfo",
+  "associations": ["project.katacka.dominion.gameframework.Game"],
+  "usages": ["project.katacka.dominion.gameframework.GameHumanPlayer", "project.katacka.dominion.gameframework.GameComputerPlayer"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.util",
+  "superClass": null,
+  "className": "FlashSurfaceView",
+  "associations": [],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.infoMsg",
+  "superClass": null,
+  "className": "GameInfo",
+  "associations": ["project.katacka.dominion.gameframework.Game"],
+  "usages": ["project.katacka.dominion.gameframework.GameHumanPlayer", "project.katacka.dominion.gameframework.ProxyPlayer", "project.katacka.dominion.gameframework.GameComputerPlayer", "project.katacka.dominion.gameframework.GamePlayer", "project.katacka.dominion.gameframework.ProxyGame", "project.katacka.dominion.gameplayer.DominionHumanPlayer", "project.katacka.dominion.gameplayer.DominionComputerPlayer"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.util",
+  "superClass": null,
+  "className": "GameTimer",
+  "associations": ["project.katacka.dominion.gameframework.util.Tickable"],
+  "usages": ["project.katacka.dominion.gameframework.GameHumanPlayer", "project.katacka.dominion.gameframework.GameComputerPlayer", "project.katacka.dominion.gameframework.infoMsg.TimerInfo", "project.katacka.dominion.gameframework.actionMsg.TimerAction", "project.katacka.dominion.gameframework.util.Tickable", "project.katacka.dominion.gameframework.LocalGame"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameplayer",
+  "superClass": "project.katacka.dominion.gameframework.GameHumanPlayer",
+  "className": "DominionHumanPlayer",
+  "associations": ["project.katacka.dominion.gameframework.infoMsg.GameInfo", "project.katacka.dominion.gameframework.GameMainActivity"],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gamestate",
+  "superClass": null,
+  "className": "DominionCardType",
+  "associations": ["project.katacka.dominion.gamestate.DominionCardType"],
+  "usages": ["project.katacka.dominion.gamestate.DominionCardType", "project.katacka.dominion.gamestate.DominionCardState"],
+  "interfaces": [],
+  "type": "ENUM"
+}, {
+  "packageName": "project.katacka.dominion.localgame",
+  "superClass": "project.katacka.dominion.gameframework.LocalGame",
+  "className": "DominionLocalGame",
+  "associations": ["project.katacka.dominion.gameframework.actionMsg.GameAction", "project.katacka.dominion.gameframework.GamePlayer"],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameplayer",
+  "superClass": "project.katacka.dominion.gameframework.GameComputerPlayer",
+  "className": "DominionComputerPlayer",
+  "associations": ["project.katacka.dominion.gameframework.infoMsg.GameInfo", "project.katacka.dominion.gameframework.GameMainActivity"],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gamestate",
+  "superClass": null,
+  "className": "DominionCardState",
+  "associations": ["project.katacka.dominion.gamestate.DominionCardType", "project.katacka.dominion.gamestate.DominionGameState", "project.katacka.dominion.gamestate.DominionPlayerState"],
+  "usages": ["project.katacka.dominion.gamestate.DominionDeckState", "project.katacka.dominion.gamestate.DominionGameState", "project.katacka.dominion.gamestate.DominionShopPileState", "project.katacka.dominion.gamestate.DominionPlayerState"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gamestate",
+  "superClass": null,
+  "className": "CardReader",
+  "associations": ["project.katacka.dominion.gamestate.DominionShopPileState"],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.infoMsg",
+  "superClass": "project.katacka.dominion.gameframework.infoMsg.GameInfo",
+  "className": "GameState",
+  "associations": [],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.util",
+  "superClass": null,
+  "className": "MessageBox",
+  "associations": [],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.infoMsg",
+  "superClass": "project.katacka.dominion.gameframework.infoMsg.GameInfo",
+  "className": "GameOverInfo",
+  "associations": [],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.util",
+  "superClass": null,
+  "className": "IPCoder",
+  "associations": [],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gamestate",
+  "superClass": null,
+  "className": "DominionDeckState",
+  "associations": ["project.katacka.dominion.gamestate.DominionDeckState", "project.katacka.dominion.gamestate.DominionCardState"],
+  "usages": ["project.katacka.dominion.gamestate.DominionDeckState", "project.katacka.dominion.gamestate.DominionGameState", "project.katacka.dominion.gamestate.DominionPlayerState"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gamestate",
+  "superClass": null,
+  "className": "DominionDeckState$$Lambda$1",
+  "associations": [],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gamestate",
+  "superClass": null,
+  "className": "DominionDeckState$$Lambda$0",
+  "associations": [],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.infoMsg",
+  "superClass": "project.katacka.dominion.gameframework.infoMsg.GameInfo",
+  "className": "IllegalMoveInfo",
+  "associations": [],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.infoMsg",
+  "superClass": "project.katacka.dominion.gameframework.infoMsg.GameInfo",
+  "className": "NotYourTurnInfo",
+  "associations": [],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.util",
+  "superClass": null,
+  "className": "Tickable",
+  "associations": ["project.katacka.dominion.gameframework.util.GameTimer"],
+  "usages": ["project.katacka.dominion.gameframework.util.GameTimer"],
+  "interfaces": [],
+  "type": "INTERFACE"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.util",
+  "superClass": null,
+  "className": "NetworkObjectPasser",
+  "associations": [],
+  "usages": ["project.katacka.dominion.gameframework.ProxyPlayer", "project.katacka.dominion.gameframework.ProxyGame"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gamestate",
+  "superClass": null,
+  "className": "DominionPlayerState",
+  "associations": ["project.katacka.dominion.gamestate.DominionDeckState", "project.katacka.dominion.gamestate.DominionCardState", "project.katacka.dominion.gamestate.DominionPlayerState", "project.katacka.dominion.gamestate.DominionShopPileState"],
+  "usages": ["project.katacka.dominion.gamestate.DominionGameState", "project.katacka.dominion.gamestate.DominionCardState", "project.katacka.dominion.gamestate.DominionPlayerState"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gamestate",
+  "superClass": "project.katacka.dominion.gameframework.infoMsg.GameState",
+  "className": "DominionGameState",
+  "associations": ["project.katacka.dominion.gamestate.DominionDeckState", "project.katacka.dominion.gamestate.DominionGameState", "project.katacka.dominion.gamestate.DominionCardState", "project.katacka.dominion.gamestate.DominionPlayerState", "project.katacka.dominion.gamestate.DominionShopPileState"],
+  "usages": ["project.katacka.dominion.gamestate.DominionGameState", "project.katacka.dominion.gamestate.DominionCardState"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gamestate",
+  "superClass": null,
+  "className": "DominionShopPileState",
+  "associations": ["project.katacka.dominion.gamestate.DominionCardState", "project.katacka.dominion.gamestate.DominionShopPileState"],
+  "usages": ["project.katacka.dominion.gamestate.CardReader", "project.katacka.dominion.gamestate.GsonDeserializer", "project.katacka.dominion.gamestate.DominionGameState", "project.katacka.dominion.gamestate.DominionShopPileState", "project.katacka.dominion.gamestate.DominionPlayerState"],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.infoMsg",
+  "superClass": "project.katacka.dominion.gameframework.infoMsg.GameInfo",
+  "className": "TimerInfo",
+  "associations": ["project.katacka.dominion.gameframework.util.GameTimer"],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gameframework.infoMsg",
+  "superClass": "project.katacka.dominion.gameframework.infoMsg.GameInfo",
+  "className": "StartGameInfo",
+  "associations": [],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gamestate",
+  "superClass": null,
+  "className": "GsonDeserializer$$Lambda$0",
+  "associations": [],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}, {
+  "packageName": "project.katacka.dominion.gamestate",
+  "superClass": null,
+  "className": "GsonDeserializer",
+  "associations": ["project.katacka.dominion.gamestate.DominionShopPileState"],
+  "usages": [],
+  "interfaces": [],
+  "type": "CLASS"
+}]
