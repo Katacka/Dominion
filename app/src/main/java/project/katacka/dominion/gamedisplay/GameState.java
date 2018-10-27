@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import static android.content.ContentValues.TAG;
 
 public class GameState {
+    //TODO: may need to delete this class
+
     protected ArrayList<PlayerState> mDominionPlayers; //Sorted by order of turn
     protected int mCurrentTurn; //-1 when game ended
 

@@ -1,4 +1,4 @@
-package project.katacka.dominion.gamedisplay;
+package project.katacka.dominion;
 
 import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
@@ -13,13 +13,39 @@ import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import project.katacka.dominion.R;
+import project.katacka.dominion.gameframework.GameConfig;
+import project.katacka.dominion.gameframework.GameMainActivity;
+import project.katacka.dominion.gameframework.LocalGame;
 
-public class MainActivity extends AppCompatActivity {
 
+//import project.katacka.dominion.game.config.GamePlayerType;
 
+//extends AppCompatActivity
+public class MainActivity extends GameMainActivity{
+    @Override
+    public GameConfig createDefaultConfig() {
+        //TODO: undummy createDefaultConfig()
+        //TODO: necessary for compilation, cannot get portnumber in GameMainActivity without creating a defaultConfig
+        //ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
+        //GameConfig defaultConfig = new GameConfig(playerTypes, 1, 2, "Pig", PORT_NUMBER);
+
+        return null;
+    }
+
+    @Override
+    public LocalGame createLocalGame() {
+        return null;
+    }
+
+    /*
+        TODO: probably move this to to DominionHumanPlayer in the method setAsGui()
+        not sure which of these pieces needs to go where, or we would have done it already
+    */
+    /*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Removes the title and notification bars respectively
@@ -165,6 +191,5 @@ public class MainActivity extends AppCompatActivity {
             ((TextView) tabLayout.getChildAt(i).findViewById(R.id.playerName)).setText(names[i]);
         }
     }
-
-
+    */
 }

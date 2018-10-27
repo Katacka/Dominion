@@ -24,8 +24,6 @@ public class Cards {
         generateStack(); //Populates cardStack
     }
 
-    public String
-
     //Credit: https://stackoverflow.com/questions/4307273/how-can-i-create-and-display-an-arraylist-of-random-numbers-in-java
     private void generateStack(){
         //Gson gson = new Gson(); //ToDo: Finish GSON implementation
