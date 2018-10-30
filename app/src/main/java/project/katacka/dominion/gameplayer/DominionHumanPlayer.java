@@ -2,58 +2,58 @@ package project.katacka.dominion.gameplayer;
 
 import android.view.View;
 
+import project.katacka.dominion.gamedisplay.Cards;
 import project.katacka.dominion.gameframework.GameHumanPlayer;
 import project.katacka.dominion.gameframework.GameMainActivity;
 import project.katacka.dominion.gameframework.infoMsg.GameInfo;
 
-public class DominionHumanPlayer extends GameHumanPlayer {
-    /**
-     * constructor
-     *
-     * @param name
-     * 			the player's name (e.g., "John")
-     */
+public class DominionHumanPlayer extends GameHumanPlayer{
     public DominionHumanPlayer(String name) {
+        this(name, 5); //Default starting hand size is 5
+    }
+
+    public DominionHumanPlayer(String name, int numCards) {
         super(name);
     }
 
-    // sets this player as the GUI player (overrideable)
-    public void setAsGui(GameMainActivity activity){
+    //TODO: Reference all actions properly
+    public boolean playSimpleActionPhase() {
+        return true;
+    }
+
+    public boolean playAllTreasures() {
+        return true;
+    }
+
+    public boolean playSimpleBuyPhase() {
+        return true;
+    }
+
+    public boolean quitGame() {
+        return true;
+    }
+
+    public boolean endTurn() {
+        return true;
+    }
+
+
+    public String toString(){
+        String string = "CardView Name: " + super.name;
+        return string;
+    }
+
+    @Override
+    public void setAsGui(GameMainActivity activity) {
 
     }
 
-    // sends a message to the player
-    public void sendInfo(GameInfo info){
-
+    @Override
+    public void receiveInfo(GameInfo info) {
     }
 
-    // start the player
-    public void start(){
-
-    }
-
-    /**
-     * Returns the GUI's top object; used for flashing.
-     *
-     * @return the GUI's top object.
-     */
-    public View getTopView(){
+    @Override
+    public View getTopView() {
         return null;
     }
-
-    /**
-     * Callback-method implemented in the subclass whenever updated
-     * state is received.
-     *
-     * @param info
-     * 			the object representing the information from the game
-     */
-    public void receiveInfo(GameInfo info){
-
-    }
-
-
-
-
 }
-

@@ -3,6 +3,7 @@ package project.katacka.dominion.gameplayer;
 import project.katacka.dominion.gameframework.GameComputerPlayer;
 import project.katacka.dominion.gameframework.GameMainActivity;
 import project.katacka.dominion.gameframework.infoMsg.GameInfo;
+import project.katacka.dominion.gameframework.util.GameTimer;
 
 public class DominionComputerPlayer extends GameComputerPlayer {
 
@@ -34,7 +35,16 @@ public class DominionComputerPlayer extends GameComputerPlayer {
 
     }
 
+    //TODO: Reference all actions properly
+    public boolean updateDeckInfo() {
+        return true;
+    }
 
+    public boolean playAllTreasures() {
+        return true;
+    }
 
-
+    public boolean endTurn() {
+        return true;
+    }
 }

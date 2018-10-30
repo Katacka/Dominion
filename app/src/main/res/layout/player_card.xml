@@ -10,7 +10,7 @@
     app:layout_constraintHeight_default="percent"
     app:layout_constraintHeight_percent="1">
 
-    <!-- Card Title -->
+    <!-- CardView Title -->
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="0dp"
@@ -28,7 +28,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <!-- Card Text -->
+    <!-- CardView Text -->
     <TextView
         android:id="@+id/textViewText"
         android:layout_width="0dp"
@@ -42,7 +42,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewArt" />
 
-    <!-- Card Art -->
+    <!-- CardView Art -->
     <ImageView
         android:id="@+id/imageViewArt"
         android:layout_width="0dp"
@@ -58,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
         app:srcCompat="@drawable/dominion_advisor" />
 
-    <!-- Card Cost/Type/Quantity Layout -->
+    <!-- CardView Cost/Type/Quantity Layout -->
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintChild"
         android:layout_width="0dp"

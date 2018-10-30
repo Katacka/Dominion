@@ -27,7 +27,7 @@ public class PlayerState {
     }
 
     public String toString(){
-        String string = "Card Name: " + mName;
+        String string = "CardView Name: " + mName;
         return string;
     }
 
