@@ -2,6 +2,9 @@ package project.katacka.dominion.gamedisplay;
 
 import android.util.Log;
 import java.util.ArrayList;
+
+import project.katacka.dominion.gameplayer.DominionHumanPlayer;
+
 import static android.content.ContentValues.TAG;
 
 public class GameState {

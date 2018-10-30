@@ -20,7 +20,7 @@ public class DominionCardState {
     private final String photoID;
     private final String text;
     private final int cost;
-    private final DominionCardType type;
+    private final project.katacka.dominion.gamestate.DominionCardType type;
     private final Method action;
     private final int addedTreasure;
     private final int addedActions;
@@ -50,7 +50,7 @@ public class DominionCardState {
         this.photoID = photoStringID;
         this.text = text;
         this.cost = cost;
-        this.type = DominionCardType.getTypeFromString(type);
+        this.type = project.katacka.dominion.gamestate.DominionCardType.getTypeFromString(type);
         if (this.type == null){
             Log.e(TAG, "Illegal type for card " + this.title);
             throw new IllegalArgumentException("CardView type does not exist.");
@@ -115,7 +115,7 @@ public class DominionCardState {
      * their action instance variable. Handles common Method errors.
      * @return A boolean regarding the success of the action invocation
      */
-    public boolean cardAction(DominionGameState game) {
+    public boolean cardAction(project.katacka.dominion.gamestate.DominionGameState game) {
         try {
             Boolean result = (Boolean) action.invoke(this, game); //return automatically boxed to Boolean
             return result; //Note: automatically unboxed
@@ -175,7 +175,7 @@ public class DominionCardState {
         return cost;
     }
 
-    public DominionCardType getType() {
+    public project.katacka.dominion.gamestate.DominionCardType getType() {
         return type;
     }
 
@@ -196,7 +196,7 @@ public class DominionCardState {
         return victoryPoints;
     }
 
-    private boolean moatAction(DominionGameState game) {
+    private boolean moatAction(project.katacka.dominion.gamestate.DominionGameState game) {
         //Will have other behavior upon adding ATTACK cards
         return basicAction(game);
     }
