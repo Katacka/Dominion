@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import project.katacka.dominion.R;
 
 public class Cards {
-    protected ArrayList<CardView> cardStack;
+    protected ArrayList<project.katacka.dominion.gamedisplay.CardView> cardStack;
     protected int totalCards;
     protected final static int uniqueCards = 10;
 
@@ -41,7 +41,7 @@ public class Cards {
     private void initializeRandomCards(int randomCard) {
         switch(randomCard) {
             case(0): //Festival
-                cardStack.add(new CardView("Festival", R.drawable.dominion_festival, "+2 Actions\n+1 Buy\n+2 Gold", 5, "ACTION", 10));
+                cardStack.add(new project.katacka.dominion.gamedisplay.CardView("Festival", R.drawable.dominion_festival, "+2 Actions\n+1 Buy\n+2 Gold", 5, "ACTION", 10));
                 break;
             case(1): //Merchant
                 cardStack.add(new CardView("Merchant", R.drawable.dominion_merchant, "+1 CardView\n+1 Action\nThe first time you play a Silver this turn, +1 Gold", 3, "ACTION", 10));

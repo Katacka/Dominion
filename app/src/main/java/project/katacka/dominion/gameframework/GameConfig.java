@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class GameConfig {
 
 	/** a list of all valid player types that the user chooses */
-	private GamePlayerType[] availTypes;
+	private project.katacka.dominion.gameframework.GamePlayerType[] availTypes;
 
 	/** a list of the names of each player */
 	private ArrayList<String> selNames = new ArrayList<String>();
@@ -41,12 +41,12 @@ public class GameConfig {
 	 * automatically via the {@link #addPlayer} and {@link #removePlayer}
 	 * methods.
 	 */
-	private ArrayList<GamePlayerType> selTypes = new ArrayList<GamePlayerType>();
+	private ArrayList<project.katacka.dominion.gameframework.GamePlayerType> selTypes = new ArrayList<project.katacka.dominion.gameframework.GamePlayerType>();
 	
 	/**
 	 * The player type selected in the remote player tab.
 	 */
-	private GamePlayerType remoteSelType;
+	private project.katacka.dominion.gameframework.GamePlayerType remoteSelType;
 
 	/**
 	 * if set to true, indicates the game will be run on the local computer
@@ -121,25 +121,26 @@ public class GameConfig {
 	 * 		the maximum number of players allowed in this game
 	 * @param gameName
 	 * 		the name of the game
+	 *
 	 * @param portNum
 	 * 		the port number used by this game for connecting over the network
 	 */
-	public GameConfig(ArrayList<GamePlayerType> availTypes, int minPlayers,
-                      int maxPlayers, String gameName, int portNum) {
+	public GameConfig(ArrayList<project.katacka.dominion.gameframework.GamePlayerType> availTypes, int minPlayers,
+					  int maxPlayers, String gameName, int portNum) {
 		
 		// create an array to hold the available player types, including
 		// the "Network Player" that will be added
 		int arrayLength = availTypes.size()+1;
-		GamePlayerType[] availArray = new GamePlayerType[arrayLength];
+		project.katacka.dominion.gameframework.GamePlayerType[] availArray = new project.katacka.dominion.gameframework.GamePlayerType[arrayLength];
 		
 		// add the player types passed in to the constructor
 		availTypes.toArray(availArray);
 		
 		// add the network player
-		availArray[arrayLength-1] = new GamePlayerType("Network Player") {
-			public GamePlayer createPlayer(String name) {
+		availArray[arrayLength-1] = new project.katacka.dominion.gameframework.GamePlayerType("Network Player") {
+			public project.katacka.dominion.gameframework.GamePlayer createPlayer(String name) {
 				int portNum = getPortNum();
-				return new ProxyPlayer(portNum);
+				return new project.katacka.dominion.gameframework.ProxyPlayer(portNum);
 			}
 		};
 		
@@ -239,7 +240,7 @@ public class GameConfig {
 	 * @return
 	 * 		a boolean that denotes whether the operation was successful
 	 */
-	public boolean saveConfig(String fileName, GameMainActivity activity) {
+	public boolean saveConfig(String fileName, project.katacka.dominion.gameframework.GameMainActivity activity) {
 		
 		// if the player-name and player-type arrays are of different sizes, something
 		// is terribly wrong: give up

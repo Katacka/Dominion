@@ -15,9 +15,9 @@ import java.util.stream.Stream;
  */
 public class DominionDeckState {
 
-    private final ArrayList<DominionCardState> draw;
-    private final ArrayList<DominionCardState> discard;
-    private final ArrayList<DominionCardState> hand;
+    private final ArrayList<project.katacka.dominion.gamestate.DominionCardState> draw;
+    private final ArrayList<project.katacka.dominion.gamestate.DominionCardState> discard;
+    private final ArrayList<project.katacka.dominion.gamestate.DominionCardState> hand;
 
     public DominionDeckState(int startSize){
         draw = new ArrayList<>(startSize);
@@ -39,20 +39,20 @@ public class DominionDeckState {
             */
 
         } else {
-            this.draw = new ArrayList<DominionCardState>();
-            this.discard = new ArrayList<DominionCardState>();
-            this.hand = new ArrayList<DominionCardState>();
+            this.draw = new ArrayList<project.katacka.dominion.gamestate.DominionCardState>();
+            this.discard = new ArrayList<project.katacka.dominion.gamestate.DominionCardState>();
+            this.hand = new ArrayList<project.katacka.dominion.gamestate.DominionCardState>();
 
-            for(DominionCardState blankCard: deckState.draw){
-                this.draw.add(new DominionCardState());
+            for(project.katacka.dominion.gamestate.DominionCardState blankCard: deckState.draw){
+                this.draw.add(new project.katacka.dominion.gamestate.DominionCardState());
             }
-            for(DominionCardState blankCard: deckState.discard){
+            for(project.katacka.dominion.gamestate.DominionCardState blankCard: deckState.discard){
                 this.discard.add(blankCard);
-                this.draw.add(new DominionCardState());
+                this.draw.add(new project.katacka.dominion.gamestate.DominionCardState());
             }
-            for(DominionCardState blankCard: deckState.hand){
+            for(project.katacka.dominion.gamestate.DominionCardState blankCard: deckState.hand){
                 this.hand.add(blankCard);
-                this.draw.add(new DominionCardState());
+                this.draw.add(new project.katacka.dominion.gamestate.DominionCardState());
             }
         }
     }
@@ -65,7 +65,7 @@ public class DominionDeckState {
      *
      * @return The revealed card, or null if deck is empty
      */
-    public DominionCardState reveal(){
+    public project.katacka.dominion.gamestate.DominionCardState reveal(){
         if (draw.isEmpty()){
             if (discard.isEmpty()) {
                 //Empty deck, cannot reveal card
@@ -75,7 +75,7 @@ public class DominionDeckState {
         }
 
         int index = draw.size() - 1;
-        DominionCardState card = draw.get(index);
+        project.katacka.dominion.gamestate.DominionCardState card = draw.get(index);
         return card;
     }
 
@@ -85,8 +85,8 @@ public class DominionDeckState {
      *
      * @return The drawn card, or null if deck is empty
      */
-    public DominionCardState draw(){
-        DominionCardState card = reveal();
+    public project.katacka.dominion.gamestate.DominionCardState draw(){
+        project.katacka.dominion.gamestate.DominionCardState card = reveal();
         if (card == null){
             return null;
         }
@@ -95,8 +95,8 @@ public class DominionDeckState {
         return card;
     }
 
-    public DominionCardState[] drawMultiple(int drawNum){
-        DominionCardState[] drawnCards = new DominionCardState[drawNum];
+    public project.katacka.dominion.gamestate.DominionCardState[] drawMultiple(int drawNum){
+        project.katacka.dominion.gamestate.DominionCardState[] drawnCards = new project.katacka.dominion.gamestate.DominionCardState[drawNum];
         for(int i = 0; i < drawNum; i++) drawnCards[i] = draw();
         return drawnCards;
     }
@@ -114,13 +114,13 @@ public class DominionDeckState {
      * This card will be removed from the hand, if it exists.
      * @param card The card to put in discard
      */
-    public void discard(DominionCardState card){
+    public void discard(project.katacka.dominion.gamestate.DominionCardState card){
         discard.add(card);
         hand.remove(card);
     }
 
     public boolean discard(String cardName){
-        for(DominionCardState card : hand){
+        for(project.katacka.dominion.gamestate.DominionCardState card : hand){
            if(card.getTitle().equals(cardName)) {
                discard.add(card);
                hand.remove(card);
@@ -135,7 +135,7 @@ public class DominionDeckState {
      *
      * @param card The new card
      */
-    public void discardNew(DominionCardState card){
+    public void discardNew(project.katacka.dominion.gamestate.DominionCardState card){
         discard.add(card);
     }
 
@@ -145,7 +145,7 @@ public class DominionDeckState {
      * @param card CardView to add
      * @param count Number of cards to add
      */
-    public void addManyToDiscard(DominionCardState card, int count){
+    public void addManyToDiscard(project.katacka.dominion.gamestate.DominionCardState card, int count){
         for (int i = 0; i < count; i++){
             discard.add(card);
         }
@@ -164,7 +164,7 @@ public class DominionDeckState {
      * Gets the card most recently added to the discard pile.
      * @return The last card, or null if discard is empty
      */
-    public DominionCardState getLastDiscard(){
+    public project.katacka.dominion.gamestate.DominionCardState getLastDiscard(){
         int size = discard.size();
         if (size == 0){
             return null;
@@ -213,7 +213,7 @@ public class DominionDeckState {
      * @param array The array to store card titles in. Must be at least as big as {@code cards}
      * @param cards The array of cards to read from.
      */
-    private void createCardArray(String[] array, ArrayList<DominionCardState> cards){
+    private void createCardArray(String[] array, ArrayList<project.katacka.dominion.gamestate.DominionCardState> cards){
         for (int i = 0; i < array.length; i++){
             array[i] = cards.get(i).getTitle();
         }
@@ -235,15 +235,15 @@ public class DominionDeckState {
                 TextUtils.join(", ", handStr));
     }
 
-    public ArrayList<DominionCardState> getDraw() {
+    public ArrayList<project.katacka.dominion.gamestate.DominionCardState> getDraw() {
         return draw;
     }
 
-    public ArrayList<DominionCardState> getDiscard() {
+    public ArrayList<project.katacka.dominion.gamestate.DominionCardState> getDiscard() {
         return discard;
     }
 
-    public ArrayList<DominionCardState> getHand() {
+    public ArrayList<project.katacka.dominion.gamestate.DominionCardState> getHand() {
         return hand;
     }
 }

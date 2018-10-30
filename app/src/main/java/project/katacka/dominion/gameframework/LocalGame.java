@@ -31,7 +31,7 @@ import project.katacka.dominion.gameframework.util.Tickable;
  * @author Andrew Nuxoll
  * @version July 2013
  */
-public abstract class LocalGame implements Game, Tickable {
+public abstract class LocalGame implements project.katacka.dominion.gameframework.Game, Tickable {
 	
 	// the stage that the game is in
 	private GameStage gameStage = GameStage.BEFORE_GAME;
@@ -40,7 +40,7 @@ public abstract class LocalGame implements Game, Tickable {
 	private Handler myHandler;
 		
 	// the players in the game, in order of  player number
-	protected GamePlayer[] players;
+	protected project.katacka.dominion.gameframework.GamePlayer[] players;
 	
 	// whether the game's thread is running
 	private boolean running = false;
@@ -75,12 +75,12 @@ public abstract class LocalGame implements Game, Tickable {
 	 * @param players
 	 * 			the list of players who are playing in the game
 	 */
-	public void start(GamePlayer[] players) {
+	public void start(project.katacka.dominion.gameframework.GamePlayer[] players) {
 		// if the game has already started, don't restart
 		if (this.players != null) return;
 		
 		// create/store a copy of the player array
-		this.players = (GamePlayer[])players.clone();
+		this.players = (project.katacka.dominion.gameframework.GamePlayer[])players.clone();
 		
 		// create an array for the players' names; these names will be
 		// filled during the initial message-protocol between the game
@@ -127,14 +127,14 @@ public abstract class LocalGame implements Game, Tickable {
 	 * @param p
 	 * 			the player to notify
 	 */
-	protected abstract void sendUpdatedStateTo(GamePlayer p);
+	protected abstract void sendUpdatedStateTo(project.katacka.dominion.gameframework.GamePlayer p);
 	
 	/**
 	 * Notify all players that the game's state has changed. Typically this simply
 	 * calls the 'notifyStateChanged' method for each player.
 	 */
 	protected final void sendAllUpdatedState() {
-		for (GamePlayer p : players) {
+		for (project.katacka.dominion.gameframework.GamePlayer p : players) {
 			sendUpdatedStateTo(p);
 		}
 	}
@@ -146,7 +146,7 @@ public abstract class LocalGame implements Game, Tickable {
 	 * @return
 	 * 			the player's ID, or -1 if the player is not a player in this game
 	 */
-	protected final int getPlayerIdx(GamePlayer p) {
+	protected final int getPlayerIdx(project.katacka.dominion.gameframework.GamePlayer p) {
 		for (int i = 0; i < players.length; i++) {
 			if (p == players[i]) {
 				return i;
@@ -190,7 +190,7 @@ public abstract class LocalGame implements Game, Tickable {
 					Log.i("LocalGame", "broadcasting player names");
 					gameStage = GameStage.WAITING_FOR_READY;
 					playersReady = new boolean[players.length]; // array to keep track of players responding
-					for (GamePlayer p : players) {
+					for (project.katacka.dominion.gameframework.GamePlayer p : players) {
 						p.sendInfo(
 								new StartGameInfo((String[])playerNames.clone()));
 					}
@@ -261,7 +261,7 @@ public abstract class LocalGame implements Game, Tickable {
 	private final void checkAndHandleAction(GameAction action) {
 		
 		// get the player and player ID
-		GamePlayer player = action.getPlayer();
+		project.katacka.dominion.gameframework.GamePlayer player = action.getPlayer();
 		int playerId = getPlayerIdx(player);
 		
 		// if the player is NOT a player who is presently allowed to
@@ -327,7 +327,7 @@ public abstract class LocalGame implements Game, Tickable {
 		playerFinishedCount = 0;
 		
 		// send all players a "game over" message
-		for (GamePlayer p : players) {
+		for (project.katacka.dominion.gameframework.GamePlayer p : players) {
 			p.sendInfo(new GameOverInfo(msg));
 		}
 	}

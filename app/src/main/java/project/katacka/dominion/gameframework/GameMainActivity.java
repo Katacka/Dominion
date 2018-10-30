@@ -50,13 +50,13 @@ public abstract class GameMainActivity extends Activity implements View.OnClickL
 	// A reference to the object representing the game itself. This is the
 	// object that knows the rules of the game. This variable is initialized in
 	// launchGame.
-	private Game game = null;
+	private project.katacka.dominion.gameframework.Game game = null;
 
 	// an array containing references to all the players that are playing the game
-	private GamePlayer[] players = null;
+	private project.katacka.dominion.gameframework.GamePlayer[] players = null;
 
 	// tells which player, if any, is running in the GUI
-	private GamePlayer guiPlayer = null;
+	private project.katacka.dominion.gameframework.GamePlayer guiPlayer = null;
 
 	// whether the game is over
 	private boolean gameIsOver = false;
@@ -72,7 +72,7 @@ public abstract class GameMainActivity extends Activity implements View.OnClickL
 	/**
 	 * contains the game configuration this activity will be used to initialize
 	 */
-	GameConfig config = null;
+	project.katacka.dominion.gameframework.GameConfig config = null;
 
 	// Each of these is initialized to point to various GUI controls
 	TableLayout playerTable = null;
@@ -95,7 +95,7 @@ public abstract class GameMainActivity extends Activity implements View.OnClickL
 	 *         configuration for this game. (The default may be subsequently
 	 *         modified by the user if this is allowed.)
 	 */
-	public abstract GameConfig createDefaultConfig();
+	public abstract project.katacka.dominion.gameframework.GameConfig createDefaultConfig();
 
 	/**
 	 * createLocalGame
@@ -108,7 +108,7 @@ public abstract class GameMainActivity extends Activity implements View.OnClickL
 	 * @return a new, game-specific instance of a sub-class of the LocalGame
 	 *         class.
 	 */
-	public abstract LocalGame createLocalGame();
+	public abstract project.katacka.dominion.gameframework.LocalGame createLocalGame();
 
 	/**
 	 * Creates a "proxy" game that acts as an intermediary between a local
@@ -119,9 +119,9 @@ public abstract class GameMainActivity extends Activity implements View.OnClickL
 	 *            "upibmg.egr.up.edu")
 	 * @return the ProxyGame object that was created
 	 */
-	private ProxyGame createRemoteGame(String hostName) {
+	private project.katacka.dominion.gameframework.ProxyGame createRemoteGame(String hostName) {
 		int portNum = getPortNumber();
-		return ProxyGame.create(portNum, hostName);
+		return project.katacka.dominion.gameframework.ProxyGame.create(portNum, hostName);
 	}
 
 	/*
@@ -273,13 +273,13 @@ public abstract class GameMainActivity extends Activity implements View.OnClickL
 		//////////////////////////////////////
 		int requiresGuiCount = 0; // the number of players that require a GUI
 		guiPlayer = null; // the player that will be our GUI player
-		players = new GamePlayer[config.getNumPlayers()]; // the array to contains our players
+		players = new project.katacka.dominion.gameframework.GamePlayer[config.getNumPlayers()]; // the array to contains our players
 
 		// loop through each player
 		for (int i = 0; i < players.length; i++) {
 			String name = config.getSelName(i); // the player's name
-			GamePlayerType gpt = config.getSelType(i); // the player's type
-			GamePlayerType[] availTypes = config.getAvailTypes(); // the available player types
+			project.katacka.dominion.gameframework.GamePlayerType gpt = config.getSelType(i); // the player's type
+			project.katacka.dominion.gameframework.GamePlayerType[] availTypes = config.getAvailTypes(); // the available player types
 			players[i] = gpt.createPlayer(name); // create the player
 
 			// check that the player name is legal
@@ -379,8 +379,8 @@ public abstract class GameMainActivity extends Activity implements View.OnClickL
 			playerName.setText(config.getSelName(i));
 
 			// Set the initial selection for the spinner
-			GamePlayerType[] selTypes = config.getSelTypes(); // the player types in the config
-			GamePlayerType[] availTypes = config.getAvailTypes(); // the available player types
+			project.katacka.dominion.gameframework.GamePlayerType[] selTypes = config.getSelTypes(); // the player types in the config
+			project.katacka.dominion.gameframework.GamePlayerType[] availTypes = config.getAvailTypes(); // the available player types
 			Spinner typeSpinner = (Spinner) row
 					.findViewById(R.id.playerTypeSpinner); // the spinner for the current player
 			// search through to find the one whose label matches; set it as the selection
@@ -408,8 +408,8 @@ public abstract class GameMainActivity extends Activity implements View.OnClickL
 		remoteNameEditText.setText(config.getRemoteName());
 
 		// index of remote player type
-		GamePlayerType remotePlayerType = config.getRemoteSelType();
-		GamePlayerType[] availTypes = config.getAvailTypes();
+		project.katacka.dominion.gameframework.GamePlayerType remotePlayerType = config.getRemoteSelType();
+		project.katacka.dominion.gameframework.GamePlayerType[] availTypes = config.getAvailTypes();
 		Spinner remoteTypeSpinner = (Spinner)findViewById(R.id.remote_player_spinner);
 		for (int j = 0; j < availTypes.length; ++j) {
 			if (remotePlayerType.getTypeName().equals(availTypes[j].getTypeName())) {
@@ -527,7 +527,7 @@ public abstract class GameMainActivity extends Activity implements View.OnClickL
 	}// onClick
 
 	private String startGame() {
-		GameConfig finalConfig = scrapeData();
+		project.katacka.dominion.gameframework.GameConfig finalConfig = scrapeData();
 		return launchGame(finalConfig);
 	}
 
@@ -576,7 +576,7 @@ public abstract class GameMainActivity extends Activity implements View.OnClickL
 
 		// Initialize the values in the Spinner control
 		//		GamePlayerType[] selTypes = config.getSelTypes();
-		GamePlayerType[] availTypes = config.getAvailTypes();
+		project.katacka.dominion.gameframework.GamePlayerType[] availTypes = config.getAvailTypes();
 		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
 				this, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

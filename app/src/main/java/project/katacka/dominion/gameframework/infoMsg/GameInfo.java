@@ -6,7 +6,7 @@ import project.katacka.dominion.gameframework.Game;
 
 /**
  * An informational message that is sent from the game to a player.  The
- * most common information will probably be the state of the game (GameState),
+ * most common information will probably be the state of the game (displayState),
  * but there are also other informational items send to a player (e.g.,
  * telling what his player number is, that his last move was illegal).
  * <P>

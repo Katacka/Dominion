@@ -31,16 +31,16 @@ import project.katacka.dominion.gameframework.util.Tickable;
  * @version July 2013
  * 
  */
-public abstract class GameHumanPlayer implements GamePlayer, Tickable {
+public abstract class GameHumanPlayer implements project.katacka.dominion.gameframework.GamePlayer, Tickable {
 	/**
 	 * instance variables
 	 */
-	protected Game game; // the game
+	protected project.katacka.dominion.gameframework.Game game; // the game
 	protected int playerNum; // my player ID
 	protected String name; // my player's name
 	protected String[] allPlayerNames; // the names of all the player
 	private Handler myHandler; // my thread's handler
-	private GameMainActivity myActivity; // the current activity
+	private project.katacka.dominion.gameframework.GameMainActivity myActivity; // the current activity
 	private GameTimer myTimer = new GameTimer(this); // my player's timer
 	private boolean gameOver; // whether the game is over
 
@@ -107,7 +107,7 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 	 * Sets this player as the one attached to the GUI. Saves the
 	 * activity, then invokes subclass-specific method.
 	 */
-	public final void gameSetAsGui(GameMainActivity a) {
+	public final void gameSetAsGui(project.katacka.dominion.gameframework.GameMainActivity a) {
 
 			myActivity = a;
 			setAsGui(a);

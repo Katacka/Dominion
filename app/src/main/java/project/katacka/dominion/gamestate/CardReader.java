@@ -31,8 +31,8 @@ public class CardReader{
 
     public CardReader(String expansionSet) {
         gsonBuilder = new GsonBuilder();
-        arrayType = new TypeToken<ArrayList<DominionShopPileState>>(){}.getType();
-        gsonBuilder.registerTypeAdapter(arrayType, new GsonDeserializer(expansionSet));
+        arrayType = new TypeToken<ArrayList<project.katacka.dominion.gamestate.DominionShopPileState>>(){}.getType();
+        gsonBuilder.registerTypeAdapter(arrayType, new project.katacka.dominion.gamestate.GsonDeserializer(expansionSet));
         gsonParser = gsonBuilder.create();
     }
 
@@ -43,7 +43,7 @@ public class CardReader{
      * @param resourceID Application-specific resource file reference
      * @return A DominionShopPileState ArrayList as populated by GsonDeserializer
      */
-    public ArrayList<DominionShopPileState> generateCards(Context context, @RawRes int resourceID){
+    public ArrayList<project.katacka.dominion.gamestate.DominionShopPileState> generateCards(Context context, @RawRes int resourceID){
         return generateCards(context, -1, resourceID);
     }
 
@@ -55,9 +55,9 @@ public class CardReader{
      * @param resourceID Application-specific resource file reference
      * @return A DominionShopPileState ArrayList as populated by GsonDeserializer
      */
-    public ArrayList<DominionShopPileState> generateCards(Context context, int uniqueCardPiles, @RawRes int resourceID) {
+    public ArrayList<project.katacka.dominion.gamestate.DominionShopPileState> generateCards(Context context, int uniqueCardPiles, @RawRes int resourceID) {
         try (InputStream ins = context.getResources().openRawResource(resourceID)) {
-            ArrayList<DominionShopPileState> cardPiles = gsonParser.fromJson(new InputStreamReader(ins, "UTF-8"), arrayType);
+            ArrayList<project.katacka.dominion.gamestate.DominionShopPileState> cardPiles = gsonParser.fromJson(new InputStreamReader(ins, "UTF-8"), arrayType);
             return (uniqueCardPiles > 0) ? selectCards(cardPiles, uniqueCardPiles) : cardPiles;
         }
         catch (IOException e) {
@@ -74,10 +74,10 @@ public class CardReader{
      *         (considering that uniqueCardPiles could be greater than the number of unique cards
      *         stored in JSON)
      */
-    private ArrayList<DominionShopPileState> selectCards(ArrayList<DominionShopPileState> cardPiles, int uniqueCardPiles) {
+    private ArrayList<project.katacka.dominion.gamestate.DominionShopPileState> selectCards(ArrayList<project.katacka.dominion.gamestate.DominionShopPileState> cardPiles, int uniqueCardPiles) {
         if (cardPiles.size() > uniqueCardPiles) {
             Collections.shuffle(cardPiles);
-            return (ArrayList<DominionShopPileState>) cardPiles.subList(0, uniqueCardPiles);
+            return (ArrayList<project.katacka.dominion.gamestate.DominionShopPileState>) cardPiles.subList(0, uniqueCardPiles);
         }
         return cardPiles;
     }

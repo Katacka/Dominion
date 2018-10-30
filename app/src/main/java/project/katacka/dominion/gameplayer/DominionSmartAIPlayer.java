@@ -7,30 +7,13 @@ import project.katacka.dominion.gameframework.GameComputerPlayer;
 import project.katacka.dominion.gameframework.GameMainActivity;
 import project.katacka.dominion.gameframework.infoMsg.GameInfo;
 
-public class DominionSmartAIPlayer extends DominionComputerPlayer {
-    protected Cards mDeckPile;
-    protected Cards mDiscardPile;
-    protected Cards mHand;
-    protected int mActions;
-    protected int mBuys;
-    protected int mGold;
-    protected int mVP;
-
+public class DominionSmartAIPlayer extends project.katacka.dominion.gameplayer.DominionComputerPlayer {
     public DominionSmartAIPlayer(String name) {
         this(name, 5); //Default starting hand size is 5
     }
 
     public DominionSmartAIPlayer(String name, int numCards) {
         super(name);
-
-        this.mDeckPile = new Cards(numCards);
-        this.mDiscardPile = new Cards(0);
-        this.mHand = new Cards(0);
-
-        this.mActions = 0;
-        this.mBuys = 0;
-        this.mGold = 0;
-        this.mVP = 0;
     }
 
     public boolean playSmartTurn() {
@@ -41,19 +24,14 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
         return true;
     }
 
-    public boolean updateDeckInfo() {
-        return true;
-    }
-
     public boolean playSmartActionPhase() {
+        project.katacka.dominion.gamedisplay.DominionPlayCardAction a;
         return true;
     }
 
-    public boolean playAllTreasures() {
-        return true;
-    }
 
     public boolean playSmartBuyPhase() {
+        project.katacka.dominion.gamedisplay.DominionBuyCardAction a;
         return true;
     }
 
@@ -61,16 +39,6 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
     public String toString(){
         String string = "CardView Name: " + super.name;
         return string;
-    }
-
-    @Override
-    public void setAsGui(GameMainActivity activity) {
-
-    }
-
-    @Override
-    public void receiveInfo(GameInfo info) {
-
     }
 }
 

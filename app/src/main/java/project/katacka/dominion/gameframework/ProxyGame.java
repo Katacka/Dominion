@@ -21,10 +21,10 @@ import project.katacka.dominion.gameframework.util.NetworkObjectPasser;
  * @author Steven R. Vegdahl
  * @version July 2013
  */
-public class ProxyGame implements Game {
+public class ProxyGame implements project.katacka.dominion.gameframework.Game {
 
     // the player associated with this game
-    private GamePlayer player;
+    private project.katacka.dominion.gameframework.GamePlayer player;
     
 	// a queue of objects that are collected, which might have been sent over the
     // network before we are connected to a player
@@ -133,7 +133,7 @@ public class ProxyGame implements Game {
 	 * Starts the game. In this context, we know that the array will
 	 * contain exactly one player.
 	 */
-	public void start(GamePlayer[] players) {
+	public void start(project.katacka.dominion.gameframework.GamePlayer[] players) {
 		Log.i("ProxyGame", "start() called");
 		
 		// if player has already been bound, ignore

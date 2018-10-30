@@ -16,6 +16,7 @@ public class DominionLocalGame extends LocalGame {
      * 			the player to notify
      */
     protected void sendUpdatedStateTo(GamePlayer p){
+
         return;
     }
 
@@ -56,6 +57,10 @@ public class DominionLocalGame extends LocalGame {
      */
     protected boolean makeMove(GameAction action){
 
+        return true;
+    }
+
+    protected boolean getInfo(project.katacka.dominion.gamestate.DominionGameState gameState) {
         return true;
     }
 

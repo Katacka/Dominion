@@ -14,6 +14,7 @@ public class DominionComputerPlayer extends GameComputerPlayer {
      */
     public DominionComputerPlayer(String name) {
         super(name);
+        project.katacka.dominion.gamedisplay.Cards a;
     }
 
 
@@ -34,7 +35,22 @@ public class DominionComputerPlayer extends GameComputerPlayer {
 
     }
 
+    @Override
+    public void tick(GameTimer timer) {
 
+    }
 
+    public boolean updateDeckInfo() {
+        project.katacka.dominion.gamedisplay.DominionAIGetInfoAction a;
+        return true;
+    }
 
+    public boolean playAllTreasures() {
+        return true;
+    }
+
+    public boolean endTurn() {
+        project.katacka.dominion.gamedisplay.DominionEndTurnAction a;
+        return true;
+    }
 }

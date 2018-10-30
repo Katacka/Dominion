@@ -7,13 +7,13 @@ import project.katacka.dominion.gameplayer.DominionHumanPlayer;
 
 import static android.content.ContentValues.TAG;
 
-public class GameState {
+public class displayState {
     //TODO: may need to delete this class
 
     protected ArrayList<DominionHumanPlayer> mDominionPlayers; //Sorted by order of turn
     protected int mCurrentTurn; //-1 when game ended
 
-    protected GameState(int numPlayers) {
+    protected displayState(int numPlayers) {
         mDominionPlayers = new ArrayList<>(numPlayers);
         for (int i = 0; i < numPlayers; i++) {
             mDominionPlayers.add(new DominionHumanPlayer("Player"+i));
@@ -23,15 +23,15 @@ public class GameState {
     }
 
     @Override
-    protected GameState clone() {
-        GameState clone = null;
+    protected project.katacka.dominion.gamedisplay.displayState clone() {
+        project.katacka.dominion.gamedisplay.displayState clone = null;
 
         try{
-            clone = (GameState) super.clone();
+            clone = (project.katacka.dominion.gamedisplay.displayState) super.clone();
             clone.mDominionPlayers = new ArrayList<>(mDominionPlayers);
         }
         catch(CloneNotSupportedException cnse) {
-            Log.e(TAG, "Error while cloning GameState: ", cnse);
+            Log.e(TAG, "Error while cloning displayState: ", cnse);
         }
 
         return clone;

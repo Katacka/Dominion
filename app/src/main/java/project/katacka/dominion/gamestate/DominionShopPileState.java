@@ -9,10 +9,10 @@ import java.util.Locale;
  * @author Ryan Regier, Julian Donovan, Hayden Liao
  */
 public class DominionShopPileState {
-    private final DominionCardState card;
+    private final project.katacka.dominion.gamestate.DominionCardState card;
     private int amount;
 
-    public DominionShopPileState(DominionCardState card, int amount){
+    public DominionShopPileState(project.katacka.dominion.gamestate.DominionCardState card, int amount){
         this.card = card;
         this.amount = amount;
     }
@@ -22,7 +22,7 @@ public class DominionShopPileState {
         this.amount = shopPileState.amount;
     }
 
-    public DominionCardState getCard() {
+    public project.katacka.dominion.gamestate.DominionCardState getCard() {
         return card;
     }
 

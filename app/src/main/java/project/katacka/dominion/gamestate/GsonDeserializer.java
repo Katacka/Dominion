@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * DominionCardState objects
  * @author Julian Donovan
  */
-public class GsonDeserializer implements JsonDeserializer<ArrayList<DominionShopPileState>> {
+public class GsonDeserializer implements JsonDeserializer<ArrayList<project.katacka.dominion.gamestate.DominionShopPileState>> {
 
     String expansionSet;
 
@@ -32,7 +32,7 @@ public class GsonDeserializer implements JsonDeserializer<ArrayList<DominionShop
      * @throws JsonParseException
      */
     @Override
-    public ArrayList<DominionShopPileState> deserialize(JsonElement el, Type type, JsonDeserializationContext jsonContext)
+    public ArrayList<project.katacka.dominion.gamestate.DominionShopPileState> deserialize(JsonElement el, Type type, JsonDeserializationContext jsonContext)
         throws JsonParseException {
 
         //Interprets the JsonElement as a JSON array
@@ -40,12 +40,12 @@ public class GsonDeserializer implements JsonDeserializer<ArrayList<DominionShop
         JsonArray jsonCards = jsonCardsObj.getAsJsonArray(expansionSet);
 
         //Iterates over the JSON array, extracting card data to populate DominionCardState objects
-        ArrayList<DominionShopPileState> cardPiles = new ArrayList<>(10);
+        ArrayList<project.katacka.dominion.gamestate.DominionShopPileState> cardPiles = new ArrayList<>(10);
         jsonCards.forEach(cards -> {
             JsonObject card = cards.getAsJsonObject();
             cardPiles.add(
-                    new DominionShopPileState(
-                            new DominionCardState(
+                    new project.katacka.dominion.gamestate.DominionShopPileState(
+                            new project.katacka.dominion.gamestate.DominionCardState(
                                     card.getAsJsonObject().get("title").getAsString(),
                                     card.get("photoStringID").getAsString(),
                                     card.get("text").getAsString(),

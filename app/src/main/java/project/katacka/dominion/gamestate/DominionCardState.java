@@ -201,20 +201,20 @@ public class DominionCardState {
         return basicAction(game);
     }
 
-    private boolean merchantAction(DominionGameState game) {
+    private boolean merchantAction(project.katacka.dominion.gamestate.DominionGameState game) {
         game.dominionPlayers[game.currentTurn].silverBoon = true; //The first Silver played is worth one more
         return basicAction(game);
     }
 
 
-    private boolean councilRoomAction(DominionGameState game) {
+    private boolean councilRoomAction(project.katacka.dominion.gamestate.DominionGameState game) {
         for (int i = 0; i < game.dominionPlayers.length; i++) {
             if (i != game.currentTurn) game.dominionPlayers[i].getDeck().draw();
         }
         return basicAction(game);
     }
 
-    private boolean moneylenderAction(DominionGameState game) {
+    private boolean moneylenderAction(project.katacka.dominion.gamestate.DominionGameState game) {
         if(game.dominionPlayers[game.currentTurn].getDeck().discard("Copper")) {
             game.treasure += 3;
             return true;
@@ -222,7 +222,7 @@ public class DominionCardState {
         return false;
     }
 
-    private boolean silverAction(DominionGameState game) {
+    private boolean silverAction(project.katacka.dominion.gamestate.DominionGameState game) {
         if(game.dominionPlayers[game.currentTurn].silverBoon) {
             game.treasure += 1; //Handles merchant silver boon
             game.dominionPlayers[game.currentTurn].silverBoon = false;
@@ -263,8 +263,8 @@ public class DominionCardState {
      * </ul>
      * @return Action success
      */
-    private boolean basicAction(DominionGameState game) {
-        DominionPlayerState currentPlayer = game.dominionPlayers[game.currentTurn];
+    private boolean basicAction(project.katacka.dominion.gamestate.DominionGameState game) {
+        project.katacka.dominion.gamestate.DominionPlayerState currentPlayer = game.dominionPlayers[game.currentTurn];
         currentPlayer.getDeck().drawMultiple(this.addedDraw);
         game.actions += this.addedActions;
         game.buys += this.addedBuys;

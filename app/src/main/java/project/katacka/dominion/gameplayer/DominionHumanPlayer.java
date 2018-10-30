@@ -8,14 +8,6 @@ import project.katacka.dominion.gameframework.GameMainActivity;
 import project.katacka.dominion.gameframework.infoMsg.GameInfo;
 
 public class DominionHumanPlayer extends GameHumanPlayer{
-    protected Cards mDeckPile;
-    protected Cards mDiscardPile;
-    protected Cards mHand;
-    protected int mActions;
-    protected int mBuys;
-    protected int mGold;
-    protected int mVP;
-
     public DominionHumanPlayer(String name) {
         this(name, 5); //Default starting hand size is 5
     }
@@ -23,15 +15,38 @@ public class DominionHumanPlayer extends GameHumanPlayer{
     public DominionHumanPlayer(String name, int numCards) {
         super(name);
 
-        this.mDeckPile = new Cards(numCards);
-        this.mDiscardPile = new Cards(0);
-        this.mHand = new Cards(0);
-
-        this.mActions = 0;
-        this.mBuys = 0;
-        this.mGold = 0;
-        this.mVP = 0;
+        Cards a;
     }
+
+    public boolean actionPlayed() {
+        project.katacka.dominion.gamedisplay.DominionActionPlayed;
+        return true;
+    }
+
+    public boolean playSimpleActionPhase() {
+        project.katacka.dominion.gamedisplay.DominionPlayCardAction a;
+        return true;
+    }
+
+    public boolean playAllTreasures() {
+        return true;
+    }
+
+    public boolean playSimpleBuyPhase() {
+        project.katacka.dominion.gamedisplay.DominionBuyCardAction a;
+        return true;
+    }
+
+    public boolean quitGame() {
+        project.katacka.dominion.gamedisplay.DominionQuitGameAction a;
+        return true;
+    }
+
+    public boolean endTurn() {
+        project.katacka.dominion.gamedisplay.DominionEndTurnAction a;
+        return true;
+    }
+
 
     public String toString(){
         String string = "CardView Name: " + super.name;
@@ -39,7 +54,7 @@ public class DominionHumanPlayer extends GameHumanPlayer{
     }
 
     @Override
-    public void setAsGui(GameMainActivity activity) {
+    public void gameSetAsGui(GameMainActivity activity) {
 
     }
 

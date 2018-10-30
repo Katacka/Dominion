@@ -8,15 +8,15 @@ public class DominionPlayerState {
 
     //Player fields. Note that victoryPoints is not accurate until end of game (gardens)
     protected final String name;
-    protected final DominionDeckState deck;
+    protected final project.katacka.dominion.gamestate.DominionDeckState deck;
     protected int victoryPoints;
     protected boolean silverBoon; //Set to false each turn
 
-    protected DominionPlayerState(String name, DominionShopPileState copper, DominionCardState estate) {
+    protected DominionPlayerState(String name, project.katacka.dominion.gamestate.DominionShopPileState copper, project.katacka.dominion.gamestate.DominionCardState estate) {
         this.name = name;
 
         //Initializes player deck
-        this.deck = new DominionDeckState(10);
+        this.deck = new project.katacka.dominion.gamestate.DominionDeckState(10);
         populateStartingDeck(copper, estate);
 
         this.victoryPoints = 3;
@@ -26,7 +26,7 @@ public class DominionPlayerState {
     protected DominionPlayerState(DominionPlayerState playerState, boolean isThisPlayer){
         this.name = playerState.name;
         if(isThisPlayer) this.victoryPoints = playerState.victoryPoints;
-        this.deck = new DominionDeckState(playerState.deck, isThisPlayer);
+        this.deck = new project.katacka.dominion.gamestate.DominionDeckState(playerState.deck, isThisPlayer);
     }
 
     /**

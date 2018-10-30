@@ -56,6 +56,6 @@ public abstract class GamePlayerType implements Cloneable /*, Serializable*/ {
 	}
 	
 //	public abstract GamePlayer createPlayer(Game game, int playerNum);
-	public abstract GamePlayer createPlayer(String name);
+	public abstract project.katacka.dominion.gameframework.GamePlayer createPlayer(String name);
 
 }// class GamePlayerType

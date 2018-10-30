@@ -17,10 +17,10 @@ import project.katacka.dominion.gameframework.util.NetworkObjectPasser;
  * @author Steven R. Vegdahl
  * @version July 2013
  */
-public class ProxyPlayer implements GamePlayer {
+public class ProxyPlayer implements project.katacka.dominion.gameframework.GamePlayer {
     
     // the game object
-    private Game game;
+    private project.katacka.dominion.gameframework.Game game;
     
     // the object that connects us to the network
     private NetworkObjectPasser networkPasser;
@@ -111,14 +111,14 @@ public class ProxyPlayer implements GamePlayer {
      * Set this game as a GUI. (Should never be called because the
      * 'supportsGui' method returns false.)
      */
-    public final void gameSetAsGui(GameMainActivity a) {
+    public final void gameSetAsGui(project.katacka.dominion.gameframework.GameMainActivity a) {
     }
     
     /**
      * Set this game as a GUI. (Should never be called because the
      * 'supportsGui' method returns false.)
      */
-    public void setAsGui(GameMainActivity a) {
+    public void setAsGui(project.katacka.dominion.gameframework.GameMainActivity a) {
     }
     
     /**

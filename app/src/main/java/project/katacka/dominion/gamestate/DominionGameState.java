@@ -22,13 +22,13 @@ public class DominionGameState extends GameState{
      *  4: Gold
      *  5: Province
      */
-    protected final ArrayList<DominionShopPileState> baseCards;
-    protected final ArrayList<DominionShopPileState> shopCards;
+    protected final ArrayList<project.katacka.dominion.gamestate.DominionShopPileState> baseCards;
+    protected final ArrayList<project.katacka.dominion.gamestate.DominionShopPileState> shopCards;
 
     private final int PILE_COPPER;
     private final int PILE_ESTATE;
 
-    protected DominionPlayerState dominionPlayers[]; //Sorted by order of turn
+    protected project.katacka.dominion.gamestate.DominionPlayerState dominionPlayers[]; //Sorted by order of turn
     protected int currentTurn;
     protected int attackTurn; //player id of responder
     protected boolean isAttackTurn;
@@ -40,8 +40,8 @@ public class DominionGameState extends GameState{
     protected int buys;
     protected int treasure;
 
-    //TODO: All other missing GameState functions (see below)
-    //TODO: Ensure all changes as described in the previous GameState submission's comments have been made
+    //TODO: All other missing displayState functions (see below)
+    //TODO: Ensure all changes as described in the previous displayState submission's comments have been made
 
     //RULE: With 2 players, 8 of each victory card should exist
     //      With 3-4 players, default to 12 copies of each victory card
@@ -49,8 +49,8 @@ public class DominionGameState extends GameState{
 
     private int emptyPiles;
 
-    public DominionGameState(int paramNumPlayers, ArrayList<DominionShopPileState> baseCardArray,
-                              ArrayList<DominionShopPileState> shopCardArray) {
+    public DominionGameState(int paramNumPlayers, ArrayList<project.katacka.dominion.gamestate.DominionShopPileState> baseCardArray,
+                              ArrayList<project.katacka.dominion.gamestate.DominionShopPileState> shopCardArray) {
         PILE_COPPER = 0;
         PILE_ESTATE = 1;
 
@@ -58,15 +58,15 @@ public class DominionGameState extends GameState{
         numPlayers = paramNumPlayers;
         if (numPlayers == 2) {
             //Base cards
-            for (DominionShopPileState pile : baseCardArray) {
-                if (pile.getCard().getType() == DominionCardType.VICTORY) {
+            for (project.katacka.dominion.gamestate.DominionShopPileState pile : baseCardArray) {
+                if (pile.getCard().getType() == project.katacka.dominion.gamestate.DominionCardType.VICTORY) {
                     pile.setAmount(VICTORY_CARDS_2_PLAYER);
                 }
             }
 
             //Shop cards (needed for Gardens)
-            for (DominionShopPileState pile : shopCardArray) {
-                if (pile.getCard().getType() == DominionCardType.VICTORY) {
+            for (project.katacka.dominion.gamestate.DominionShopPileState pile : shopCardArray) {
+                if (pile.getCard().getType() == project.katacka.dominion.gamestate.DominionCardType.VICTORY) {
                     pile.setAmount(VICTORY_CARDS_2_PLAYER);
                 }
             }
@@ -76,9 +76,9 @@ public class DominionGameState extends GameState{
         this.shopCards = shopCardArray;
 
         //Create the players
-        this.dominionPlayers = new DominionPlayerState[numPlayers];
+        this.dominionPlayers = new project.katacka.dominion.gamestate.DominionPlayerState[numPlayers];
         for (int i = 0; i < numPlayers; i++) {
-            this.dominionPlayers[i] = new DominionPlayerState("Player " + i,
+            this.dominionPlayers[i] = new project.katacka.dominion.gamestate.DominionPlayerState("Player " + i,
                     baseCards.get(PILE_COPPER), //The copper pile
                     baseCards.get(PILE_ESTATE).getCard()); //The estate card
         }
@@ -98,28 +98,28 @@ public class DominionGameState extends GameState{
     }
 
     //obfuscated copy
-    public DominionGameState(DominionGameState gameState, DominionPlayerState playerState){
+    public DominionGameState(DominionGameState gameState, project.katacka.dominion.gamestate.DominionPlayerState playerState){
         PILE_COPPER = 0;
         PILE_ESTATE = 1;
 
-        this.baseCards= new ArrayList<DominionShopPileState>();
-        this.shopCards= new ArrayList<DominionShopPileState>();
+        this.baseCards= new ArrayList<project.katacka.dominion.gamestate.DominionShopPileState>();
+        this.shopCards= new ArrayList<project.katacka.dominion.gamestate.DominionShopPileState>();
 
-        for(DominionShopPileState basePileState: gameState.baseCards){
-            this.baseCards.add(new DominionShopPileState(basePileState));
+        for(project.katacka.dominion.gamestate.DominionShopPileState basePileState: gameState.baseCards){
+            this.baseCards.add(new project.katacka.dominion.gamestate.DominionShopPileState(basePileState));
         }
 
-        for(DominionShopPileState shopPileState: gameState.shopCards){
-            this.baseCards.add(new DominionShopPileState(shopPileState));
+        for(project.katacka.dominion.gamestate.DominionShopPileState shopPileState: gameState.shopCards){
+            this.baseCards.add(new project.katacka.dominion.gamestate.DominionShopPileState(shopPileState));
         }
 
         this.numPlayers = gameState.numPlayers;
-        this.dominionPlayers = new DominionPlayerState[this.numPlayers];
+        this.dominionPlayers = new project.katacka.dominion.gamestate.DominionPlayerState[this.numPlayers];
 
         //copy each player including the deckState
         for (int i = 0; i < this.numPlayers; i++) {
             //if(i == playerState)
-            this.dominionPlayers[i] = new DominionPlayerState(gameState.dominionPlayers[i],
+            this.dominionPlayers[i] = new project.katacka.dominion.gamestate.DominionPlayerState(gameState.dominionPlayers[i],
                     gameState.currentTurn == i);
         }
         this.currentTurn = gameState.currentTurn;
@@ -134,7 +134,7 @@ public class DominionGameState extends GameState{
 
     /**
      * Yields information to the player as necessary, obscuring game state data not relevant to that particular player
-     * @param state Relevant GameState from which data will be gathered
+     * @param state Relevant displayState from which data will be gathered
      * @param playerID PlayerID in question, for which data will be found
      */
     protected void hideInformation(DominionGameState state, int playerID){
@@ -272,9 +272,9 @@ public class DominionGameState extends GameState{
      *
      * @return A boolean describing whether the selected card may legally be played
      */
-    public boolean playCard(int playerID, DominionCardState card){
+    public boolean playCard(int playerID, project.katacka.dominion.gamestate.DominionCardState card){
         if(isLegalPlay(playerID, card, card.getType().equals("ACTION"))) {
-            DominionDeckState deck = this.dominionPlayers[playerID].getDeck();
+            project.katacka.dominion.gamestate.DominionDeckState deck = this.dominionPlayers[playerID].getDeck();
             card.cardAction(this);
             deck.discard(card);
             return true;
@@ -288,7 +288,7 @@ public class DominionGameState extends GameState{
      *
      * @return A boolean describing whether the selected card may legally be played
      */
-    public boolean isLegalPlay(int playerID, DominionCardState card, boolean isAction) {
+    public boolean isLegalPlay(int playerID, project.katacka.dominion.gamestate.DominionCardState card, boolean isAction) {
         if(this.currentTurn == playerID && this.dominionPlayers[playerID].getDeck().getHand().contains(card)) {
             if(isAction && this.actions <= 0) return false; //An available actions is required to play an action card
             return true;
@@ -302,7 +302,7 @@ public class DominionGameState extends GameState{
      *
      * @return A boolean describing whether the selected card may legally be bought
      */
-    public boolean isLegalBuy(int playerID, DominionCardState card) {
+    public boolean isLegalBuy(int playerID, project.katacka.dominion.gamestate.DominionCardState card) {
         if(this.currentTurn == playerID && isShopCard(card) && this.buys > 0) return true;
         return false;
     }
@@ -313,8 +313,8 @@ public class DominionGameState extends GameState{
      *
      * @return A boolean describing whether the selected card exists in shopCards
      */
-    private boolean isShopCard(DominionCardState card) {
-        for(DominionShopPileState shopPile : shopCards) {
+    private boolean isShopCard(project.katacka.dominion.gamestate.DominionCardState card) {
+        for(project.katacka.dominion.gamestate.DominionShopPileState shopPile : shopCards) {
             if(card == shopPile.getCard() && shopPile.getAmount() > 0) return true;
         }
         return false;
