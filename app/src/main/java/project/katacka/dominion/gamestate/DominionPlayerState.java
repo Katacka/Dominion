@@ -1,5 +1,7 @@
 package project.katacka.dominion.gamestate;
 
+import java.util.ArrayList;
+
 /**
  * A data class intended to represent the state of a player object
  * @author Ryan Regier, Julian Donovan, Ashika Mulagada, Hayden Liao
@@ -10,22 +12,33 @@ public class DominionPlayerState {
     protected final String name;
     protected final DominionDeckState deck;
     protected int victoryPoints;
-    protected boolean silverBoon; //Set to false each turn
 
-    protected DominionPlayerState(String name, DominionShopPileState copper, DominionCardState estate) {
+    /**
+     * Constructor.
+     * @param name The player's name
+     * @param copper The pile where copper is stored. Decremented to create starting deck.
+     * @param estate The estate card. Used to create starting deck.
+     */
+    public DominionPlayerState(String name, DominionShopPileState copper, DominionCardState estate) {
         this.name = name;
 
         //Initializes player deck
-        this.deck = new DominionDeckState(10);
+        this.deck = new DominionDeckState();
         populateStartingDeck(copper, estate);
 
         this.victoryPoints = 3;
-        this.silverBoon = false;
     }
 
-    protected DominionPlayerState(DominionPlayerState playerState, boolean isThisPlayer){
+    /**
+     * Copy constructor.
+     * Obfuscates if requested.
+     * @param playerState The player to copy
+     * @param isThisPlayer Whether or not to obfuscate
+     */
+    public DominionPlayerState(DominionPlayerState playerState, boolean isThisPlayer){
         this.name = playerState.name;
         if(isThisPlayer) this.victoryPoints = playerState.victoryPoints;
+        else this.victoryPoints = 0;
         this.deck = new DominionDeckState(playerState.deck, isThisPlayer);
     }
 
@@ -42,6 +55,17 @@ public class DominionPlayerState {
         copper.removeAmount(7); //Removes 7 copper from the base card's draw pile
         deck.addManyToDiscard(estate, 3);
         //deck.reshuffle();
+    }
+
+    /**
+     *
+     * For testing purposes. Replaces cards in hand with specific set of cards to allow testing of actions
+     */
+    public void testMoat(DominionCardState gold, DominionCardState moat){
+        ArrayList<DominionCardState> hand = deck.getHand();
+        hand.set(0, moat);
+        hand.set(1, gold);
+        hand.set(2, gold);
     }
 
     public DominionDeckState getDeck() {

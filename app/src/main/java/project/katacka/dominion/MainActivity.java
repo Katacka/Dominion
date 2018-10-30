@@ -104,7 +104,7 @@ public class MainActivity extends GameMainActivity{
     }
 
     //
-    protected View populateCardLayout(View cardLayout, Card card){
+    protected View populateCardLayout(View cardLayout, CardView card){
         //Sets the card title
         ((TextView) cardLayout.findViewById(R.id.textViewTitle))
                 .setText(card.mTitle);
@@ -139,7 +139,7 @@ public class MainActivity extends GameMainActivity{
         return cardLayout;
     }
 
-    protected View populatePlayerCardLayout(View cardLayout, Card card) {
+    protected View populatePlayerCardLayout(View cardLayout, CardView card) {
         //Reveals text for player cards, as room allows
         cardLayout.findViewById(R.id.textViewText)
                 .setVisibility(View.VISIBLE);
@@ -164,7 +164,7 @@ public class MainActivity extends GameMainActivity{
         //Iterates over the TableLayout's TableRows populating each one
         for (int i = 0; i < totalCards; i++) {
             ViewGroup cardLayout = (ViewGroup) getLayoutInflater().inflate(layoutID, null);
-            cardsLayout.addView(populatePlayerCardLayout(cardLayout, cards.cardStack.get(i)), trParams);
+            cardsLayout.addView(populatePlayerCardLayout(cardLayout, cards.cardViewStack.get(i)), trParams);
         }
     }
 
@@ -179,7 +179,7 @@ public class MainActivity extends GameMainActivity{
 
             for (int j = 0; j < cardsPerRow; j++) {
                 //cardRow.getChildAt(j).setLayoutParams(trParams);
-                populateCardLayout(cardRow.getChildAt(j), cards.cardStack.get(j + indexOffset));
+                populateCardLayout(cardRow.getChildAt(j), cards.cardViewStack.get(j + indexOffset));
             }
         }
     }
