@@ -1,4 +1,4 @@
-package project.katacka.dominion.gamedisplay;
+package project.katacka.dominion;
 
 import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
@@ -13,13 +13,39 @@ import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import project.katacka.dominion.R;
+import project.katacka.dominion.gameframework.GameConfig;
+import project.katacka.dominion.gameframework.GameMainActivity;
+import project.katacka.dominion.gameframework.LocalGame;
 
-public class MainActivity extends AppCompatActivity {
 
+//import project.katacka.dominion.game.config.GamePlayerType;
 
+//extends AppCompatActivity
+public class MainActivity extends GameMainActivity{
+    @Override
+    public GameConfig createDefaultConfig() {
+        //TODO: undummy createDefaultConfig()
+        //TODO: necessary for compilation, cannot get portnumber in GameMainActivity without creating a defaultConfig
+        //ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
+        //GameConfig defaultConfig = new GameConfig(playerTypes, 1, 2, "Pig", PORT_NUMBER);
+
+        return null;
+    }
+
+    @Override
+    public LocalGame createLocalGame() {
+        return null;
+    }
+
+    /*
+        TODO: probably move this to to DominionHumanPlayer in the method setAsGui()
+        not sure which of these pieces needs to go where, or we would have done it already
+    */
+    /*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Removes the title and notification bars respectively
@@ -78,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //
-    protected View populateCardLayout(View cardLayout, Card card){
+    protected View populateCardLayout(View cardLayout, CardView card){
         //Sets the card title
         ((TextView) cardLayout.findViewById(R.id.textViewTitle))
                 .setText(card.mTitle);
@@ -113,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         return cardLayout;
     }
 
-    protected View populatePlayerCardLayout(View cardLayout, Card card) {
+    protected View populatePlayerCardLayout(View cardLayout, CardView card) {
         //Reveals text for player cards, as room allows
         cardLayout.findViewById(R.id.textViewText)
                 .setVisibility(View.VISIBLE);
@@ -138,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         //Iterates over the TableLayout's TableRows populating each one
         for (int i = 0; i < totalCards; i++) {
             ViewGroup cardLayout = (ViewGroup) getLayoutInflater().inflate(layoutID, null);
-            cardsLayout.addView(populatePlayerCardLayout(cardLayout, cards.cardStack.get(i)), trParams);
+            cardsLayout.addView(populatePlayerCardLayout(cardLayout, cards.cardViewStack.get(i)), trParams);
         }
     }
 
@@ -153,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
             for (int j = 0; j < cardsPerRow; j++) {
                 //cardRow.getChildAt(j).setLayoutParams(trParams);
-                populateCardLayout(cardRow.getChildAt(j), cards.cardStack.get(j + indexOffset));
+                populateCardLayout(cardRow.getChildAt(j), cards.cardViewStack.get(j + indexOffset));
             }
         }
     }
@@ -165,6 +191,5 @@ public class MainActivity extends AppCompatActivity {
             ((TextView) tabLayout.getChildAt(i).findViewById(R.id.playerName)).setText(names[i]);
         }
     }
-
-
+    */
 }

@@ -5,11 +5,13 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import project.katacka.dominion.gameframework.infoMsg.GameState;
+
 /**
  * A data class intended to represent the state of a game object
  * @author Ryan Regier, Julian Donovan, Ashika Mulagada, Hayden Liao
  */
-public class DominionGameState {
+public class DominionGameState extends GameState{
 
     /**
      * The six base cards, in the following order:

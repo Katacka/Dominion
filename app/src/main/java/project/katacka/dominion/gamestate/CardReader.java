@@ -29,6 +29,10 @@ public class CardReader{
     private final Type arrayType;
     private final Gson gsonParser;
 
+    /**
+     * Constructs a CardReader object serving as a wrapper to interface with the GsonDeserializer class
+     * @param expansionSet Application context allowing for global information regarding environment/resources
+     */
     public CardReader(String expansionSet) {
         gsonBuilder = new GsonBuilder();
         arrayType = new TypeToken<ArrayList<DominionShopPileState>>(){}.getType();
