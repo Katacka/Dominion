@@ -2,36 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a5db47ad-40a2-459c-abab-232f6218363c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/project/katacka/dominion/gamedisplay/DominionActionPlayed.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project/katacka/dominion/gamedisplay/DominionEndTurnAction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project/katacka/dominion/gamedisplay/DominionQuitGameAction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project/katacka/dominion/gamestate/DominionGameInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project/katacka/dominion/localgame/DominionActionPlayedInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gamedisplay/Cards.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gamedisplay/Cards.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gamedisplay/DominionBuyCardAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gamedisplay/DominionBuyCardAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gamedisplay/DominionPlayCardAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gamedisplay/DominionPlayCardAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gamedisplay/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gamedisplay/displayState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gameframework/GameComputerPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gameframework/GameComputerPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gameframework/GameConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gameframework/GameConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gameframework/GameHumanPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gameframework/GameHumanPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gameframework/GameMainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gameframework/GameMainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gameframework/GamePlayerType.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gameframework/GamePlayerType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gameframework/LocalGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gameframework/LocalGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gameframework/ProxyGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gameframework/ProxyGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gameframework/ProxyPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gameframework/ProxyPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gameframework/infoMsg/GameInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gameframework/infoMsg/GameInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gameplayer/DominionComputerPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gameplayer/DominionComputerPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gamedisplay/DominionActionPlayed.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gameplayer/DominionHumanPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gameplayer/DominionHumanPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gameplayer/DominionSimpleAIPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gameplayer/DominionSimpleAIPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gameplayer/DominionSmartAIPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gameplayer/DominionSmartAIPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gamestate/CardReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gamestate/CardReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gamestate/DominionCardState.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gamestate/DominionCardState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gamestate/DominionDeckState.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gamestate/DominionDeckState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gamestate/DominionGameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gamestate/DominionGameState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gamestate/DominionPlayerState.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gamestate/DominionPlayerState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gamestate/DominionShopPileState.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gamestate/DominionShopPileState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gamestate/GsonDeserializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/gamestate/GsonDeserializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/localgame/DominionLocalGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/localgame/DominionLocalGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/katacka/dominion/gamestate/DominionGameInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/katacka/dominion/localgame/DominionGameInfo.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,25 +19,25 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="JAVA/" value="4" />
-          <entry key="java" value="54" />
+          <entry key="java" value="56" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="54" />
+          <entry key="JAVA" value="56" />
           <entry key="UML" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="dummy" value="46" />
-          <entry key="java" value="742" />
+          <entry key="dummy" value="50" />
+          <entry key="java" value="770" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="742" />
-          <entry key="PLAIN_TEXT" value="46" />
+          <entry key="JAVA" value="770" />
+          <entry key="PLAIN_TEXT" value="50" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
@@ -82,519 +57,746 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/project/katacka/dominion/gamedisplay/DominionAIGetInfoAction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="36" selection-start-line="5" selection-start-column="36" selection-end-line="5" selection-end-column="36" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#418#419#0" expanded="true" />
+                <element signature="e#447#448#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="uml://JAVA/">
           <provider selected="true" editor-type-id="UmlEditorProvider">
             <state>
               <ID>JAVA</ID>
               <OriginalElement />
               <nodes>
-                <node x="1913.3644260060928" y="91.0">project.katacka.dominion.gameframework.actionMsg.GameAction</node>
-                <node x="1394.8878417107576" y="554.0">project.katacka.dominion.MainActivity</node>
-                <node x="867.864426006093" y="91.0">project.katacka.dominion.gameframework.infoMsg.GameInfo</node>
-                <node x="1148.7803571428574" y="91.0">project.katacka.dominion.gameframework.GamePlayerType</node>
-                <node x="1702.712126222543" y="554.0">project.katacka.dominion.gamedisplay.Cards</node>
-                <node x="529.7185926727595" y="91.0">project.katacka.dominion.gameframework.infoMsg.GameState</node>
-                <node x="49.5" y="91.0">project.katacka.dominion.gamestate.DominionCardType</node>
-                <node x="125.6769260060928" y="0.0">project.katacka.dominion.gamestate.DominionDeckState</node>
-                <node x="978.4711750440911" y="554.0">project.katacka.dominion.gameframework.ProxyPlayer</node>
-                <node x="1148.1678571428574" y="222.0">project.katacka.dominion.gameframework.GameConfig</node>
-                <node x="461.93712622254304" y="373.0">DominionGameInfo</node>
-                <node x="1454.4621061808555" y="373.0">project.katacka.dominion.localgame.DominionLocalGame</node>
-                <node x="1381.622023809524" y="685.0">project.katacka.dominion.gameplayer.DominionComputerPlayer</node>
-                <node x="1665.4621061808555" y="373.0">project.katacka.dominion.gamedisplay.CardView</node>
-                <node x="2075.1144059644057" y="222.0">project.katacka.dominion.gamedisplay.DominionEndTurnAction</node>
-                <node x="78.2521043771037" y="373.0">project.katacka.dominion.gamestate.DominionCardState</node>
-                <node x="1108.3121061808556" y="373.0">project.katacka.dominion.gameframework.GameMainActivity</node>
-                <node x="1283.2287728475221" y="866.0">project.katacka.dominion.gameplayer.DominionHumanPlayer</node>
-                <node x="1649.4894059644055" y="222.0">project.katacka.dominion.gameframework.LocalGame</node>
-                <node x="249.5" y="91.0">project.katacka.dominion.gamestate.DominionPlayerState</node>
-                <node x="284.6032948532943" y="866.0">project.katacka.dominion.gamestate.CardReader</node>
-                <node x="665.937126222543" y="554.0">project.katacka.dominion.gameframework.GameHumanPlayer</node>
-                <node x="188.02414822831497" y="685.0">project.katacka.dominion.gamestate.GsonDeserializer</node>
-                <node x="1172.846175044091" y="554.0">project.katacka.dominion.gameframework.GameComputerPlayer</node>
-                <node x="1948.6144059644055" y="685.0">project.katacka.dominion.gamedisplay.DominionPlayCardAction</node>
-                <node x="1792.4894059644055" y="222.0">project.katacka.dominion.gamedisplay.DominionQuitGameAction</node>
-                <node x="1511.2287728475221" y="866.0">project.katacka.dominion.gameplayer.DominionSmartAIPlayer</node>
-                <node x="1009.7211750440911" y="685.0">project.katacka.dominion.gameframework.config.GameConfig</node>
-                <node x="1002.1678571428574" y="222.0">project.katacka.dominion.gameframework.ProxyGame</node>
-                <node x="333.41666666666674" y="222.0">project.katacka.dominion.gamestate.DominionGameState</node>
-                <node x="2086.6287728475218" y="866.0">project.katacka.dominion.gameplayer.DominionSimpleAIPlayer</node>
-                <node x="222.27414822831497" y="554.0">project.katacka.dominion.gamestate.DominionShopPileState</node>
-                <node x="2296.5011904761905" y="685.0">project.katacka.dominion.gamedisplay.DominionBuyCardAction</node>
+                <node x="1230.9333995086704" y="0.0">project.katacka.dominion.gameframework.actionMsg.GameAction</node>
+                <node x="1041.6306176567432" y="957.0">project.katacka.dominion.MainActivity</node>
+                <node x="1937.7759282162406" y="262.0">project.katacka.dominion.gameframework.infoMsg.GameInfo</node>
+                <node x="1106.0375" y="604.0">project.katacka.dominion.gameframework.GamePlayerType</node>
+                <node x="1580.7663319424573" y="957.0">project.katacka.dominion.gamedisplay.Cards</node>
+                <node x="2940.5593253968254" y="423.0">project.katacka.dominion.gameframework.infoMsg.GameState</node>
+                <node x="3137.72479529838" y="0.0">project.katacka.dominion.gamestate.DominionCardType</node>
+                <node x="3253.8593253968256" y="262.0">project.katacka.dominion.gamestate.DominionDeckState</node>
+                <node x="1653.802112403509" y="604.0">project.katacka.dominion.gameframework.ProxyPlayer</node>
+                <node x="1103.9375" y="705.0">project.katacka.dominion.gameframework.GameConfig</node>
+                <node x="2276.636772524544" y="705.0">DominionGameInfo</node>
+                <node x="892.9374999999999" y="705.0">project.katacka.dominion.localgame.DominionLocalGame</node>
+                <node x="1994.7663319424573" y="1098.0">project.katacka.dominion.gameplayer.DominionComputerPlayer</node>
+                <node x="1518.802112403509" y="826.0">project.katacka.dominion.gamedisplay.CardView</node>
+                <node x="2267.627176250761" y="604.0">project.katacka.dominion.gamedisplay.DominionEndTurnAction</node>
+                <node x="3165.72479529838" y="141.0">project.katacka.dominion.gamestate.DominionCardState</node>
+                <node x="1185.7458995086704" y="826.0">project.katacka.dominion.gameframework.GameMainActivity</node>
+                <node x="1866.845781157417" y="141.0">project.katacka.dominion.gameframework.Game</node>
+                <node x="1322.5163319424573" y="1098.0">project.katacka.dominion.gameplayer.DominionHumanPlayer</node>
+                <node x="748.9374999999999" y="604.0">project.katacka.dominion.gameframework.LocalGame</node>
+                <node x="3159.3093253968254" y="423.0">project.katacka.dominion.gamestate.DominionPlayerState</node>
+                <node x="2778.7201058578776" y="604.0">project.katacka.dominion.gamestate.CardReader</node>
+                <node x="1381.7663319424573" y="957.0">project.katacka.dominion.gameframework.GameHumanPlayer</node>
+                <node x="2755.5593253968254" y="423.0">project.katacka.dominion.gamestate.GsonDeserializer</node>
+                <node x="1979.5673280800993" y="957.0">project.katacka.dominion.gameframework.GameComputerPlayer</node>
+                <node x="0.0" y="604.0">project.katacka.dominion.gamedisplay.DominionPlayCardAction</node>
+                <node x="1259.4333995086704" y="423.0">project.katacka.dominion.gameframework.GamePlayer</node>
+                <node x="241.0" y="604.0">project.katacka.dominion.gamedisplay.DominionQuitGameAction</node>
+                <node x="2529.886772524544" y="604.0">DominionActionPlayedInfo</node>
+                <node x="480.625" y="1219.0">project.katacka.dominion.gameplayer.DominionSmartAIPlayer</node>
+                <node x="1211.5160651396495" y="957.0">project.katacka.dominion.gameframework.config.GameConfig</node>
+                <node x="1802.802112403509" y="604.0">project.katacka.dominion.gameframework.ProxyGame</node>
+                <node x="2984.605617656743" y="604.0">project.katacka.dominion.gamestate.DominionGameState</node>
+                <node x="1328.42228432341" y="1219.0">project.katacka.dominion.gameplayer.DominionSimpleAIPlayer</node>
+                <node x="2895.237896825397" y="262.0">project.katacka.dominion.gamestate.DominionShopPileState</node>
+                <node x="493.0" y="604.0">project.katacka.dominion.gamedisplay.DominionBuyCardAction</node>
               </nodes>
               <notes />
               <edges>
+                <edge source="project.katacka.dominion.gameframework.ProxyPlayer" target="project.katacka.dominion.gameframework.Game">
+                  <point x="16.125" y="-15.5" />
+                  <point x="1734.427112403509" y="584.0" />
+                  <point x="1723.802112403509" y="584.0" />
+                  <point x="1723.802112403509" y="333.0" />
+                  <point x="1844.6933277407766" y="333.0" />
+                  <point x="1844.6933277407766" y="232.0" />
+                  <point x="1885.4886383002743" y="232.0" />
+                  <point x="-24.857142857142662" y="15.5" />
+                </edge>
                 <edge source="project.katacka.dominion.gameframework.ProxyPlayer" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
-                  <point x="-48.375" y="-15.5" />
-                  <point x="994.5961750440911" y="474.0" />
-                  <point x="925.364426006093" y="474.0" />
-                  <point x="0.0" y="15.5" />
+                  <point x="48.375" y="-15.5" />
+                  <point x="1766.677112403509" y="584.0" />
+                  <point x="1772.989612403509" y="584.0" />
+                  <point x="1772.989612403509" y="353.0" />
+                  <point x="1955.0259282162406" y="353.0" />
+                  <point x="-40.25" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gamestate.DominionPlayerState" target="project.katacka.dominion.gamestate.DominionCardState">
-                  <point x="-80.83333333333348" y="15.5" />
-                  <point x="265.6666666666665" y="192.0" />
-                  <point x="254.28803711720388" y="192.0" />
-                  <point x="254.28803711720388" y="323.0" />
-                  <point x="190.69654882154805" y="323.0" />
-                  <point x="20.444444444444343" y="-15.5" />
+                  <point x="0.0" y="-15.5" />
+                  <point x="3256.3093253968254" y="403.0" />
+                  <point x="3243.3593253968256" y="403.0" />
+                  <point x="3243.3593253968256" y="242.0" />
+                  <point x="3266.9247952983796" y="242.0" />
+                  <point x="9.200000000000045" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.GameHumanPlayer" target="project.katacka.dominion.gameframework.GamePlayer">
+                  <point x="14.916666666666742" y="-15.5" />
+                  <point x="1486.182998609124" y="897.0" />
+                  <point x="1428.302112403509" y="897.0" />
+                  <point x="1428.302112403509" y="554.0" />
+                  <point x="1348.5048280800988" y="554.0" />
+                  <point x="24.57142857142844" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gamedisplay.DominionPlayCardAction">
-                  <point x="46.22222222222217" y="-15.5" />
-                  <point x="1433.4509950697443" y="796.0" />
-                  <point x="1985.4477392977387" y="796.0" />
-                  <point x="-73.66666666666674" y="15.5" />
+                  <point x="-92.44444444444434" y="-15.5" />
+                  <point x="1334.071887498013" y="1078.0" />
+                  <point x="172.4598504987473" y="1078.0" />
+                  <point x="172.4598504987473" y="685.0" />
+                  <point x="184.16666666666674" y="685.0" />
+                  <point x="73.66666666666674" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gamedisplay.DominionBuyCardAction" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
-                  <point x="-54.75" y="-15.5" />
-                  <point x="2351.2511904761905" y="665.0" />
-                  <point x="2444.8371061808557" y="665.0" />
-                  <point x="2444.8371061808557" y="162.0" />
-                  <point x="2028.8644260060928" y="162.0" />
-                  <point x="49.5" y="15.5" />
+                  <point x="0.0" y="-15.5" />
+                  <point x="602.5" y="474.0" />
+                  <point x="600.277118692431" y="474.0" />
+                  <point x="600.277118692431" y="111.0" />
+                  <point x="1281.4039877439645" y="111.0" />
+                  <point x="-15.529411764705856" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gameframework.GameHumanPlayer">
-                  <point x="-69.33333333333337" y="-15.5" />
-                  <point x="1317.8954395141886" y="836.0" />
-                  <point x="785.8095238095241" y="836.0" />
-                  <point x="785.8095238095241" y="665.0" />
-                  <point x="710.687126222543" y="665.0" />
-                  <point x="-44.75" y="15.5" />
+                  <point x="23.111111111111086" y="-15.5" />
+                  <point x="1449.6274430535684" y="1038.0" />
+                  <point x="1516.0163319424573" y="1038.0" />
+                  <point x="44.75" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.GamePlayer" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
+                  <point x="43.0" y="-15.5" />
+                  <point x="1366.9333995086704" y="343.0" />
+                  <point x="1943.5259282162406" y="343.0" />
+                  <point x="-51.75" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameframework.GameMainActivity" target="project.katacka.dominion.gameframework.ProxyGame">
-                  <point x="-72.08333333333326" y="-15.5" />
-                  <point x="1122.7287728475221" y="283.0" />
-                  <point x="1065.1678571428574" y="283.0" />
+                  <point x="64.875" y="-15.5" />
+                  <point x="1337.1208995086704" y="796.0" />
+                  <point x="1865.802112403509" y="796.0" />
+                  <point x="0.0" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.GameComputerPlayer" target="project.katacka.dominion.gameframework.GamePlayer">
+                  <point x="-24.75" y="-15.5" />
+                  <point x="2053.8173280800993" y="877.0" />
+                  <point x="1643.302112403509" y="877.0" />
+                  <point x="1643.302112403509" y="544.0" />
+                  <point x="1354.6476852229562" y="544.0" />
+                  <point x="30.71428571428578" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.GamePlayerType" target="project.katacka.dominion.gameframework.GamePlayer">
+                  <point x="0.0" y="-15.5" />
+                  <point x="1186.5375" y="564.0" />
+                  <point x="1311.6476852229562" y="564.0" />
+                  <point x="-12.28571428571422" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gameframework.infoMsg.GameState">
+                  <point x="-69.4545454545455" y="-15.5" />
+                  <point x="3010.6510722021976" y="584.0" />
+                  <point x="3002.0593253968254" y="584.0" />
                   <point x="0.0" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameframework.GameConfig" target="project.katacka.dominion.gameframework.GameMainActivity">
-                  <point x="26.600000000000023" y="15.5" />
-                  <point x="1241.2678571428573" y="323.0" />
-                  <point x="1209.2287728475221" y="323.0" />
-                  <point x="14.416666666666629" y="-15.5" />
+                  <point x="49.875" y="15.5" />
+                  <point x="1220.3125" y="766.0" />
+                  <point x="1236.2042328420039" y="766.0" />
+                  <point x="-36.041666666666515" y="-15.5" />
                 </edge>
-                <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gameframework.infoMsg.GameState">
-                  <point x="79.58333333333348" y="-15.5" />
-                  <point x="508.5000000000002" y="202.0" />
-                  <point x="591.2185926727595" y="202.0" />
-                  <point x="0.0" y="15.5" />
+                <edge source="project.katacka.dominion.gameframework.actionMsg.GameAction" target="project.katacka.dominion.gameframework.GamePlayer">
+                  <point x="7.764705882352928" y="15.5" />
+                  <point x="1304.6981053910235" y="121.0" />
+                  <point x="1307.9333995086704" y="121.0" />
+                  <point x="1307.9333995086704" y="313.0" />
+                  <point x="1323.9333995086704" y="313.0" />
+                  <point x="0.0" y="-15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameplayer.DominionSmartAIPlayer" target="project.katacka.dominion.gamedisplay.DominionBuyCardAction">
-                  <point x="79.875" y="-15.5" />
-                  <point x="1697.6037728475221" y="836.0" />
-                  <point x="2406.0011904761905" y="836.0" />
+                  <point x="-26.625" y="-15.5" />
+                  <point x="560.5" y="685.0" />
+                  <point x="529.5" y="685.0" />
+                  <point x="-73.0" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.infoMsg.GameInfo" target="project.katacka.dominion.gameframework.Game">
+                  <point x="0.0" y="-15.5" />
+                  <point x="1995.2759282162406" y="242.0" />
+                  <point x="1910.345781157417" y="242.0" />
                   <point x="0.0" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameplayer.DominionComputerPlayer" target="project.katacka.dominion.gamedisplay.DominionEndTurnAction">
-                  <point x="94.58333333333337" y="-15.5" />
-                  <point x="1589.7053571428573" y="665.0" />
-                  <point x="2214.4803571428574" y="665.0" />
-                  <point x="2214.4803571428574" y="353.0" />
-                  <point x="2130.1144059644057" y="353.0" />
-                  <point x="-55.0" y="15.5" />
-                </edge>
-                <edge source="DominionGameInfo" target="project.katacka.dominion.gamestate.DominionGameState">
-                  <point x="-45.75" y="-15.5" />
-                  <point x="507.68712622254304" y="353.0" />
-                  <point x="483.4880952380952" y="353.0" />
-                  <point x="54.57142857142844" y="15.5" />
-                </edge>
-                <edge source="project.katacka.dominion.gameframework.GameMainActivity" target="project.katacka.dominion.gameframework.GamePlayerType">
-                  <point x="43.25" y="-15.5" />
-                  <point x="1238.0621061808556" y="333.0" />
-                  <point x="1291.6678571428574" y="333.0" />
-                  <point x="1291.6678571428574" y="142.0" />
-                  <point x="1293.6803571428572" y="142.0" />
-                  <point x="64.39999999999998" y="15.5" />
-                </edge>
-                <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gamedisplay.DominionEndTurnAction">
-                  <point x="69.33333333333337" y="-15.5" />
-                  <point x="1456.5621061808556" y="816.0" />
-                  <point x="2234.9894059644057" y="816.0" />
-                  <point x="2234.9894059644057" y="353.0" />
-                  <point x="2240.1144059644057" y="353.0" />
+                  <point x="94.58333333333348" y="-15.5" />
+                  <point x="2202.849665275791" y="1078.0" />
+                  <point x="2470.136772524544" y="1078.0" />
+                  <point x="2470.136772524544" y="665.0" />
+                  <point x="2432.627176250761" y="665.0" />
                   <point x="55.0" y="15.5" />
                 </edge>
+                <edge source="DominionGameInfo" target="project.katacka.dominion.gamestate.DominionGameState">
+                  <point x="45.75" y="-15.5" />
+                  <point x="2413.886772524544" y="685.0" />
+                  <point x="3127.855617656743" y="685.0" />
+                  <point x="47.75" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.GameMainActivity" target="project.katacka.dominion.gameframework.Game">
+                  <point x="79.29166666666652" y="-15.5" />
+                  <point x="1351.537566175337" y="806.0" />
+                  <point x="2210.0673280800993" y="806.0" />
+                  <point x="2210.0673280800993" y="232.0" />
+                  <point x="1922.7743525859885" y="232.0" />
+                  <point x="12.428571428571558" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.GameMainActivity" target="project.katacka.dominion.gameframework.GamePlayerType">
+                  <point x="-21.625" y="-15.5" />
+                  <point x="1250.6208995086704" y="806.0" />
+                  <point x="1254.4791666666665" y="806.0" />
+                  <point x="1254.4791666666665" y="655.0" />
+                  <point x="1250.9375" y="655.0" />
+                  <point x="64.40000000000009" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gamedisplay.DominionBuyCardAction" target="project.katacka.dominion.gameframework.GamePlayer">
+                  <point x="73.0" y="-15.5" />
+                  <point x="675.5" y="504.0" />
+                  <point x="1274.790542365813" y="504.0" />
+                  <point x="-49.14285714285734" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gamedisplay.DominionEndTurnAction">
+                  <point x="92.44444444444434" y="-15.5" />
+                  <point x="1518.9607763869017" y="1068.0" />
+                  <point x="2248.3173280800993" y="1068.0" />
+                  <point x="2248.3173280800993" y="665.0" />
+                  <point x="2322.627176250761" y="665.0" />
+                  <point x="-55.0" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.LocalGame" target="project.katacka.dominion.gameframework.GamePlayer">
+                  <point x="15.375" y="-15.5" />
+                  <point x="825.8124999999999" y="514.0" />
+                  <point x="1280.9333995086704" y="514.0" />
+                  <point x="-43.0" y="15.5" />
+                </edge>
                 <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gamedisplay.Cards">
-                  <point x="0.0" y="-15.5" />
-                  <point x="1387.2287728475221" y="806.0" />
-                  <point x="1367.2394260060928" y="806.0" />
-                  <point x="1367.2394260060928" y="645.0" />
-                  <point x="1724.462126222543" y="645.0" />
+                  <point x="46.22222222222217" y="-15.5" />
+                  <point x="1472.7385541646795" y="1048.0" />
+                  <point x="1602.5163319424573" y="1048.0" />
                   <point x="-21.75" y="15.5" />
                 </edge>
+                <edge source="project.katacka.dominion.localgame.DominionLocalGame" target="project.katacka.dominion.gameframework.GamePlayer">
+                  <point x="23.875" y="-15.5" />
+                  <point x="1012.3124999999999" y="544.0" />
+                  <point x="1299.361970937242" y="544.0" />
+                  <point x="-24.57142857142844" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.ProxyGame" target="project.katacka.dominion.gameframework.GamePlayer">
+                  <point x="-54.0" y="-15.5" />
+                  <point x="1811.802112403509" y="524.0" />
+                  <point x="1366.9333995086704" y="524.0" />
+                  <point x="43.0" y="15.5" />
+                </edge>
                 <edge source="project.katacka.dominion.gameplayer.DominionSimpleAIPlayer" target="project.katacka.dominion.gamedisplay.DominionPlayCardAction">
-                  <point x="27.250000000000114" y="-15.5" />
-                  <point x="2222.878772847522" y="736.0" />
-                  <point x="2132.781072631072" y="736.0" />
-                  <point x="73.66666666666674" y="15.5" />
+                  <point x="-81.75" y="-15.5" />
+                  <point x="1355.67228432341" y="1159.0" />
+                  <point x="132.68273180631604" y="1159.0" />
+                  <point x="132.68273180631604" y="685.0" />
+                  <point x="110.5" y="685.0" />
+                  <point x="0.0" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameframework.GameMainActivity" target="project.katacka.dominion.gameframework.GameConfig">
-                  <point x="-43.25" y="-15.5" />
-                  <point x="1151.5621061808556" y="303.0" />
-                  <point x="1188.0678571428575" y="303.0" />
-                  <point x="-26.600000000000023" y="15.5" />
+                  <point x="-64.875" y="-15.5" />
+                  <point x="1207.3708995086704" y="786.0" />
+                  <point x="1153.8125" y="786.0" />
+                  <point x="-16.625" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gamestate.CardReader" target="project.katacka.dominion.gamestate.GsonDeserializer">
                   <point x="-32.0" y="-15.5" />
-                  <point x="316.6032948532943" y="846.0" />
-                  <point x="270.02414822831497" y="846.0" />
+                  <point x="2810.7201058578776" y="584.0" />
+                  <point x="2837.5593253968254" y="584.0" />
                   <point x="0.0" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameplayer.DominionComputerPlayer" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
-                  <point x="-94.58333333333337" y="-15.5" />
-                  <point x="1400.5386904761906" y="635.0" />
-                  <point x="855.437126222543" y="635.0" />
-                  <point x="855.437126222543" y="202.0" />
-                  <point x="912.5866482283152" y="202.0" />
-                  <point x="-12.777777777777771" y="15.5" />
+                  <point x="56.75" y="-15.5" />
+                  <point x="2165.0163319424573" y="1058.0" />
+                  <point x="2188.0673280800993" y="1058.0" />
+                  <point x="2188.0673280800993" y="393.0" />
+                  <point x="2035.5259282162406" y="393.0" />
+                  <point x="40.25" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.localgame.DominionLocalGame" target="project.katacka.dominion.gamestate.DominionGameState">
-                  <point x="-63.66666666666674" y="-15.5" />
-                  <point x="1486.2954395141887" y="273.0" />
-                  <point x="510.7738095238094" y="273.0" />
-                  <point x="81.85714285714266" y="15.5" />
-                </edge>
-                <edge source="project.katacka.dominion.gamestate.DominionCardState" target="project.katacka.dominion.gamestate.DominionGameState">
-                  <point x="61.333333333333485" y="-15.5" />
-                  <point x="231.5854377104372" y="343.0" />
-                  <point x="347.0595238095241" y="343.0" />
-                  <point x="-81.85714285714266" y="15.5" />
+                  <point x="71.625" y="-15.5" />
+                  <point x="1060.0625" y="675.0" />
+                  <point x="3032.355617656743" y="675.0" />
+                  <point x="-47.75" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameframework.ProxyGame" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
-                  <point x="-15.75" y="-15.5" />
-                  <point x="1049.4178571428574" y="182.0" />
-                  <point x="963.6977593394263" y="182.0" />
-                  <point x="38.333333333333314" y="15.5" />
+                  <point x="36.0" y="-15.5" />
+                  <point x="1901.802112403509" y="584.0" />
+                  <point x="1910.052112403509" y="584.0" />
+                  <point x="1910.052112403509" y="373.0" />
+                  <point x="1978.0259282162406" y="373.0" />
+                  <point x="-17.25" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gamestate.DominionCardState" target="project.katacka.dominion.gamestate.DominionGameState">
+                  <point x="-27.59999999999991" y="15.5" />
+                  <point x="3230.12479529838" y="222.0" />
+                  <point x="3148.8093253968254" y="222.0" />
+                  <point x="3148.8093253968254" y="534.0" />
+                  <point x="3080.105617656743" y="534.0" />
+                  <point x="0.0" y="-15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameframework.config.GameConfig" target="project.katacka.dominion.gameframework.ProxyPlayer">
-                  <point x="-33.25" y="-15.5" />
-                  <point x="0.0" y="15.5" />
+                  <point x="44.333333333333485" y="-15.5" />
+                  <point x="1322.349398472983" y="937.0" />
+                  <point x="1393.5437853590975" y="937.0" />
+                  <point x="1393.5437853590975" y="786.0" />
+                  <point x="1745.302112403509" y="786.0" />
+                  <point x="1745.302112403509" y="665.0" />
+                  <point x="1761.302112403509" y="665.0" />
+                  <point x="43.0" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.config.GameConfig" target="project.katacka.dominion.gameframework.GamePlayer">
+                  <point x="-44.333333333333485" y="-15.5" />
+                  <point x="1233.682731806316" y="907.0" />
+                  <point x="882.4374999999999" y="907.0" />
+                  <point x="882.4374999999999" y="534.0" />
+                  <point x="1293.2191137943846" y="534.0" />
+                  <point x="-30.71428571428578" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.MainActivity" target="project.katacka.dominion.gameframework.GameMainActivity">
-                  <point x="-44.66666666666663" y="-15.5" />
-                  <point x="1417.221175044091" y="434.0" />
-                  <point x="1270.4996061808556" y="434.0" />
-                  <point x="75.6875" y="15.5" />
+                  <point x="44.666666666666515" y="-15.5" />
+                  <point x="1153.2972843234097" y="917.0" />
+                  <point x="1198.103042365813" y="917.0" />
+                  <point x="-74.14285714285734" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.ProxyPlayer" target="project.katacka.dominion.gameframework.GamePlayer">
+                  <point x="-48.375" y="-15.5" />
+                  <point x="1669.927112403509" y="534.0" />
+                  <point x="1360.790542365813" y="534.0" />
+                  <point x="36.85714285714266" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.GameComputerPlayer" target="project.katacka.dominion.gameframework.Game">
+                  <point x="74.25" y="-15.5" />
+                  <point x="2152.8173280800993" y="937.0" />
+                  <point x="2519.386772524544" y="937.0" />
+                  <point x="2519.386772524544" y="212.0" />
+                  <point x="1947.6314954431311" y="212.0" />
+                  <point x="37.28571428571422" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameframework.GameHumanPlayer" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
-                  <point x="-59.66666666666663" y="-15.5" />
-                  <point x="695.7704595558764" y="534.0" />
-                  <point x="746.8852593394263" y="534.0" />
-                  <point x="746.8852593394263" y="192.0" />
-                  <point x="899.8088704505374" y="192.0" />
-                  <point x="-25.555555555555543" y="15.5" />
+                  <point x="44.75" y="-15.5" />
+                  <point x="1516.0163319424573" y="917.0" />
+                  <point x="1946.677112403509" y="917.0" />
+                  <point x="1946.677112403509" y="393.0" />
+                  <point x="2001.0259282162406" y="393.0" />
+                  <point x="5.75" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.LocalGame" target="project.katacka.dominion.gameframework.Game">
+                  <point x="-15.375" y="-15.5" />
+                  <point x="795.0624999999999" y="323.0" />
+                  <point x="1833.6933277407766" y="323.0" />
+                  <point x="1833.6933277407766" y="222.0" />
+                  <point x="1873.0600668717027" y="222.0" />
+                  <point x="-37.28571428571422" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gamedisplay.DominionPlayCardAction" target="project.katacka.dominion.gameframework.GamePlayer">
+                  <point x="73.66666666666674" y="-15.5" />
+                  <point x="184.16666666666674" y="484.0" />
+                  <point x="1262.5048280800988" y="484.0" />
+                  <point x="-61.42857142857156" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameplayer.DominionSimpleAIPlayer" target="project.katacka.dominion.gameplayer.DominionComputerPlayer">
-                  <point x="-27.249999999999886" y="-15.5" />
-                  <point x="2168.378772847522" y="746.0" />
-                  <point x="1580.247023809524" y="746.0" />
+                  <point x="81.75" y="-15.5" />
+                  <point x="1519.17228432341" y="1199.0" />
+                  <point x="2193.3913319424573" y="1199.0" />
                   <point x="85.125" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gamedisplay.DominionQuitGameAction">
-                  <point x="23.111111111111086" y="-15.5" />
-                  <point x="1410.3398839586332" y="786.0" />
-                  <point x="1907.9894059644055" y="786.0" />
+                  <point x="-69.33333333333326" y="-15.5" />
+                  <point x="1357.182998609124" y="1068.0" />
+                  <point x="356.5" y="1068.0" />
                   <point x="0.0" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameplayer.DominionSmartAIPlayer" target="project.katacka.dominion.gamedisplay.DominionPlayCardAction">
-                  <point x="26.625" y="-15.5" />
-                  <point x="1644.3537728475221" y="806.0" />
-                  <point x="2059.1144059644057" y="806.0" />
-                  <point x="0.0" y="15.5" />
+                  <point x="-79.875" y="-15.5" />
+                  <point x="507.25" y="1199.0" />
+                  <point x="68.16666666666652" y="1199.0" />
+                  <point x="68.16666666666652" y="685.0" />
+                  <point x="36.83333333333326" y="685.0" />
+                  <point x="-73.66666666666674" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gamedisplay.DominionBuyCardAction">
-                  <point x="92.44444444444446" y="-15.5" />
-                  <point x="1479.6732172919665" y="826.0" />
-                  <point x="2333.0011904761905" y="826.0" />
-                  <point x="-73.0" y="15.5" />
+                  <point x="-46.22222222222217" y="-15.5" />
+                  <point x="1380.2941097202352" y="1058.0" />
+                  <point x="751.85350758132" y="1058.0" />
+                  <point x="751.85350758132" y="685.0" />
+                  <point x="675.5" y="685.0" />
+                  <point x="73.0" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameframework.GameConfig" target="project.katacka.dominion.gameframework.GamePlayerType">
-                  <point x="16.625" y="-15.5" />
-                  <point x="1231.2928571428574" y="142.0" />
-                  <point x="1229.2803571428574" y="142.0" />
-                  <point x="0.0" y="15.5" />
+                  <point x="-11.083333333333485" y="-15.5" />
+                  <point x="1159.3541666666665" y="665.0" />
+                  <point x="1154.3375" y="665.0" />
+                  <point x="-32.19999999999982" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameframework.ProxyGame" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
-                  <point x="47.25" y="-15.5" />
-                  <point x="1112.4178571428574" y="152.0" />
-                  <point x="1918.8644260060928" y="152.0" />
-                  <point x="-60.5" y="15.5" />
+                  <point x="-18.0" y="-15.5" />
+                  <point x="1847.802112403509" y="584.0" />
+                  <point x="1840.302112403509" y="584.0" />
+                  <point x="1840.302112403509" y="313.0" />
+                  <point x="1819.836184883634" y="313.0" />
+                  <point x="1819.836184883634" y="101.0" />
+                  <point x="1320.2275171557294" y="101.0" />
+                  <point x="23.294117647058783" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.GameMainActivity" target="project.katacka.dominion.gameframework.GamePlayer">
+                  <point x="36.041666666666515" y="-15.5" />
+                  <point x="1308.287566175337" y="766.0" />
+                  <point x="1365.1062853590975" y="766.0" />
+                  <point x="1365.1062853590975" y="574.0" />
+                  <point x="1336.2191137943846" y="574.0" />
+                  <point x="12.28571428571422" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gamestate.DominionCardState">
-                  <point x="-54.57142857142844" y="15.5" />
-                  <point x="374.3452380952383" y="353.0" />
-                  <point x="252.02988215488153" y="353.0" />
-                  <point x="81.77777777777783" y="-15.5" />
+                  <point x="86.81818181818176" y="-15.5" />
+                  <point x="3166.9237994749246" y="584.0" />
+                  <point x="3450.3593253968256" y="584.0" />
+                  <point x="3450.3593253968256" y="222.0" />
+                  <point x="3340.52479529838" y="222.0" />
+                  <point x="82.79999999999995" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.MainActivity" target="project.katacka.dominion.gameframework.LocalGame">
-                  <point x="44.66666666666663" y="-15.5" />
-                  <point x="1506.5545083774243" y="534.0" />
-                  <point x="1789.9621061808555" y="534.0" />
-                  <point x="1789.9621061808555" y="353.0" />
-                  <point x="1751.9894059644055" y="353.0" />
-                  <point x="41.0" y="15.5" />
+                  <point x="-44.666666666666515" y="-15.5" />
+                  <point x="1063.9639509900767" y="937.0" />
+                  <point x="773.7701742479867" y="937.0" />
+                  <point x="773.7701742479867" y="685.0" />
+                  <point x="769.4374999999999" y="685.0" />
+                  <point x="-41.0" y="15.5" />
+                </edge>
+                <edge source="DominionActionPlayedInfo" target="project.katacka.dominion.gameframework.GamePlayer">
+                  <point x="-68.66666666666674" y="-15.5" />
+                  <point x="2564.2201058578776" y="494.0" />
+                  <point x="1385.361970937242" y="494.0" />
+                  <point x="61.42857142857156" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gamestate.DominionPlayerState" target="project.katacka.dominion.gamestate.DominionDeckState">
-                  <point x="48.5" y="-15.5" />
-                  <point x="395.0" y="61.0" />
-                  <point x="265.1769260060928" y="61.0" />
-                  <point x="46.5" y="15.5" />
+                  <point x="77.60000000000002" y="-15.5" />
+                  <point x="3333.9093253968254" y="403.0" />
+                  <point x="3346.8593253968256" y="403.0" />
+                  <point x="0.0" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gamedisplay.DominionPlayCardAction" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
-                  <point x="55.25" y="-15.5" />
-                  <point x="2114.3644059644057" y="655.0" />
-                  <point x="2064.6144059644057" y="655.0" />
-                  <point x="2064.6144059644057" y="192.0" />
-                  <point x="1995.8644260060928" y="192.0" />
-                  <point x="16.5" y="15.5" />
+                  <point x="-73.66666666666674" y="-15.5" />
+                  <point x="36.83333333333326" y="584.0" />
+                  <point x="96.94378535909755" y="584.0" />
+                  <point x="96.94378535909755" y="51.0" />
+                  <point x="1234.815752449847" y="51.0" />
+                  <point x="-62.11764705882342" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameplayer.DominionSmartAIPlayer" target="project.katacka.dominion.gameplayer.DominionComputerPlayer">
-                  <point x="-26.625" y="-15.5" />
-                  <point x="1591.1037728475221" y="766.0" />
-                  <point x="1466.747023809524" y="766.0" />
-                  <point x="-28.375" y="15.5" />
+                  <point x="26.625" y="-15.5" />
+                  <point x="613.75" y="1169.0" />
+                  <point x="2023.1413319424573" y="1169.0" />
+                  <point x="-85.125" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameframework.ProxyPlayer" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
-                  <point x="48.375" y="-15.5" />
-                  <point x="1091.346175044091" y="534.0" />
-                  <point x="1443.9621061808555" y="534.0" />
-                  <point x="1443.9621061808555" y="162.0" />
-                  <point x="1929.8644260060928" y="162.0" />
-                  <point x="-49.5" y="15.5" />
+                  <point x="-16.125" y="-15.5" />
+                  <point x="1702.177112403509" y="584.0" />
+                  <point x="1712.802112403509" y="584.0" />
+                  <point x="1712.802112403509" y="111.0" />
+                  <point x="1312.4628112733762" y="111.0" />
+                  <point x="15.529411764705856" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameplayer.DominionComputerPlayer" target="project.katacka.dominion.gameframework.GameComputerPlayer">
-                  <point x="-18.91666666666663" y="-15.5" />
-                  <point x="1476.2053571428573" y="615.0" />
-                  <point x="1321.346175044091" y="615.0" />
-                  <point x="49.5" y="15.5" />
+                  <point x="-18.916666666666515" y="-15.5" />
+                  <point x="2089.349665275791" y="1008.0" />
+                  <point x="2029.0673280800993" y="1008.0" />
+                  <point x="-49.5" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.MainActivity" target="project.katacka.dominion.gameframework.GameConfig">
                   <point x="0.0" y="-15.5" />
-                  <point x="1461.8878417107576" y="424.0" />
-                  <point x="1417.8810726310721" y="424.0" />
-                  <point x="1417.8810726310721" y="323.0" />
-                  <point x="1267.8678571428575" y="323.0" />
-                  <point x="53.200000000000045" y="15.5" />
+                  <point x="1108.6306176567432" y="806.0" />
+                  <point x="1120.5625" y="806.0" />
+                  <point x="-49.875" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gamedisplay.DominionEndTurnAction" target="project.katacka.dominion.gameframework.GamePlayer">
+                  <point x="-73.33333333333326" y="-15.5" />
+                  <point x="2304.2938429174274" y="504.0" />
+                  <point x="1379.2191137943846" y="504.0" />
+                  <point x="55.28571428571422" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gamedisplay.DominionEndTurnAction" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
-                  <point x="-55.0" y="-15.5" />
-                  <point x="2130.1144059644057" y="182.0" />
-                  <point x="2006.8644260060928" y="182.0" />
-                  <point x="27.5" y="15.5" />
+                  <point x="0.0" y="-15.5" />
+                  <point x="2377.627176250761" y="403.0" />
+                  <point x="2586.7589790012807" y="403.0" />
+                  <point x="2586.7589790012807" y="81.0" />
+                  <point x="1335.7569289204353" y="81.0" />
+                  <point x="38.82352941176464" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameframework.config.GameConfig" target="project.katacka.dominion.gameframework.GameMainActivity">
-                  <point x="33.25" y="-15.5" />
-                  <point x="1109.471175044091" y="665.0" />
-                  <point x="1117.971175044091" y="665.0" />
-                  <point x="1117.971175044091" y="514.0" />
-                  <point x="1183.9996061808556" y="514.0" />
-                  <point x="-10.8125" y="15.5" />
+                  <point x="0.0" y="-15.5" />
+                  <point x="1278.0160651396495" y="937.0" />
+                  <point x="1272.2458995086704" y="937.0" />
+                  <point x="0.0" y="15.5" />
+                </edge>
+                <edge source="DominionActionPlayedInfo" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
+                  <point x="68.66666666666674" y="-15.5" />
+                  <point x="2701.5534391912106" y="584.0" />
+                  <point x="2668.6509282162406" y="584.0" />
+                  <point x="2668.6509282162406" y="51.0" />
+                  <point x="1359.0510465674938" y="51.0" />
+                  <point x="62.11764705882342" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.GameConfig" target="project.katacka.dominion.gameframework.GamePlayer">
+                  <point x="-55.416666666666515" y="-15.5" />
+                  <point x="1115.0208333333335" y="665.0" />
+                  <point x="1069.307731806316" y="665.0" />
+                  <point x="1069.307731806316" y="554.0" />
+                  <point x="1305.5048280800988" y="554.0" />
+                  <point x="-18.42857142857156" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gamestate.GsonDeserializer" target="project.katacka.dominion.gamestate.DominionCardState">
                   <point x="-54.66666666666674" y="-15.5" />
-                  <point x="215.35748156164823" y="665.0" />
-                  <point x="125.5021043771037" y="665.0" />
-                  <point x="125.5021043771037" y="534.0" />
-                  <point x="108.91877104377045" y="534.0" />
-                  <point x="-61.33333333333326" y="15.5" />
+                  <point x="2782.8926587301585" y="403.0" />
+                  <point x="2785.3414619650466" y="403.0" />
+                  <point x="2785.3414619650466" y="192.0" />
+                  <point x="3174.9247952983796" y="192.0" />
+                  <point x="-82.79999999999995" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameplayer.DominionSimpleAIPlayer" target="project.katacka.dominion.gamedisplay.DominionBuyCardAction">
-                  <point x="81.75000000000011" y="-15.5" />
-                  <point x="2277.378772847522" y="846.0" />
-                  <point x="2479.0011904761905" y="846.0" />
-                  <point x="73.0" y="15.5" />
+                  <point x="-27.25" y="-15.5" />
+                  <point x="1410.17228432341" y="1149.0" />
+                  <point x="653.1265171654138" y="1149.0" />
+                  <point x="653.1265171654138" y="685.0" />
+                  <point x="602.5" y="685.0" />
+                  <point x="0.0" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameplayer.DominionComputerPlayer" target="project.katacka.dominion.gameframework.GameMainActivity">
-                  <point x="18.91666666666663" y="-15.5" />
-                  <point x="1514.0386904761906" y="605.0" />
-                  <point x="1381.346175044091" y="605.0" />
-                  <point x="1381.346175044091" y="444.0" />
-                  <point x="1248.8746061808556" y="444.0" />
-                  <point x="54.0625" y="15.5" />
+                  <point x="-94.58333333333348" y="-15.5" />
+                  <point x="2013.6829986091238" y="1028.0" />
+                  <point x="1201.0160651396495" y="1028.0" />
+                  <point x="1201.0160651396495" y="937.0" />
+                  <point x="1247.5316137943846" y="937.0" />
+                  <point x="-24.71428571428578" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gameframework.GameMainActivity">
                   <point x="-23.111111111111086" y="-15.5" />
-                  <point x="1364.117661736411" y="816.0" />
-                  <point x="1153.221175044091" y="816.0" />
-                  <point x="1153.221175044091" y="524.0" />
-                  <point x="1205.6246061808556" y="524.0" />
-                  <point x="10.8125" y="15.5" />
+                  <point x="1403.4052208313462" y="1048.0" />
+                  <point x="1190.0160651396495" y="1048.0" />
+                  <point x="1190.0160651396495" y="927.0" />
+                  <point x="1222.8173280800988" y="927.0" />
+                  <point x="-49.42857142857156" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameframework.GameConfig" target="project.katacka.dominion.gameframework.ProxyPlayer">
-                  <point x="-53.200000000000045" y="15.5" />
-                  <point x="1161.4678571428574" y="293.0" />
-                  <point x="1095.3616071428573" y="293.0" />
-                  <point x="1095.3616071428573" y="474.0" />
-                  <point x="1026.846175044091" y="474.0" />
-                  <point x="-16.125" y="-15.5" />
+                  <point x="55.416666666666515" y="-15.5" />
+                  <point x="1225.8541666666665" y="665.0" />
+                  <point x="1675.302112403509" y="665.0" />
+                  <point x="-43.0" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameframework.GameHumanPlayer" target="project.katacka.dominion.gameframework.GameMainActivity">
-                  <point x="59.66666666666666" y="-15.5" />
-                  <point x="815.1037928892097" y="494.0" />
-                  <point x="1140.7496061808556" y="494.0" />
-                  <point x="-54.0625" y="15.5" />
+                  <point x="-44.75" y="-15.5" />
+                  <point x="1426.5163319424573" y="917.0" />
+                  <point x="1321.674470937242" y="917.0" />
+                  <point x="49.42857142857156" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gamestate.DominionShopPileState">
-                  <point x="0.0" y="15.5" />
-                  <point x="428.91666666666674" y="343.0" />
-                  <point x="437.05952380952385" y="343.0" />
-                  <point x="437.05952380952385" y="524.0" />
-                  <point x="381.27414822831497" y="524.0" />
-                  <point x="53.0" y="-15.5" />
+                  <point x="-17.363636363636488" y="-15.5" />
+                  <point x="3062.7419812931066" y="524.0" />
+                  <point x="3137.8093253968254" y="524.0" />
+                  <point x="3137.8093253968254" y="383.0" />
+                  <point x="3061.8093253968254" y="383.0" />
+                  <point x="60.57142857142867" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.GameHumanPlayer" target="project.katacka.dominion.gameframework.Game">
+                  <point x="74.58333333333326" y="-15.5" />
+                  <point x="1545.8496652757906" y="927.0" />
+                  <point x="2508.386772524544" y="927.0" />
+                  <point x="2508.386772524544" y="222.0" />
+                  <point x="1935.2029240145596" y="222.0" />
+                  <point x="24.857142857142662" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
-                  <point x="-92.44444444444446" y="-15.5" />
-                  <point x="1294.7843284030778" y="846.0" />
-                  <point x="655.437126222543" y="846.0" />
-                  <point x="655.437126222543" y="182.0" />
-                  <point x="887.0310926727597" y="182.0" />
-                  <point x="-38.333333333333314" y="15.5" />
+                  <point x="69.33333333333326" y="-15.5" />
+                  <point x="1495.8496652757906" y="1058.0" />
+                  <point x="1969.0673280800993" y="1058.0" />
+                  <point x="1969.0673280800993" y="403.0" />
+                  <point x="2012.5259282162406" y="403.0" />
+                  <point x="17.25" y="15.5" />
                 </edge>
                 <edge source="DominionGameInfo" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
-                  <point x="45.75" y="-15.5" />
-                  <point x="599.187126222543" y="172.0" />
-                  <point x="874.2533148949818" y="172.0" />
-                  <point x="-51.11111111111114" y="15.5" />
+                  <point x="-45.75" y="-15.5" />
+                  <point x="2322.386772524544" y="655.0" />
+                  <point x="2199.0673280800993" y="655.0" />
+                  <point x="2199.0673280800993" y="383.0" />
+                  <point x="2047.0259282162406" y="383.0" />
+                  <point x="51.75" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gamedisplay.Cards" target="project.katacka.dominion.gamedisplay.CardView">
-                  <point x="21.750000000000114" y="-15.5" />
-                  <point x="1767.9621262225432" y="524.0" />
-                  <point x="1750.9621061808555" y="524.0" />
-                  <point x="28.5" y="15.5" />
+                  <point x="-21.75" y="-15.5" />
+                  <point x="1602.5163319424573" y="907.0" />
+                  <point x="1547.302112403509" y="907.0" />
+                  <point x="-28.5" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameframework.LocalGame" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
+                  <point x="-46.125" y="-15.5" />
+                  <point x="764.3124999999999" y="474.0" />
+                  <point x="757.9743984729827" y="474.0" />
+                  <point x="757.9743984729827" y="121.0" />
+                  <point x="1289.1686936263177" y="121.0" />
+                  <point x="-7.764705882352928" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.ProxyGame" target="project.katacka.dominion.gameframework.Game">
                   <point x="0.0" y="-15.5" />
-                  <point x="1710.9894059644055" y="182.0" />
-                  <point x="1951.8644260060928" y="182.0" />
-                  <point x="-27.5" y="15.5" />
+                  <point x="1865.802112403509" y="584.0" />
+                  <point x="1873.302112403509" y="584.0" />
+                  <point x="1873.302112403509" y="242.0" />
+                  <point x="1897.9172097288454" y="242.0" />
+                  <point x="-12.428571428571558" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gamestate.GsonDeserializer" target="project.katacka.dominion.gamestate.DominionShopPileState">
                   <point x="0.0" y="-15.5" />
-                  <point x="270.02414822831497" y="665.0" />
-                  <point x="257.6074815616482" y="665.0" />
-                  <point x="-70.66666666666674" y="15.5" />
+                  <point x="2837.5593253968254" y="383.0" />
+                  <point x="2910.380753968254" y="383.0" />
+                  <point x="-90.85714285714286" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gamedisplay.DominionQuitGameAction" target="project.katacka.dominion.gameframework.GamePlayer">
+                  <point x="76.99999999999989" y="-15.5" />
+                  <point x="433.5" y="494.0" />
+                  <point x="1268.6476852229562" y="494.0" />
+                  <point x="-55.28571428571422" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameframework.GameComputerPlayer" target="project.katacka.dominion.gameframework.GameMainActivity">
-                  <point x="49.5" y="-15.5" />
-                  <point x="1321.346175044091" y="454.0" />
-                  <point x="1227.2496061808556" y="454.0" />
-                  <point x="32.4375" y="15.5" />
+                  <point x="-74.25" y="-15.5" />
+                  <point x="2004.3173280800993" y="887.0" />
+                  <point x="1346.3887566515277" y="887.0" />
+                  <point x="74.14285714285734" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gameframework.GameMainActivity" target="project.katacka.dominion.gameframework.LocalGame">
-                  <point x="72.08333333333337" y="-15.5" />
-                  <point x="1266.8954395141889" y="343.0" />
-                  <point x="1669.9894059644055" y="343.0" />
-                  <point x="-41.0" y="15.5" />
+                  <point x="-79.29166666666652" y="-15.5" />
+                  <point x="1192.9542328420039" y="796.0" />
+                  <point x="795.4374999999999" y="796.0" />
+                  <point x="795.4374999999999" y="685.0" />
+                  <point x="810.4374999999999" y="685.0" />
+                  <point x="0.0" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gamestate.CardReader" target="project.katacka.dominion.gamestate.DominionShopPileState">
                   <point x="32.0" y="-15.5" />
-                  <point x="380.6032948532943" y="846.0" />
-                  <point x="394.8532948532943" y="846.0" />
-                  <point x="394.8532948532943" y="665.0" />
-                  <point x="398.9408148949815" y="665.0" />
-                  <point x="70.66666666666652" y="15.5" />
+                  <point x="2874.7201058578776" y="584.0" />
+                  <point x="2930.0593253968254" y="584.0" />
+                  <point x="2930.0593253968254" y="403.0" />
+                  <point x="2970.9521825396823" y="403.0" />
+                  <point x="-30.28571428571422" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gamestate.DominionPlayerState">
-                  <point x="-15.916666666666515" y="-15.5" />
-                  <point x="413.0000000000002" y="202.0" />
-                  <point x="395.0" y="202.0" />
-                  <point x="48.5" y="15.5" />
+                  <point x="52.090909090909065" y="-15.5" />
+                  <point x="3132.196526747652" y="564.0" />
+                  <point x="3320.9759920634924" y="564.0" />
+                  <point x="64.66666666666669" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.gamestate.DominionShopPileState" target="project.katacka.dominion.gamestate.DominionCardState">
-                  <point x="-88.33333333333326" y="-15.5" />
-                  <point x="239.9408148949817" y="534.0" />
-                  <point x="170.2521043771037" y="534.0" />
-                  <point x="0.0" y="15.5" />
-                </edge>
-                <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gamestate.DominionCardType">
-                  <point x="-79.58333333333348" y="-15.5" />
-                  <point x="349.33333333333326" y="182.0" />
-                  <point x="199.5" y="182.0" />
-                  <point x="60.0" y="15.5" />
+                  <point x="53.0" y="-15.5" />
+                  <point x="3054.237896825397" y="212.0" />
+                  <point x="3211.72479529838" y="212.0" />
+                  <point x="-45.99999999999999" y="15.5" />
                 </edge>
                 <edge source="project.katacka.dominion.localgame.DominionLocalGame" target="project.katacka.dominion.gameframework.LocalGame">
-                  <point x="63.66666666666674" y="-15.5" />
-                  <point x="1613.6287728475222" y="353.0" />
-                  <point x="1710.9894059644055" y="353.0" />
-                  <point x="0.0" y="15.5" />
+                  <point x="-23.875" y="-15.5" />
+                  <point x="964.5624999999999" y="665.0" />
+                  <point x="851.4374999999999" y="665.0" />
+                  <point x="41.0" y="15.5" />
                 </edge>
-                <edge source="project.katacka.dominion.gameframework.ProxyPlayer" target="project.katacka.dominion.gameframework.GameMainActivity">
-                  <point x="16.125" y="-15.5" />
-                  <point x="1059.096175044091" y="504.0" />
-                  <point x="1162.3746061808556" y="504.0" />
-                  <point x="-32.4375" y="15.5" />
-                </edge>
-                <edge source="project.katacka.dominion.gameplayer.DominionComputerPlayer" target="project.katacka.dominion.gamedisplay.Cards">
-                  <point x="56.75" y="-15.5" />
-                  <point x="1551.872023809524" y="655.0" />
-                  <point x="1767.962126222543" y="655.0" />
-                  <point x="21.75" y="15.5" />
-                </edge>
-                <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gamestate.DominionDeckState">
-                  <point x="47.75" y="-15.5" />
-                  <point x="476.66666666666674" y="192.0" />
-                  <point x="519.2185926727595" y="192.0" />
-                  <point x="519.2185926727595" y="51.0" />
-                  <point x="296.1769260060928" y="51.0" />
-                  <point x="77.5" y="15.5" />
-                </edge>
-                <edge source="project.katacka.dominion.gamestate.DominionPlayerState" target="project.katacka.dominion.gamestate.DominionShopPileState">
-                  <point x="-16.166666666666515" y="15.5" />
-                  <point x="330.3333333333335" y="202.0" />
-                  <point x="317.8750000000002" y="202.0" />
-                  <point x="317.8750000000002" y="534.0" />
-                  <point x="310.60748156164846" y="534.0" />
-                  <point x="-17.666666666666515" y="-15.5" />
-                </edge>
-                <edge source="project.katacka.dominion.gamestate.DominionDeckState" target="project.katacka.dominion.gamestate.DominionCardState">
-                  <point x="-77.5" y="15.5" />
-                  <point x="141.1769260060928" y="51.0" />
-                  <point x="17.0" y="51.0" />
-                  <point x="17.0" y="353.0" />
-                  <point x="88.47432659932588" y="353.0" />
-                  <point x="-81.77777777777783" y="-15.5" />
-                </edge>
-                <edge source="project.katacka.dominion.gamedisplay.DominionQuitGameAction" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
-                  <point x="57.75" y="-15.5" />
-                  <point x="1965.7394059644055" y="202.0" />
-                  <point x="1973.8644260060928" y="202.0" />
-                  <point x="-5.5" y="15.5" />
-                </edge>
-                <edge source="project.katacka.dominion.gameframework.GameComputerPlayer" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
-                  <point x="-49.5" y="-15.5" />
-                  <point x="1222.346175044091" y="464.0" />
-                  <point x="991.6678571428574" y="464.0" />
-                  <point x="991.6678571428574" y="202.0" />
-                  <point x="938.1422037838707" y="202.0" />
-                  <point x="12.777777777777771" y="15.5" />
-                </edge>
-                <edge source="project.katacka.dominion.gamestate.DominionCardState" target="project.katacka.dominion.gamestate.DominionPlayerState">
-                  <point x="40.88888888888869" y="-15.5" />
-                  <point x="211.1409932659924" y="333.0" />
-                  <point x="265.2880371172039" y="333.0" />
-                  <point x="265.2880371172039" y="202.0" />
-                  <point x="298.0" y="202.0" />
-                  <point x="-48.5" y="15.5" />
-                </edge>
-                <edge source="project.katacka.dominion.gamestate.DominionCardState" target="project.katacka.dominion.gamestate.DominionCardType">
-                  <point x="-20.444444444444343" y="-15.5" />
-                  <point x="149.80765993265936" y="323.0" />
-                  <point x="128.5" y="323.0" />
-                  <point x="128.5" y="202.0" />
-                  <point x="79.5" y="202.0" />
+                <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gamestate.DominionCardType">
+                  <point x="-86.81818181818198" y="-15.5" />
+                  <point x="2993.287435838561" y="574.0" />
+                  <point x="2724.8093253968254" y="574.0" />
+                  <point x="2724.8093253968254" y="121.0" />
+                  <point x="3167.72479529838" y="121.0" />
                   <point x="-60.0" y="15.5" />
                 </edge>
-                <edge source="project.katacka.dominion.localgame.DominionLocalGame" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
+                <edge source="project.katacka.dominion.gameframework.ProxyPlayer" target="project.katacka.dominion.gameframework.GameMainActivity">
+                  <point x="0.0" y="15.5" />
+                  <point x="1718.302112403509" y="665.0" />
+                  <point x="1734.302112403509" y="665.0" />
+                  <point x="1734.302112403509" y="776.0" />
+                  <point x="1322.7042328420039" y="776.0" />
+                  <point x="50.458333333333485" y="-15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gamestate.DominionDeckState">
+                  <point x="69.4545454545455" y="-15.5" />
+                  <point x="3149.5601631112886" y="574.0" />
+                  <point x="3424.1093253968256" y="574.0" />
+                  <point x="3424.1093253968256" y="403.0" />
+                  <point x="3408.8593253968256" y="403.0" />
+                  <point x="62.0" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameplayer.DominionComputerPlayer" target="project.katacka.dominion.gamedisplay.Cards">
+                  <point x="-56.75" y="-15.5" />
+                  <point x="2051.5163319424573" y="1018.0" />
+                  <point x="1646.0163319424573" y="1018.0" />
+                  <point x="21.75" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gamestate.DominionPlayerState" target="project.katacka.dominion.gamestate.DominionShopPileState">
+                  <point x="-77.60000000000002" y="-15.5" />
+                  <point x="3178.7093253968255" y="373.0" />
+                  <point x="3092.0950396825397" y="373.0" />
+                  <point x="90.85714285714289" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gamestate.DominionDeckState" target="project.katacka.dominion.gamestate.DominionCardState">
+                  <point x="62.0" y="-15.5" />
+                  <point x="3408.8593253968256" y="232.0" />
+                  <point x="3322.12479529838" y="232.0" />
+                  <point x="64.40000000000003" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gamedisplay.DominionQuitGameAction" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
                   <point x="0.0" y="-15.5" />
-                  <point x="1549.9621061808555" y="172.0" />
-                  <point x="1940.8644260060928" y="172.0" />
-                  <point x="-38.5" y="15.5" />
+                  <point x="356.5" y="474.0" />
+                  <point x="352.2771186924308" y="474.0" />
+                  <point x="352.2771186924308" y="81.0" />
+                  <point x="1258.109870096906" y="81.0" />
+                  <point x="-38.82352941176464" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gamestate.DominionCardState" target="project.katacka.dominion.gamestate.DominionPlayerState">
+                  <point x="-9.200000000000045" y="15.5" />
+                  <point x="3248.52479529838" y="232.0" />
+                  <point x="3189.6093253968256" y="232.0" />
+                  <point x="3189.6093253968256" y="403.0" />
+                  <point x="3217.5093253968253" y="403.0" />
+                  <point x="-38.799999999999955" y="-15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.GameComputerPlayer" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
+                  <point x="24.75" y="-15.5" />
+                  <point x="2103.3173280800993" y="403.0" />
+                  <point x="2024.0259282162406" y="403.0" />
+                  <point x="28.75" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gamestate.DominionCardState" target="project.katacka.dominion.gamestate.DominionCardType">
+                  <point x="-46.0" y="-15.5" />
+                  <point x="3211.72479529838" y="121.0" />
+                  <point x="3227.72479529838" y="121.0" />
+                  <point x="0.0" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.gameframework.Game" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
+                  <point x="0.0" y="-15.5" />
+                  <point x="1910.345781157417" y="91.0" />
+                  <point x="1327.992223038082" y="91.0" />
+                  <point x="31.05882352941171" y="15.5" />
+                </edge>
+                <edge source="project.katacka.dominion.localgame.DominionLocalGame" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
+                  <point x="-71.625" y="-15.5" />
+                  <point x="916.8124999999999" y="675.0" />
+                  <point x="482.5" y="675.0" />
+                  <point x="482.5" y="91.0" />
+                  <point x="1265.8745759792587" y="91.0" />
+                  <point x="-31.05882352941171" y="15.5" />
                 </edge>
               </edges>
-              <settings layout="Hierarchic Group" zoom="0.5167867740568037" x="1169.5" y="527.9000082027725" />
+              <settings layout="Hierarchic Group" zoom="0.43587842846553004" x="530.0688775510204" y="530.6122448979592" />
               <SelectedNodes>
-                <node>project.katacka.dominion.gamestate.DominionShopPileState</node>
+                <node>project.katacka.dominion.gamedisplay.Cards</node>
               </SelectedNodes>
               <Categories />
               <SCOPE>All</SCOPE>
@@ -604,7 +806,16 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/project/katacka/dominion/gamestate/DominionGameInfo.java">
+        <entry file="file://$PROJECT_DIR$/project/katacka/dominion/gameframework/infoMsg/GameState.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" column="22" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/project/katacka/dominion/localgame/DominionGameInfo.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
               <caret line="5" column="63" selection-start-line="5" selection-start-column="63" selection-end-line="5" selection-end-column="63" />
@@ -615,8 +826,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project/katacka/dominion/localgame/DominionLocalGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="67" selection-start-line="4" selection-start-column="67" selection-end-line="4" selection-end-column="67" />
+            <state relative-caret-position="-45">
+              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1775#1776#0" expanded="true" />
@@ -627,10 +838,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/project/katacka/dominion/gamedisplay/DominionActionPlayed.java">
+        <entry file="file://$PROJECT_DIR$/project/katacka/dominion/localgame/DominionActionPlayedInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="5" column="54" selection-start-line="5" selection-start-column="54" selection-end-line="5" selection-end-column="54" />
+            <state relative-caret-position="45">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
               <folding>
                 <element signature="e#432#433#0" expanded="true" />
                 <element signature="e#461#462#0" expanded="true" />
@@ -657,11 +868,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/project/katacka/dominion/gameplayer/DominionHumanPlayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="604">
-              <caret line="57" selection-start-line="57" selection-end-line="57" />
+            <state relative-caret-position="402">
+              <caret line="57" column="44" selection-start-line="57" selection-start-column="44" selection-end-line="57" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -671,33 +882,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-71">
               <caret line="16" column="53" selection-start-line="16" selection-start-column="53" selection-end-line="16" selection-end-column="53" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/project/katacka/dominion/gameplayer/DominionSimpleAIPlayer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="79">
-              <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#599#600#0" expanded="true" />
-                <element signature="e#626#627#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/project/katacka/dominion/gameplayer/DominionSmartAIPlayer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
-              <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
-              <folding>
-                <element signature="e#595#596#0" expanded="true" />
-                <element signature="e#622#623#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -743,6 +927,8 @@
         <option value="$PROJECT_DIR$/project/katacka/dominion/localgame/DominionGameInfo.java" />
         <option value="$PROJECT_DIR$/project/katacka/dominion/localgame/DominionLocalGame.java" />
         <option value="$PROJECT_DIR$/project/katacka/dominion/gamedisplay/DominionActionPlayed.java" />
+        <option value="$PROJECT_DIR$/project/katacka/dominion/localgame/DominionActionPlayed.java" />
+        <option value="$PROJECT_DIR$/project/katacka/dominion/localgame/DominionActionPlayedInfo.java" />
         <option value="$PROJECT_DIR$/project/katacka/dominion/gameplayer/DominionHumanPlayer.java" />
       </list>
     </option>
@@ -868,7 +1054,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540877910367" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540878714328" />
     <property name="last_opened_file_path" value="$USER_HOME$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -907,12 +1093,12 @@
       <workItem from="1540856979986" duration="1121000" />
       <workItem from="1540858659230" duration="465000" />
       <workItem from="1540859135145" duration="163000" />
-      <workItem from="1540859310539" duration="8772000" />
+      <workItem from="1540859310539" duration="9575000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10627000" />
+    <option name="totallyTimeSpent" value="11430000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1984" y="-11" width="1857" height="1092" extended-state="6" />
@@ -926,14 +1112,14 @@
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.3294979" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3294979" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3368201" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.3368201" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -1061,18 +1247,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project/katacka/dominion/gamedisplay/DominionAIGetInfoAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="36" selection-start-line="5" selection-start-column="36" selection-end-line="5" selection-end-column="36" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#418#419#0" expanded="true" />
-            <element signature="e#447#448#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/project/katacka/dominion/gamedisplay/CardView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -1167,22 +1341,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project/katacka/dominion/gamestate/DominionGameInfo.java">
+    <entry file="file://$PROJECT_DIR$/project/katacka/dominion/localgame/DominionGameInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" column="63" selection-start-line="5" selection-start-column="63" selection-end-line="5" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project/katacka/dominion/localgame/DominionLocalGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="67" selection-start-line="4" selection-start-column="67" selection-end-line="4" selection-end-column="67" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1775#1776#0" expanded="true" />
-            <element signature="e#1802#1803#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1193,17 +1355,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project/katacka/dominion/gamedisplay/DominionActionPlayed.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="5" column="54" selection-start-line="5" selection-start-column="54" selection-end-line="5" selection-end-column="54" />
-          <folding>
-            <element signature="e#432#433#0" expanded="true" />
-            <element signature="e#461#462#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/project/katacka/dominion/gameframework/GameHumanPlayer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="465">
@@ -1211,10 +1362,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project/katacka/dominion/gameplayer/DominionHumanPlayer.java">
+    <entry file="file://$PROJECT_DIR$/project/katacka/dominion/gameframework/infoMsg/GameState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="604">
-          <caret line="57" selection-start-line="57" selection-end-line="57" />
+        <state relative-caret-position="165">
+          <caret line="11" column="22" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -1224,516 +1375,771 @@
           <ID>JAVA</ID>
           <OriginalElement />
           <nodes>
-            <node x="1913.3644260060928" y="91.0">project.katacka.dominion.gameframework.actionMsg.GameAction</node>
-            <node x="1394.8878417107576" y="554.0">project.katacka.dominion.MainActivity</node>
-            <node x="867.864426006093" y="91.0">project.katacka.dominion.gameframework.infoMsg.GameInfo</node>
-            <node x="1148.7803571428574" y="91.0">project.katacka.dominion.gameframework.GamePlayerType</node>
-            <node x="1702.712126222543" y="554.0">project.katacka.dominion.gamedisplay.Cards</node>
-            <node x="529.7185926727595" y="91.0">project.katacka.dominion.gameframework.infoMsg.GameState</node>
-            <node x="49.5" y="91.0">project.katacka.dominion.gamestate.DominionCardType</node>
-            <node x="125.6769260060928" y="0.0">project.katacka.dominion.gamestate.DominionDeckState</node>
-            <node x="978.4711750440911" y="554.0">project.katacka.dominion.gameframework.ProxyPlayer</node>
-            <node x="1148.1678571428574" y="222.0">project.katacka.dominion.gameframework.GameConfig</node>
-            <node x="461.93712622254304" y="373.0">DominionGameInfo</node>
-            <node x="1454.4621061808555" y="373.0">project.katacka.dominion.localgame.DominionLocalGame</node>
-            <node x="1381.622023809524" y="685.0">project.katacka.dominion.gameplayer.DominionComputerPlayer</node>
-            <node x="1665.4621061808555" y="373.0">project.katacka.dominion.gamedisplay.CardView</node>
-            <node x="2075.1144059644057" y="222.0">project.katacka.dominion.gamedisplay.DominionEndTurnAction</node>
-            <node x="78.2521043771037" y="373.0">project.katacka.dominion.gamestate.DominionCardState</node>
-            <node x="1108.3121061808556" y="373.0">project.katacka.dominion.gameframework.GameMainActivity</node>
-            <node x="1283.2287728475221" y="866.0">project.katacka.dominion.gameplayer.DominionHumanPlayer</node>
-            <node x="1649.4894059644055" y="222.0">project.katacka.dominion.gameframework.LocalGame</node>
-            <node x="249.5" y="91.0">project.katacka.dominion.gamestate.DominionPlayerState</node>
-            <node x="284.6032948532943" y="866.0">project.katacka.dominion.gamestate.CardReader</node>
-            <node x="665.937126222543" y="554.0">project.katacka.dominion.gameframework.GameHumanPlayer</node>
-            <node x="188.02414822831497" y="685.0">project.katacka.dominion.gamestate.GsonDeserializer</node>
-            <node x="1172.846175044091" y="554.0">project.katacka.dominion.gameframework.GameComputerPlayer</node>
-            <node x="1948.6144059644055" y="685.0">project.katacka.dominion.gamedisplay.DominionPlayCardAction</node>
-            <node x="1792.4894059644055" y="222.0">project.katacka.dominion.gamedisplay.DominionQuitGameAction</node>
-            <node x="1511.2287728475221" y="866.0">project.katacka.dominion.gameplayer.DominionSmartAIPlayer</node>
-            <node x="1009.7211750440911" y="685.0">project.katacka.dominion.gameframework.config.GameConfig</node>
-            <node x="1002.1678571428574" y="222.0">project.katacka.dominion.gameframework.ProxyGame</node>
-            <node x="333.41666666666674" y="222.0">project.katacka.dominion.gamestate.DominionGameState</node>
-            <node x="2086.6287728475218" y="866.0">project.katacka.dominion.gameplayer.DominionSimpleAIPlayer</node>
-            <node x="222.27414822831497" y="554.0">project.katacka.dominion.gamestate.DominionShopPileState</node>
-            <node x="2296.5011904761905" y="685.0">project.katacka.dominion.gamedisplay.DominionBuyCardAction</node>
+            <node x="1230.9333995086704" y="0.0">project.katacka.dominion.gameframework.actionMsg.GameAction</node>
+            <node x="1041.6306176567432" y="957.0">project.katacka.dominion.MainActivity</node>
+            <node x="1937.7759282162406" y="262.0">project.katacka.dominion.gameframework.infoMsg.GameInfo</node>
+            <node x="1106.0375" y="604.0">project.katacka.dominion.gameframework.GamePlayerType</node>
+            <node x="1580.7663319424573" y="957.0">project.katacka.dominion.gamedisplay.Cards</node>
+            <node x="2940.5593253968254" y="423.0">project.katacka.dominion.gameframework.infoMsg.GameState</node>
+            <node x="3137.72479529838" y="0.0">project.katacka.dominion.gamestate.DominionCardType</node>
+            <node x="3253.8593253968256" y="262.0">project.katacka.dominion.gamestate.DominionDeckState</node>
+            <node x="1653.802112403509" y="604.0">project.katacka.dominion.gameframework.ProxyPlayer</node>
+            <node x="1103.9375" y="705.0">project.katacka.dominion.gameframework.GameConfig</node>
+            <node x="2276.636772524544" y="705.0">DominionGameInfo</node>
+            <node x="892.9374999999999" y="705.0">project.katacka.dominion.localgame.DominionLocalGame</node>
+            <node x="1994.7663319424573" y="1098.0">project.katacka.dominion.gameplayer.DominionComputerPlayer</node>
+            <node x="1518.802112403509" y="826.0">project.katacka.dominion.gamedisplay.CardView</node>
+            <node x="2267.627176250761" y="604.0">project.katacka.dominion.gamedisplay.DominionEndTurnAction</node>
+            <node x="3165.72479529838" y="141.0">project.katacka.dominion.gamestate.DominionCardState</node>
+            <node x="1185.7458995086704" y="826.0">project.katacka.dominion.gameframework.GameMainActivity</node>
+            <node x="1866.845781157417" y="141.0">project.katacka.dominion.gameframework.Game</node>
+            <node x="1322.5163319424573" y="1098.0">project.katacka.dominion.gameplayer.DominionHumanPlayer</node>
+            <node x="748.9374999999999" y="604.0">project.katacka.dominion.gameframework.LocalGame</node>
+            <node x="3159.3093253968254" y="423.0">project.katacka.dominion.gamestate.DominionPlayerState</node>
+            <node x="2778.7201058578776" y="604.0">project.katacka.dominion.gamestate.CardReader</node>
+            <node x="1381.7663319424573" y="957.0">project.katacka.dominion.gameframework.GameHumanPlayer</node>
+            <node x="2755.5593253968254" y="423.0">project.katacka.dominion.gamestate.GsonDeserializer</node>
+            <node x="1979.5673280800993" y="957.0">project.katacka.dominion.gameframework.GameComputerPlayer</node>
+            <node x="0.0" y="604.0">project.katacka.dominion.gamedisplay.DominionPlayCardAction</node>
+            <node x="1259.4333995086704" y="423.0">project.katacka.dominion.gameframework.GamePlayer</node>
+            <node x="241.0" y="604.0">project.katacka.dominion.gamedisplay.DominionQuitGameAction</node>
+            <node x="2529.886772524544" y="604.0">DominionActionPlayedInfo</node>
+            <node x="480.625" y="1219.0">project.katacka.dominion.gameplayer.DominionSmartAIPlayer</node>
+            <node x="1211.5160651396495" y="957.0">project.katacka.dominion.gameframework.config.GameConfig</node>
+            <node x="1802.802112403509" y="604.0">project.katacka.dominion.gameframework.ProxyGame</node>
+            <node x="2984.605617656743" y="604.0">project.katacka.dominion.gamestate.DominionGameState</node>
+            <node x="1328.42228432341" y="1219.0">project.katacka.dominion.gameplayer.DominionSimpleAIPlayer</node>
+            <node x="2895.237896825397" y="262.0">project.katacka.dominion.gamestate.DominionShopPileState</node>
+            <node x="493.0" y="604.0">project.katacka.dominion.gamedisplay.DominionBuyCardAction</node>
           </nodes>
           <notes />
           <edges>
+            <edge source="project.katacka.dominion.gameframework.ProxyPlayer" target="project.katacka.dominion.gameframework.Game">
+              <point x="16.125" y="-15.5" />
+              <point x="1734.427112403509" y="584.0" />
+              <point x="1723.802112403509" y="584.0" />
+              <point x="1723.802112403509" y="333.0" />
+              <point x="1844.6933277407766" y="333.0" />
+              <point x="1844.6933277407766" y="232.0" />
+              <point x="1885.4886383002743" y="232.0" />
+              <point x="-24.857142857142662" y="15.5" />
+            </edge>
             <edge source="project.katacka.dominion.gameframework.ProxyPlayer" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
-              <point x="-48.375" y="-15.5" />
-              <point x="994.5961750440911" y="474.0" />
-              <point x="925.364426006093" y="474.0" />
-              <point x="0.0" y="15.5" />
+              <point x="48.375" y="-15.5" />
+              <point x="1766.677112403509" y="584.0" />
+              <point x="1772.989612403509" y="584.0" />
+              <point x="1772.989612403509" y="353.0" />
+              <point x="1955.0259282162406" y="353.0" />
+              <point x="-40.25" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gamestate.DominionPlayerState" target="project.katacka.dominion.gamestate.DominionCardState">
-              <point x="-80.83333333333348" y="15.5" />
-              <point x="265.6666666666665" y="192.0" />
-              <point x="254.28803711720388" y="192.0" />
-              <point x="254.28803711720388" y="323.0" />
-              <point x="190.69654882154805" y="323.0" />
-              <point x="20.444444444444343" y="-15.5" />
+              <point x="0.0" y="-15.5" />
+              <point x="3256.3093253968254" y="403.0" />
+              <point x="3243.3593253968256" y="403.0" />
+              <point x="3243.3593253968256" y="242.0" />
+              <point x="3266.9247952983796" y="242.0" />
+              <point x="9.200000000000045" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.GameHumanPlayer" target="project.katacka.dominion.gameframework.GamePlayer">
+              <point x="14.916666666666742" y="-15.5" />
+              <point x="1486.182998609124" y="897.0" />
+              <point x="1428.302112403509" y="897.0" />
+              <point x="1428.302112403509" y="554.0" />
+              <point x="1348.5048280800988" y="554.0" />
+              <point x="24.57142857142844" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gamedisplay.DominionPlayCardAction">
-              <point x="46.22222222222217" y="-15.5" />
-              <point x="1433.4509950697443" y="796.0" />
-              <point x="1985.4477392977387" y="796.0" />
-              <point x="-73.66666666666674" y="15.5" />
+              <point x="-92.44444444444434" y="-15.5" />
+              <point x="1334.071887498013" y="1078.0" />
+              <point x="172.4598504987473" y="1078.0" />
+              <point x="172.4598504987473" y="685.0" />
+              <point x="184.16666666666674" y="685.0" />
+              <point x="73.66666666666674" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gamedisplay.DominionBuyCardAction" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
-              <point x="-54.75" y="-15.5" />
-              <point x="2351.2511904761905" y="665.0" />
-              <point x="2444.8371061808557" y="665.0" />
-              <point x="2444.8371061808557" y="162.0" />
-              <point x="2028.8644260060928" y="162.0" />
-              <point x="49.5" y="15.5" />
+              <point x="0.0" y="-15.5" />
+              <point x="602.5" y="474.0" />
+              <point x="600.277118692431" y="474.0" />
+              <point x="600.277118692431" y="111.0" />
+              <point x="1281.4039877439645" y="111.0" />
+              <point x="-15.529411764705856" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gameframework.GameHumanPlayer">
-              <point x="-69.33333333333337" y="-15.5" />
-              <point x="1317.8954395141886" y="836.0" />
-              <point x="785.8095238095241" y="836.0" />
-              <point x="785.8095238095241" y="665.0" />
-              <point x="710.687126222543" y="665.0" />
-              <point x="-44.75" y="15.5" />
+              <point x="23.111111111111086" y="-15.5" />
+              <point x="1449.6274430535684" y="1038.0" />
+              <point x="1516.0163319424573" y="1038.0" />
+              <point x="44.75" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.GamePlayer" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
+              <point x="43.0" y="-15.5" />
+              <point x="1366.9333995086704" y="343.0" />
+              <point x="1943.5259282162406" y="343.0" />
+              <point x="-51.75" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameframework.GameMainActivity" target="project.katacka.dominion.gameframework.ProxyGame">
-              <point x="-72.08333333333326" y="-15.5" />
-              <point x="1122.7287728475221" y="283.0" />
-              <point x="1065.1678571428574" y="283.0" />
+              <point x="64.875" y="-15.5" />
+              <point x="1337.1208995086704" y="796.0" />
+              <point x="1865.802112403509" y="796.0" />
+              <point x="0.0" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.GameComputerPlayer" target="project.katacka.dominion.gameframework.GamePlayer">
+              <point x="-24.75" y="-15.5" />
+              <point x="2053.8173280800993" y="877.0" />
+              <point x="1643.302112403509" y="877.0" />
+              <point x="1643.302112403509" y="544.0" />
+              <point x="1354.6476852229562" y="544.0" />
+              <point x="30.71428571428578" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.GamePlayerType" target="project.katacka.dominion.gameframework.GamePlayer">
+              <point x="0.0" y="-15.5" />
+              <point x="1186.5375" y="564.0" />
+              <point x="1311.6476852229562" y="564.0" />
+              <point x="-12.28571428571422" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gameframework.infoMsg.GameState">
+              <point x="-69.4545454545455" y="-15.5" />
+              <point x="3010.6510722021976" y="584.0" />
+              <point x="3002.0593253968254" y="584.0" />
               <point x="0.0" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameframework.GameConfig" target="project.katacka.dominion.gameframework.GameMainActivity">
-              <point x="26.600000000000023" y="15.5" />
-              <point x="1241.2678571428573" y="323.0" />
-              <point x="1209.2287728475221" y="323.0" />
-              <point x="14.416666666666629" y="-15.5" />
+              <point x="49.875" y="15.5" />
+              <point x="1220.3125" y="766.0" />
+              <point x="1236.2042328420039" y="766.0" />
+              <point x="-36.041666666666515" y="-15.5" />
             </edge>
-            <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gameframework.infoMsg.GameState">
-              <point x="79.58333333333348" y="-15.5" />
-              <point x="508.5000000000002" y="202.0" />
-              <point x="591.2185926727595" y="202.0" />
-              <point x="0.0" y="15.5" />
+            <edge source="project.katacka.dominion.gameframework.actionMsg.GameAction" target="project.katacka.dominion.gameframework.GamePlayer">
+              <point x="7.764705882352928" y="15.5" />
+              <point x="1304.6981053910235" y="121.0" />
+              <point x="1307.9333995086704" y="121.0" />
+              <point x="1307.9333995086704" y="313.0" />
+              <point x="1323.9333995086704" y="313.0" />
+              <point x="0.0" y="-15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameplayer.DominionSmartAIPlayer" target="project.katacka.dominion.gamedisplay.DominionBuyCardAction">
-              <point x="79.875" y="-15.5" />
-              <point x="1697.6037728475221" y="836.0" />
-              <point x="2406.0011904761905" y="836.0" />
+              <point x="-26.625" y="-15.5" />
+              <point x="560.5" y="685.0" />
+              <point x="529.5" y="685.0" />
+              <point x="-73.0" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.infoMsg.GameInfo" target="project.katacka.dominion.gameframework.Game">
+              <point x="0.0" y="-15.5" />
+              <point x="1995.2759282162406" y="242.0" />
+              <point x="1910.345781157417" y="242.0" />
               <point x="0.0" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameplayer.DominionComputerPlayer" target="project.katacka.dominion.gamedisplay.DominionEndTurnAction">
-              <point x="94.58333333333337" y="-15.5" />
-              <point x="1589.7053571428573" y="665.0" />
-              <point x="2214.4803571428574" y="665.0" />
-              <point x="2214.4803571428574" y="353.0" />
-              <point x="2130.1144059644057" y="353.0" />
-              <point x="-55.0" y="15.5" />
-            </edge>
-            <edge source="DominionGameInfo" target="project.katacka.dominion.gamestate.DominionGameState">
-              <point x="-45.75" y="-15.5" />
-              <point x="507.68712622254304" y="353.0" />
-              <point x="483.4880952380952" y="353.0" />
-              <point x="54.57142857142844" y="15.5" />
-            </edge>
-            <edge source="project.katacka.dominion.gameframework.GameMainActivity" target="project.katacka.dominion.gameframework.GamePlayerType">
-              <point x="43.25" y="-15.5" />
-              <point x="1238.0621061808556" y="333.0" />
-              <point x="1291.6678571428574" y="333.0" />
-              <point x="1291.6678571428574" y="142.0" />
-              <point x="1293.6803571428572" y="142.0" />
-              <point x="64.39999999999998" y="15.5" />
-            </edge>
-            <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gamedisplay.DominionEndTurnAction">
-              <point x="69.33333333333337" y="-15.5" />
-              <point x="1456.5621061808556" y="816.0" />
-              <point x="2234.9894059644057" y="816.0" />
-              <point x="2234.9894059644057" y="353.0" />
-              <point x="2240.1144059644057" y="353.0" />
+              <point x="94.58333333333348" y="-15.5" />
+              <point x="2202.849665275791" y="1078.0" />
+              <point x="2470.136772524544" y="1078.0" />
+              <point x="2470.136772524544" y="665.0" />
+              <point x="2432.627176250761" y="665.0" />
               <point x="55.0" y="15.5" />
             </edge>
+            <edge source="DominionGameInfo" target="project.katacka.dominion.gamestate.DominionGameState">
+              <point x="45.75" y="-15.5" />
+              <point x="2413.886772524544" y="685.0" />
+              <point x="3127.855617656743" y="685.0" />
+              <point x="47.75" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.GameMainActivity" target="project.katacka.dominion.gameframework.Game">
+              <point x="79.29166666666652" y="-15.5" />
+              <point x="1351.537566175337" y="806.0" />
+              <point x="2210.0673280800993" y="806.0" />
+              <point x="2210.0673280800993" y="232.0" />
+              <point x="1922.7743525859885" y="232.0" />
+              <point x="12.428571428571558" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.GameMainActivity" target="project.katacka.dominion.gameframework.GamePlayerType">
+              <point x="-21.625" y="-15.5" />
+              <point x="1250.6208995086704" y="806.0" />
+              <point x="1254.4791666666665" y="806.0" />
+              <point x="1254.4791666666665" y="655.0" />
+              <point x="1250.9375" y="655.0" />
+              <point x="64.40000000000009" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gamedisplay.DominionBuyCardAction" target="project.katacka.dominion.gameframework.GamePlayer">
+              <point x="73.0" y="-15.5" />
+              <point x="675.5" y="504.0" />
+              <point x="1274.790542365813" y="504.0" />
+              <point x="-49.14285714285734" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gamedisplay.DominionEndTurnAction">
+              <point x="92.44444444444434" y="-15.5" />
+              <point x="1518.9607763869017" y="1068.0" />
+              <point x="2248.3173280800993" y="1068.0" />
+              <point x="2248.3173280800993" y="665.0" />
+              <point x="2322.627176250761" y="665.0" />
+              <point x="-55.0" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.LocalGame" target="project.katacka.dominion.gameframework.GamePlayer">
+              <point x="15.375" y="-15.5" />
+              <point x="825.8124999999999" y="514.0" />
+              <point x="1280.9333995086704" y="514.0" />
+              <point x="-43.0" y="15.5" />
+            </edge>
             <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gamedisplay.Cards">
-              <point x="0.0" y="-15.5" />
-              <point x="1387.2287728475221" y="806.0" />
-              <point x="1367.2394260060928" y="806.0" />
-              <point x="1367.2394260060928" y="645.0" />
-              <point x="1724.462126222543" y="645.0" />
+              <point x="46.22222222222217" y="-15.5" />
+              <point x="1472.7385541646795" y="1048.0" />
+              <point x="1602.5163319424573" y="1048.0" />
               <point x="-21.75" y="15.5" />
             </edge>
+            <edge source="project.katacka.dominion.localgame.DominionLocalGame" target="project.katacka.dominion.gameframework.GamePlayer">
+              <point x="23.875" y="-15.5" />
+              <point x="1012.3124999999999" y="544.0" />
+              <point x="1299.361970937242" y="544.0" />
+              <point x="-24.57142857142844" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.ProxyGame" target="project.katacka.dominion.gameframework.GamePlayer">
+              <point x="-54.0" y="-15.5" />
+              <point x="1811.802112403509" y="524.0" />
+              <point x="1366.9333995086704" y="524.0" />
+              <point x="43.0" y="15.5" />
+            </edge>
             <edge source="project.katacka.dominion.gameplayer.DominionSimpleAIPlayer" target="project.katacka.dominion.gamedisplay.DominionPlayCardAction">
-              <point x="27.250000000000114" y="-15.5" />
-              <point x="2222.878772847522" y="736.0" />
-              <point x="2132.781072631072" y="736.0" />
-              <point x="73.66666666666674" y="15.5" />
+              <point x="-81.75" y="-15.5" />
+              <point x="1355.67228432341" y="1159.0" />
+              <point x="132.68273180631604" y="1159.0" />
+              <point x="132.68273180631604" y="685.0" />
+              <point x="110.5" y="685.0" />
+              <point x="0.0" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameframework.GameMainActivity" target="project.katacka.dominion.gameframework.GameConfig">
-              <point x="-43.25" y="-15.5" />
-              <point x="1151.5621061808556" y="303.0" />
-              <point x="1188.0678571428575" y="303.0" />
-              <point x="-26.600000000000023" y="15.5" />
+              <point x="-64.875" y="-15.5" />
+              <point x="1207.3708995086704" y="786.0" />
+              <point x="1153.8125" y="786.0" />
+              <point x="-16.625" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gamestate.CardReader" target="project.katacka.dominion.gamestate.GsonDeserializer">
               <point x="-32.0" y="-15.5" />
-              <point x="316.6032948532943" y="846.0" />
-              <point x="270.02414822831497" y="846.0" />
+              <point x="2810.7201058578776" y="584.0" />
+              <point x="2837.5593253968254" y="584.0" />
               <point x="0.0" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameplayer.DominionComputerPlayer" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
-              <point x="-94.58333333333337" y="-15.5" />
-              <point x="1400.5386904761906" y="635.0" />
-              <point x="855.437126222543" y="635.0" />
-              <point x="855.437126222543" y="202.0" />
-              <point x="912.5866482283152" y="202.0" />
-              <point x="-12.777777777777771" y="15.5" />
+              <point x="56.75" y="-15.5" />
+              <point x="2165.0163319424573" y="1058.0" />
+              <point x="2188.0673280800993" y="1058.0" />
+              <point x="2188.0673280800993" y="393.0" />
+              <point x="2035.5259282162406" y="393.0" />
+              <point x="40.25" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.localgame.DominionLocalGame" target="project.katacka.dominion.gamestate.DominionGameState">
-              <point x="-63.66666666666674" y="-15.5" />
-              <point x="1486.2954395141887" y="273.0" />
-              <point x="510.7738095238094" y="273.0" />
-              <point x="81.85714285714266" y="15.5" />
-            </edge>
-            <edge source="project.katacka.dominion.gamestate.DominionCardState" target="project.katacka.dominion.gamestate.DominionGameState">
-              <point x="61.333333333333485" y="-15.5" />
-              <point x="231.5854377104372" y="343.0" />
-              <point x="347.0595238095241" y="343.0" />
-              <point x="-81.85714285714266" y="15.5" />
+              <point x="71.625" y="-15.5" />
+              <point x="1060.0625" y="675.0" />
+              <point x="3032.355617656743" y="675.0" />
+              <point x="-47.75" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameframework.ProxyGame" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
-              <point x="-15.75" y="-15.5" />
-              <point x="1049.4178571428574" y="182.0" />
-              <point x="963.6977593394263" y="182.0" />
-              <point x="38.333333333333314" y="15.5" />
+              <point x="36.0" y="-15.5" />
+              <point x="1901.802112403509" y="584.0" />
+              <point x="1910.052112403509" y="584.0" />
+              <point x="1910.052112403509" y="373.0" />
+              <point x="1978.0259282162406" y="373.0" />
+              <point x="-17.25" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gamestate.DominionCardState" target="project.katacka.dominion.gamestate.DominionGameState">
+              <point x="-27.59999999999991" y="15.5" />
+              <point x="3230.12479529838" y="222.0" />
+              <point x="3148.8093253968254" y="222.0" />
+              <point x="3148.8093253968254" y="534.0" />
+              <point x="3080.105617656743" y="534.0" />
+              <point x="0.0" y="-15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameframework.config.GameConfig" target="project.katacka.dominion.gameframework.ProxyPlayer">
-              <point x="-33.25" y="-15.5" />
-              <point x="0.0" y="15.5" />
+              <point x="44.333333333333485" y="-15.5" />
+              <point x="1322.349398472983" y="937.0" />
+              <point x="1393.5437853590975" y="937.0" />
+              <point x="1393.5437853590975" y="786.0" />
+              <point x="1745.302112403509" y="786.0" />
+              <point x="1745.302112403509" y="665.0" />
+              <point x="1761.302112403509" y="665.0" />
+              <point x="43.0" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.config.GameConfig" target="project.katacka.dominion.gameframework.GamePlayer">
+              <point x="-44.333333333333485" y="-15.5" />
+              <point x="1233.682731806316" y="907.0" />
+              <point x="882.4374999999999" y="907.0" />
+              <point x="882.4374999999999" y="534.0" />
+              <point x="1293.2191137943846" y="534.0" />
+              <point x="-30.71428571428578" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.MainActivity" target="project.katacka.dominion.gameframework.GameMainActivity">
-              <point x="-44.66666666666663" y="-15.5" />
-              <point x="1417.221175044091" y="434.0" />
-              <point x="1270.4996061808556" y="434.0" />
-              <point x="75.6875" y="15.5" />
+              <point x="44.666666666666515" y="-15.5" />
+              <point x="1153.2972843234097" y="917.0" />
+              <point x="1198.103042365813" y="917.0" />
+              <point x="-74.14285714285734" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.ProxyPlayer" target="project.katacka.dominion.gameframework.GamePlayer">
+              <point x="-48.375" y="-15.5" />
+              <point x="1669.927112403509" y="534.0" />
+              <point x="1360.790542365813" y="534.0" />
+              <point x="36.85714285714266" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.GameComputerPlayer" target="project.katacka.dominion.gameframework.Game">
+              <point x="74.25" y="-15.5" />
+              <point x="2152.8173280800993" y="937.0" />
+              <point x="2519.386772524544" y="937.0" />
+              <point x="2519.386772524544" y="212.0" />
+              <point x="1947.6314954431311" y="212.0" />
+              <point x="37.28571428571422" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameframework.GameHumanPlayer" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
-              <point x="-59.66666666666663" y="-15.5" />
-              <point x="695.7704595558764" y="534.0" />
-              <point x="746.8852593394263" y="534.0" />
-              <point x="746.8852593394263" y="192.0" />
-              <point x="899.8088704505374" y="192.0" />
-              <point x="-25.555555555555543" y="15.5" />
+              <point x="44.75" y="-15.5" />
+              <point x="1516.0163319424573" y="917.0" />
+              <point x="1946.677112403509" y="917.0" />
+              <point x="1946.677112403509" y="393.0" />
+              <point x="2001.0259282162406" y="393.0" />
+              <point x="5.75" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.LocalGame" target="project.katacka.dominion.gameframework.Game">
+              <point x="-15.375" y="-15.5" />
+              <point x="795.0624999999999" y="323.0" />
+              <point x="1833.6933277407766" y="323.0" />
+              <point x="1833.6933277407766" y="222.0" />
+              <point x="1873.0600668717027" y="222.0" />
+              <point x="-37.28571428571422" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gamedisplay.DominionPlayCardAction" target="project.katacka.dominion.gameframework.GamePlayer">
+              <point x="73.66666666666674" y="-15.5" />
+              <point x="184.16666666666674" y="484.0" />
+              <point x="1262.5048280800988" y="484.0" />
+              <point x="-61.42857142857156" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameplayer.DominionSimpleAIPlayer" target="project.katacka.dominion.gameplayer.DominionComputerPlayer">
-              <point x="-27.249999999999886" y="-15.5" />
-              <point x="2168.378772847522" y="746.0" />
-              <point x="1580.247023809524" y="746.0" />
+              <point x="81.75" y="-15.5" />
+              <point x="1519.17228432341" y="1199.0" />
+              <point x="2193.3913319424573" y="1199.0" />
               <point x="85.125" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gamedisplay.DominionQuitGameAction">
-              <point x="23.111111111111086" y="-15.5" />
-              <point x="1410.3398839586332" y="786.0" />
-              <point x="1907.9894059644055" y="786.0" />
+              <point x="-69.33333333333326" y="-15.5" />
+              <point x="1357.182998609124" y="1068.0" />
+              <point x="356.5" y="1068.0" />
               <point x="0.0" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameplayer.DominionSmartAIPlayer" target="project.katacka.dominion.gamedisplay.DominionPlayCardAction">
-              <point x="26.625" y="-15.5" />
-              <point x="1644.3537728475221" y="806.0" />
-              <point x="2059.1144059644057" y="806.0" />
-              <point x="0.0" y="15.5" />
+              <point x="-79.875" y="-15.5" />
+              <point x="507.25" y="1199.0" />
+              <point x="68.16666666666652" y="1199.0" />
+              <point x="68.16666666666652" y="685.0" />
+              <point x="36.83333333333326" y="685.0" />
+              <point x="-73.66666666666674" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gamedisplay.DominionBuyCardAction">
-              <point x="92.44444444444446" y="-15.5" />
-              <point x="1479.6732172919665" y="826.0" />
-              <point x="2333.0011904761905" y="826.0" />
-              <point x="-73.0" y="15.5" />
+              <point x="-46.22222222222217" y="-15.5" />
+              <point x="1380.2941097202352" y="1058.0" />
+              <point x="751.85350758132" y="1058.0" />
+              <point x="751.85350758132" y="685.0" />
+              <point x="675.5" y="685.0" />
+              <point x="73.0" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameframework.GameConfig" target="project.katacka.dominion.gameframework.GamePlayerType">
-              <point x="16.625" y="-15.5" />
-              <point x="1231.2928571428574" y="142.0" />
-              <point x="1229.2803571428574" y="142.0" />
-              <point x="0.0" y="15.5" />
+              <point x="-11.083333333333485" y="-15.5" />
+              <point x="1159.3541666666665" y="665.0" />
+              <point x="1154.3375" y="665.0" />
+              <point x="-32.19999999999982" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameframework.ProxyGame" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
-              <point x="47.25" y="-15.5" />
-              <point x="1112.4178571428574" y="152.0" />
-              <point x="1918.8644260060928" y="152.0" />
-              <point x="-60.5" y="15.5" />
+              <point x="-18.0" y="-15.5" />
+              <point x="1847.802112403509" y="584.0" />
+              <point x="1840.302112403509" y="584.0" />
+              <point x="1840.302112403509" y="313.0" />
+              <point x="1819.836184883634" y="313.0" />
+              <point x="1819.836184883634" y="101.0" />
+              <point x="1320.2275171557294" y="101.0" />
+              <point x="23.294117647058783" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.GameMainActivity" target="project.katacka.dominion.gameframework.GamePlayer">
+              <point x="36.041666666666515" y="-15.5" />
+              <point x="1308.287566175337" y="766.0" />
+              <point x="1365.1062853590975" y="766.0" />
+              <point x="1365.1062853590975" y="574.0" />
+              <point x="1336.2191137943846" y="574.0" />
+              <point x="12.28571428571422" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gamestate.DominionCardState">
-              <point x="-54.57142857142844" y="15.5" />
-              <point x="374.3452380952383" y="353.0" />
-              <point x="252.02988215488153" y="353.0" />
-              <point x="81.77777777777783" y="-15.5" />
+              <point x="86.81818181818176" y="-15.5" />
+              <point x="3166.9237994749246" y="584.0" />
+              <point x="3450.3593253968256" y="584.0" />
+              <point x="3450.3593253968256" y="222.0" />
+              <point x="3340.52479529838" y="222.0" />
+              <point x="82.79999999999995" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.MainActivity" target="project.katacka.dominion.gameframework.LocalGame">
-              <point x="44.66666666666663" y="-15.5" />
-              <point x="1506.5545083774243" y="534.0" />
-              <point x="1789.9621061808555" y="534.0" />
-              <point x="1789.9621061808555" y="353.0" />
-              <point x="1751.9894059644055" y="353.0" />
-              <point x="41.0" y="15.5" />
+              <point x="-44.666666666666515" y="-15.5" />
+              <point x="1063.9639509900767" y="937.0" />
+              <point x="773.7701742479867" y="937.0" />
+              <point x="773.7701742479867" y="685.0" />
+              <point x="769.4374999999999" y="685.0" />
+              <point x="-41.0" y="15.5" />
+            </edge>
+            <edge source="DominionActionPlayedInfo" target="project.katacka.dominion.gameframework.GamePlayer">
+              <point x="-68.66666666666674" y="-15.5" />
+              <point x="2564.2201058578776" y="494.0" />
+              <point x="1385.361970937242" y="494.0" />
+              <point x="61.42857142857156" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gamestate.DominionPlayerState" target="project.katacka.dominion.gamestate.DominionDeckState">
-              <point x="48.5" y="-15.5" />
-              <point x="395.0" y="61.0" />
-              <point x="265.1769260060928" y="61.0" />
-              <point x="46.5" y="15.5" />
+              <point x="77.60000000000002" y="-15.5" />
+              <point x="3333.9093253968254" y="403.0" />
+              <point x="3346.8593253968256" y="403.0" />
+              <point x="0.0" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gamedisplay.DominionPlayCardAction" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
-              <point x="55.25" y="-15.5" />
-              <point x="2114.3644059644057" y="655.0" />
-              <point x="2064.6144059644057" y="655.0" />
-              <point x="2064.6144059644057" y="192.0" />
-              <point x="1995.8644260060928" y="192.0" />
-              <point x="16.5" y="15.5" />
+              <point x="-73.66666666666674" y="-15.5" />
+              <point x="36.83333333333326" y="584.0" />
+              <point x="96.94378535909755" y="584.0" />
+              <point x="96.94378535909755" y="51.0" />
+              <point x="1234.815752449847" y="51.0" />
+              <point x="-62.11764705882342" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameplayer.DominionSmartAIPlayer" target="project.katacka.dominion.gameplayer.DominionComputerPlayer">
-              <point x="-26.625" y="-15.5" />
-              <point x="1591.1037728475221" y="766.0" />
-              <point x="1466.747023809524" y="766.0" />
-              <point x="-28.375" y="15.5" />
+              <point x="26.625" y="-15.5" />
+              <point x="613.75" y="1169.0" />
+              <point x="2023.1413319424573" y="1169.0" />
+              <point x="-85.125" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameframework.ProxyPlayer" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
-              <point x="48.375" y="-15.5" />
-              <point x="1091.346175044091" y="534.0" />
-              <point x="1443.9621061808555" y="534.0" />
-              <point x="1443.9621061808555" y="162.0" />
-              <point x="1929.8644260060928" y="162.0" />
-              <point x="-49.5" y="15.5" />
+              <point x="-16.125" y="-15.5" />
+              <point x="1702.177112403509" y="584.0" />
+              <point x="1712.802112403509" y="584.0" />
+              <point x="1712.802112403509" y="111.0" />
+              <point x="1312.4628112733762" y="111.0" />
+              <point x="15.529411764705856" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameplayer.DominionComputerPlayer" target="project.katacka.dominion.gameframework.GameComputerPlayer">
-              <point x="-18.91666666666663" y="-15.5" />
-              <point x="1476.2053571428573" y="615.0" />
-              <point x="1321.346175044091" y="615.0" />
-              <point x="49.5" y="15.5" />
+              <point x="-18.916666666666515" y="-15.5" />
+              <point x="2089.349665275791" y="1008.0" />
+              <point x="2029.0673280800993" y="1008.0" />
+              <point x="-49.5" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.MainActivity" target="project.katacka.dominion.gameframework.GameConfig">
               <point x="0.0" y="-15.5" />
-              <point x="1461.8878417107576" y="424.0" />
-              <point x="1417.8810726310721" y="424.0" />
-              <point x="1417.8810726310721" y="323.0" />
-              <point x="1267.8678571428575" y="323.0" />
-              <point x="53.200000000000045" y="15.5" />
+              <point x="1108.6306176567432" y="806.0" />
+              <point x="1120.5625" y="806.0" />
+              <point x="-49.875" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gamedisplay.DominionEndTurnAction" target="project.katacka.dominion.gameframework.GamePlayer">
+              <point x="-73.33333333333326" y="-15.5" />
+              <point x="2304.2938429174274" y="504.0" />
+              <point x="1379.2191137943846" y="504.0" />
+              <point x="55.28571428571422" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gamedisplay.DominionEndTurnAction" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
-              <point x="-55.0" y="-15.5" />
-              <point x="2130.1144059644057" y="182.0" />
-              <point x="2006.8644260060928" y="182.0" />
-              <point x="27.5" y="15.5" />
+              <point x="0.0" y="-15.5" />
+              <point x="2377.627176250761" y="403.0" />
+              <point x="2586.7589790012807" y="403.0" />
+              <point x="2586.7589790012807" y="81.0" />
+              <point x="1335.7569289204353" y="81.0" />
+              <point x="38.82352941176464" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameframework.config.GameConfig" target="project.katacka.dominion.gameframework.GameMainActivity">
-              <point x="33.25" y="-15.5" />
-              <point x="1109.471175044091" y="665.0" />
-              <point x="1117.971175044091" y="665.0" />
-              <point x="1117.971175044091" y="514.0" />
-              <point x="1183.9996061808556" y="514.0" />
-              <point x="-10.8125" y="15.5" />
+              <point x="0.0" y="-15.5" />
+              <point x="1278.0160651396495" y="937.0" />
+              <point x="1272.2458995086704" y="937.0" />
+              <point x="0.0" y="15.5" />
+            </edge>
+            <edge source="DominionActionPlayedInfo" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
+              <point x="68.66666666666674" y="-15.5" />
+              <point x="2701.5534391912106" y="584.0" />
+              <point x="2668.6509282162406" y="584.0" />
+              <point x="2668.6509282162406" y="51.0" />
+              <point x="1359.0510465674938" y="51.0" />
+              <point x="62.11764705882342" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.GameConfig" target="project.katacka.dominion.gameframework.GamePlayer">
+              <point x="-55.416666666666515" y="-15.5" />
+              <point x="1115.0208333333335" y="665.0" />
+              <point x="1069.307731806316" y="665.0" />
+              <point x="1069.307731806316" y="554.0" />
+              <point x="1305.5048280800988" y="554.0" />
+              <point x="-18.42857142857156" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gamestate.GsonDeserializer" target="project.katacka.dominion.gamestate.DominionCardState">
               <point x="-54.66666666666674" y="-15.5" />
-              <point x="215.35748156164823" y="665.0" />
-              <point x="125.5021043771037" y="665.0" />
-              <point x="125.5021043771037" y="534.0" />
-              <point x="108.91877104377045" y="534.0" />
-              <point x="-61.33333333333326" y="15.5" />
+              <point x="2782.8926587301585" y="403.0" />
+              <point x="2785.3414619650466" y="403.0" />
+              <point x="2785.3414619650466" y="192.0" />
+              <point x="3174.9247952983796" y="192.0" />
+              <point x="-82.79999999999995" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameplayer.DominionSimpleAIPlayer" target="project.katacka.dominion.gamedisplay.DominionBuyCardAction">
-              <point x="81.75000000000011" y="-15.5" />
-              <point x="2277.378772847522" y="846.0" />
-              <point x="2479.0011904761905" y="846.0" />
-              <point x="73.0" y="15.5" />
+              <point x="-27.25" y="-15.5" />
+              <point x="1410.17228432341" y="1149.0" />
+              <point x="653.1265171654138" y="1149.0" />
+              <point x="653.1265171654138" y="685.0" />
+              <point x="602.5" y="685.0" />
+              <point x="0.0" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameplayer.DominionComputerPlayer" target="project.katacka.dominion.gameframework.GameMainActivity">
-              <point x="18.91666666666663" y="-15.5" />
-              <point x="1514.0386904761906" y="605.0" />
-              <point x="1381.346175044091" y="605.0" />
-              <point x="1381.346175044091" y="444.0" />
-              <point x="1248.8746061808556" y="444.0" />
-              <point x="54.0625" y="15.5" />
+              <point x="-94.58333333333348" y="-15.5" />
+              <point x="2013.6829986091238" y="1028.0" />
+              <point x="1201.0160651396495" y="1028.0" />
+              <point x="1201.0160651396495" y="937.0" />
+              <point x="1247.5316137943846" y="937.0" />
+              <point x="-24.71428571428578" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gameframework.GameMainActivity">
               <point x="-23.111111111111086" y="-15.5" />
-              <point x="1364.117661736411" y="816.0" />
-              <point x="1153.221175044091" y="816.0" />
-              <point x="1153.221175044091" y="524.0" />
-              <point x="1205.6246061808556" y="524.0" />
-              <point x="10.8125" y="15.5" />
+              <point x="1403.4052208313462" y="1048.0" />
+              <point x="1190.0160651396495" y="1048.0" />
+              <point x="1190.0160651396495" y="927.0" />
+              <point x="1222.8173280800988" y="927.0" />
+              <point x="-49.42857142857156" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameframework.GameConfig" target="project.katacka.dominion.gameframework.ProxyPlayer">
-              <point x="-53.200000000000045" y="15.5" />
-              <point x="1161.4678571428574" y="293.0" />
-              <point x="1095.3616071428573" y="293.0" />
-              <point x="1095.3616071428573" y="474.0" />
-              <point x="1026.846175044091" y="474.0" />
-              <point x="-16.125" y="-15.5" />
+              <point x="55.416666666666515" y="-15.5" />
+              <point x="1225.8541666666665" y="665.0" />
+              <point x="1675.302112403509" y="665.0" />
+              <point x="-43.0" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameframework.GameHumanPlayer" target="project.katacka.dominion.gameframework.GameMainActivity">
-              <point x="59.66666666666666" y="-15.5" />
-              <point x="815.1037928892097" y="494.0" />
-              <point x="1140.7496061808556" y="494.0" />
-              <point x="-54.0625" y="15.5" />
+              <point x="-44.75" y="-15.5" />
+              <point x="1426.5163319424573" y="917.0" />
+              <point x="1321.674470937242" y="917.0" />
+              <point x="49.42857142857156" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gamestate.DominionShopPileState">
-              <point x="0.0" y="15.5" />
-              <point x="428.91666666666674" y="343.0" />
-              <point x="437.05952380952385" y="343.0" />
-              <point x="437.05952380952385" y="524.0" />
-              <point x="381.27414822831497" y="524.0" />
-              <point x="53.0" y="-15.5" />
+              <point x="-17.363636363636488" y="-15.5" />
+              <point x="3062.7419812931066" y="524.0" />
+              <point x="3137.8093253968254" y="524.0" />
+              <point x="3137.8093253968254" y="383.0" />
+              <point x="3061.8093253968254" y="383.0" />
+              <point x="60.57142857142867" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.GameHumanPlayer" target="project.katacka.dominion.gameframework.Game">
+              <point x="74.58333333333326" y="-15.5" />
+              <point x="1545.8496652757906" y="927.0" />
+              <point x="2508.386772524544" y="927.0" />
+              <point x="2508.386772524544" y="222.0" />
+              <point x="1935.2029240145596" y="222.0" />
+              <point x="24.857142857142662" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameplayer.DominionHumanPlayer" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
-              <point x="-92.44444444444446" y="-15.5" />
-              <point x="1294.7843284030778" y="846.0" />
-              <point x="655.437126222543" y="846.0" />
-              <point x="655.437126222543" y="182.0" />
-              <point x="887.0310926727597" y="182.0" />
-              <point x="-38.333333333333314" y="15.5" />
+              <point x="69.33333333333326" y="-15.5" />
+              <point x="1495.8496652757906" y="1058.0" />
+              <point x="1969.0673280800993" y="1058.0" />
+              <point x="1969.0673280800993" y="403.0" />
+              <point x="2012.5259282162406" y="403.0" />
+              <point x="17.25" y="15.5" />
             </edge>
             <edge source="DominionGameInfo" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
-              <point x="45.75" y="-15.5" />
-              <point x="599.187126222543" y="172.0" />
-              <point x="874.2533148949818" y="172.0" />
-              <point x="-51.11111111111114" y="15.5" />
+              <point x="-45.75" y="-15.5" />
+              <point x="2322.386772524544" y="655.0" />
+              <point x="2199.0673280800993" y="655.0" />
+              <point x="2199.0673280800993" y="383.0" />
+              <point x="2047.0259282162406" y="383.0" />
+              <point x="51.75" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gamedisplay.Cards" target="project.katacka.dominion.gamedisplay.CardView">
-              <point x="21.750000000000114" y="-15.5" />
-              <point x="1767.9621262225432" y="524.0" />
-              <point x="1750.9621061808555" y="524.0" />
-              <point x="28.5" y="15.5" />
+              <point x="-21.75" y="-15.5" />
+              <point x="1602.5163319424573" y="907.0" />
+              <point x="1547.302112403509" y="907.0" />
+              <point x="-28.5" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameframework.LocalGame" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
+              <point x="-46.125" y="-15.5" />
+              <point x="764.3124999999999" y="474.0" />
+              <point x="757.9743984729827" y="474.0" />
+              <point x="757.9743984729827" y="121.0" />
+              <point x="1289.1686936263177" y="121.0" />
+              <point x="-7.764705882352928" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.ProxyGame" target="project.katacka.dominion.gameframework.Game">
               <point x="0.0" y="-15.5" />
-              <point x="1710.9894059644055" y="182.0" />
-              <point x="1951.8644260060928" y="182.0" />
-              <point x="-27.5" y="15.5" />
+              <point x="1865.802112403509" y="584.0" />
+              <point x="1873.302112403509" y="584.0" />
+              <point x="1873.302112403509" y="242.0" />
+              <point x="1897.9172097288454" y="242.0" />
+              <point x="-12.428571428571558" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gamestate.GsonDeserializer" target="project.katacka.dominion.gamestate.DominionShopPileState">
               <point x="0.0" y="-15.5" />
-              <point x="270.02414822831497" y="665.0" />
-              <point x="257.6074815616482" y="665.0" />
-              <point x="-70.66666666666674" y="15.5" />
+              <point x="2837.5593253968254" y="383.0" />
+              <point x="2910.380753968254" y="383.0" />
+              <point x="-90.85714285714286" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gamedisplay.DominionQuitGameAction" target="project.katacka.dominion.gameframework.GamePlayer">
+              <point x="76.99999999999989" y="-15.5" />
+              <point x="433.5" y="494.0" />
+              <point x="1268.6476852229562" y="494.0" />
+              <point x="-55.28571428571422" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameframework.GameComputerPlayer" target="project.katacka.dominion.gameframework.GameMainActivity">
-              <point x="49.5" y="-15.5" />
-              <point x="1321.346175044091" y="454.0" />
-              <point x="1227.2496061808556" y="454.0" />
-              <point x="32.4375" y="15.5" />
+              <point x="-74.25" y="-15.5" />
+              <point x="2004.3173280800993" y="887.0" />
+              <point x="1346.3887566515277" y="887.0" />
+              <point x="74.14285714285734" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gameframework.GameMainActivity" target="project.katacka.dominion.gameframework.LocalGame">
-              <point x="72.08333333333337" y="-15.5" />
-              <point x="1266.8954395141889" y="343.0" />
-              <point x="1669.9894059644055" y="343.0" />
-              <point x="-41.0" y="15.5" />
+              <point x="-79.29166666666652" y="-15.5" />
+              <point x="1192.9542328420039" y="796.0" />
+              <point x="795.4374999999999" y="796.0" />
+              <point x="795.4374999999999" y="685.0" />
+              <point x="810.4374999999999" y="685.0" />
+              <point x="0.0" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gamestate.CardReader" target="project.katacka.dominion.gamestate.DominionShopPileState">
               <point x="32.0" y="-15.5" />
-              <point x="380.6032948532943" y="846.0" />
-              <point x="394.8532948532943" y="846.0" />
-              <point x="394.8532948532943" y="665.0" />
-              <point x="398.9408148949815" y="665.0" />
-              <point x="70.66666666666652" y="15.5" />
+              <point x="2874.7201058578776" y="584.0" />
+              <point x="2930.0593253968254" y="584.0" />
+              <point x="2930.0593253968254" y="403.0" />
+              <point x="2970.9521825396823" y="403.0" />
+              <point x="-30.28571428571422" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gamestate.DominionPlayerState">
-              <point x="-15.916666666666515" y="-15.5" />
-              <point x="413.0000000000002" y="202.0" />
-              <point x="395.0" y="202.0" />
-              <point x="48.5" y="15.5" />
+              <point x="52.090909090909065" y="-15.5" />
+              <point x="3132.196526747652" y="564.0" />
+              <point x="3320.9759920634924" y="564.0" />
+              <point x="64.66666666666669" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.gamestate.DominionShopPileState" target="project.katacka.dominion.gamestate.DominionCardState">
-              <point x="-88.33333333333326" y="-15.5" />
-              <point x="239.9408148949817" y="534.0" />
-              <point x="170.2521043771037" y="534.0" />
-              <point x="0.0" y="15.5" />
-            </edge>
-            <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gamestate.DominionCardType">
-              <point x="-79.58333333333348" y="-15.5" />
-              <point x="349.33333333333326" y="182.0" />
-              <point x="199.5" y="182.0" />
-              <point x="60.0" y="15.5" />
+              <point x="53.0" y="-15.5" />
+              <point x="3054.237896825397" y="212.0" />
+              <point x="3211.72479529838" y="212.0" />
+              <point x="-45.99999999999999" y="15.5" />
             </edge>
             <edge source="project.katacka.dominion.localgame.DominionLocalGame" target="project.katacka.dominion.gameframework.LocalGame">
-              <point x="63.66666666666674" y="-15.5" />
-              <point x="1613.6287728475222" y="353.0" />
-              <point x="1710.9894059644055" y="353.0" />
-              <point x="0.0" y="15.5" />
+              <point x="-23.875" y="-15.5" />
+              <point x="964.5624999999999" y="665.0" />
+              <point x="851.4374999999999" y="665.0" />
+              <point x="41.0" y="15.5" />
             </edge>
-            <edge source="project.katacka.dominion.gameframework.ProxyPlayer" target="project.katacka.dominion.gameframework.GameMainActivity">
-              <point x="16.125" y="-15.5" />
-              <point x="1059.096175044091" y="504.0" />
-              <point x="1162.3746061808556" y="504.0" />
-              <point x="-32.4375" y="15.5" />
-            </edge>
-            <edge source="project.katacka.dominion.gameplayer.DominionComputerPlayer" target="project.katacka.dominion.gamedisplay.Cards">
-              <point x="56.75" y="-15.5" />
-              <point x="1551.872023809524" y="655.0" />
-              <point x="1767.962126222543" y="655.0" />
-              <point x="21.75" y="15.5" />
-            </edge>
-            <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gamestate.DominionDeckState">
-              <point x="47.75" y="-15.5" />
-              <point x="476.66666666666674" y="192.0" />
-              <point x="519.2185926727595" y="192.0" />
-              <point x="519.2185926727595" y="51.0" />
-              <point x="296.1769260060928" y="51.0" />
-              <point x="77.5" y="15.5" />
-            </edge>
-            <edge source="project.katacka.dominion.gamestate.DominionPlayerState" target="project.katacka.dominion.gamestate.DominionShopPileState">
-              <point x="-16.166666666666515" y="15.5" />
-              <point x="330.3333333333335" y="202.0" />
-              <point x="317.8750000000002" y="202.0" />
-              <point x="317.8750000000002" y="534.0" />
-              <point x="310.60748156164846" y="534.0" />
-              <point x="-17.666666666666515" y="-15.5" />
-            </edge>
-            <edge source="project.katacka.dominion.gamestate.DominionDeckState" target="project.katacka.dominion.gamestate.DominionCardState">
-              <point x="-77.5" y="15.5" />
-              <point x="141.1769260060928" y="51.0" />
-              <point x="17.0" y="51.0" />
-              <point x="17.0" y="353.0" />
-              <point x="88.47432659932588" y="353.0" />
-              <point x="-81.77777777777783" y="-15.5" />
-            </edge>
-            <edge source="project.katacka.dominion.gamedisplay.DominionQuitGameAction" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
-              <point x="57.75" y="-15.5" />
-              <point x="1965.7394059644055" y="202.0" />
-              <point x="1973.8644260060928" y="202.0" />
-              <point x="-5.5" y="15.5" />
-            </edge>
-            <edge source="project.katacka.dominion.gameframework.GameComputerPlayer" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
-              <point x="-49.5" y="-15.5" />
-              <point x="1222.346175044091" y="464.0" />
-              <point x="991.6678571428574" y="464.0" />
-              <point x="991.6678571428574" y="202.0" />
-              <point x="938.1422037838707" y="202.0" />
-              <point x="12.777777777777771" y="15.5" />
-            </edge>
-            <edge source="project.katacka.dominion.gamestate.DominionCardState" target="project.katacka.dominion.gamestate.DominionPlayerState">
-              <point x="40.88888888888869" y="-15.5" />
-              <point x="211.1409932659924" y="333.0" />
-              <point x="265.2880371172039" y="333.0" />
-              <point x="265.2880371172039" y="202.0" />
-              <point x="298.0" y="202.0" />
-              <point x="-48.5" y="15.5" />
-            </edge>
-            <edge source="project.katacka.dominion.gamestate.DominionCardState" target="project.katacka.dominion.gamestate.DominionCardType">
-              <point x="-20.444444444444343" y="-15.5" />
-              <point x="149.80765993265936" y="323.0" />
-              <point x="128.5" y="323.0" />
-              <point x="128.5" y="202.0" />
-              <point x="79.5" y="202.0" />
+            <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gamestate.DominionCardType">
+              <point x="-86.81818181818198" y="-15.5" />
+              <point x="2993.287435838561" y="574.0" />
+              <point x="2724.8093253968254" y="574.0" />
+              <point x="2724.8093253968254" y="121.0" />
+              <point x="3167.72479529838" y="121.0" />
               <point x="-60.0" y="15.5" />
             </edge>
-            <edge source="project.katacka.dominion.localgame.DominionLocalGame" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
+            <edge source="project.katacka.dominion.gameframework.ProxyPlayer" target="project.katacka.dominion.gameframework.GameMainActivity">
+              <point x="0.0" y="15.5" />
+              <point x="1718.302112403509" y="665.0" />
+              <point x="1734.302112403509" y="665.0" />
+              <point x="1734.302112403509" y="776.0" />
+              <point x="1322.7042328420039" y="776.0" />
+              <point x="50.458333333333485" y="-15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gamestate.DominionGameState" target="project.katacka.dominion.gamestate.DominionDeckState">
+              <point x="69.4545454545455" y="-15.5" />
+              <point x="3149.5601631112886" y="574.0" />
+              <point x="3424.1093253968256" y="574.0" />
+              <point x="3424.1093253968256" y="403.0" />
+              <point x="3408.8593253968256" y="403.0" />
+              <point x="62.0" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameplayer.DominionComputerPlayer" target="project.katacka.dominion.gamedisplay.Cards">
+              <point x="-56.75" y="-15.5" />
+              <point x="2051.5163319424573" y="1018.0" />
+              <point x="1646.0163319424573" y="1018.0" />
+              <point x="21.75" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gamestate.DominionPlayerState" target="project.katacka.dominion.gamestate.DominionShopPileState">
+              <point x="-77.60000000000002" y="-15.5" />
+              <point x="3178.7093253968255" y="373.0" />
+              <point x="3092.0950396825397" y="373.0" />
+              <point x="90.85714285714289" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gamestate.DominionDeckState" target="project.katacka.dominion.gamestate.DominionCardState">
+              <point x="62.0" y="-15.5" />
+              <point x="3408.8593253968256" y="232.0" />
+              <point x="3322.12479529838" y="232.0" />
+              <point x="64.40000000000003" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gamedisplay.DominionQuitGameAction" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
               <point x="0.0" y="-15.5" />
-              <point x="1549.9621061808555" y="172.0" />
-              <point x="1940.8644260060928" y="172.0" />
-              <point x="-38.5" y="15.5" />
+              <point x="356.5" y="474.0" />
+              <point x="352.2771186924308" y="474.0" />
+              <point x="352.2771186924308" y="81.0" />
+              <point x="1258.109870096906" y="81.0" />
+              <point x="-38.82352941176464" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gamestate.DominionCardState" target="project.katacka.dominion.gamestate.DominionPlayerState">
+              <point x="-9.200000000000045" y="15.5" />
+              <point x="3248.52479529838" y="232.0" />
+              <point x="3189.6093253968256" y="232.0" />
+              <point x="3189.6093253968256" y="403.0" />
+              <point x="3217.5093253968253" y="403.0" />
+              <point x="-38.799999999999955" y="-15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.GameComputerPlayer" target="project.katacka.dominion.gameframework.infoMsg.GameInfo">
+              <point x="24.75" y="-15.5" />
+              <point x="2103.3173280800993" y="403.0" />
+              <point x="2024.0259282162406" y="403.0" />
+              <point x="28.75" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gamestate.DominionCardState" target="project.katacka.dominion.gamestate.DominionCardType">
+              <point x="-46.0" y="-15.5" />
+              <point x="3211.72479529838" y="121.0" />
+              <point x="3227.72479529838" y="121.0" />
+              <point x="0.0" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.gameframework.Game" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
+              <point x="0.0" y="-15.5" />
+              <point x="1910.345781157417" y="91.0" />
+              <point x="1327.992223038082" y="91.0" />
+              <point x="31.05882352941171" y="15.5" />
+            </edge>
+            <edge source="project.katacka.dominion.localgame.DominionLocalGame" target="project.katacka.dominion.gameframework.actionMsg.GameAction">
+              <point x="-71.625" y="-15.5" />
+              <point x="916.8124999999999" y="675.0" />
+              <point x="482.5" y="675.0" />
+              <point x="482.5" y="91.0" />
+              <point x="1265.8745759792587" y="91.0" />
+              <point x="-31.05882352941171" y="15.5" />
             </edge>
           </edges>
-          <settings layout="Hierarchic Group" zoom="0.5167867740568037" x="1169.5" y="527.9000082027725" />
+          <settings layout="Hierarchic Group" zoom="0.43587842846553004" x="530.0688775510204" y="530.6122448979592" />
           <SelectedNodes>
-            <node>project.katacka.dominion.gamestate.DominionShopPileState</node>
+            <node>project.katacka.dominion.gamedisplay.Cards</node>
           </SelectedNodes>
           <Categories />
           <SCOPE>All</SCOPE>
           <VISIBILITY>private</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/katacka/dominion/gamedisplay/DominionAIGetInfoAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="36" selection-start-line="5" selection-start-column="36" selection-end-line="5" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#418#419#0" expanded="true" />
+            <element signature="e#447#448#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/katacka/dominion/localgame/DominionActionPlayedInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+          <folding>
+            <element signature="e#432#433#0" expanded="true" />
+            <element signature="e#461#462#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/katacka/dominion/localgame/DominionLocalGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-45">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1775#1776#0" expanded="true" />
+            <element signature="e#1802#1803#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/katacka/dominion/gameplayer/DominionHumanPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="402">
+          <caret line="57" column="44" selection-start-line="57" selection-start-column="44" selection-end-line="57" selection-end-column="44" />
         </state>
       </provider>
     </entry>

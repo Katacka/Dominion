@@ -18,10 +18,6 @@ public class DominionHumanPlayer extends GameHumanPlayer{
         Cards a;
     }
 
-    public boolean actionPlayed() {
-        project.katacka.dominion.gamedisplay.DominionActionPlayed;
-        return true;
-    }
 
     public boolean playSimpleActionPhase() {
         project.katacka.dominion.gamedisplay.DominionPlayCardAction a;
@@ -60,7 +56,6 @@ public class DominionHumanPlayer extends GameHumanPlayer{
 
     @Override
     public void receiveInfo(GameInfo info) {
-
     }
 
     @Override
