@@ -1,10 +1,22 @@
 package project.katacka.dominion.localgame;
 
+import java.util.Locale;
+
+import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gameframework.GamePlayer;
 import project.katacka.dominion.gameframework.LocalGame;
 import project.katacka.dominion.gameframework.actionMsg.GameAction;
+import project.katacka.dominion.gameframework.infoMsg.GameState;
+import project.katacka.dominion.gamestate.DominionGameState;
 
+/**
+ * Implementation of Local Game for Dominion
+ *
+ * @author Ryan Regier
+ */
 public class DominionLocalGame extends LocalGame {
+
+    DominionGameState state;
 
     /**
      * Notify the given player that its state has changed. This should involve sending
@@ -16,7 +28,8 @@ public class DominionLocalGame extends LocalGame {
      * 			the player to notify
      */
     protected void sendUpdatedStateTo(GamePlayer p){
-        return;
+        DominionGameState copy = new DominionGameState(state, getPlayerIdx(p));
+        p.sendInfo(copy);
     }
 
     /**
@@ -29,7 +42,7 @@ public class DominionLocalGame extends LocalGame {
      * 		true iff the player is allowed to move
      */
     protected boolean canMove(int playerIdx){
-        return true;
+        return state.canMove(playerIdx);
     }
 
 
@@ -42,7 +55,37 @@ public class DominionLocalGame extends LocalGame {
      * 			game is not over
      */
     protected String checkIfGameOver(){
-        return null;
+        if (!state.getGameOver()){
+            return null;
+        }
+
+        int[] scores = state.getPlayerScores();
+        int winner = state.getWinner();
+        String result;
+        if (winner != -1){ //No tie
+            result = String.format(Locale.US, "%s has won.\nScores:\n", playerNames[winner]);
+        } else {
+            int[] tiedPlayers = state.getTiedPlayers();
+            int numTied = tiedPlayers.length;
+            result = String.format(Locale.US, "There was a %d-way tie between ", numTied);
+            for (int i = 0; i < numTied; i++){
+                if (i == numTied-1){
+                    result += String.format(Locale.US, "%s.\nScores:\n", playerNames[i]);
+                } else if ( i == numTied - 2){
+                    result += String.format(Locale.US, "%s and ", playerNames[i]);
+                } else {
+                    result += String.format(Locale.US, "%s, ", playerNames[i]);
+                }
+            }
+        }
+
+        for(int i = 0; i < playerNames.length; i++){
+            result += String.format(Locale.US, "%s: %d\n", playerNames[i], scores[i]);
+        }
+
+        result += "Thanks for playing!";
+        return result;
+
     }
 
 
@@ -55,7 +98,9 @@ public class DominionLocalGame extends LocalGame {
      * 			Tells whether the move was a legal one.
      */
     protected boolean makeMove(GameAction action){
-
+        if (action instanceof DominionPlayCardAction){
+            //TODO
+        }
         return true;
     }
 
