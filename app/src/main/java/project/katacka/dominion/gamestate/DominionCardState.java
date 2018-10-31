@@ -11,9 +11,13 @@ import static android.content.ContentValues.TAG;
  * A data class intended to represent the state of a card object.
  * Only one instance should be created per unique card.
  *
- * @author Julian Donovan, Hayden Liao, Ashika Mulagada
+ * @author Julian Donovan, Hayden Liao, Ashika Mulagada, Ryan Regier
  */
 public class DominionCardState {
+
+    //A card with no data, used for obfuscation
+    public static final DominionCardState BLANK_CARD = new DominionCardState();
+
     //Card attributes
     //Final because only one instance is made per card. Changing an attribute would change all copies
     private final String title;
@@ -66,9 +70,29 @@ public class DominionCardState {
         this.victoryPoints = victoryPoints;
     }
 
-    //blank constructor
-        //these fields currently have dummy values, so we don't get compiler errors
-    public DominionCardState(){
+    /**
+     * Copy constructor
+     * @param other The instance to copy
+     */
+     public DominionCardState(DominionCardState other){
+        this.title = other.title;
+        this.photoID = other.photoID;
+        this.text = other.text;
+        this.cost = other.cost;
+        this.type = other.type;
+        this.action = other.action;
+        this.addedTreasure = other.addedTreasure;
+        this.addedActions = other.addedActions;
+        this.addedBuys = other.addedBuys;
+        this.addedDraw = other.addedDraw;
+        this.victoryPoints = other.victoryPoints;
+     }
+
+    /**Blank constructor
+     * Creates empty card
+     * Used to obfuscate cards players cannot "see"
+     */
+    private DominionCardState(){
         this.title = "Blank";
         this.photoID = null;
         this.text = "Blank text";
@@ -76,7 +100,7 @@ public class DominionCardState {
         this.type = DominionCardType.BLANK;
 
         //Dynamically assigned by method reflection, allowing for a String method reference to be held in JSON
-        this.action = getMethod("baseAction");
+        this.action = getMethod("basicAction");
 
         this.addedTreasure = 0;
         this.addedActions = 0;
@@ -102,11 +126,11 @@ public class DominionCardState {
      */
     private Method getMethod(String action){
         try {
-            return DominionCardState.class.getDeclaredMethod(action);
+            return DominionCardState.class.getDeclaredMethod(action, DominionGameState.class);
         }
         catch (NoSuchMethodException e) {
             Log.e(TAG, "Error encountered reflecting action method: " + e + " with card " + this.title);
-            throw new IllegalArgumentException("Card function does not exist", e);
+            throw new IllegalArgumentException("Card function " + action + " does not exist", e);
         }
     }
 
@@ -191,9 +215,14 @@ public class DominionCardState {
 
     public int getAddedBuys() { return addedBuys; }
 
+    /**
+     * Calculates the number of victory points card is worth
+     * @param totalCards Total number of cards in deck. Effects VP calculation for gardens
+     * @return The VP worth of this card
+     */
     public int getVictoryPoints(int totalCards) {
         if(title.equals("Gardens")) return totalCards/10;
-        return victoryPoints;
+        else return victoryPoints;
     }
 
     private boolean moatAction(DominionGameState game) {
@@ -202,18 +231,44 @@ public class DominionCardState {
     }
 
     private boolean merchantAction(DominionGameState game) {
-        game.dominionPlayers[game.currentTurn].silverBoon = true; //The first Silver played is worth one more
+        game.silverBoon = true; //The first Silver played is worth one more
         return basicAction(game);
     }
 
+    /////////////////////////////////////////////////////////////////////////
+    /*
+    Functions below this point are card actions. They are called when the card is played.
+    Note that we cannot know what functions will be called until runtime, since cards are linked to
+        methods by reading the XML.
+    It is assumed the card is legal to play - these methods will not check for sufficient actions,
+        current player's turn, ect.
 
+    */
+    ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Council room action:
+     * +4 Cards, 1 Buy, Each other player draws a card
+     * @param game The game state the card is played in
+     * @return Action completed successfuly
+     */
     private boolean councilRoomAction(DominionGameState game) {
+        //Card text: "Each other player draws a card"
         for (int i = 0; i < game.dominionPlayers.length; i++) {
             if (i != game.currentTurn) game.dominionPlayers[i].getDeck().draw();
         }
         return basicAction(game);
     }
 
+    /**
+     * Money lender action:
+     * You may trash a Copper from your hand for +3 Gold
+     *
+     * Implemented assuming player will only play card if they will trash copper
+     * (there is no reason to play it otherwise)
+     * @param game The game state the card is played in
+     * @return Action completed successfully, meaning Copper in hand is trashed
+     */
     private boolean moneylenderAction(DominionGameState game) {
         if(game.dominionPlayers[game.currentTurn].getDeck().discard("Copper")) {
             game.treasure += 3;
@@ -222,38 +277,24 @@ public class DominionCardState {
         return false;
     }
 
+    /**
+     * Silver action.
+     * Needed to deal with market effect.
+     *
+     * @param game The game state the card is played in
+     * @return Action completed successfully.
+     */
     private boolean silverAction(DominionGameState game) {
-        if(game.dominionPlayers[game.currentTurn].silverBoon) {
+        if(game.silverBoon) {
             game.treasure += 1; //Handles merchant silver boon
-            game.dominionPlayers[game.currentTurn].silverBoon = false;
+            game.silverBoon = false;
         }
 
         return basicAction(game);
     }
 
-    //Harder actions that we will worry about implementing later
-    /*private boolean harbingerAction() {
-        return true;
-    }
-
-    private boolean remodelAction() { return true; }
-
-    private boolean throneAction() { return true; }
-
-    private boolean artisanAction() { return true; }
-
-    private boolean witchAction() { return true; }
-
-    private boolean libraryAction() {
-        return true;
-    }
-
-    private boolean militiaAction() {
-        return true;
-    }*/
-
     /**
-     * Base action.
+     * Basic action.
      * Used by any card whose action contain the following:
      * <ul>
      *     <li>Draw</li>
@@ -261,6 +302,8 @@ public class DominionCardState {
      *     <li>Buys</li>
      *     <li>Treasure</li>
      * </ul>
+     *
+     * @param game The game the card is played in
      * @return Action success
      */
     private boolean basicAction(DominionGameState game) {

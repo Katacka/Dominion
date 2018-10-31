@@ -19,6 +19,11 @@ public class GsonDeserializer implements JsonDeserializer<ArrayList<DominionShop
 
     String expansionSet;
 
+    /**
+     * Creates a customized deserializer capable of interpreting raw JSON
+     * representations of DominionCardState objects
+     * @param expansionSet Sets the expansion set, determining the base and shop cards available for generation
+     */
     public GsonDeserializer(String expansionSet) {
         this.expansionSet = expansionSet;
     }
@@ -36,8 +41,7 @@ public class GsonDeserializer implements JsonDeserializer<ArrayList<DominionShop
         throws JsonParseException {
 
         //Interprets the JsonElement as a JSON array
-        JsonObject jsonCardsObj = el.getAsJsonObject();
-        JsonArray jsonCards = jsonCardsObj.getAsJsonArray(expansionSet);
+        JsonArray jsonCards = ((JsonObject) el).getAsJsonArray(expansionSet);
 
         //Iterates over the JSON array, extracting card data to populate DominionCardState objects
         ArrayList<DominionShopPileState> cardPiles = new ArrayList<>(10);
