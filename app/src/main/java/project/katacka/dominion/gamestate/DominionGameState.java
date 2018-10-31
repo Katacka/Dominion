@@ -39,6 +39,7 @@ public class DominionGameState extends GameState {
     private final int PILE_PROVIDENCE = 6;
 
     protected DominionPlayerState dominionPlayers[]; //Sorted by order of turn
+
     protected int currentTurn;
     protected int attackTurn; //Player ID of responder
     protected boolean isAttackTurn;
@@ -399,5 +400,9 @@ public class DominionGameState extends GameState {
             }
         }
         return false;
+    }
+
+    public int getCurrentTurn() {
+        return currentTurn;
     }
 }

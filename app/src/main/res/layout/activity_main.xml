@@ -41,7 +41,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <include
+                <project.katacka.dominion.gamedisplay.CardView
                     layout="@layout/shop_card"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"

@@ -26,6 +26,8 @@ import project.katacka.dominion.gameframework.LocalGame;
 
 //extends AppCompatActivity
 public class MainActivity extends GameMainActivity{
+    TextView tv = findViewById(R.id.playerTab1);
+
     @Override
     public GameConfig createDefaultConfig() {
         //TODO: undummy createDefaultConfig()

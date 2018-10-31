@@ -1,9 +1,13 @@
 package project.katacka.dominion.gamedisplay;
 
+import android.content.Context;
+import android.support.constraint.ConstraintLayout;
+import android.util.AttributeSet;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class CardView {
+public class Card {
     //Graphic Properties
     protected String mTitle;
     protected int mPhotoId;
@@ -13,11 +17,12 @@ public class CardView {
     protected int mAmount;
     Method action;
 
-    public CardView(CardView jsonCardView) {
+    public Card(Card jsonCardView) {
         //this = jsonCardView;
     }
 
-    public CardView(String name, int photoId, String text, int cost, String type, int amount){
+    public Card(String name, int photoId, String text, int cost, String type, int amount){
+
         mTitle = name;
         mPhotoId = photoId;
         mText = text;
