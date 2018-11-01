@@ -2,6 +2,8 @@ package project.katacka.dominion.localgame;
 
 import java.util.Locale;
 
+import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
+import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gameframework.GamePlayer;
 import project.katacka.dominion.gameframework.LocalGame;
@@ -16,7 +18,8 @@ import project.katacka.dominion.gamestate.DominionGameState;
  */
 public class DominionLocalGame extends LocalGame {
 
-    DominionGameState state;
+    //The offical copy of the game state
+    private DominionGameState state;
 
     /**
      * Notify the given player that its state has changed. This should involve sending
@@ -92,16 +95,30 @@ public class DominionLocalGame extends LocalGame {
     /**
      * Makes a move on behalf of a player.
      *
-     * @param action
+     * @param gameAction
      * 			The move that the player has sent to the game
      * @return
      * 			Tells whether the move was a legal one.
      */
-    protected boolean makeMove(GameAction action){
-        if (action instanceof DominionPlayCardAction){
-            //TODO
-        }
-        return true;
+    protected boolean makeMove(GameAction gameAction){
+        if (gameAction instanceof DominionPlayCardAction){
+            DominionPlayCardAction action = (DominionPlayCardAction) gameAction;
+            GamePlayer player = action.getPlayer();
+            int playerID = getPlayerIdx(player);
+            int cardIndex = action.getCardIndex();
+            return state.playCard(playerID, cardIndex);
+        } else if (gameAction instanceof DominionBuyCardAction){
+            DominionBuyCardAction action = (DominionBuyCardAction) gameAction;
+            GamePlayer player = action.getPlayer();
+            int playerIndex = getPlayerIdx(player);
+            int cardIndex = action.getCardIndex();
+            boolean isBaseCard = action.getIsBaseCard();
+            return state.buyCard(playerIndex, cardIndex, isBaseCard);
+        } else if (gameAction instanceof DominionEndTurnAction){
+            DominionEndTurnAction action = (DominionEndTurnAction) gameAction;
+            int playerIndex = getPlayerIdx(action.getPlayer());
+            return state.endTurn(playerIndex);
+        } else return false;
     }
 
 
