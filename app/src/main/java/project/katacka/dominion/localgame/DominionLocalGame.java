@@ -1,5 +1,6 @@
 package project.katacka.dominion.localgame;
 
+import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gameframework.GamePlayer;
 import project.katacka.dominion.gameframework.LocalGame;
 import project.katacka.dominion.gameframework.actionMsg.GameAction;
@@ -55,6 +56,11 @@ public class DominionLocalGame extends LocalGame {
      * 			Tells whether the move was a legal one.
      */
     protected boolean makeMove(GameAction action){
+
+        if(action instanceof DominionPlayCardAction){
+            //do stuff to state
+
+        }
 
         return true;
     }

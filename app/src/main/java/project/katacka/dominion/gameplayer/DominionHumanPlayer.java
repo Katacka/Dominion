@@ -4,6 +4,8 @@ import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import project.katacka.dominion.MainActivity;
 import project.katacka.dominion.R;
 import project.katacka.dominion.gamedisplay.Cards;
@@ -15,7 +17,8 @@ import project.katacka.dominion.gamestate.DominionGameState;
 public class DominionHumanPlayer extends GameHumanPlayer{
     //textviews
     //buttons
-    DominionGameState state;
+    private DominionGameState state;
+    private TextView tvPlayerCard = null;
 
     public DominionHumanPlayer(String name) {
         this(name, 5); //Default starting hand size is 5
@@ -55,6 +58,8 @@ public class DominionHumanPlayer extends GameHumanPlayer{
     @Override
     public void setAsGui(GameMainActivity activity) {
         //draw things
+
+        tvPlayerCard = activity.findViewById(R.id.tvPlayerCard);
 
         ConstraintLayout tabLayout = activity.findViewById(R.id.Player_Tabs);
 
@@ -121,7 +126,8 @@ public class DominionHumanPlayer extends GameHumanPlayer{
         if(info instanceof DominionGameState){
             state = (DominionGameState) info;
 
-            //((TextView) tabLayout.getChildAt(i).findViewById(R.id.playerName)).setText(names[i]);
+            tvPlayerCard.setText("Some other text.");
+
 
 
 

@@ -624,7 +624,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".7" />
+            app:layout_constraintWidth_percent=".7" >
+
+            <TextView
+                android:id="@+id/tvPlayerCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This is a card." />
+        </TableRow>
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
