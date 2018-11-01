@@ -1,7 +1,11 @@
 package project.katacka.dominion.localgame;
 
+import android.content.Context;
+
+import java.util.ArrayList;
 import java.util.Locale;
 
+import project.katacka.dominion.R;
 import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
 import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
@@ -9,7 +13,10 @@ import project.katacka.dominion.gameframework.GamePlayer;
 import project.katacka.dominion.gameframework.LocalGame;
 import project.katacka.dominion.gameframework.actionMsg.GameAction;
 import project.katacka.dominion.gameframework.infoMsg.GameState;
+import project.katacka.dominion.gamestate.CardReader;
+import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionGameState;
+import project.katacka.dominion.gamestate.DominionShopPileState;
 
 /**
  * Implementation of Local Game for Dominion
@@ -20,6 +27,16 @@ public class DominionLocalGame extends LocalGame {
 
     //The offical copy of the game state
     private DominionGameState state;
+    private ArrayList<DominionShopPileState> baseCards;
+    private ArrayList<DominionShopPileState> shopCards;
+
+
+    public DominionLocalGame(Context context){
+        super();
+        CardReader reader = new CardReader("base");
+        baseCards = reader.generateCards(context, R.raw.base_cards);
+        shopCards = reader.generateCards(context, R.raw.shop_cards);
+    }
 
     /**
      * Notify the given player that its state has changed. This should involve sending
@@ -125,6 +142,6 @@ public class DominionLocalGame extends LocalGame {
     public void start(GamePlayer[] players) {
         super.start(players);
         //TODO: Julian read cards here
-        //state = new DominionGameState();
+        state = new DominionGameState(players.length, baseCards, shopCards);
     }
 }

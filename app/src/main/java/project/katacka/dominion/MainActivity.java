@@ -59,14 +59,14 @@ public class MainActivity extends GameMainActivity{
                 return new DominionHumanPlayer(name);
             }
         });
-        GameConfig defaultConfig = new GameConfig(playerTypes, 1, 2, "Pig", PORT_NUMBER);
+        GameConfig defaultConfig = new GameConfig(playerTypes, 1, 4, "Dominion", PORT_NUMBER);
 
         return defaultConfig;
     }
 
     @Override
     public LocalGame createLocalGame() {
-        return new DominionLocalGame();
+        return new DominionLocalGame(this);
     }
 
     /*
