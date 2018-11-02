@@ -13,6 +13,16 @@ public class DominionPlayerState {
     protected final DominionDeckState deck;
     protected int victoryPoints;
 
+    private int turnsPlayed;
+
+    public int getTurnsPlayed() {
+        return turnsPlayed;
+    }
+
+    public void startTurn(){
+        turnsPlayed++;
+    }
+
     /**
      * Constructor.
      * @param name The player's name
@@ -27,6 +37,8 @@ public class DominionPlayerState {
         populateStartingDeck(copper, estate);
 
         this.victoryPoints = 3;
+
+        turnsPlayed = 0;
     }
 
     /**
@@ -40,6 +52,7 @@ public class DominionPlayerState {
         if(isThisPlayer) this.victoryPoints = playerState.victoryPoints;
         else this.victoryPoints = 0;
         this.deck = new DominionDeckState(playerState.deck, isThisPlayer);
+        this.turnsPlayed = playerState.turnsPlayed;
     }
 
     /**

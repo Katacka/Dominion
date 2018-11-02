@@ -100,7 +100,7 @@ public class DominionCardState {
         this.type = DominionCardType.BLANK;
 
         //Dynamically assigned by method reflection, allowing for a String method reference to be held in JSON
-        this.action = getMethod("basicAction");
+        this.action = getMethod("baseAction");
 
         this.addedTreasure = 0;
         this.addedActions = 0;
@@ -227,12 +227,12 @@ public class DominionCardState {
 
     private boolean moatAction(DominionGameState game) {
         //Will have other behavior upon adding ATTACK cards
-        return basicAction(game);
+        return baseAction(game);
     }
 
     private boolean merchantAction(DominionGameState game) {
         game.silverBoon = true; //The first Silver played is worth one more
-        return basicAction(game);
+        return baseAction(game);
     }
 
     /////////////////////////////////////////////////////////////////////////
@@ -257,7 +257,7 @@ public class DominionCardState {
         for (int i = 0; i < game.dominionPlayers.length; i++) {
             if (i != game.currentTurn) game.dominionPlayers[i].getDeck().draw();
         }
-        return basicAction(game);
+        return baseAction(game);
     }
 
     /**
@@ -290,7 +290,7 @@ public class DominionCardState {
             game.silverBoon = false;
         }
 
-        return basicAction(game);
+        return baseAction(game);
     }
 
     /**
@@ -306,7 +306,7 @@ public class DominionCardState {
      * @param game The game the card is played in
      * @return Action success
      */
-    private boolean basicAction(DominionGameState game) {
+    private boolean baseAction(DominionGameState game) {
         DominionPlayerState currentPlayer = game.dominionPlayers[game.currentTurn];
         currentPlayer.getDeck().drawMultiple(this.addedDraw);
         game.actions += this.addedActions;

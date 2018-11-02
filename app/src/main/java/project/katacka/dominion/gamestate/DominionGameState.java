@@ -109,6 +109,7 @@ public class DominionGameState extends GameState {
         this.buys = 1;
         this.actions = 1;
         this.silverBoon = false;
+        dominionPlayers[currentTurn].startTurn();
 
         this.isGameOver = false; //The game is not over
         this.playerQuit = -1; //No player has quit
@@ -124,7 +125,7 @@ public class DominionGameState extends GameState {
      * update game state changes
      * @param gameState Relevant DominionGameState from which data will be gathered
      */
-    public DominionGameState(DominionGameState gameState){
+    public DominionGameState(DominionGameState gameState, int player){
         this.baseCards= new ArrayList<>();
         this.shopCards= new ArrayList<>();
 
@@ -142,7 +143,7 @@ public class DominionGameState extends GameState {
         //copy each player including the deckState
         for (int i = 0; i < this.numPlayers; i++) {
             this.dominionPlayers[i] = new DominionPlayerState(gameState.dominionPlayers[i],
-                    gameState.currentTurn == i);
+                    player == i);
         }
         this.currentTurn = gameState.currentTurn;
         this.attackTurn = gameState.attackTurn;
@@ -285,6 +286,7 @@ public class DominionGameState extends GameState {
                 currentTurn = (currentTurn + 1) % 4;
                 attackTurn = currentTurn;
                 silverBoon = false;
+                dominionPlayers[currentTurn].startTurn();
             }
 
             return true;
@@ -337,7 +339,7 @@ public class DominionGameState extends GameState {
      * @return Whether action completes successfully.
      */
     public boolean playAllTreasures(int playerID){
-        if (!this.isGameOver && this.currentTurn == playerID){
+        if (canMove(playerID)){
             ArrayList<DominionCardState> hand = dominionPlayers[currentTurn].getDeck().getHand();
 
             //Loop through every card. Using custom loop, because hand changes as we iterate through it,
@@ -364,7 +366,7 @@ public class DominionGameState extends GameState {
      * @return A boolean describing whether the selected card may legally be played
      */
     public boolean isLegalPlay(int playerID, int cardIndex) {
-        if(!this.isGameOver && this.currentTurn == playerID) {
+        if(canMove(playerID)) {
             DominionDeckState deck = dominionPlayers[playerID].getDeck();
             if (cardIndex >= 0 && cardIndex < deck.getHandSize()){
                 DominionCardState card = deck.getHand().get(cardIndex);
@@ -381,7 +383,7 @@ public class DominionGameState extends GameState {
      * @return A boolean describing whether the selected card may legally be bought
      */
     public boolean isLegalBuy(int playerID, int cardIndex, boolean baseCard) {
-        if(!this.isGameOver && this.currentTurn == playerID){
+        if(canMove(playerID)){
             if (buys >= 1){ //Allowed to buy
                 if (!baseCard && cardIndex >= 0 && cardIndex < shopCards.size()) { //Card pile exists
                     DominionShopPileState shopPile = shopCards.get(cardIndex);
@@ -402,11 +404,105 @@ public class DominionGameState extends GameState {
         return false;
     }
 
-    public int getCurrentTurn() {
-        return currentTurn;
-    }
-
     public DominionPlayerState[] getDominionPlayers() {
         return dominionPlayers;
+    }
+
+    /**
+     * Checks if given player can perform actions
+     *
+     * @param player The index of the player trying to perform an action
+     * @return Whether the player in question can perform an action
+     */
+    public boolean canMove(int player){
+        if(isGameOver){
+            return false;
+        }
+        if (isAttackTurn){
+            return player == attackTurn;
+        } else {
+            return player == currentTurn;
+        }
+    }
+
+    public boolean getGameOver(){
+        return isGameOver;
+    }
+
+    /**
+     * Gets the scores of every player
+     * @return The list of scores
+     */
+    public int[] getPlayerScores(){
+        int[] scores = new int[numPlayers];
+        for (int i = 0; i < numPlayers; i++){
+            scores[i] = dominionPlayers[i].getDeck().countVictory();
+        }
+
+        return scores;
+    }
+
+    private int[] tiedPlayers;
+
+    public int getWinner(){
+        if (!isGameOver) return -1;
+        else{
+            int[] scores = getPlayerScores();
+            int maxScore = 0;
+            int winner = 0;
+            int tie = 0;
+            for (int i = 0; i < numPlayers; i++){
+                int score = scores[i];
+                if(score > maxScore){
+                    maxScore = score;
+                    winner = i;
+                    tie = 1;
+                }
+                else if(score == maxScore){
+                    tie++;
+                }
+            }
+
+            if(tie == 1){
+                return winner;
+            }
+
+            //RULE: To break a tie, winner is player with fewer turns
+            //      Otherwise, unbreakable tie
+
+            int minTurnsPlayed = dominionPlayers[winner].getTurnsPlayed();
+            int tieWinner = winner;
+            int unbreakableTie = 1;
+            for (int i = winner + 1; i < numPlayers; i++){
+                int turns = dominionPlayers[i].getTurnsPlayed();
+                int score = scores[i];
+                if (score == maxScore && turns < minTurnsPlayed){
+                    minTurnsPlayed = turns;
+                    tieWinner = i;
+                    unbreakableTie = 1;
+                }
+                else if (score == maxScore && turns == minTurnsPlayed){
+                    unbreakableTie++;
+                }
+            }
+
+            if(unbreakableTie == 1){
+                return tieWinner;
+            }
+
+            tiedPlayers = new int[unbreakableTie];
+            int players = 0;
+            for (int i = tieWinner; i < numPlayers; i++){
+                if(dominionPlayers[i].getTurnsPlayed() == minTurnsPlayed && scores[i] == maxScore){
+                    tiedPlayers[players++] = i;
+                }
+            }
+
+            return -1;
+        }
+    }
+
+    public int[] getTiedPlayers(){
+        return tiedPlayers;
     }
 }
