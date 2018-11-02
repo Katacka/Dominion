@@ -405,4 +405,8 @@ public class DominionGameState extends GameState {
     public int getCurrentTurn() {
         return currentTurn;
     }
+
+    public DominionPlayerState[] getDominionPlayers() {
+        return dominionPlayers;
+    }
 }
