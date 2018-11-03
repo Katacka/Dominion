@@ -505,4 +505,8 @@ public class DominionGameState extends GameState {
     public int[] getTiedPlayers(){
         return tiedPlayers;
     }
+
+    public int getCurrentTurn(){
+        return currentTurn;
+    }
 }

@@ -35,7 +35,7 @@ public class testDraw {
         //make a state
 
 
-
+/*
         int numPlayers = 4;
         DominionGameState state = new DominionGameState(numPlayers, null, null);
         //Create the players
@@ -52,7 +52,7 @@ public class testDraw {
 
 
 
-
+*/
 
 
 
@@ -62,13 +62,14 @@ public class testDraw {
     /**
      *
      * For testing purposes. Replaces cards in hand with specific set of cards to allow testing of actions
-     */
+
     public void testMoat(DominionCardState gold, DominionCardState moat){
         ArrayList<DominionCardState> hand = deck.getHand();
         hand.set(0, moat);
         hand.set(1, gold);
         hand.set(2, gold);
     }
+     */
 
 
 }

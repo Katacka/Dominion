@@ -36,8 +36,6 @@ public class MainActivity extends GameMainActivity{
     //NOTE: Number used in Pig
     private static final int PORT_NUMBER = 2278;
 
-    TextView tv = findViewById(R.id.playerTab1);
-
     @Override
     public GameConfig createDefaultConfig() {
         //TODO: undummy createDefaultConfig()
@@ -75,6 +73,8 @@ public class MainActivity extends GameMainActivity{
         TODO: probably move this to to DominionHumanPlayer in the method setAsGui()
         not sure which of these pieces needs to go where, or we would have done it already
     */
+
+    //START COMMENT HERE
     /*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,5 +221,7 @@ public class MainActivity extends GameMainActivity{
             ((TextView) tabLayout.getChildAt(i).findViewById(R.id.playerName)).setText(names[i]);
         }
     }
+
+    //END COMMENT HERE
     */
 }

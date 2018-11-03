@@ -1,9 +1,12 @@
 package project.katacka.dominion.gameplayer;
 
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -20,10 +23,10 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     //textviews
     //buttons
     private DominionGameState state;
-    private TextView tab1 = null;
-    private TextView tab2 = null;
-    private TextView tab3 = null;
-    private TextView tab4 = null;
+    private LinearLayout tab1 = null;
+    private LinearLayout tab2 = null;
+    private LinearLayout tab3 = null;
+    private LinearLayout tab4 = null;
 
     ConstraintLayout tabLayout = null;
 
@@ -69,24 +72,27 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     public void setAsGui(GameMainActivity activity) {
         //draw things
 
-        tvPlayerCard = activity.findViewById(R.id.tvPlayerCard);
+        //tvPlayerCard = activity.findViewById(R.id.tvPlayerCard);
 
+        activity.setContentView(R.layout.activity_main);
         tabLayout = activity.findViewById(R.id.Player_Tabs);
 
-        tab1 = activity.findViewById(R.id.playerTab1);
-        tab2 = activity.findViewById(R.id.playerTab2);
-        tab3 = activity.findViewById(R.id.playerTab3);
-        tab4 = activity.findViewById(R.id.playerTab4);
+        tab1 = (LinearLayout) tabLayout.getChildAt(1);
+        //tab2 = (TextView) activity.findViewById(R.id.playerTab2);
+        //tab3 = (LinearLayout) tabLayout.getChildAt(3);
+        //tab4 = activity.findViewById(R.id.playerTab4);
 
-        /*
-             //Sets tab names
-    protected void setNames(String[] names) {
-        ConstraintLayout tabLayout = findViewById(R.id.Player_Tabs);
-        for(int i = 0; i < names.length; i++) {
-            ((TextView) tabLayout.getChildAt(i).findViewById(R.id.playerName)).setText(names[i]);
-        }
-    }
-             */
+        //ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(R.dimen.tabActive, tab1.getHeight());
+        //ViewGroup.LayoutParams lp1 = tab1.getLayoutParams();
+
+        //tab1.generateLayoutParams(lp);
+
+        //set default tab widths
+        //set width of active player to tab active, set all others to inactive
+
+        ConstraintSet c = new ConstraintSet();
+        c.clone((ConstraintLayout) activity.findViewById(R.id.Player_Tabs));
+        c.constrainPercentWidth(R.id.playerTab1, R.dimen.tabActive);
     }
 
     @Override
@@ -94,10 +100,10 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         //get updated info
         if(info instanceof DominionGameState){
             state = (DominionGameState) info;
-            tvPlayerCard.setText("Some other text.");
+            //tvPlayerCard.setText("Some other text.");
             for(int i = 0; i< allPlayerNames.length; i++) {
-                if (i == state.getCurrentTurn()) {
-
+                if (state.canMove(i)) {
+                    /*
                     switch (i) {
                         case 1:
                             //set width of active player to tab active, set all others to inactive
@@ -131,8 +137,21 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
                             tab4.setWidth(R.dimen.tabInactive);
                             break;
                     }
+                    */
                 }
             }
+        }
+    }
+
+    /**
+     * perform any initialization that needs to be done after the player
+     * knows what their game-position and opponents' names are.
+     */
+    protected void initAfterReady() {
+        // by default, we do nothing
+        //Sets tab names
+        for(int i = 0; i < allPlayerNames.length; i++) {
+            ((TextView) tabLayout.getChildAt(i).findViewById(R.id.playerName)).setText(allPlayerNames[i]);
         }
     }
 
@@ -151,7 +170,6 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     public void onClick(View button) {
         if(button == bEndTurn){
             state.endTurn(state.getCurrentTurn());
-
         }
     }// onClick
 
