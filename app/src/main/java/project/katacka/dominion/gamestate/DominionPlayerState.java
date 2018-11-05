@@ -67,6 +67,7 @@ public class DominionPlayerState {
         deck.addManyToDiscard(copper.getCard(), 7);
         copper.removeAmount(7); //Removes 7 copper from the base card's draw pile
         deck.addManyToDiscard(estate, 3);
+        deck.drawMultiple(5);
         //deck.reshuffle();
     }
 
@@ -94,5 +95,10 @@ public class DominionPlayerState {
     @Override
     public String toString(){
         return String.format("Player: %s\n%s", name, deck.toString());
+    }
+
+    public void endTurn(){
+        deck.discardAll();
+        deck.drawMultiple(5);
     }
 }
