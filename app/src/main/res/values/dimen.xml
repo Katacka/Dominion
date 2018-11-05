@@ -6,4 +6,10 @@
     <dimen name="table_row_vert_pad">10dp</dimen>
     <dimen name="table_row_horiz_pad">50dp</dimen>
     <dimen name="config_horiz_margin">20dp</dimen>
+
+    <!--
+    <dimen name="tabActive">1</dimen>
+    <dimen name="tabInactive">0.85</dimen>
+    -->
+
 </resources>
