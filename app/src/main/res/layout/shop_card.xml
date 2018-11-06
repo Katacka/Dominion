@@ -31,9 +31,10 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="4dp"
         android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
         android:background="#000000"
         android:padding="2dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/dominion_advisor"
         app:layout_constraintBottom_toTopOf="@+id/textViewText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,6 +77,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <!--
+            External citation
+            Date: 11/5/18
+            Problem: Iamges would show up on preview, but not when actually running the app
+            Resource:
+                https://stackoverflow.com/questions/18251187/imageview-displaying-in-layout-but-not-on-actual-device
+            Solution:
+                Tried changing resolution first, but that had no effect.
+                Added android:src attribute, fixed the issue.
+                It appears that this likely has something to do with increasing the min API version,
+                    as srcCompact is added for backwards compatibility.
+            -->
+
             <ImageView
                 android:id="@+id/imageViewCost"
                 android:layout_width="match_parent"
@@ -86,7 +100,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/gold" />
+                app:srcCompat="@drawable/gold"
+                android:src="@drawable/gold" />
 
             <TextView
                 android:id="@+id/textViewCost"
@@ -129,7 +144,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/red_square" />
+                app:srcCompat="@drawable/red_square"
+                android:src="@drawable/red_square"/>
 
             <TextView
                 android:id="@+id/textViewAmount"
