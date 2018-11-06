@@ -1,21 +1,26 @@
 package project.katacka.dominion;
 
 
+import android.util.Log;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
 
+import project.katacka.dominion.gameplayer.DominionHumanPlayer;
+import project.katacka.dominion.gameplayer.DominionSimpleAIPlayer;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionDeckState;
 import project.katacka.dominion.gamestate.DominionGameState;
 import project.katacka.dominion.gamestate.DominionPlayerState;
+import project.katacka.dominion.gamestate.DominionShopPileState;
 
 import static org.junit.Assert.*;
 
 public class testDraw {
 
     @Test
-    public void testDraw(){
+    public void testDrawEndTurn(){
         /*
     !isGameOver
 	game is started
@@ -24,38 +29,35 @@ public class testDraw {
          */
 
         //make a card
-        DominionCardState card = new DominionCardState("Moat", "photoID", "card text", 0, "REACTION", "moatAction",
-                0, 0, 0, 0, 0);
+        //////////DON'T NEED THIS BC HUMAN PLAYER AND AI CONSTRUCTORS
 
-        DominionDeckState deck = new DominionDeckState();
+        DominionCardState copper = new DominionCardState("Copper", "dominion_copper", "+1 Gold", 0, "TREASURE", "baseAction",
+                1, 0, 0, 0, 0);
+        DominionCardState estate = new DominionCardState("Estate", "dominion_estate", "1 Victory Point", 2, "VICTORY", "baseAction",
+                0, 0, 0, 0, 1);
+
+        /*
+        DominionCardState moat = new DominionCardState("Moat", "dominion_moat", "moat card text", 0, "REACTION", "baseAction", 0, 0, 0, 0, 0);
+         */
 
 
-        //make a deck
-        //make a player
+        DominionShopPileState copperPile = new DominionShopPileState(copper, 10);
+
+        ArrayList<DominionShopPileState> shopPileArray = new ArrayList<>();
+        shopPileArray.add(copperPile);
+
         //make a state
 
-
-/*
         int numPlayers = 4;
-        DominionGameState state = new DominionGameState(numPlayers, null, null);
-        //Create the players
-        state.setDominionPlayers() = new DominionPlayerState[numPlayers];
-        for (int i = 0; i < numPlayers; i++) {
-            state.dominionPlayers[i] = new DominionPlayerState("Player " + i,
-                    baseCards.get(PILE_COPPER), //The copper pile
-                    baseCards.get(PILE_ESTATE).getCard()); //The estate card
+        DominionGameState state = new DominionGameState(numPlayers, shopPileArray, null);
+        Log.i(this + "", "Current turn: " + state.getCurrentTurn());
+        state.endTurn(state.getCurrentTurn());
 
-        }
+        //remember old hand
+        //assert different from old hand
+        //will fail occasionally
 
-
-        assertFalse();
-
-
-
-*/
-
-
-
+        //assertFalse();
 
     }
 

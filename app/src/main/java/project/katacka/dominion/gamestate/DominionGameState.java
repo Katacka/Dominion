@@ -404,10 +404,6 @@ public class DominionGameState extends GameState {
         return false;
     }
 
-    public DominionPlayerState[] getDominionPlayers() {
-        return dominionPlayers;
-    }
-
     /**
      * Checks if given player can perform actions
      *
@@ -509,4 +505,21 @@ public class DominionGameState extends GameState {
     public int getCurrentTurn(){
         return currentTurn;
     }
+
+    public int getAttackTurn(){
+        return attackTurn;
+    }
+
+    public DominionPlayerState[] getDominionPlayers() {
+        return dominionPlayers;
+    }
+
+    public DominionPlayerState getDominionPlayer(int player) {
+        return dominionPlayers[player];
+    }
+
+    public boolean getIsAttackTurn(){
+        return isAttackTurn;
+    }
+
 }
