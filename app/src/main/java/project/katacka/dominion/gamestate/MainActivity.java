@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import project.katacka.dominion.R;
 
 import java.util.ArrayList;
 
@@ -30,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Fetch button reference and attach listener
-        Button runTestButton = findViewById(R.id.runButton);
-        runTestButton.setOnClickListener(buttonOnClickListener);
+        //Button runTestButton = findViewById(R.id.runButton);
+        //runTestButton.setOnClickListener(buttonOnClickListener);
     }
 
    private final Button.OnClickListener buttonOnClickListener = (View v) -> {
@@ -41,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
        ArrayList<DominionShopPileState> baseCards1 = reader.generateCards(getApplicationContext(), R.raw.base_cards);
 
-       TextView editText = findViewById(R.id.editText);
-       editText.setText("");
+       //TextView editText = findViewById(R.id.editText);
+       //editText.setText("");
 
        //Instantiate a DominionGameState object to store all relevant game information
        DominionGameState firstInstance = new DominionGameState(4, baseCards1, shopCards1);
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
        gameStateTest = gameStateTest.concat("SECOND INSTANCE\n" + secondInstance.toString());
        gameStateTest = gameStateTest.concat("\nFOURTH INSTANCE\n" + fourthInstance.toString());
 
-       editText.setText(gameStateTest);
+       //editText.setText(gameStateTest);
    };
 
 }
