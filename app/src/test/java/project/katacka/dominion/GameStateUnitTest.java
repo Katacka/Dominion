@@ -39,6 +39,8 @@ public class GameStateUnitTest {
         for (int i = 0; i < 10; i++) {
             shopCards.add(new DominionShopPileState(DominionCardState.BLANK_CARD, 10));
         }
+
+
     }
 
     @Before
