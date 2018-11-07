@@ -632,11 +632,41 @@
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".7" >
 
-            <TextView
-                android:id="@+id/tvPlayerCard"
+            <include
+                layout="@layout/player_card"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="This is a card." />
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1" />
+
+            <include
+                layout="@layout/player_card"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1" />
+
+            <include
+                layout="@layout/player_card"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1" />
+
+            <include
+                layout="@layout/player_card"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1" />
+
+            <include
+                layout="@layout/player_card"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1" />
+
         </TableRow>
     </android.support.constraint.ConstraintLayout>
 

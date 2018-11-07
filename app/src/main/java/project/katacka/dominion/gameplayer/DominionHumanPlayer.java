@@ -37,6 +37,7 @@ import project.katacka.dominion.gamestate.DominionShopPileState;
 
 public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClickListener{
 
+    private final int MAX_CARDS = 5;
     private float tabInactiveVal;
     private float tabActiveVal;
 
@@ -55,12 +56,19 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     private ArrayList<TableRow> baseRows;
     private ArrayList<ConstraintLayout> basePiles;
 
+    private TableRow handRow = null;
+
     private Resources res;
 
     private TextView tvPlayerCard = null;
     private Button bEndTurn = null;
 
     private GameMainActivity activity = null;
+
+
+
+
+
 
     public DominionHumanPlayer(String name) {
         this(name, 5); //Default starting hand size is 5
@@ -120,6 +128,26 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         activity.getResources().getValue(R.dimen.tabActive, outValueActive, true);
         tabInactiveVal = outValueInactive.getFloat();
         tabActiveVal = outValueActive.getFloat();
+
+        shopLayout = activity.findViewById(R.id.Shop_Cards);
+        shopRows = new ArrayList<TableRow>();
+        for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
+            shopRows.add((TableRow) shopLayout.getChildAt(i));
+        }
+
+        baseLayout = activity.findViewById(R.id.Base_Cards);
+        baseRows = new ArrayList<TableRow>();
+        for(int i = 0, j = baseLayout.getChildCount(); i < j; i++){
+            baseRows.add((TableRow) baseLayout.getChildAt(i));
+        }
+
+        /*
+        External Citation
+        iterating through table layout
+        https://stackoverflow.com/questions/3327599/get-all-tablerows-in-a-tablelayout
+         */
+
+        res = activity.getResources();
 
         //set listeners
         bEndTurn.setOnClickListener(this);
@@ -191,27 +219,6 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         c.applyTo(tabLayout);
         c.clone((ConstraintLayout) activity.findViewById(R.id.Player_Tabs));
         c.constrainPercentWidth(R.id.playerTab1, R.dimen.tabActive);
-
-
-        shopLayout = activity.findViewById(R.id.Shop_Cards);
-        shopRows = new ArrayList<TableRow>();
-        for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
-            shopRows.add((TableRow) shopLayout.getChildAt(i));
-        }
-
-        baseLayout = activity.findViewById(R.id.Base_Cards);
-        baseRows = new ArrayList<TableRow>();
-        for(int i = 0, j = baseLayout.getChildCount(); i < j; i++){
-            baseRows.add((TableRow) baseLayout.getChildAt(i));
-        }
-
-        /*
-        External Citation
-        iterating through table layout
-        https://stackoverflow.com/questions/3327599/get-all-tablerows-in-a-tablelayout
-         */
-
-        res = activity.getResources();
     }
 
     //TODO: fix to update tabs more accurately for attack turns
@@ -221,14 +228,15 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         if(info instanceof DominionGameState){
             state = (DominionGameState) info;
 
+            //update tabs to reflect turn
             updateTabs(state.getCurrentTurn());
-
             if (state.getIsAttackTurn()) {
                 updateTabs(state.getAttackTurn());
             } else {
                 updateTabs(state.getCurrentTurn());
             }
 
+            //Display shop
             int m = 0;
             for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
                 View shopRow = shopLayout.getChildAt(i);
@@ -267,6 +275,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
                 }
             }
 
+            //display base cards
             int c = 0;
             for(int a = 0, b = baseLayout.getChildCount(); a < b; a++){
                 View baseRow = baseLayout.getChildAt(a);
@@ -277,17 +286,23 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
                     }
                     for (ConstraintLayout shopCard: basePiles) {
                         DominionCardState cardState = state.getBaseCards().get(c).getCard();
+
                         TextView cost = shopCard.findViewById(R.id.textViewCost);
                         cost.setText("" + cardState.getCost());
+
                         TextView title = shopCard.findViewById(R.id.textViewTitle);
                         title.setText(cardState.getTitle());
+
                         TextView amount = shopCard.findViewById(R.id.textViewAmount);
                         amount.setText("" + state.getBaseCards().get(c).getAmount());
+
                         TextView type = shopCard.findViewById(R.id.textViewType);
                         type.setText(cardState.getType().toString());
+
                         ImageView image = shopCard.findViewById(R.id.imageViewArt);
                         String name = cardState.getPhotoId();
                         int resID = res.getIdentifier(name, "drawable", "project.katacka.dominion_card_back");
+
                         image.setImageResource(resID);
                         c++;
                     }
@@ -299,6 +314,26 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
             shows how to convert string to resource id to use to set image view
             */
+
+            //display player hand
+            ArrayList<DominionCardState> hand = state.getDominionPlayer(playerNum).getDeck().getHand();
+
+            //TableRow handRow =
+
+            //make arraylist of constraint layouts
+            //ArrayList<ConstraintLayout> handLayouts = new ArrayList<>(MAX_CARDS);
+            for(int i = 0; i < MAX_CARDS && i<hand.size(); i++){
+
+
+            }
+
+            for (DominionCardState card: hand) {
+
+
+            }
+
+            //for each loop displays info for each linear layout according to hand
+
         } else if(info instanceof NotYourTurnInfo) {
             //TODO: actually do something if not player turn
             Log.i("DominionHumanPlayer: recieveInfo", "Not your turn.");
