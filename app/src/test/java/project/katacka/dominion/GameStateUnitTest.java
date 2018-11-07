@@ -32,6 +32,16 @@ public class GameStateUnitTest {
     @BeforeClass
     public static void setupCards(){
 
+        /**
+         * External citation
+         * Problem: Trying to access resources (card jsons) for unit testing.
+         * Resource:
+         *  https://stackoverflow.com/questions/29341744/android-studio-unit-testing-read-data-input-file#29488904
+         * Solution:
+         *  Updated gradle to add res directory for testing. Created this directory, copied in JSONS.
+         *  Using class loader to get resources as stream.
+         */
+
         CardReader reader = new CardReader("base");
         try (InputStream shopStream = GameStateUnitTest.class.getClassLoader().getResourceAsStream("shop_cards.json");
              InputStream baseStream = GameStateUnitTest.class.getClassLoader().getResourceAsStream("base_cards.json")){
