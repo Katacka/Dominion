@@ -26,7 +26,6 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
         return true;
     }
 
-
     //TODO: Reference all actions properly
     public boolean playSimpleActionPhase() {
         return true;

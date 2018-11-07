@@ -232,22 +232,33 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             int m = 0;
             for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
                 View shopRow = shopLayout.getChildAt(i);
+
+                //should always be true
                 if(shopRow instanceof TableRow){
+
+                    //cards are ConstraintLayouts in XML
                     shopPiles = new ArrayList<ConstraintLayout>();
                     for (int k = 0; k < 5; k++) {
                         shopPiles.add((ConstraintLayout) ((TableRow) shopRow).getVirtualChildAt(k));
                     }
+
                     for (ConstraintLayout shopCard: shopPiles) {
                         DominionCardState cardState = state.getShopCards().get(m).getCard();
+
                         TextView cost = shopCard.findViewById(R.id.textViewCost);
                         cost.setText("" + cardState.getCost());
+
                         TextView title = shopCard.findViewById(R.id.textViewTitle);
                         title.setText(cardState.getTitle());
+
                         TextView amount = shopCard.findViewById(R.id.textViewAmount);
                         amount.setText("" + state.getShopCards().get(m).getAmount());
+
                         TextView type = shopCard.findViewById(R.id.textViewType);
                         type.setText(cardState.getType().toString());
+
                         ImageView image = shopCard.findViewById(R.id.imageViewArt);
+
                         String name = cardState.getPhotoId();
                         int resID = res.getIdentifier(name, "drawable", "project.katacka.dominion_card_back");
                         image.setImageResource(resID);
