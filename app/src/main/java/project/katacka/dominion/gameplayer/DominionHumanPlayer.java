@@ -1,7 +1,9 @@
 package project.katacka.dominion.gameplayer;
 
+import android.util.Log;
 import android.view.View;
 
+import project.katacka.dominion.R;
 import project.katacka.dominion.gamedisplay.Cards;
 import project.katacka.dominion.gameframework.GameHumanPlayer;
 import project.katacka.dominion.gameframework.GameMainActivity;
@@ -45,7 +47,7 @@ public class DominionHumanPlayer extends GameHumanPlayer{
 
     @Override
     public void setAsGui(GameMainActivity activity) {
-
+        Log.i("HumanPlayer", "Let the games begin!");
     }
 
     @Override

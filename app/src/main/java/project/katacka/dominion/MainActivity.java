@@ -19,26 +19,54 @@ import java.util.Locale;
 import project.katacka.dominion.R;
 import project.katacka.dominion.gameframework.GameConfig;
 import project.katacka.dominion.gameframework.GameMainActivity;
+import project.katacka.dominion.gameframework.GamePlayer;
 import project.katacka.dominion.gameframework.LocalGame;
+import project.katacka.dominion.gameframework.GamePlayerType;
+import project.katacka.dominion.gameplayer.DominionHumanPlayer;
+import project.katacka.dominion.gameplayer.DominionSimpleAIPlayer;
+import project.katacka.dominion.localgame.DominionLocalGame;
 
 
 //import project.katacka.dominion.game.config.GamePlayerType;
 
 //extends AppCompatActivity
 public class MainActivity extends GameMainActivity{
+
+    // the port number that this game will use when playing over the network
+    //NOTE: Number used in Pig
+    private static final int PORT_NUMBER = 2278;
+
     @Override
     public GameConfig createDefaultConfig() {
         //TODO: undummy createDefaultConfig()
         //TODO: necessary for compilation, cannot get portnumber in GameMainActivity without creating a defaultConfig
-        //ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
-        //GameConfig defaultConfig = new GameConfig(playerTypes, 1, 2, "Pig", PORT_NUMBER);
+        ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>(3);
+        playerTypes.add(new GamePlayerType("Human"){
+            @Override
+            public GamePlayer createPlayer(String name) {
+                return new DominionHumanPlayer(name);
+            }
+        });
+        playerTypes.add(new GamePlayerType("Simple AI"){
+            @Override
+            public GamePlayer createPlayer(String name) {
+                return new DominionSimpleAIPlayer(name);
+            }
+        });
+        playerTypes.add(new GamePlayerType("Smart AI"){
+            @Override
+            public GamePlayer createPlayer(String name) {
+                return new DominionHumanPlayer(name);
+            }
+        });
+        GameConfig defaultConfig = new GameConfig(playerTypes, 1, 4, "Dominion", PORT_NUMBER);
 
-        return null;
+        return defaultConfig;
     }
 
     @Override
     public LocalGame createLocalGame() {
-        return null;
+        return new DominionLocalGame(this);
     }
 
     /*
