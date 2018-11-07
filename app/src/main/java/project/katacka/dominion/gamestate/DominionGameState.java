@@ -106,6 +106,11 @@ public class DominionGameState extends GameState {
         this.silverBoon = false;
         dominionPlayers[currentTurn].startTurn();
 
+        //Everyone draw their first 5 cards
+        for (DominionPlayerState playerState : dominionPlayers){
+            playerState.getDeck().drawMultiple(5);
+        }
+
         this.isGameOver = false; //The game is not over
         this.playerQuit = -1; //No player has quit
 
@@ -524,19 +529,8 @@ public class DominionGameState extends GameState {
         this.dominionPlayers = dominionPlayers;
     }
 
-    public ArrayList<DominionShopPileState> getShopCards() {
-        return shopCards;
-    }
-
-    public ArrayList<DominionShopPileState> getBaseCards() { return baseCards; }
-
-
     public int getAttackTurn(){
         return attackTurn;
-    }
-
-    public DominionPlayerState[] getDominionPlayers() {
-        return dominionPlayers;
     }
 
     public DominionPlayerState getDominionPlayer(int player) {

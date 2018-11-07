@@ -1,23 +1,28 @@
 package project.katacka.dominion.gameplayer;
 
+import android.util.Log;
+
 import java.util.Random;
 import java.util.stream.Stream;
 
+import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
+import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionCardType;
 
 public class DominionSimpleAIPlayer extends DominionComputerPlayer {
     public DominionSimpleAIPlayer(String name) {
         super(name);
-        if(!turnStarted) return;
         rand = new Random();
     }
 
     @Override
     public boolean playTurn() {
+        Log.d("SimpleAI", "Playing turn");
         playSimpleActionPhase();
         playAllTreasures();
         playSimpleBuyPhase();
+        Log.d("SimpleAI", "Discard pile size: " + discard.size());
         endTurn();
         return true;
     }
@@ -35,13 +40,15 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
             //DominionCardState card = drawArray[randPick];
 
             //if (!genericCardCheck(card)) return false; //TODO: Move to testing
-            //game.sendAction(new DominionPlayCardAction(this, randPick)); TODO: PlayCardAction needs index
+            Log.d("SimpleAI", "Playing card");
+            game.sendAction(new DominionPlayCardAction(this, randPick)); //TODO: PlayCardAction needs index
             sleep(100);
         }
         return true;
     }
 
     public boolean playSimpleBuyPhase() {
+        return true;/*
         while (gameState.getBuys() > 0) {
             DominionCardState[] shopBaseArray = Stream.of(shopCards.stream(), baseCards.stream())
                     .flatMap(pile -> pile)
@@ -54,10 +61,10 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
             //DominionCardState card = drawArray[randPick];
 
             //if (!genericCardCheck(card)) return false; //TODO: Move to testing
-            //game.sendAction(new DominionBuyCardAction(this, randPick)); TODO: BuyCardAction needs proper params
+            //game.sendAction(new DominionBuyCardAction(this, randPick)); //TODO: BuyCardAction needs proper params
             sleep(100);
         }
-        return true;
+        return true;*/
     }
 
     public String toString(){

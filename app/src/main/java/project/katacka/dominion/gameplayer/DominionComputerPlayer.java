@@ -27,7 +27,7 @@ public class DominionComputerPlayer extends GameComputerPlayer {
     protected ArrayList<DominionShopPileState> shopCards;
     protected ArrayList<DominionShopPileState> baseCards;
     protected Random rand;
-    protected boolean turnStarted;
+    protected boolean turnStarted = false;
 
     /**
      * Invokes the super-class constructor, setting the player's
@@ -62,12 +62,22 @@ public class DominionComputerPlayer extends GameComputerPlayer {
      * 			the object representing the information from the game
      */
     protected void receiveInfo(GameInfo info){
-        if(!turnStarted) return; //Ignore non-applicable info
+        if(info == null) return;
         gameState = (DominionGameState) info;
+        if(!gameState.canMove(playerNum)) return; //Ignore non-applicable info
         compPlayer = gameState.getDominionPlayers()[playerNum];
         draw = compPlayer.getDeck().getDraw();
+        hand = compPlayer.getDeck().getHand();
+        discard = compPlayer.getDeck().getDiscard();
         shopCards = gameState.getShopCards();
         baseCards = gameState.getBaseCards();
+
+        Log.d("AI", "Recieved info");
+
+        if(!turnStarted) {
+            turnStarted = true;
+            playTurn();
+        }
     }
 
     /*protected boolean genericCardCheck(DominionCardState card) {
@@ -91,6 +101,7 @@ public class DominionComputerPlayer extends GameComputerPlayer {
     }
 
     protected boolean endTurn() {
+        Log.d("AI", "Ending turn");
         game.sendAction(new DominionEndTurnAction(this));
         turnStarted = false;
         return true;
