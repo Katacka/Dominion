@@ -63,6 +63,7 @@ public class DominionComputerPlayer extends GameComputerPlayer {
      */
     protected void receiveInfo(GameInfo info){
         if(info == null) return;
+        if(!(info instanceof DominionGameState)) return;
         gameState = (DominionGameState) info;
         if(!gameState.canMove(playerNum)) return; //Ignore non-applicable info
         compPlayer = gameState.getDominionPlayers()[playerNum];

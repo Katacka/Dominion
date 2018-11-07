@@ -29,6 +29,8 @@ public class CardReader{
     private final Type arrayType;
     private final Gson gsonParser;
 
+    //TODO: Card art of differing sizes
+
     /**
      * Constructs a CardReader object serving as a wrapper to interface with the GsonDeserializer class
      * @param expansionSet Application context allowing for global information regarding environment/resources

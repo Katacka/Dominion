@@ -378,7 +378,7 @@
                 app:srcCompat="@drawable/dominion_opponent_card_back" />
 
             <FrameLayout
-                android:id="@+id/frameLayout2"
+                android:id="@+id/frameLayoutAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginEnd="3dp"
@@ -534,80 +534,68 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/User_Draw_Discard"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/User_Cards"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".15">
+            app:layout_constraintStart_toEndOf="@id/User_Cards"
+            app:layout_constraintTop_toTopOf="@id/User_Cards">
 
             <ImageView
                 android:id="@+id/ivDrawCard"
-                android:layout_width="93dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="48dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/dominion_card_back"
-                app:layout_constraintBottom_toTopOf="@+id/imageViewDiscard"
+                app:layout_constraintBottom_toTopOf="@id/imageViewDiscard"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread_inside"
                 app:srcCompat="@drawable/dominion_card_back" />
 
-            <ImageView
+            <include
                 android:id="@+id/imageViewDiscard"
-                android:layout_width="93dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="48dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="8dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/dominion_card_back"
+                layout="@layout/player_card"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.506"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivDrawCard"
-                app:srcCompat="@drawable/dominion_card_back" />
+                app:layout_constraintTop_toBottomOf="@id/ivDrawCard" />
 
             <FrameLayout
                 android:id="@+id/frameLayoutDrawCount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
-                android:layout_marginStart="72dp"
                 android:layout_marginTop="2dp"
-                app:layout_constraintEnd_toEndOf="@+id/ivDrawCard"
-                app:layout_constraintStart_toStartOf="@+id/ivDrawCard"
+                android:background="#ffff0000"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="@id/ivDrawCard"
                 app:layout_constraintTop_toTopOf="@+id/ivDrawCard">
 
                 <TextView
                     android:id="@+id/textViewDrawCount"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#ffff0000"
                     android:gravity="center"
                     android:text="4" />
+
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/frameLayoutDiscardCount"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="2dp"
-                android:layout_marginStart="72dp"
+                app:layout_constraintDimensionRatio="1:1"
+                android:layout_marginEnd="2dp"
                 android:layout_marginTop="2dp"
-                app:layout_constraintRight_toRightOf="@+id/imageViewDiscard"
-                app:layout_constraintStart_toStartOf="@+id/imageViewDiscard"
+                app:layout_constraintEnd_toEndOf="@+id/imageViewDiscard"
                 app:layout_constraintTop_toTopOf="@+id/imageViewDiscard">
 
                 <TextView
@@ -615,6 +603,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#ffff0000"
+                    android:gravity="center"
                     android:text="10" />
             </FrameLayout>
 
@@ -630,7 +619,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".7" >
+            app:layout_constraintWidth_percent=".75" >
 
             <include
                 layout="@layout/player_card"
