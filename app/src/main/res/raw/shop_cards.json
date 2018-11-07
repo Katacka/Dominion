@@ -25,7 +25,7 @@
     },
     {
       "title": "Laboratory",
-      "photoStringID": "dominion_festival",
+      "photoStringID": "dominion_laboratory",
       "text": "+2 Cards\n+1 Action",
       "cost": 5,
       "type": "ACTION",
