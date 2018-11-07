@@ -509,4 +509,15 @@ public class DominionGameState extends GameState {
     public int getCurrentTurn(){
         return currentTurn;
     }
+
+    public void setDominionPlayers(DominionPlayerState[] dominionPlayers) {
+        this.dominionPlayers = dominionPlayers;
+    }
+
+    public ArrayList<DominionShopPileState> getShopCards() {
+        return shopCards;
+    }
+
+    public ArrayList<DominionShopPileState> getBaseCards() { return baseCards; }
+
 }
