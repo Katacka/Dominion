@@ -125,26 +125,6 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         bEndTurn.setOnClickListener(this);
     }
 
-    //TODO: fix to update tabs more accurately for attack turns
-    @Override
-    public void receiveInfo(GameInfo info) {
-        //get updated info
-        Log.i("DominionHumanPlayer: recieveInfo", "receiveInfo called.");
-
-        if(info instanceof DominionGameState) {
-            state = (DominionGameState) info;
-            updateTabs(state.getCurrentTurn());
-
-            if (state.getIsAttackTurn()) {
-                updateTabs(state.getAttackTurn());
-            } else {
-                updateTabs(state.getCurrentTurn());
-            }
-        } else if(info instanceof NotYourTurnInfo){
-            Log.i("DominionHumanPlayer: recieveInfo", "Not your turn.");
-        }
-    }
-
     /**
      * perform any initialization that needs to be done after the player
      * knows what their game-position and opponents' names are.
@@ -234,59 +214,19 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         res = activity.getResources();
     }
 
+    //TODO: fix to update tabs more accurately for attack turns
     @Override
     public void receiveInfo(GameInfo info) {
         //get updated info
         if(info instanceof DominionGameState){
             state = (DominionGameState) info;
 
-            /*ConstraintSet c = new ConstraintSet();
-            //clone Player_tabs (tabs wrapper)constraints
-            c.clone(tabLayout);
+            updateTabs(state.getCurrentTurn());
 
-            c.constrainPercentWidth(R.id.playerTab1, R.dimen.tabInactive);
-            c.constrainPercentWidth(R.id.playerTab2, R.dimen.tabInactive);
-            c.constrainPercentWidth(R.id.playerTab3, R.dimen.tabInactive);
-            c.constrainPercentWidth(R.id.playerTab4, R.dimen.tabInactive);
-           */
-            for(int i = 0; i< allPlayerNames.length; i++) {
-                if (state.canMove(i)) {
-                    /*
-                    switch (i) {
-                        case 1:
-                            //set width of active player to tab active, set all others to inactive
-                            tab1.setWidth(R.dimen.tabActive);
-                            tab2.setWidth(R.dimen.tabInactive);
-                            tab3.setWidth(R.dimen.tabInactive);
-                            tab4.setWidth(R.dimen.tabInactive);
-                            break;
-                        case 2:
-                            tab1.setWidth(R.dimen.tabInactive);
-                            tab2.setWidth(R.dimen.tabActive);
-                            tab3.setWidth(R.dimen.tabInactive);
-                            tab4.setWidth(R.dimen.tabInactive);
-                            break;
-                        case 3:
-                            tab1.setWidth(R.dimen.tabInactive);
-                            tab2.setWidth(R.dimen.tabInactive);
-                            tab3.setWidth(R.dimen.tabActive);
-                            tab4.setWidth(R.dimen.tabInactive);
-                            break;
-                        case 4:
-                            tab1.setWidth(R.dimen.tabInactive);
-                            tab2.setWidth(R.dimen.tabInactive);
-                            tab3.setWidth(R.dimen.tabInactive);
-                            tab4.setWidth(R.dimen.tabActive);
-                            break;
-                        default:
-                            tab1.setWidth(R.dimen.tabActive);
-                            tab2.setWidth(R.dimen.tabInactive);
-                            tab3.setWidth(R.dimen.tabInactive);
-                            tab4.setWidth(R.dimen.tabInactive);
-                            break;
-                    }
-                    */
-                }
+            if (state.getIsAttackTurn()) {
+                updateTabs(state.getAttackTurn());
+            } else {
+                updateTabs(state.getCurrentTurn());
             }
 
             int m = 0;
@@ -348,8 +288,10 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
             shows how to convert string to resource id to use to set image view
             */
+        } else if(info instanceof NotYourTurnInfo) {
+            //TODO: actually do something if not player turn
+            Log.i("DominionHumanPlayer: recieveInfo", "Not your turn.");
         }
-    }
         /* External Citation:
         Date: Nov 4, 2018
         Source: https://stackoverflow.com/questions/44749481/how-to-change-constraint-layouts-child-views-constraints-programatically#44750506
