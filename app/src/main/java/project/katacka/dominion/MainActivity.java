@@ -75,7 +75,7 @@ public class MainActivity extends GameMainActivity{
     */
 
     //START COMMENT HERE
-    /*
+/*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Removes the title and notification bars respectively
@@ -221,7 +221,7 @@ public class MainActivity extends GameMainActivity{
             ((TextView) tabLayout.getChildAt(i).findViewById(R.id.playerName)).setText(names[i]);
         }
     }
-
+*/
     //END COMMENT HERE
-    */
+
 }
