@@ -34,6 +34,7 @@ public class DominionGameState extends GameState {
     private final int PILE_PROVIDENCE = 6;
 
     protected DominionPlayerState dominionPlayers[]; //Sorted by order of turn
+
     protected int currentTurn;
     protected int attackTurn; //Player ID of responder
     protected boolean isAttackTurn;
@@ -450,6 +451,7 @@ public class DominionGameState extends GameState {
         return scores;
     }
 
+    //In the case of a tie,
     private int[] tiedPlayers;
 
     public int getWinner(){
@@ -513,4 +515,36 @@ public class DominionGameState extends GameState {
     public int[] getTiedPlayers(){
         return tiedPlayers;
     }
+
+    public int getCurrentTurn(){
+        return currentTurn;
+    }
+
+    public void setDominionPlayers(DominionPlayerState[] dominionPlayers) {
+        this.dominionPlayers = dominionPlayers;
+    }
+
+    public ArrayList<DominionShopPileState> getShopCards() {
+        return shopCards;
+    }
+
+    public ArrayList<DominionShopPileState> getBaseCards() { return baseCards; }
+
+
+    public int getAttackTurn(){
+        return attackTurn;
+    }
+
+    public DominionPlayerState[] getDominionPlayers() {
+        return dominionPlayers;
+    }
+
+    public DominionPlayerState getDominionPlayer(int player) {
+        return dominionPlayers[player];
+    }
+
+    public boolean getIsAttackTurn(){
+        return isAttackTurn;
+    }
+
 }

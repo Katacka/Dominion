@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="tabActive">1</dimen>
-    <dimen name="tabInactive">0.85</dimen>
+    <!--
+    External Citation:
+    Date: Nov 4, 2018
+    Source: https://stackoverflow.com/questions/3282390/add-floating-point-value-to-android-resources-values#8780360
+    Problem: DominionHumanPlayer unable to access unitless dimen tags
+    Solution: changed dimen tags to item tags
+    -->
+    <item name="tabActive" format="float" type="dimen">1.0</item>
+    <item name="tabInactive" format="float" type="dimen">0.85</item>
 </resources>

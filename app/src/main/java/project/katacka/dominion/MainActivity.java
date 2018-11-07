@@ -60,6 +60,7 @@ public class MainActivity extends GameMainActivity{
             }
         });
         GameConfig defaultConfig = new GameConfig(playerTypes, 1, 4, "Dominion", PORT_NUMBER);
+        //defaultConfig.setRemoteData("Remote player", );
 
         return defaultConfig;
     }
@@ -73,6 +74,8 @@ public class MainActivity extends GameMainActivity{
         TODO: probably move this to to DominionHumanPlayer in the method setAsGui()
         not sure which of these pieces needs to go where, or we would have done it already
     */
+
+    //START COMMENT HERE
     /*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,5 +222,7 @@ public class MainActivity extends GameMainActivity{
             ((TextView) tabLayout.getChildAt(i).findViewById(R.id.playerName)).setText(names[i]);
         }
     }
+
+    //END COMMENT HERE
     */
 }

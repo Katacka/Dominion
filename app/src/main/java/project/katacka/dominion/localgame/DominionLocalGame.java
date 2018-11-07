@@ -65,7 +65,6 @@ public class DominionLocalGame extends LocalGame {
         return state.canMove(playerIdx);
     }
 
-
     /**
      * Check if the game is over. It is over, return a string that tells
      * who the winner(s), if any, are. If the game is not over, return null;
@@ -105,9 +104,7 @@ public class DominionLocalGame extends LocalGame {
 
         result += "Thanks for playing!";
         return result;
-
     }
-
 
     /**
      * Makes a move on behalf of a player.
@@ -121,21 +118,28 @@ public class DominionLocalGame extends LocalGame {
         if (gameAction instanceof DominionPlayCardAction){
             DominionPlayCardAction action = (DominionPlayCardAction) gameAction;
             GamePlayer player = action.getPlayer();
+
             int playerID = getPlayerIdx(player);
             int cardIndex = action.getCardIndex();
+
             return state.playCard(playerID, cardIndex);
         } else if (gameAction instanceof DominionBuyCardAction){
             DominionBuyCardAction action = (DominionBuyCardAction) gameAction;
             GamePlayer player = action.getPlayer();
+
             int playerIndex = getPlayerIdx(player);
             int cardIndex = action.getCardIndex();
             boolean isBaseCard = action.getIsBaseCard();
+
             return state.buyCard(playerIndex, cardIndex, isBaseCard);
         } else if (gameAction instanceof DominionEndTurnAction){
             DominionEndTurnAction action = (DominionEndTurnAction) gameAction;
             int playerIndex = getPlayerIdx(action.getPlayer());
+
             return state.endTurn(playerIndex);
-        } else return false;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -145,3 +149,4 @@ public class DominionLocalGame extends LocalGame {
         state = new DominionGameState(players.length, baseCards, shopCards);
     }
 }
+

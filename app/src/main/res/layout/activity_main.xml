@@ -312,6 +312,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
+                android:src="@drawable/dominion_opponent_card_back"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -335,6 +336,7 @@
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
                     android:scaleType="fitStart"
+                    android:src="@drawable/red_square"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -369,6 +371,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
+                android:src="@drawable/dominion_opponent_card_back"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -392,6 +395,7 @@
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
                     android:scaleType="fitStart"
+                    android:src="@drawable/red_square"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -550,6 +554,7 @@
                 android:layout_marginTop="12dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
+                android:src="@drawable/dominion_card_back"
                 app:layout_constraintBottom_toTopOf="@+id/imageViewDiscard"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.495"
@@ -566,6 +571,7 @@
                 android:layout_marginTop="8dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
+                android:src="@drawable/dominion_card_back"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.506"
@@ -624,7 +630,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".7" />
+            app:layout_constraintWidth_percent=".7" >
+
+            <TextView
+                android:id="@+id/tvPlayerCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This is a card." />
+        </TableRow>
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

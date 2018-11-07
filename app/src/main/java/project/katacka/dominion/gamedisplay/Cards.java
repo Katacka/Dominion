@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import project.katacka.dominion.R;
 
 public class Cards {
-    protected ArrayList<CardView> cardViewStack;
+    protected ArrayList<Card> cardViewStack;
     protected int totalCards;
     protected final static int uniqueCards = 10;
 
@@ -41,34 +41,34 @@ public class Cards {
     private void initializeRandomCards(int randomCard) {
         switch(randomCard) {
             case(0): //Festival
-                cardViewStack.add(new CardView("Festival", R.drawable.dominion_festival, "+2 Actions\n+1 Buy\n+2 Gold", 5, "ACTION", 10));
+                cardViewStack.add(new Card("Festival", R.drawable.dominion_festival, "+2 Actions\n+1 Buy\n+2 Gold", 5, "ACTION", 10));
                 break;
             case(1): //Merchant
-                cardViewStack.add(new CardView("Merchant", R.drawable.dominion_merchant, "+1 CardView\n+1 Action\nThe first time you play a Silver this turn, +1 Gold", 3, "ACTION", 10));
+                cardViewStack.add(new Card("Merchant", R.drawable.dominion_merchant, "+1 CardView\n+1 Action\nThe first time you play a Silver this turn, +1 Gold", 3, "ACTION", 10));
                 break;
             case(2): //Remodel
-                cardViewStack.add(new CardView("Remodel", R.drawable.dominion_remodel, "Trash a card from your hand. Gain a card costing up to 2 Gold more than it", 4, "ACTION", 10));
+                cardViewStack.add(new Card("Remodel", R.drawable.dominion_remodel, "Trash a card from your hand. Gain a card costing up to 2 Gold more than it", 4, "ACTION", 10));
                 break;
             case(3): //Throne Room
-                cardViewStack.add(new CardView("Throne Room", R.drawable.dominion_throne_room, "You may play an Action card from your hand twice", 4, "ACTION", 10));
+                cardViewStack.add(new Card("Throne Room", R.drawable.dominion_throne_room, "You may play an Action card from your hand twice", 4, "ACTION", 10));
                 break;
             case(4): //Artisan
-                cardViewStack.add(new CardView("Artisan", R.drawable.dominion_artisan, "Gain a card to your hand costing up to 5 Gold. Put a card from your hand onto your deck", 6, "ACTION", 10));
+                cardViewStack.add(new Card("Artisan", R.drawable.dominion_artisan, "Gain a card to your hand costing up to 5 Gold. Put a card from your hand onto your deck", 6, "ACTION", 10));
                 break;
             case(5): //Witch
-                cardViewStack.add(new CardView("Witch", R.drawable.dominion_witch, "+2 shop_cards\nEach other player gains a curse", 5, "ATTACK", 10));
+                cardViewStack.add(new Card("Witch", R.drawable.dominion_witch, "+2 shop_cards\nEach other player gains a curse", 5, "ATTACK", 10));
                 break;
             case(6): //Library
-                cardViewStack.add(new CardView("Library", R.drawable.dominion_library, "Draw until you have 7 cards in hand, skipping any Action cards you choose to; set those aside, discarding them afterwards", 5, "ACTION", 10));
+                cardViewStack.add(new Card("Library", R.drawable.dominion_library, "Draw until you have 7 cards in hand, skipping any Action cards you choose to; set those aside, discarding them afterwards", 5, "ACTION", 10));
                 break;
             case(7): //Laboratory
-                cardViewStack.add(new CardView("Laboratory", R.drawable.dominion_laboratory, "+2 shop_cards\n+1 Action", 5, "ACTION", 10));
+                cardViewStack.add(new Card("Laboratory", R.drawable.dominion_laboratory, "+2 shop_cards\n+1 Action", 5, "ACTION", 10));
                 break;
             case(8): //Militia
-                cardViewStack.add(new CardView("Militia", R.drawable.dominion_militia, "+2 Gold\nEach other player discards down to 3 cards in hand", 4, "ATTACK", 10));
+                cardViewStack.add(new Card("Militia", R.drawable.dominion_militia, "+2 Gold\nEach other player discards down to 3 cards in hand", 4, "ATTACK", 10));
                 break;
             case(9): //Harbinger
-                cardViewStack.add(new CardView("Harbinger", R.drawable.dominion_harbinger, "+1 CardView\n+1 Action\nLook through your discard pile. You may put a card from it onto your deck", 3, "ACTION", 10));
+                cardViewStack.add(new Card("Harbinger", R.drawable.dominion_harbinger, "+1 CardView\n+1 Action\nLook through your discard pile. You may put a card from it onto your deck", 3, "ACTION", 10));
                 break;
             default:
                 Log.e("initalizeCards","An exception has occured. No card has been assigned to this value");
@@ -76,11 +76,11 @@ public class Cards {
     }
 
     protected void initializeBaseCards() {
-        cardViewStack.add(new CardView( "Copper", R.drawable.dominion_copper, "+1 Gold", 0, "TREASURE", 10));
-        cardViewStack.add(new CardView("Estate", R.drawable.dominion_estate, "1 Victory Point", 2, "VICTORY", 10));
-        cardViewStack.add(new CardView("Silver", R.drawable.dominion_silver, "+2 Gold", 3, "TREASURE", 10));
-        cardViewStack.add(new CardView("Duchy", R.drawable.dominion_duchy, "3 Victory Points", 5, "VICTORY", 10));
-        cardViewStack.add(new CardView("Gold", R.drawable.dominion_gold, "+3 Gold", 6, "TREASURE", 10));
-        cardViewStack.add(new CardView("Province", R.drawable.dominion_province, "6 Victory Points", 8, "VICTORY", 10));
+        cardViewStack.add(new Card( "Copper", R.drawable.dominion_copper, "+1 Gold", 0, "TREASURE", 10));
+        cardViewStack.add(new Card("Estate", R.drawable.dominion_estate, "1 Victory Point", 2, "VICTORY", 10));
+        cardViewStack.add(new Card("Silver", R.drawable.dominion_silver, "+2 Gold", 3, "TREASURE", 10));
+        cardViewStack.add(new Card("Duchy", R.drawable.dominion_duchy, "3 Victory Points", 5, "VICTORY", 10));
+        cardViewStack.add(new Card("Gold", R.drawable.dominion_gold, "+3 Gold", 6, "TREASURE", 10));
+        cardViewStack.add(new Card("Province", R.drawable.dominion_province, "6 Victory Points", 8, "VICTORY", 10));
     }
 }
