@@ -1,0 +1,73 @@
+{
+  "base": [
+    {
+      "title": "Copper",
+      "photoStringID": "dominion_copper",
+      "text": "+1 Gold",
+      "cost": 0,
+      "type": "TREASURE",
+      "amount": 60,
+      "action": "baseAction",
+      "addedTreasure": 1
+    },
+    {
+      "title": "Estate",
+      "photoStringID": "dominion_estate",
+      "text": "1 Victory Point",
+      "cost": 2,
+      "type": "VICTORY",
+      "amount": 12,
+      "action": "baseAction",
+      "victoryPoints": 1
+    },
+    {
+      "title": "Silver",
+      "photoStringID": "dominion_silver",
+      "text": "+2 Gold",
+      "cost": 3,
+      "type": "TREASURE",
+      "amount": 40,
+      "action": "silverAction",
+      "addedTreasure": 2
+    },
+    {
+      "title": "Duchy",
+      "photoStringID": "dominion_copper",
+      "text": "3 Victory Points",
+      "cost": 5,
+      "type": "VICTORY",
+      "amount": 12,
+      "action": "baseAction",
+      "victoryPoints": 3
+    },
+    {
+      "title": "Gold",
+      "photoStringID": "dominion_gold",
+      "text": "+3 Gold",
+      "cost": 6,
+      "type": "TREASURE",
+      "amount": 30,
+      "action": "baseAction",
+      "addedTreasure": 3
+    },
+    {
+      "title": "Province",
+      "photoStringID": "dominion_province",
+      "text": "6 Victory Points",
+      "cost": 0,
+      "type": "TREASURE",
+      "amount": 12,
+      "action": "baseAction",
+      "victoryPoints": 6
+    },
+    {
+      "title": "Blank",
+      "photoStringID": "dominion_save",
+      "text": "Blank text",
+      "cost": 0,
+      "type": "BLANK",
+      "amount": 0,
+      "action": "baseAction"
+    }
+  ]
+}

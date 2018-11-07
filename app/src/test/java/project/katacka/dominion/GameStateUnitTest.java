@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import project.katacka.dominion.gameframework.infoMsg.GameState;
@@ -29,18 +31,13 @@ public class GameStateUnitTest {
     public static void setupCards(){
 
         CardReader reader = new CardReader("base");
-
-        baseCards = new ArrayList<>(6);
-        for (int i = 0; i < 6; i++) {
-            baseCards.add(new DominionShopPileState(DominionCardState.BLANK_CARD, 10));
+        try (InputStream shopStream = GameStateUnitTest.class.getClassLoader().getResourceAsStream("shop_cards.json");
+             InputStream baseStream = GameStateUnitTest.class.getClassLoader().getResourceAsStream("base_cards.json")){
+            shopCards = reader.generateCards(shopStream, 10);
+            baseCards = reader.generateCards(baseStream, 7);
+        } catch (IOException e) {
+            Log.e("Testing", "Error while generating card pile: ");
         }
-
-        shopCards = new ArrayList<>(10);
-        for (int i = 0; i < 10; i++) {
-            shopCards.add(new DominionShopPileState(DominionCardState.BLANK_CARD, 10));
-        }
-
-
     }
 
     @Before
@@ -66,10 +63,8 @@ public class GameStateUnitTest {
         System.out.println(copper.toString());
 
         state.playCard(0, 0); //Plays a copper
-        assertEquals(1, state.getTreasure());
-        assertEquals(1, state.getActions());
-        assertEquals(1, state.getBuys());
-
-
+        assertEquals("Treasure", 1, state.getTreasure());
+        assertEquals("Actions", 1, state.getActions());
+        assertEquals("Buys", 1, state.getBuys());
     }
 }

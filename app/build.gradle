@@ -24,9 +24,7 @@ android {
     productFlavors {
     }
     sourceSets {
-        test{
-            resources.srcDirs += ['src/test/resources']
-        }
+        test.resources.srcDirs += 'src/test/res'
     }
 }
 
