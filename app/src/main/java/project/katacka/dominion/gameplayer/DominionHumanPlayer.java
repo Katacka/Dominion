@@ -22,10 +22,11 @@ import project.katacka.dominion.gameframework.GameMainActivity;
 import project.katacka.dominion.gameframework.GamePlayer;
 import project.katacka.dominion.gameframework.actionMsg.GameAction;
 import project.katacka.dominion.gameframework.infoMsg.GameInfo;
+import project.katacka.dominion.gameframework.infoMsg.NotYourTurnInfo;
 import project.katacka.dominion.gamestate.DominionGameState;
 
 public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClickListener{
-    private int startPlayer = 3;
+
     private float tabInactiveVal;
     private float tabActiveVal;
 
@@ -99,26 +100,27 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         tabInactiveVal = outValueInactive.getFloat();
         tabActiveVal = outValueActive.getFloat();
 
-        //init tabs to starting config
-        updateTabs(startPlayer);
-
         //set listeners
         bEndTurn.setOnClickListener(this);
     }
-
 
     //TODO: fix to update tabs more accurately for attack turns
     @Override
     public void receiveInfo(GameInfo info) {
         //get updated info
+        Log.i("DominionHumanPlayer: recieveInfo", "receiveInfo called.");
+
         if(info instanceof DominionGameState) {
             state = (DominionGameState) info;
+            updateTabs(state.getCurrentTurn());
 
             if (state.getIsAttackTurn()) {
                 updateTabs(state.getAttackTurn());
             } else {
                 updateTabs(state.getCurrentTurn());
             }
+        } else if(info instanceof NotYourTurnInfo){
+            Log.i("DominionHumanPlayer: recieveInfo", "Not your turn.");
         }
     }
 
@@ -127,11 +129,10 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
      * knows what their game-position and opponents' names are.
      */
     protected void initAfterReady() {
-        // by default, we do nothing
+        //by default, we do nothing
 
         //Sets tab names
         for(int i = 0; i < allPlayerNames.length; i++) {
-            //((TextView) tabLayout.getChildAt(i).findViewById(R.id.playerName)).setText(allPlayerNames[i]);\
             ((TextView) tabLayout.getChildAt(i).findViewById(R.id.playerName)).setText(allPlayerNames[i]);
         }
     }
@@ -195,9 +196,6 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         Solution: Use ConstraintSet to clone ConstraintLayout width and set tabs relative to that ConstraintLayout
          */
     }//updateTabs
-
-
-
 
     /**
      * this method gets called when the user clicks the die or hold button. It
