@@ -60,6 +60,7 @@ public class MainActivity extends GameMainActivity{
             }
         });
         GameConfig defaultConfig = new GameConfig(playerTypes, 1, 4, "Dominion", PORT_NUMBER);
+        //defaultConfig.setRemoteData("Remote player", );
 
         return defaultConfig;
     }

@@ -442,6 +442,7 @@ public class DominionGameState extends GameState {
         return scores;
     }
 
+    //In the case of a tie,
     private int[] tiedPlayers;
 
     public int getWinner(){
