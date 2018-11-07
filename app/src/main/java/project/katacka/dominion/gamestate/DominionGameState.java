@@ -414,6 +414,10 @@ public class DominionGameState extends GameState {
         return buys;
     }
 
+    public int getTreasure() {
+        return treasure;
+    }
+
     public ArrayList<DominionShopPileState> getBaseCards() {
         return baseCards;
     }

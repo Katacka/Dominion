@@ -46,7 +46,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     private LinearLayout tab2 = null;
     private LinearLayout tab3 = null;
     private LinearLayout tab4 = null;
-    ConstraintLayout tabLayout = null;
+    private ConstraintLayout tabLayout = null;
 
     private TableLayout shopLayout = null;
     private ArrayList<TableRow> shopRows;
@@ -65,10 +65,9 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     private GameMainActivity activity = null;
 
-
-
-
-
+    private TextView tvActions;
+    private TextView tvBuys;
+    private TextView tvTreasure;
 
     public DominionHumanPlayer(String name) {
         this(name, 5); //Default starting hand size is 5
@@ -147,6 +146,12 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         https://stackoverflow.com/questions/3327599/get-all-tablerows-in-a-tablelayout
          */
 
+
+        tvActions = activity.findViewById(R.id.tvActions);
+        tvBuys = activity.findViewById(R.id.tvBuys);
+        tvTreasure = activity.findViewById(R.id.tvTreasures);
+        updateTurnInfo(0, 0, 0);
+
         res = activity.getResources();
 
         //set listeners
@@ -158,14 +163,13 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
      * knows what their game-position and opponents' names are.
      */
     protected void initAfterReady() {
-        //by default, we do nothing
-
         //Sets tab names
         for(int i = 0; i < allPlayerNames.length; i++) {
             ((TextView) tabLayout.getChildAt(i).findViewById(R.id.playerName)).setText(allPlayerNames[i]);
         }
     }
 
+    //TODO: Set correctly
     @Override
     public View getTopView() {
         return null;
@@ -177,7 +181,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
      * @param activePlayer player to set active tab for
      *
      */
-    public void updateTabs(int activePlayer){
+    private void updateTabs(int activePlayer){
         ConstraintSet c = new ConstraintSet();
         //clone Player_tabs (tabs wrapper)constraints
         c.clone(tabLayout);
@@ -221,6 +225,12 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         c.constrainPercentWidth(R.id.playerTab1, R.dimen.tabActive);
     }
 
+    private void updateTurnInfo(int actions, int buys, int treasure){
+        tvActions.setText(activity.getString(R.string.actions, actions));
+        tvBuys.setText(activity.getString(R.string.buys, buys));
+        tvTreasure.setText(activity.getString(R.string.treasure, treasure));
+    }
+
     //TODO: fix to update tabs more accurately for attack turns
     @Override
     public void receiveInfo(GameInfo info) {
@@ -229,12 +239,14 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             state = (DominionGameState) info;
 
             //update tabs to reflect turn
-            updateTabs(state.getCurrentTurn());
+            //updateTabs(state.getCurrentTurn());
             if (state.getIsAttackTurn()) {
                 updateTabs(state.getAttackTurn());
             } else {
                 updateTabs(state.getCurrentTurn());
             }
+
+            updateTurnInfo(state.getActions(), state.getBuys(), state.getTreasure());
 
             //Display shop
             int m = 0;
@@ -271,6 +283,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
                         int resID = res.getIdentifier(name, "drawable", "project.katacka.dominion_card_back");
                         image.setImageResource(resID);
                         m++;
+                        //TODO: Change display with empty piles
                     }
                 }
             }
@@ -334,10 +347,15 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
             //for each loop displays info for each linear layout according to hand
 
+            //Update treasure, actions, and buys
+
+
         } else if(info instanceof NotYourTurnInfo) {
             //TODO: actually do something if not player turn
             Log.i("DominionHumanPlayer: recieveInfo", "Not your turn.");
         }
+
+        //TODO: Move citation to correct place
         /* External Citation:
         Date: Nov 4, 2018
         Source: https://stackoverflow.com/questions/44749481/how-to-change-constraint-layouts-child-views-constraints-programatically#44750506
