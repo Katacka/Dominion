@@ -26,15 +26,15 @@ public class DominionPlayerState {
     /**
      * Constructor.
      * @param name The player's name
-     * @param copper The pile where copper is stored. Decremented to create starting deck.
+     * @param copperPile The pile where copper is stored. Decremented to create starting deck.
      * @param estate The estate card. Used to create starting deck.
      */
-    public DominionPlayerState(String name, DominionShopPileState copper, DominionCardState estate) {
+    public DominionPlayerState(String name, DominionShopPileState copperPile, DominionCardState estate) {
         this.name = name;
 
         //Initializes player deck
         this.deck = new DominionDeckState();
-        populateStartingDeck(copper, estate);
+        populateStartingDeck(copperPile, estate);
 
         this.victoryPoints = 3;
 

@@ -32,7 +32,7 @@
     },
     {
       "title": "Duchy",
-      "photoStringID": "dominion_copper",
+      "photoStringID": "dominion_duchy",
       "text": "3 Victory Points",
       "cost": 5,
       "type": "VICTORY",
@@ -55,7 +55,7 @@
       "photoStringID": "dominion_province",
       "text": "6 Victory Points",
       "cost": 0,
-      "type": "TREASURE",
+      "type": "VICTORY",
       "amount": 12,
       "action": "baseAction",
       "victoryPoints": 6

@@ -24,6 +24,7 @@ import project.katacka.dominion.gameframework.LocalGame;
 import project.katacka.dominion.gameframework.GamePlayerType;
 import project.katacka.dominion.gameplayer.DominionHumanPlayer;
 import project.katacka.dominion.gameplayer.DominionSimpleAIPlayer;
+import project.katacka.dominion.gameplayer.DominionSmartAIPlayer;
 import project.katacka.dominion.localgame.DominionLocalGame;
 
 
@@ -56,10 +57,11 @@ public class MainActivity extends GameMainActivity{
         playerTypes.add(new GamePlayerType("Smart AI"){
             @Override
             public GamePlayer createPlayer(String name) {
-                return new DominionHumanPlayer(name);
+                return new DominionSmartAIPlayer(name);
             }
         });
         GameConfig defaultConfig = new GameConfig(playerTypes, 1, 4, "Dominion", PORT_NUMBER);
+        //defaultConfig.setRemoteData("Remote player", );
 
         return defaultConfig;
     }
