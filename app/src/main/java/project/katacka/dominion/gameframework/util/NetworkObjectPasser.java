@@ -94,8 +94,8 @@ public abstract class NetworkObjectPasser {
 	public abstract void onReceiveObject(Object obj);
 	
 	private enum RunnerStatus {
-		WAITING, READY, FAILED;
-	}
+		WAITING, READY, FAILED
+    }
 	
 	private class CreateRunner implements Runnable {
 		private String ipAddress; // the ipAddress of server (or null if we are server)

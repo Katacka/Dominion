@@ -238,7 +238,7 @@ public class DominionDeckState {
      */
     public int countVictory(){
         int totalCards = getTotalCards();
-        return Stream.of(discard.parallelStream(), hand.parallelStream(), draw.parallelStream())
+        return Stream.of(discard.stream(), hand.stream(), draw.stream())
                 .flatMap(s -> s)
                 .mapToInt(s -> s.getVictoryPoints(totalCards))
                 .sum();
