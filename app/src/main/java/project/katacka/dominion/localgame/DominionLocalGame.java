@@ -105,9 +105,7 @@ public class DominionLocalGame extends LocalGame {
 
         result += "Thanks for playing!";
         return result;
-
     }
-
 
     /**
      * Makes a move on behalf of a player.
