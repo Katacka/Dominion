@@ -22,7 +22,7 @@ public interface Game {
 	 * @param players
 	 * 			the players who are in the game
 	 */
-	public abstract void start(GamePlayer[] players);
+    void start(GamePlayer[] players);
 
 	/**
 	 * sends the given action to the Game object.
@@ -30,6 +30,6 @@ public interface Game {
 	 * @param action
 	 *            the action to send
 	 */
-	public abstract void sendAction(GameAction action);	
+    void sendAction(GameAction action);
 	
 }

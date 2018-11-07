@@ -2,16 +2,11 @@ package project.katacka.dominion.gamestate;
 
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Locale;
-import java.util.Random;
 
 import project.katacka.dominion.gameframework.infoMsg.GameState;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * A data class intended to represent the state of a game object
@@ -110,6 +105,11 @@ public class DominionGameState extends GameState {
         this.actions = 1;
         this.silverBoon = false;
         dominionPlayers[currentTurn].startTurn();
+
+        //Everyone draw their first 5 cards
+        for (DominionPlayerState playerState : dominionPlayers){
+            playerState.getDeck().drawMultiple(5);
+        }
 
         this.isGameOver = false; //The game is not over
         this.playerQuit = -1; //No player has quit
@@ -388,20 +388,38 @@ public class DominionGameState extends GameState {
                 if (!baseCard && cardIndex >= 0 && cardIndex < shopCards.size()) { //Card pile exists
                     DominionShopPileState shopPile = shopCards.get(cardIndex);
                     if (!shopPile.isEmpty()){
-                        if (treasure >= shopPile.getCard().getCost()) //Can afford
-                            return true;
+                        return treasure >= shopPile.getCard().getCost();
                     }
                 }
                 else if (baseCard && cardIndex >= 0 && cardIndex < baseCards.size()){
                     DominionShopPileState basePile = baseCards.get(cardIndex);
                     if (!basePile.isEmpty()){
-                        if (treasure >= basePile.getCard().getCost()) //Can afford
-                            return true;
+                        return treasure >= basePile.getCard().getCost();
                     }
                 }
             }
         }
         return false;
+    }
+
+    public DominionPlayerState[] getDominionPlayers() {
+        return dominionPlayers;
+    }
+
+    public int getActions() {
+        return actions;
+    }
+
+    public int getBuys() {
+        return buys;
+    }
+
+    public ArrayList<DominionShopPileState> getBaseCards() {
+        return baseCards;
+    }
+
+    public ArrayList<DominionShopPileState> getShopCards() {
+        return shopCards;
     }
 
     /**
@@ -511,19 +529,8 @@ public class DominionGameState extends GameState {
         this.dominionPlayers = dominionPlayers;
     }
 
-    public ArrayList<DominionShopPileState> getShopCards() {
-        return shopCards;
-    }
-
-    public ArrayList<DominionShopPileState> getBaseCards() { return baseCards; }
-
-
     public int getAttackTurn(){
         return attackTurn;
-    }
-
-    public DominionPlayerState[] getDominionPlayers() {
-        return dominionPlayers;
     }
 
     public DominionPlayerState getDominionPlayer(int player) {
