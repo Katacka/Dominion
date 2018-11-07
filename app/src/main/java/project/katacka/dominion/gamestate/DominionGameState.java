@@ -500,20 +500,6 @@ public class DominionGameState extends GameState {
         return tiedPlayers;
     }
 
-    //TODO: Remove testing code
-    //TODO: Randomize first player again
-    public void testSpecialHand(){
-        DominionPlayerState currPlayer = dominionPlayers[currentTurn];
-        ArrayList<DominionCardState> hand = currPlayer.getDeck().getHand();
-        hand.set(0, baseCards.get(0).getCard()); //First card copper
-        hand.set(1, baseCards.get(1).getCard()); //Second card Estate
-        hand.set(2, shopCards.get(0).getCard()); //Third card Moat
-        hand.set(3, shopCards.get(8).getCard()); //Forth card Council room
-        hand.set(4, shopCards.get(9).getCard()); //Fifth card Money Lender
-        hand.add(shopCards.get(3).getCard()); //Sixth card merchant
-        hand.add(baseCards.get(2).getCard()); //Seventh card Silver
-    }
-
     public DominionPlayerState[] getDominionPlayers() {
         return dominionPlayers;
     }

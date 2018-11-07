@@ -15,10 +15,12 @@ import java.util.ArrayList;
 import project.katacka.dominion.gameframework.infoMsg.GameState;
 import project.katacka.dominion.gamestate.CardReader;
 import project.katacka.dominion.gamestate.DominionCardState;
+import project.katacka.dominion.gamestate.DominionDeckState;
 import project.katacka.dominion.gamestate.DominionGameState;
 import project.katacka.dominion.gamestate.DominionPlayerState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
 
+//TODO: Javadoc
 public class GameStateUnitTest {
 
     private static ArrayList<DominionShopPileState> baseCards;
@@ -56,15 +58,22 @@ public class GameStateUnitTest {
     @Test
     public void testPlayCard(){
         DominionGameState state = new DominionGameState(4, baseClone, shopClone);
-        DominionPlayerState player = state.getDominionPlayers()[0];
-        state.testSpecialHand();
-
-        DominionCardState copper = baseClone.get(0).getCard();
-        System.out.println(copper.toString());
+        setupSpecialHand(state.getDominionPlayers()[0].getDeck());
 
         state.playCard(0, 0); //Plays a copper
         assertEquals("Treasure", 1, state.getTreasure());
         assertEquals("Actions", 1, state.getActions());
         assertEquals("Buys", 1, state.getBuys());
+    }
+
+    private void setupSpecialHand(DominionDeckState deck){
+        ArrayList<DominionCardState> hand = deck.getHand();
+        hand.set(0, baseCards.get(0).getCard()); //First card copper
+        hand.set(1, baseCards.get(1).getCard()); //Second card Estate
+        hand.set(2, shopCards.get(0).getCard()); //Third card Moat
+        hand.set(3, shopCards.get(8).getCard()); //Forth card Council room
+        hand.set(4, shopCards.get(9).getCard()); //Fifth card Money Lender
+        hand.add(shopCards.get(3).getCard()); //Sixth card merchant
+        hand.add(baseCards.get(2).getCard()); //Seventh card Silver
     }
 }
