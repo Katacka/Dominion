@@ -20,6 +20,8 @@ public class DominionPlayerState {
     }
 
     public void startTurn(){
+        this.getDeck().discardAll();
+        this.getDeck().drawMultiple(5);
         turnsPlayed++;
     }
 

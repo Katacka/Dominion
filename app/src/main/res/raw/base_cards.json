@@ -8,7 +8,8 @@
       "type": "TREASURE",
       "amount": 60,
       "action": "baseAction",
-      "addedTreasure": 1
+      "addedTreasure": 1,
+      "isBaseCard": true
     },
     {
       "title": "Estate",
@@ -18,7 +19,8 @@
       "type": "VICTORY",
       "amount": 12,
       "action": "baseAction",
-      "victoryPoints": 1
+      "victoryPoints": 1,
+      "isBaseCard": true
     },
     {
       "title": "Silver",
@@ -28,7 +30,8 @@
       "type": "TREASURE",
       "amount": 40,
       "action": "silverAction",
-      "addedTreasure": 2
+      "addedTreasure": 2,
+      "isBaseCard": true
     },
     {
       "title": "Duchy",
@@ -38,7 +41,8 @@
       "type": "VICTORY",
       "amount": 12,
       "action": "baseAction",
-      "victoryPoints": 3
+      "victoryPoints": 3,
+      "isBaseCard": true
     },
     {
       "title": "Gold",
@@ -48,7 +52,8 @@
       "type": "TREASURE",
       "amount": 30,
       "action": "baseAction",
-      "addedTreasure": 3
+      "addedTreasure": 3,
+      "isBaseCard": true
     },
     {
       "title": "Province",
@@ -58,7 +63,8 @@
       "type": "VICTORY",
       "amount": 12,
       "action": "baseAction",
-      "victoryPoints": 6
+      "victoryPoints": 6,
+      "isBaseCard": true
     },
     {
       "title": "Blank",

@@ -2,9 +2,11 @@ package project.katacka.dominion.gamestate;
 
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Random;
 
 import project.katacka.dominion.gameframework.infoMsg.GameState;
 
@@ -99,17 +101,18 @@ public class DominionGameState extends GameState {
         }
 
         //Sets up turn with player 0 as first player
-        this.currentTurn = 0;
+        this.currentTurn = (new Random()).nextInt(numPlayers); //TODO: Verify first turn randomization is having no other unintended effects
+        //this.currentTurn = 0;
         this.treasure = 0;
         this.buys = 1;
         this.actions = 1;
         this.silverBoon = false;
         dominionPlayers[currentTurn].startTurn();
 
-        //Everyone draw their first 5 cards
-        for (DominionPlayerState playerState : dominionPlayers){
-            playerState.getDeck().drawMultiple(5);
-        }
+        //Everyone draw their first 5 cards //TODO: See if startTurn draw works
+        //for (DominionPlayerState playerState : dominionPlayers){
+        //    playerState.getDeck().drawMultiple(5);
+        //}
 
         this.isGameOver = false; //The game is not over
         this.playerQuit = -1; //No player has quit
@@ -280,10 +283,10 @@ public class DominionGameState extends GameState {
                 treasure = 0;
                 buys = 1;
                 actions = 1;
-                DominionPlayerState currPlayer = dominionPlayers[currentTurn];
+                /*DominionPlayerState currPlayer = dominionPlayers[currentTurn];
                 currPlayer.getDeck().discardAll();
-                currPlayer.getDeck().drawMultiple(5);
-                currentTurn = (currentTurn + 1) % 4;
+                currPlayer.getDeck().drawMultiple(5);*/
+                currentTurn = (currentTurn + 1) % numPlayers;
                 attackTurn = currentTurn;
                 silverBoon = false;
                 dominionPlayers[currentTurn].startTurn();
@@ -541,4 +544,7 @@ public class DominionGameState extends GameState {
         return isAttackTurn;
     }
 
+    public int getTreasure() {
+        return treasure;
+    }
 }

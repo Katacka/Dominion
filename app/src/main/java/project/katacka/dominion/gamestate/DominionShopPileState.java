@@ -11,6 +11,7 @@ import java.util.Locale;
 public class DominionShopPileState {
     private final DominionCardState card;
     private int amount;
+    private boolean isBaseCard;
 
     /**
      * Constructor.
@@ -20,10 +21,11 @@ public class DominionShopPileState {
      * @param card The card the pile represents
      * @param amount The positive number of cards in the pile
      */
-    public DominionShopPileState(DominionCardState card, int amount){
+    public DominionShopPileState(DominionCardState card, int amount, boolean isBaseCard){
         this.card = card;
-        this.amount = amount;
         this.amount = Math.max(amount, 0);
+        this.isBaseCard = isBaseCard;
+
     }
 
     /**
@@ -33,10 +35,15 @@ public class DominionShopPileState {
     public DominionShopPileState(DominionShopPileState shopPileState){
         this.card = shopPileState.card;
         this.amount = shopPileState.amount;
+        this.isBaseCard = shopPileState.isBaseCard;
     }
 
     public DominionCardState getCard() {
         return card;
+    }
+
+    public boolean isBaseCard() {
+        return isBaseCard;
     }
 
     public int getAmount(){
