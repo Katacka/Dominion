@@ -33,7 +33,7 @@ public class DominionGameState extends GameState {
     //  as well as providence to detect game over
     private final int PILE_COPPER = 0;
     private final int PILE_ESTATE = 1;
-    private final int PILE_PROVIDENCE = 6;
+    private final int PILE_PROVIDENCE = 5;
 
     protected DominionPlayerState dominionPlayers[]; //Sorted by order of turn
 
@@ -97,22 +97,15 @@ public class DominionGameState extends GameState {
             this.dominionPlayers[i] = new DominionPlayerState("Player " + i,
                     baseCards.get(PILE_COPPER), //The copper pile
                     baseCards.get(PILE_ESTATE).getCard()); //The estate card
-
         }
 
         //Sets up turn with player 0 as first player
         this.currentTurn = (new Random()).nextInt(numPlayers); //TODO: Verify first turn randomization is having no other unintended effects
-        //this.currentTurn = 0;
         this.treasure = 0;
         this.buys = 1;
         this.actions = 1;
         this.silverBoon = false;
         dominionPlayers[currentTurn].startTurn();
-
-        //Everyone draw their first 5 cards //TODO: See if startTurn draw works
-        //for (DominionPlayerState playerState : dominionPlayers){
-        //    playerState.getDeck().drawMultiple(5);
-        //}
 
         this.isGameOver = false; //The game is not over
         this.playerQuit = -1; //No player has quit
@@ -283,9 +276,9 @@ public class DominionGameState extends GameState {
                 treasure = 0;
                 buys = 1;
                 actions = 1;
-                /*DominionPlayerState currPlayer = dominionPlayers[currentTurn];
+                DominionPlayerState currPlayer = dominionPlayers[currentTurn];
                 currPlayer.getDeck().discardAll();
-                currPlayer.getDeck().drawMultiple(5);*/
+                currPlayer.getDeck().drawMultiple(5);
                 currentTurn = (currentTurn + 1) % numPlayers;
                 attackTurn = currentTurn;
                 silverBoon = false;

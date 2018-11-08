@@ -71,9 +71,10 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
             Log.i("a" + gameState.getBuys(), "gameTreasure: " + gameState.getTreasure());
 
             DominionShopPileState[] buyOptionsArray = Stream.of(shopCards.stream(), baseCards.stream())
-                                                  .flatMap(cards -> cards)
-                                                  .filter(card -> card.getCard().getCost() <= gameState.getTreasure() &&
-                                                                  card.getCard().getType() != DominionCardType.BLANK)
+                                                  .flatMap(piles -> piles)
+                                                  .filter(pile -> pile.getAmount() > 0 &&
+                                                                  pile.getCard().getCost() <= gameState.getTreasure() &&
+                                                                  pile.getCard().getType() != DominionCardType.BLANK)
                                                   .toArray(DominionShopPileState[]::new);
 
             if(buyOptionsArray.length < 1) return false; //Informs the AI that not all actions could be used

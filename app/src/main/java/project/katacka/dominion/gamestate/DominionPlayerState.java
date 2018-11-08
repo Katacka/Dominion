@@ -20,8 +20,6 @@ public class DominionPlayerState {
     }
 
     public void startTurn(){
-        this.getDeck().discardAll();
-        this.getDeck().drawMultiple(5);
         turnsPlayed++;
     }
 
@@ -37,6 +35,8 @@ public class DominionPlayerState {
         //Initializes player deck
         this.deck = new DominionDeckState();
         populateStartingDeck(copperPile, estate);
+
+        deck.drawMultiple(5);
 
         this.victoryPoints = 3;
 
