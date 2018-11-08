@@ -12,6 +12,7 @@ import project.katacka.dominion.gameframework.GameComputerPlayer;
 import project.katacka.dominion.gameframework.GameMainActivity;
 import project.katacka.dominion.gameframework.infoMsg.GameInfo;
 import project.katacka.dominion.gameframework.infoMsg.GameState;
+import project.katacka.dominion.gameframework.infoMsg.IllegalMoveInfo;
 import project.katacka.dominion.gameframework.infoMsg.NotYourTurnInfo;
 import project.katacka.dominion.gameframework.util.GameTimer;
 import project.katacka.dominion.gamestate.DominionCardState;
@@ -69,9 +70,12 @@ public class DominionComputerPlayer extends GameComputerPlayer {
      * 			the object representing the information from the game
      */
     protected void receiveInfo(GameInfo info){
-        if(info instanceof GameState && updateInfo(info)) {
+        if(info instanceof IllegalMoveInfo || (info instanceof GameState  && updateInfo(info))) {
 
             Log.d("AI", "Received info");
+            if(info instanceof IllegalMoveInfo) {
+                Log.e(TAG, "receiveInfo: " + info);
+            }
 
             if(currentPhase == turnPhases.END) currentPhase = turnPhases.ACTION;
             playTurnPhase(currentPhase);
@@ -109,9 +113,12 @@ public class DominionComputerPlayer extends GameComputerPlayer {
                                    .filter(i -> hand.get(i).getType() == DominionCardType.TREASURE)
                                    .findAny()
                                    .orElse(-1);
-        if (treasureIdx < 0) return false;
+        if (treasureIdx < 0) {
+            currentPhase = turnPhases.BUY;
+            return false;
+        }
 
-        currentPhase = turnPhases.TREASURE;
+        //currentPhase = turnPhases.TREASURE;
         sleep(100);
         game.sendAction(new DominionPlayCardAction(this, treasureIdx));
         return true;
