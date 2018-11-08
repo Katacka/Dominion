@@ -71,7 +71,7 @@ public class DominionComputerPlayer extends GameComputerPlayer {
     protected void receiveInfo(GameInfo info){
         if(info instanceof GameState && updateInfo(info)) {
 
-            Log.d("AI", "Recieved info");
+            Log.d("AI", "Received info");
 
             if(currentPhase == turnPhases.END) currentPhase = turnPhases.ACTION;
             playTurnPhase(currentPhase);
@@ -109,21 +109,19 @@ public class DominionComputerPlayer extends GameComputerPlayer {
                                    .filter(i -> hand.get(i).getType() == DominionCardType.TREASURE)
                                    .findAny()
                                    .orElse(-1);
-        if (treasureIdx >= 0) {
-            currentPhase = turnPhases.TREASURE;
-            sleep(500);
-            game.sendAction(new DominionPlayCardAction(this, treasureIdx));
-            return true;
-        }
+        if (treasureIdx < 0) return false;
 
-        return false;
+        currentPhase = turnPhases.TREASURE;
+        sleep(100);
+        game.sendAction(new DominionPlayCardAction(this, treasureIdx));
+        return true;
     }
 
     protected boolean endTurn() {
         Log.d("AI", "Ending turn");
 
         currentPhase = turnPhases.END;
-        sleep(500);
+        sleep(100);
         game.sendAction(new DominionEndTurnAction(this));
 
         return true;

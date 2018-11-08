@@ -36,6 +36,7 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
                 endTurn();
                 break;
             default:
+                endTurn();
                 return false;
         }
 
@@ -52,11 +53,12 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
                             card.getType() == DominionCardType.ATTACK).toArray(DominionCardState[]::new);
 
             if (actionArray.length < 1) return false; //Informs the AI that not all actions could be used
-            int randPick = rand.nextInt(actionArray.length);
+            DominionCardState randCard = actionArray[rand.nextInt(actionArray.length)];
+            int handIdx = hand.indexOf(randCard);
 
             currentPhase = turnPhases.ACTION;
-            sleep(500);
-            game.sendAction(new DominionPlayCardAction(this, randPick)); //TODO: PlayCardAction needs index
+            sleep(100);
+            game.sendAction(new DominionPlayCardAction(this, handIdx)); //TODO: PlayCardAction needs index
             return true;
         }
             //}
@@ -70,7 +72,8 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
 
             DominionShopPileState[] buyOptionsArray = Stream.of(shopCards.stream(), baseCards.stream())
                                                   .flatMap(cards -> cards)
-                                                  .filter(card -> card.getCard().getCost() <= gameState.getTreasure())
+                                                  .filter(card -> card.getCard().getCost() <= gameState.getTreasure() &&
+                                                                  card.getCard().getType() != DominionCardType.BLANK)
                                                   .toArray(DominionShopPileState[]::new);
 
             if(buyOptionsArray.length < 1) return false; //Informs the AI that not all actions could be used
@@ -79,7 +82,7 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
             int pileIdx = (isBaseCard) ? baseCards.indexOf(randPile) : shopCards.indexOf(randPile);
 
             currentPhase = turnPhases.BUY;
-            sleep(500);
+            sleep(100);
             game.sendAction(new DominionBuyCardAction(this, pileIdx, isBaseCard)); //TODO: BuyCardAction needs proper params
             return true;
         }
