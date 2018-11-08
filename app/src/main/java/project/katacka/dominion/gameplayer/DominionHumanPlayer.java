@@ -78,6 +78,9 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     private TextView tvDrawCount;
     private TextView tvDiscardCount;
 
+    private TextView tvOppDiscard;
+    private TextView tvOppDraw;
+
     private ImageView drawPile;
     private ConstraintLayout discardPile;
 
@@ -170,6 +173,11 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         tvDiscardCount = activity.findViewById(R.id.textViewDiscardCount);
         tvDrawCount.setText("0");
         tvDiscardCount.setText("0");
+
+        tvOppDraw = activity.findViewById(R.id.textViewAmount);
+        tvOppDiscard = activity.findViewById(R.id.textViewAmount2);
+        tvOppDraw.setText("0");
+        tvOppDiscard.setText("0");
 
         drawPile = activity.findViewById(R.id.ivDrawCard);
         discardPile = activity.findViewById(R.id.imageViewDiscard);
@@ -315,6 +323,12 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         image.setImageResource(resID);
     }
 
+    private void updateOppDrawDiscard(int player){
+        if (player == playerNum) return;
+        tvOppDraw.setText(Integer.toString(state.getDominionPlayer(player).getDeck().getDrawSize()));
+        tvOppDiscard.setText(Integer.toString(state.getDominionPlayer(player).getDeck().getDiscardSize()));
+    }
+
     //TODO: fix to update tabs more accurately for attack turns
     @Override
     public void receiveInfo(GameInfo info) {
@@ -327,8 +341,10 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             //updateTabs(state.getCurrentTurn());
             if (state.getIsAttackTurn()) {
                 updateTabs(state.getAttackTurn());
+                updateOppDrawDiscard(state.getAttackTurn());
             } else {
                 updateTabs(state.getCurrentTurn());
+                updateOppDrawDiscard(state.getCurrentTurn());
             }
 
             updateTurnInfo(state.getActions(), state.getBuys(), state.getTreasure());
