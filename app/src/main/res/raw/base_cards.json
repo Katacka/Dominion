@@ -4,7 +4,7 @@
       "title": "Copper",
       "photoStringID": "dominion_copper",
       "text": "+1 Gold",
-      "cost": 0,
+      "cost": 10,
       "type": "TREASURE",
       "amount": 60,
       "action": "baseAction",

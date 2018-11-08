@@ -42,7 +42,7 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
                 return false;
         }
 
-        if(currentPhase == turnPhases.IN_PROGRESS) currentPhase = tempPhase;
+        //if(currentPhase == turnPhases.IN_PROGRESS) currentPhase = tempPhase;
         return true;
     }
 
@@ -56,21 +56,31 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
                             card.getType() == DominionCardType.ATTACK).toArray(DominionCardState[]::new);
 
             if (actionArray.length < 1) {
-                currentPhase = turnPhases.TREASURE;
+                //currentPhase = turnPhases.TREASURE;
                 return false; //Informs the AI that not all actions could be used
             }
             DominionCardState randCard = actionArray[rand.nextInt(actionArray.length)];
             int handIdx = hand.indexOf(randCard);
 
-            //currentPhase = turnPhases.ACTION;
+            if (!handleMoneylender(randCard)) {
+                //currentPhase = turnPhases.TREASURE;
+                return false; //Informs the AI that not all actions could be used
+            }
+
+            currentPhase = turnPhases.ACTION;
             sleep(100);
             game.sendAction(new DominionPlayCardAction(this, handIdx)); //TODO: PlayCardAction needs index
             return true;
         }
             //}
 
-        currentPhase = turnPhases.TREASURE;
+        //currentPhase = turnPhases.TREASURE;
         return false;
+    }
+
+    private boolean handleMoneylender(DominionCardState randCard) {
+        boolean isCopper = hand.stream().anyMatch(card -> card.getTitle().equals("Copper"));
+        return !randCard.getTitle().equals("Moneylender") || isCopper;
     }
 
     public boolean playSimpleBuyPhase() {
@@ -85,20 +95,20 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
                                                   .toArray(DominionShopPileState[]::new);
 
             if(buyOptionsArray.length < 1) {
-                currentPhase = turnPhases.END;
+                //currentPhase = turnPhases.END;
                 return false; //Informs the AI that not all actions could be used
             }
             DominionShopPileState randPile = buyOptionsArray[rand.nextInt(buyOptionsArray.length)];
             boolean isBaseCard = randPile.isBaseCard();
             int pileIdx = (isBaseCard) ? baseCards.indexOf(randPile) : shopCards.indexOf(randPile);
 
-            //currentPhase = turnPhases.BUY;
+            currentPhase = turnPhases.BUY;
             sleep(100);
             game.sendAction(new DominionBuyCardAction(this, pileIdx, isBaseCard)); //TODO: BuyCardAction needs proper params
             return true;
         }
 
-        currentPhase = turnPhases.END;
+        //currentPhase = turnPhases.END;
         return false;
     }
 

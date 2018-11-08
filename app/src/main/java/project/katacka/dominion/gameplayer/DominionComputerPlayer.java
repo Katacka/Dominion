@@ -70,11 +70,11 @@ public class DominionComputerPlayer extends GameComputerPlayer {
      * 			the object representing the information from the game
      */
     protected void receiveInfo(GameInfo info){
-        if(info instanceof IllegalMoveInfo || (info instanceof GameState  && updateInfo(info))) {
+        if(info instanceof IllegalMoveInfo || (info instanceof GameState && updateInfo(info))) {
 
             Log.d("AI", "Received info");
             if(info instanceof IllegalMoveInfo) {
-                Log.e(TAG, "receiveInfo: " + info);
+                Log.e(TAG, "receiveInfo: " + info.toString());
             }
 
             if(currentPhase == turnPhases.END) currentPhase = turnPhases.ACTION;
@@ -114,11 +114,11 @@ public class DominionComputerPlayer extends GameComputerPlayer {
                                    .findAny()
                                    .orElse(-1);
         if (treasureIdx < 0) {
-            currentPhase = turnPhases.BUY;
+            //currentPhase = turnPhases.BUY;
             return false;
         }
 
-        //currentPhase = turnPhases.TREASURE;
+        currentPhase = turnPhases.TREASURE;
         sleep(100);
         game.sendAction(new DominionPlayCardAction(this, treasureIdx));
         return true;
