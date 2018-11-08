@@ -353,7 +353,6 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
      * @param button
      * 		the button that was clicked
      */
-    //TODO: FIX TAB UPDATES, currently only work on the first time user clicks end turn button
     public void onClick(View button) {
         Log.i("DomHumPlayer: onClick", "End turn button clicked.");
         GameAction action = null;
