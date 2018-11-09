@@ -207,7 +207,7 @@
 
         </TableLayout>
 
-        <TableRow
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/Opponent_Cards"
             android:layout_width="0dp"
             android:layout_height="0dp"

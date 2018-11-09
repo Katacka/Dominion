@@ -3,6 +3,7 @@ package project.katacka.dominion.gameplayer;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.IdRes;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.util.Log;
@@ -341,6 +342,45 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         }
     }
 
+    private void updateOppHand(int player){
+        int handSize;
+        if (player == playerNum){
+            handSize = 5;
+        } else {
+            handSize = state.getDominionPlayer(player).getDeck().getHandSize();
+        }
+        ConstraintLayout oppCardsLayout = activity.findViewById(R.id.Opponent_Cards);
+        oppCardsLayout.removeAllViews();
+        ImageView[] cards = new ImageView[handSize];
+        for (int i = 0; i < handSize; i++){
+            cards[i] = new ImageView(activity);
+            cards[i].setScaleType(ImageView.ScaleType.FIT_XY);
+            cards[i].setImageResource(R.drawable.dominion_opponent_card_back);
+            cards[i].setId(View.generateViewId());
+            oppCardsLayout.addView(cards[i]);
+        }
+        ConstraintSet set = new ConstraintSet();
+        set.clone(oppCardsLayout);
+        float biasMultiplier = Math.min(1/5.0f, 1/(float)handSize);
+        @IdRes int layoutID = oppCardsLayout.getId();
+        for (int i = 0; i < handSize; i++){
+            ImageView card = cards[i];
+            @IdRes int id = card.getId();
+
+            set.connect(id, ConstraintSet.LEFT, layoutID, ConstraintSet.LEFT);
+            set.connect(id, ConstraintSet.RIGHT, layoutID, ConstraintSet.RIGHT);
+            set.connect(id, ConstraintSet.TOP, layoutID, ConstraintSet.TOP);
+            set.connect(id, ConstraintSet.BOTTOM, layoutID, ConstraintSet.BOTTOM);
+
+
+            set.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
+            set.constrainWidth(id, ConstraintSet.WRAP_CONTENT);
+
+            set.setHorizontalBias(id, i*biasMultiplier);
+        }
+        set.applyTo(oppCardsLayout);
+    }
+
     //TODO: fix to update tabs more accurately for attack turns
     @Override
     public void receiveInfo(GameInfo info) {
@@ -354,9 +394,11 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             if (state.getIsAttackTurn()) {
                 updateTabs(state.getAttackTurn());
                 updateOppDrawDiscard(state.getAttackTurn());
+                updateOppHand(state.getAttackTurn());
             } else {
                 updateTabs(state.getCurrentTurn());
                 updateOppDrawDiscard(state.getCurrentTurn());
+                updateOppHand(state.getCurrentTurn());
             }
 
             updateTurnInfo(state.getActions(), state.getBuys(), state.getTreasure());
