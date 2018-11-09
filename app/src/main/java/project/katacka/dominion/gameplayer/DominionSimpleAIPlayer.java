@@ -13,11 +13,10 @@ import project.katacka.dominion.gamestate.DominionShopPileState;
 
 
 public class DominionSimpleAIPlayer extends DominionComputerPlayer {
-    protected Random rand;
+
 
     public DominionSimpleAIPlayer(String name) {
         super(name);
-        rand = new Random();
     }
 
     @Override

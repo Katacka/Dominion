@@ -37,6 +37,8 @@ public class DominionComputerPlayer extends GameComputerPlayer {
     protected enum turnPhases {ACTION, TREASURE, BUY, END, IN_PROGRESS}
     protected turnPhases currentPhase;
 
+    protected Random rand;
+
     /**
      * Invokes the super-class constructor, setting the player's
      * name to <name> along with other default attributes
@@ -48,6 +50,7 @@ public class DominionComputerPlayer extends GameComputerPlayer {
         super(name);
         turnStarted = false;
         currentPhase = turnPhases.END;
+        rand = new Random();
     }
 
     /*@Override

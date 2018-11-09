@@ -3,8 +3,13 @@ package project.katacka.dominion.gameplayer;
 import android.support.v4.util.Pair;
 import android.util.Log;
 
+import java.util.Arrays;
+import java.util.Random;
 import java.util.stream.Stream;
+import java.util.Comparator;
 
+import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
+import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gameframework.infoMsg.GameInfo;
 import project.katacka.dominion.gameframework.infoMsg.NotYourTurnInfo;
 import project.katacka.dominion.gamestate.DominionCardState;
@@ -24,6 +29,117 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
 
     public DominionSmartAIPlayer(String name) {
         super(name);
+    }
+
+    @Override
+    public boolean playTurnPhase(turnPhases tempPhase) {
+        Log.d("SimpleAI", "Playing turn");
+        currentPhase = turnPhases.IN_PROGRESS;
+
+        switch (tempPhase) {
+            case ACTION:
+                if (playSmartActionPhase()) break;
+            case TREASURE:
+                if (playTreasure()) break;
+            case BUY:
+                if (playSimpleBuyPhase()) break;
+            case END:
+                endTurn();
+                break;
+            case IN_PROGRESS:
+                break;
+            default:
+                endTurn();
+                return false;
+        }
+
+        //if(currentPhase == turnPhases.IN_PROGRESS) currentPhase = tempPhase;
+        return true;
+    }
+
+    //TODO: Reference all actions properly
+    public boolean playSmartActionPhase() {
+        if (gameState.getActions() > 0) {
+            //Get all action cards in hand
+            Stream<DominionCardState> actionStream = hand.stream()
+                                                    .filter(card -> card.getType() == DominionCardType.ACTION ||
+                                                    card.getType() == DominionCardType.REACTION ||
+                                                    card.getType() == DominionCardType.ATTACK);
+
+            //Sorted by addedActions, then inter-sorted by addedDraw, then inter-sorted by cost
+            DominionCardState[] orderedActionArray = actionStream.sorted(Comparator.comparing(DominionCardState::getAddedActions)
+                                                                         .thenComparing(DominionCardState::getAddedDraw)
+                                                                         .thenComparing(DominionCardState::getCost))
+                                                     .toArray(DominionCardState[]::new);
+
+            if (orderedActionArray.length < 1) {
+                return false; //Informs the AI that not all actions could be used
+            }
+            int handIdx = hand.indexOf(orderedActionArray[0]);
+
+            if (!handleMoneylender(orderedActionArray[0])) {
+                return false; //Informs the AI that not all actions could be used
+            }
+
+            currentPhase = turnPhases.ACTION;
+            sleep(100);
+            game.sendAction(new DominionPlayCardAction(this, handIdx)); //TODO: PlayCardAction needs index
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean handleMoneylender(DominionCardState randCard) {
+        boolean isCopper = hand.stream().anyMatch(card -> card.getTitle().equals("Copper"));
+        return !randCard.getTitle().equals("Moneylender") || isCopper;
+    }
+
+    public boolean playSimpleBuyPhase() {
+        if (gameState.getBuys() > 0) {
+            Log.i("a" + gameState.getBuys(), "gameTreasure: " + gameState.getTreasure());
+
+            Stream<DominionShopPileState> buyOptionsStream = Stream.of(shopCards.stream(), baseCards.stream())
+                                                            .flatMap(piles -> piles)
+                                                            .filter(pile -> pile.getAmount() > 0 &&
+                                                                    pile.getCard().getCost() <= gameState.getTreasure() &&
+                                                                    pile.getCard().getType() != DominionCardType.BLANK);
+
+            DominionShopPileState[] orderedActionArray;
+            if (predictTreasureDraw() < 8) {
+                orderedActionArray = buyOptionsStream.map(DominionShopPileState::getCard)
+                        .sorted(Comparator.comparing(DominionCardState::getAddedTreasure)
+                                .thenComparing(DominionCardState::getAddedActions)
+                                .thenComparing(DominionCardState::getAddedDraw)
+                                .thenComparing(DominionCardState::getCost))
+                        .toArray(DominionShopPileState[]::new);
+            }
+            else {
+                //TODO: Fix implementation
+                /*orderedActionArray = buyOptionsStream.map(DominionShopPileState::getCard)
+                        .sorted(Comparator.comparing((a,b) -> a.getVictoryPoints(compPlayer.getDeck().getTotalCards()) > b.getVictoryPoints(compPlayer.getDeck().getTotalCards()) ? a : b)
+                                .thenComparing(DominionCardState::getAddedActions)
+                                .thenComparing(DominionCardState::getAddedDraw)
+                                .thenComparing(DominionCardState::getCost))
+                        .toArray(DominionShopPileState[]::new);*/
+            }
+
+            if(orderedActionArray.length < 1) {
+                return false; //Informs the AI that not all actions could be used
+            }
+
+            DominionShopPileState selectedPile = orderedActionArray[0];
+            boolean isBaseCard = selectedPile.isBaseCard();
+            int pileIdx = (isBaseCard) ? baseCards.indexOf(selectedPile) : shopCards.indexOf(selectedPile);
+
+            currentPhase = turnPhases.BUY;
+            sleep(100);
+            game.sendAction(new DominionBuyCardAction(this, pileIdx, isBaseCard)); //TODO: BuyCardAction needs proper params
+            return true;
+        }
+
+        //currentPhase = turnPhases.END;
+        return false;
     }
 
     @Override
@@ -54,91 +170,6 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
         }
     }
 
-    @Override
-    public boolean playTurnPhase(turnPhases tempPhase) {
-        avgDraw = 5;
-        playSmartActionPhase();
-        playTreasure();
-        playSmartBuyPhase();
-        endTurn();
-        return true;
-    }
-
-
-    //TODO: Reference all actions properly
-    public boolean playSmartActionPhase() {
-        while (gameState.getActions() > 0) {
-            DominionCardState[] actionArray = hand.stream()
-                                              .filter(card -> card.getType() == DominionCardType.ACTION ||
-                                                              card.getType() == DominionCardType.REACTION ||
-                                                              card.getType() == DominionCardType.ATTACK)
-                                              .toArray(DominionCardState[]::new);
-
-            if(actionArray.length < 1) return false; //Informs the AI that not all available actions could be used
-
-            //TODO: Consider the impact of cards that generate money in hand, in respect to one's treasure in hand
-            //TODO: This involves considering one's expected draw value compared to treasure cards in hand
-            //Attempts to play a card that generates more actions
-            int maxActionsIdx = findMax(actionArray, TargetMax.Actions);
-            if(actionArray[maxActionsIdx].getAddedDraw() > 0) {
-                //game.sendAction(new DominionPlayCardAction(this, maxDrawIdx)); //TODO: PlayCardAction needs index
-                avgDraw = (avgDraw + actionArray[maxActionsIdx].getAddedDraw()) / 2;
-                maxActionsIdx = findMax(actionArray, TargetMax.Actions);
-                sleep(250);
-            }
-
-            //Attempts to play a card that draws more cards
-            int maxDrawIdx = findMax(actionArray, TargetMax.Draw);
-            if (actionArray[maxDrawIdx].getAddedDraw() > 0) {
-                //game.sendAction(new DominionPlayCardAction(this, maxDrawIdx)); //TODO: PlayCardAction needs index
-                avgDraw = (avgDraw + actionArray[maxDrawIdx].getAddedDraw()) / 2;
-                maxDrawIdx = findMax(actionArray, TargetMax.Draw);
-                sleep(250);
-            }
-
-            //Defaults to playing the highest cost card
-            int maxCostIdx = findMax(actionArray, TargetMax.Cost);
-            if (actionArray[maxCostIdx].getAddedDraw() > 0) {
-                //game.sendAction(new DominionPlayCardAction(this, maxDrawIdx)); //TODO: PlayCardAction needs index
-                maxCostIdx = findMax(actionArray, TargetMax.Cost);
-                sleep(250);
-            }
-        }
-
-        //if (!genericCardCheck(card)) return false; //TODO: Move to testing
-        return true;
-    }
-
-    private int findMax(DominionCardState[] cardArray, TargetMax target) {
-        int maxIdx = 0;
-
-        switch(target) {
-            case Actions:
-                for (int i = 1; i < cardArray.length; i++) {
-                    if (cardArray[i].getAddedActions() > cardArray[maxIdx].getAddedActions()) {
-                        maxIdx = i;
-                    }
-                }
-                break;
-            case Draw:
-                for (int i = 1; i < cardArray.length; i++) {
-                    if (cardArray[i].getAddedDraw() > cardArray[maxIdx].getAddedDraw()) {
-                        maxIdx = i;
-                    }
-                }
-                break;
-            case Cost:
-                for (int i = 1; i < cardArray.length; i++) {
-                    if (cardArray[i].getCost() > cardArray[maxIdx].getCost()) {
-                        maxIdx = i;
-                    }
-                }
-                break;
-            default:
-        }
-
-        return maxIdx;
-    }
 
     //TODO: Finish implementation
     public boolean playSmartBuyPhase() {
