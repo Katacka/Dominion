@@ -236,14 +236,14 @@ public class DominionGameState extends GameState {
      * Moves a card from the shop to a player's hand
      * @param playerID PlayerID in question, for which data will be found
      * @param cardIndex Relative location of the card one wishes to buy
-     * @param baseCard Determines exists in the shop card group or base card group
+     * @param isBaseCard Determines exists in the shop card group or base card group
      *
      * @return A boolean describing whether the card was successfully bought
      */
-    public boolean buyCard(int playerID, int cardIndex, boolean baseCard){
-        if (isLegalBuy(playerID, cardIndex, baseCard)) {
+    public boolean buyCard(int playerID, int cardIndex, boolean isBaseCard){
+        if (isLegalBuy(playerID, cardIndex, isBaseCard)) {
             DominionShopPileState cardPile;
-            if (baseCard) cardPile = baseCards.get(cardIndex);
+            if (isBaseCard) cardPile = baseCards.get(cardIndex);
             else cardPile = shopCards.get(cardIndex);
             dominionPlayers[playerID].getDeck().discardNew(cardPile.getCard());
             cardPile.removeCard();
@@ -251,7 +251,7 @@ public class DominionGameState extends GameState {
             treasure -= cardPile.getCard().getCost();
             if (cardPile.isEmpty()){
                 emptyPiles++;
-                if (baseCard && cardIndex == PILE_PROVIDENCE){
+                if (isBaseCard && cardIndex == PILE_PROVIDENCE){
                     providenceEmpty = true;
                 }
             }
