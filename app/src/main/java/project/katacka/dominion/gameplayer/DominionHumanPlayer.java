@@ -80,6 +80,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     private TextView tvOppDiscard;
     private TextView tvOppDraw;
+    private ConstraintLayout oppDiscardLayout;
 
     private ImageView drawPile;
     private ConstraintLayout discardPile;
@@ -174,8 +175,10 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         tvDrawCount.setText("0");
         tvDiscardCount.setText("0");
 
-        tvOppDraw = activity.findViewById(R.id.textViewAmount);
-        tvOppDiscard = activity.findViewById(R.id.textViewAmount2);
+        tvOppDraw = activity.findViewById(R.id.textViewOppDraw);
+        tvOppDiscard = activity.findViewById(R.id.textViewOppDiscard);
+        oppDiscardLayout = activity.findViewById((R.id.oppDiscardCard));
+        oppDiscardLayout.setRotation(180);
         tvOppDraw.setText("0");
         tvOppDiscard.setText("0");
 
@@ -325,8 +328,17 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     private void updateOppDrawDiscard(int player){
         if (player == playerNum) return;
-        tvOppDraw.setText(Integer.toString(state.getDominionPlayer(player).getDeck().getDrawSize()));
-        tvOppDiscard.setText(Integer.toString(state.getDominionPlayer(player).getDeck().getDiscardSize()));
+        DominionDeckState currPlayerDeck = state.getDominionPlayer(player).getDeck();
+        tvOppDraw.setText(Integer.toString(currPlayerDeck.getDrawSize()));
+        int discardSize = currPlayerDeck.getDiscardSize();
+        tvOppDiscard.setText(Integer.toString(discardSize));
+        if (discardSize > 0) {
+            updateCardView(oppDiscardLayout, currPlayerDeck.getLastDiscard(), -1);
+            oppDiscardLayout.setVisibility(View.VISIBLE);
+        }
+        else {
+            oppDiscardLayout.setVisibility(View.INVISIBLE);
+        }
     }
 
     //TODO: fix to update tabs more accurately for attack turns
