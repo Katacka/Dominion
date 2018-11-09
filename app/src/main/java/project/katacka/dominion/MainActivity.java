@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -71,6 +72,26 @@ public class MainActivity extends GameMainActivity{
         return new DominionLocalGame(this);
     }
 
+    public View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+
+            Toast.makeText(MainActivity.this, "Longpress", Toast.LENGTH_SHORT).show();
+            int id = v.getId();
+
+            //add the card that matches the id to the player's discard
+
+            //decrement the number of cards in that pile
+            //view = constraint layout, get the amount from the view, get amount, set to that -1
+            if(v instanceof ConstraintLayout){
+                TextView cost = v.findViewById(R.id.textViewCost);
+                
+            }
+
+
+            return false;
+        }
+    };
     /*
         TODO: probably move this to to DominionHumanPlayer in the method setAsGui()
         not sure which of these pieces needs to go where, or we would have done it already

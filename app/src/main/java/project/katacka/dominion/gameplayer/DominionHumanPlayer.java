@@ -7,6 +7,8 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -65,9 +67,9 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     private GameMainActivity activity = null;
 
-
-
-
+    // ashika you added this stuff
+    ShopPileHandler handler;
+    GestureDetector detector;
 
 
     public DominionHumanPlayer(String name) {
@@ -112,6 +114,9 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         //set display based XML resource
         activity.setContentView(R.layout.activity_main);
 
+        handler = new ShopPileHandler(state);
+        detector = new GestureDetector(activity, handler);
+
         //init all the things
         tabLayout = activity.findViewById(R.id.Player_Tabs);
         tab1 = (LinearLayout) tabLayout.getChildAt(0);
@@ -140,17 +145,32 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         for(int i = 0, j = baseLayout.getChildCount(); i < j; i++){
             baseRows.add((TableRow) baseLayout.getChildAt(i));
         }
-
         /*
         External Citation
         iterating through table layout
         https://stackoverflow.com/questions/3327599/get-all-tablerows-in-a-tablelayout
          */
 
+
+        for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
+            View shopRow = shopLayout.getChildAt(i);
+            //should always be true
+            if(shopRow instanceof TableRow){
+                //cards are ConstraintLayouts in XML
+                shopPiles = new ArrayList<ConstraintLayout>();
+                for (int k = 0; k < 5; k++) {
+                    shopPiles.add((ConstraintLayout) ((TableRow) shopRow).getVirtualChildAt(k));
+                }
+                for (ConstraintLayout shopCard: shopPiles) {
+                    shopCard.setOnLongClickListener(longClickListener);
+                }
+            }
+        }
+
         res = activity.getResources();
 
         //set listeners
-        bEndTurn.setOnClickListener(this);
+        bEndTurn.setOnClickListener((View.OnClickListener)this);
     }
 
     /**
@@ -276,15 +296,16 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             }
 
             //display base cards
-            int c = 0;
+            basePiles = new ArrayList<ConstraintLayout>();
+            int c = 0, start = 0, end = 2;
             for(int a = 0, b = baseLayout.getChildCount(); a < b; a++){
                 View baseRow = baseLayout.getChildAt(a);
                 if(baseRow instanceof TableRow){
-                    basePiles = new ArrayList<ConstraintLayout>();
                     for (int k = 0; k < 2; k++) {
                         basePiles.add((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k));
                     }
-                    for (ConstraintLayout shopCard: basePiles) {
+                    for (int r=start; r<end; r++) {
+                        ConstraintLayout shopCard = basePiles.get(r);
                         DominionCardState cardState = state.getBaseCards().get(c).getCard();
 
                         TextView cost = shopCard.findViewById(R.id.textViewCost);
@@ -306,6 +327,8 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
                         image.setImageResource(resID);
                         c++;
                     }
+                    start = start+2;
+                    end = end+2;
                 }
             }
             /*
@@ -359,13 +382,13 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         GameAction action = null;
         if(button == null){ return; }
         else if(button == bEndTurn){
-          action = new DominionEndTurnAction(this);
+            action = new DominionEndTurnAction(this);
             Log.i("TAG: ", "" + state.getCurrentTurn());
             /*
             state.endTurn(state.getCurrentTurn());
             updateTabs(state.getCurrentTurn());
              */
-        //} else if(){
+            //} else if(){
         }
         game.sendAction(action);
     }// onClick'
@@ -375,6 +398,24 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         return true;
     }
 
+    View.OnLongClickListener longClickListener = new View.OnLongClickListener(){
+        @Override
+        public boolean onLongClick(View v) {
+            Log.i("DominionHumanPlayer: onLongClick", "shopcard longpressed");
+            int index = 0;
+            TextView title = v.findViewById(R.id.textViewTitle);
+            String titleString = title.getText().toString();
+            for(int j=0; j<state.getShopCards().size(); j++){
+                if(state.getShopCards().get(j).getCard().getTitle().equals(titleString)){
+                    index = j;
+                }
+            }
+            boolean isBaseCard = basePiles.contains(v);
+
+            state.buyCard(state.getCurrentTurn(), index, isBaseCard);
+            return false;
+        }
+    };
 }
 
 //TODO: Hayden
