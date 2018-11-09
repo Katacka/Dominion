@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import project.katacka.dominion.MainActivity;
 import project.katacka.dominion.R;
 import project.katacka.dominion.gamedisplay.Cards;
+import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
 import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
 import project.katacka.dominion.gameframework.GameHumanPlayer;
 import project.katacka.dominion.gameframework.GameMainActivity;
@@ -88,6 +89,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     ShopPileHandler handler;
     GestureDetector detector;
 
+    GamePlayer thisPlayer = this;
 
     public DominionHumanPlayer(String name) {
         this(name, 5); //Default starting hand size is 5
@@ -152,6 +154,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         tabInactiveVal = outValueInactive.getFloat();
         tabActiveVal = outValueActive.getFloat();
 
+        //making array list of tablerows for shop and base cards
         shopLayout = activity.findViewById(R.id.Shop_Cards);
         shopRows = new ArrayList<TableRow>();
         for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
@@ -205,7 +208,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             if(baseRow instanceof TableRow){
                 //cards are ConstraintLayouts in XML
                 basePiles = new ArrayList<ConstraintLayout>();
-                for (int k = 0; k < 5; k++) {
+                for (int k = 0; k < 2; k++) {
                     basePiles.add((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k));
                 }
                 for (ConstraintLayout baseCard: basePiles) {
@@ -411,10 +414,10 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
                         basePiles.add((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k));
                     }
                     for (int r=start; r<end; r++) {
-                        ConstraintLayout shopCard = basePiles.get(r);
+                        ConstraintLayout baseCard = basePiles.get(r);
                         DominionCardState cardState = state.getBaseCards().get(c).getCard();
                         int amount = state.getBaseCards().get(c).getAmount();
-                        updateCardView(shopCard, cardState, amount);
+                        updateCardView(baseCard, cardState, amount);
                         c++;
                     }
                     start = start+2;
@@ -506,6 +509,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     View.OnLongClickListener longClickListener = new View.OnLongClickListener(){
         @Override
         public boolean onLongClick(View v) {
+            GameAction action = null;
             Log.i("DominionHumanPlayer: onLongClick", "shopcard longpressed");
             int index = 0;
             TextView title = v.findViewById(R.id.textViewTitle);
@@ -516,8 +520,11 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
                 }
             }
             boolean isBaseCard = basePiles.contains(v);
+            
+            action = new DominionBuyCardAction(thisPlayer, index, isBaseCard);
 
-            state.buyCard(state.getCurrentTurn(), index, isBaseCard);
+            //state.buyCard(state.getCurrentTurn(), index, isBaseCard);
+            game.sendAction(action);
             return false;
         }
     };
