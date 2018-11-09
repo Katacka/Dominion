@@ -163,12 +163,12 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         for(int i = 0, j = baseLayout.getChildCount(); i < j; i++){
             baseRows.add((TableRow) baseLayout.getChildAt(i));
         }
+
         /*
         External Citation
         iterating through table layout
         https://stackoverflow.com/questions/3327599/get-all-tablerows-in-a-tablelayout
          */
-
 
         tvActions = activity.findViewById(R.id.tvActions);
         tvBuys = activity.findViewById(R.id.tvBuys);
@@ -183,14 +183,13 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         drawPile = activity.findViewById(R.id.ivDrawCard);
         discardPile = activity.findViewById(R.id.imageViewDiscard);
 
-
         for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
             View shopRow = shopLayout.getChildAt(i);
             //should always be true
             if(shopRow instanceof TableRow){
                 //cards are ConstraintLayouts in XML
                 shopPiles = new ArrayList<ConstraintLayout>();
-                for (int k = 0; k < 5; k++) {
+                for (int k = 0; k < ((TableRow) shopRow).getChildCount(); k++) {
                     shopPiles.add((ConstraintLayout) ((TableRow) shopRow).getVirtualChildAt(k));
                 }
                 for (ConstraintLayout shopCard: shopPiles) {
@@ -205,11 +204,11 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             if(baseRow instanceof TableRow){
                 //cards are ConstraintLayouts in XML
                 basePiles = new ArrayList<ConstraintLayout>();
-                for (int k = 0; k < 5; k++) {
+                for (int k = 0; k < ((TableRow) baseRow).getChildCount(); k++) {
                     basePiles.add((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k));
                 }
                 for (ConstraintLayout baseCard: basePiles) {
-                    //baseCard.setOnLongClickListener(longClickListener);
+                    baseCard.setOnLongClickListener(longClickListener);
                 }
             }
         }
@@ -505,7 +504,13 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     View.OnLongClickListener longClickListener = new View.OnLongClickListener(){
         @Override
         public boolean onLongClick(View v) {
-            Log.i("DominionHumanPlayer: onLongClick", "shopcard longpressed");
+            boolean isBaseCard = basePiles.contains(v);
+            if(isBaseCard){
+                Log.i("DominionHumanPlayer: onLongClick", "basecard longpressed");
+            }
+            else {
+                Log.i("DominionHumanPlayer: onLongClick", "shopcard longpressed");
+            }
             int index = 0;
             TextView title = v.findViewById(R.id.textViewTitle);
             String titleString = title.getText().toString();
@@ -514,9 +519,9 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
                     index = j;
                 }
             }
-            boolean isBaseCard = basePiles.contains(v);
-
+            Log.i("Player 0 num cards before buy: ", "" + state.getDominionPlayer(0).getDeck().getHandSize());
             state.buyCard(state.getCurrentTurn(), index, isBaseCard);
+            Log.i("Player 0 num cards after buy: ", "" + state.getDominionPlayer(0).getDeck().getHandSize());
             return false;
         }
     };
