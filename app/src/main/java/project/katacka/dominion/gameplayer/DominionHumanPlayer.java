@@ -305,6 +305,9 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             amount.setText(Integer.toString(num));
         }
 
+        TextView description = cardView.findViewById(R.id.tvDescription);
+        description.setText(card.getFormattedText().toString());
+
         TextView type = cardView.findViewById(R.id.textViewType);
         type.setText(card.getType().toString());
 
@@ -382,24 +385,37 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             shows how to convert string to resource id to use to set image view
             */ //TODO: Move to correct place
 
-            //display player hand
+            ////////display player hand////////////
+            //get hand
             ArrayList<DominionCardState> hand = state.getDominionPlayer(playerNum).getDeck().getHand();
+            TableRow cardRow = activity.findViewById(R.id.User_Cards);
 
-            //TableRow handRow =
+            /*
+            ArrayList<DominionCardState> testhand = new ArrayList<DominionCardState>();
 
-            //make arraylist of constraint layouts
-            //ArrayList<ConstraintLayout> handLayouts = new ArrayList<>(MAX_CARDS);
-            for(int i = 0; i < MAX_CARDS && i<hand.size(); i++){
+            testhand.add(0, state.getBaseCards().get(1).getCard());
+            testhand.add(1, state.getBaseCards().get(2).getCard());
+            testhand.add(2, state.getShopCards().get(8).getCard());
+            testhand.add(3, state.getShopCards().get(9).getCard());
+            testhand.add(4, state.getBaseCards().get(3).getCard());
+            */
 
-
+            int i = 0;
+            ConstraintLayout layout;
+            //for every item in hand up to five,
+            for(DominionCardState cardView : hand) {
+                layout = (ConstraintLayout) cardRow.getVirtualChildAt(i);
+                int exists = 1;
+                DominionCardState card = hand.get(i);
+                //if the card exists
+                if (card != null){
+                    //read xml and update corresponding textviews and such
+                    updateCardView(layout, card, exists);
+                } else { //card does not exist
+                    updateCardView(null, null, -1*exists);
+                }
+                i++;
             }
-
-            for (DominionCardState card: hand) {
-
-
-            }
-
-            //for each loop displays info for each linear layout according to hand
 
             //Update treasure, actions, and buys
 
@@ -419,8 +435,6 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     }//updateTabs
 
     /**
-     * this method gets called when the user clicks the die or hold button. It
-     * creates a new PigRollAction or PigHoldAction and sends it to the game.
      *
      * @param button
      * 		the button that was clicked
@@ -447,10 +461,3 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     }
 
 }
-
-//TODO: Hayden
-/*
-    use recieveInfo to update tab indentation
-       need to know whose turn it is XXX
-    manually call receiveInfo from gameState until written by Ryan
- */
