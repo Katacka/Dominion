@@ -419,7 +419,6 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
             //Update treasure, actions, and buys
 
-
         } else if(info instanceof NotYourTurnInfo) {
             //TODO: actually do something if not player turn
             Log.i("DominionHumanPlayer: recieveInfo", "Not your turn.");
