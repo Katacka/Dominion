@@ -29,6 +29,7 @@ import project.katacka.dominion.R;
 import project.katacka.dominion.gamedisplay.Cards;
 import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
 import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
+import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gameframework.GameHumanPlayer;
 import project.katacka.dominion.gameframework.GameMainActivity;
 import project.katacka.dominion.gameframework.GamePlayer;
@@ -65,11 +66,11 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     private ArrayList<TableRow> baseRows;
     private ArrayList<ConstraintLayout> basePiles;
 
-    private TableRow handRow = null;
+    //private TableRow cardRow = null;
+    ArrayList<DominionCardState> hand;
 
     private Resources res;
 
-    private TextView tvPlayerCard = null;
     private Button bEndTurn = null;
 
     private GameMainActivity activity = null;
@@ -85,9 +86,6 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     private ConstraintLayout discardPile;
 
     private DominionPlayerState playerState;
-    // ashika you added this stuff
-    ShopPileHandler handler;
-    GestureDetector detector;
 
     GamePlayer thisPlayer = this;
 
@@ -219,7 +217,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         res = activity.getResources();
 
         //set listeners
-        bEndTurn.setOnClickListener((View.OnClickListener)this);
+        bEndTurn.setOnClickListener(this);
     }
 
     /**
@@ -432,7 +430,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
             ////////display player hand////////////
             //get hand
-            ArrayList<DominionCardState> hand = state.getDominionPlayer(playerNum).getDeck().getHand();
+            hand = state.getDominionPlayer(playerNum).getDeck().getHand();
             TableRow cardRow = activity.findViewById(R.id.User_Cards);
 
             /*
@@ -450,6 +448,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             //for every item in hand up to five,
             for(DominionCardState cardView : hand) {
                 layout = (ConstraintLayout) cardRow.getVirtualChildAt(i);
+                layout.setOnClickListener(this);
                 int exists = 1;
                 DominionCardState card = hand.get(i);
                 //if the card exists
@@ -480,22 +479,33 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     /**
      *
-     * @param button
+     * @param v
      * 		the button that was clicked
      */
-    public void onClick(View button) {
-        Log.i("DomHumPlayer: onClick", "End turn button clicked.");
+    public void onClick(View v) {
         GameAction action = null;
-        if(button == null){ return; }
-        else if(button == bEndTurn){
-            action = new DominionEndTurnAction(this);
-            Log.i("TAG: ", "" + state.getCurrentTurn());
-            /*
-            state.endTurn(state.getCurrentTurn());
-            updateTabs(state.getCurrentTurn());
-             */
-            //} else if(){
+        int index = 0;
+        if(v == null){ return; }
+        else if(v instanceof Button){
+            if(v == bEndTurn){
+                action = new DominionEndTurnAction(this);
+                Log.i("TAG: ", "" + state.getCurrentTurn());
+                Log.i("DomHumPlayer: onClick", "End turn button clicked.");
+            }
         }
+        else if(v instanceof ConstraintLayout){
+            Log.i("DomHumPlayer: onClick", "Player's card button clicked.");
+            TextView title = v.findViewById(R.id.textViewTitle);
+            String titleString = title.getText().toString();
+
+            for (int i = 0; i<hand.size(); i++) {
+                if(hand.get(i).getTitle().equals(titleString)){
+                    index = i;
+                }
+            }
+            action = new DominionPlayCardAction(this, index);
+        }
+
         game.sendAction(action);
     }// onClick'
 
@@ -520,9 +530,20 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             int index = 0;
             TextView title = v.findViewById(R.id.textViewTitle);
             String titleString = title.getText().toString();
-            for(int j=0; j<state.getShopCards().size(); j++){
-                if(state.getShopCards().get(j).getCard().getTitle().equals(titleString)){
-                    index = j;
+            if(!isBaseCard) {
+                for (int j = 0; j < state.getShopCards().size(); j++) {
+                    if (state.getShopCards().get(j).getCard().getTitle().equals(titleString)) {
+                        index = j;
+                        break;
+                    }
+                }
+            }
+            else{
+                for (int j = 0; j < state.getBaseCards().size(); j++) {
+                    if (state.getBaseCards().get(j).getCard().getTitle().equals(titleString)) {
+                        index = j;
+                        break;
+                    }
                 }
             }
 
@@ -530,9 +551,9 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
             //state.buyCard(state.getCurrentTurn(), index, isBaseCard);
             game.sendAction(action);
-            Log.i("Player 0 num cards before buy: ", "" + state.getDominionPlayer(0).getDeck().getHandSize());
+            Log.i("Player 0 num cards before buy: ", "" + state.getDominionPlayer(0).getDeck().getDiscardSize());
             state.buyCard(state.getCurrentTurn(), index, isBaseCard);
-            Log.i("Player 0 num cards after buy: ", "" + state.getDominionPlayer(0).getDeck().getHandSize());
+            Log.i("Player 0 num cards after buy: ", "" + state.getDominionPlayer(0).getDeck().getDiscardSize());
             return false;
         }
     };
