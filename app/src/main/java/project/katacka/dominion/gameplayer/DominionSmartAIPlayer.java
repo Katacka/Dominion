@@ -55,10 +55,10 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
     }
 
     @Override
-    public boolean playTurn() {
+    public boolean playTurnPhase(turnPhases tempPhase) {
         avgDraw = 5;
         playSmartActionPhase();
-        playAllTreasures();
+        playTreasure();
         playSmartBuyPhase();
         endTurn();
         return true;

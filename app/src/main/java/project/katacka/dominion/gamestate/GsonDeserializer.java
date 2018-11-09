@@ -62,7 +62,8 @@ public class GsonDeserializer implements JsonDeserializer<ArrayList<DominionShop
                                     (card.has("addedBuys")) ? card.get("addedBuys").getAsInt() : 0,
                                     (card.has("victoryPoints")) ? card.get("victoryPoints").getAsInt() : 0
                             ),
-                            card.get("amount").getAsInt()
+                            card.get("amount").getAsInt(),
+                            card.has("isBaseCard")
                     )
             );
         });

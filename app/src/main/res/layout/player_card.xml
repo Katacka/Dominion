@@ -14,9 +14,8 @@
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="5dp"
-        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="Title"
         android:textStyle="bold"
@@ -30,7 +29,7 @@
 
     <!-- CardView Text -->
     <TextView
-        android:id="@+id/textViewText"
+        android:id="@+id/tvDescription"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="6dp"
@@ -52,7 +51,8 @@
         android:background="#000000"
         android:padding="2dp"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@+id/textViewText"
+        android:src="@drawable/dominion_advisor"
+        app:layout_constraintBottom_toTopOf="@+id/tvDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
@@ -69,7 +69,8 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescription">
 
         <FrameLayout
             android:id="@+id/frameLayout"
@@ -86,6 +87,7 @@
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:scaleType="fitStart"
+                android:src="@drawable/gold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -109,12 +111,12 @@
             android:text="Card Type"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/frameLayout2"
+            app:layout_constraintEnd_toStartOf="@+id/frameLayoutAmount"
             app:layout_constraintStart_toEndOf="@+id/frameLayout"
             app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout
-            android:id="@+id/frameLayout2"
+            android:id="@+id/frameLayoutAmount"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -128,6 +130,7 @@
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:scaleType="fitStart"
+                android:src="@drawable/red_square"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
