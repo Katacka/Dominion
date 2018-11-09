@@ -474,15 +474,17 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             ConstraintLayout layout;
             //for every item in hand up to five,
             for(DominionCardState cardView : hand) {
-                layout = (ConstraintLayout) cardRow.getVirtualChildAt(i);
+                layout = (ConstraintLayout) cardRow.getVirtualChildAt(i); //TODO: This is sometimes null, and will cause crash
                 int exists = 1;
                 DominionCardState card = hand.get(i);
                 //if the card exists
                 if (card != null){
                     //read xml and update corresponding textviews and such
                     updateCardView(layout, card, exists);
+                    layout.setVisibility(View.VISIBLE);
                 } else { //card does not exist
-                    updateCardView(null, null, -1*exists);
+                    //updateCardView(null, null, -1*exists); TODO: See change here Hayden
+                    layout.setVisibility(View.INVISIBLE);
                 }
                 i++;
             }
