@@ -174,7 +174,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         tvBuys = activity.findViewById(R.id.tvBuys);
         tvTreasure = activity.findViewById(R.id.tvTreasures);
         updateTurnInfo(0, 0, 0);
-        //TODO fix above
+
         tvDrawCount = activity.findViewById(R.id.textViewDrawCount);
         tvDiscardCount = activity.findViewById(R.id.textViewDiscardCount);
         tvDrawCount.setText("0");
@@ -209,7 +209,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
                     basePiles.add((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k));
                 }
                 for (ConstraintLayout baseCard: basePiles) {
-                    baseCard.setOnLongClickListener(longClickListener);
+                    //baseCard.setOnLongClickListener(longClickListener);
                 }
             }
         }
