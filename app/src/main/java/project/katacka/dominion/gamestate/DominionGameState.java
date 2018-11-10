@@ -5,7 +5,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.stream.IntStream;
 import java.util.Random;
 
 import project.katacka.dominion.gameframework.infoMsg.GameState;
@@ -33,7 +35,7 @@ public class DominionGameState extends GameState {
     //  as well as providence to detect game over
     private final int PILE_COPPER = 0;
     private final int PILE_ESTATE = 1;
-    private final int PILE_PROVIDENCE = 5;
+    private final int PILE_PROVIDENCE = 6;
 
     protected DominionPlayerState dominionPlayers[]; //Sorted by order of turn
 
@@ -97,6 +99,7 @@ public class DominionGameState extends GameState {
             this.dominionPlayers[i] = new DominionPlayerState("Player " + i,
                     baseCards.get(PILE_COPPER), //The copper pile
                     baseCards.get(PILE_ESTATE).getCard()); //The estate card
+
         }
 
         //Sets up turn with player 0 as first player
@@ -106,6 +109,11 @@ public class DominionGameState extends GameState {
         this.actions = 1;
         this.silverBoon = false;
         dominionPlayers[currentTurn].startTurn();
+
+        //Everyone draw their first 5 cards
+        for (DominionPlayerState playerState : dominionPlayers){
+            playerState.getDeck().drawMultiple(5);
+        }
 
         this.isGameOver = false; //The game is not over
         this.playerQuit = -1; //No player has quit
@@ -410,6 +418,10 @@ public class DominionGameState extends GameState {
         return buys;
     }
 
+    public int getTreasure() {
+        return treasure;
+    }
+
     public ArrayList<DominionShopPileState> getBaseCards() {
         return baseCards;
     }
@@ -535,9 +547,5 @@ public class DominionGameState extends GameState {
 
     public boolean getIsAttackTurn(){
         return isAttackTurn;
-    }
-
-    public int getTreasure() {
-        return treasure;
     }
 }
