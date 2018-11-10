@@ -207,7 +207,7 @@
 
         </TableLayout>
 
-        <TableRow
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/Opponent_Cards"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -307,16 +307,14 @@
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".09">
 
-            <ImageView
-                android:id="@+id/imageView"
+            <include
+                android:id="@+id/oppDiscardCard"
+                layout="@layout/shop_card"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:src="@drawable/dominion_opponent_card_back"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/dominion_opponent_card_back" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <FrameLayout
                 android:id="@+id/frameLayout"
@@ -344,11 +342,11 @@
                     app:srcCompat="@drawable/red_square" />
 
                 <TextView
-                    android:id="@+id/textViewAmount"
+                    android:id="@+id/textViewOppDiscard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="4" />
+                    android:text="2" />
             </FrameLayout>
 
         </android.support.constraint.ConstraintLayout>
@@ -403,7 +401,7 @@
                     app:srcCompat="@drawable/red_square" />
 
                 <TextView
-                    android:id="@+id/textViewAmount2"
+                    android:id="@+id/textViewOppDraw"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

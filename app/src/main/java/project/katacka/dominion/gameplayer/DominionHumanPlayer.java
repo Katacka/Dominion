@@ -3,6 +3,7 @@ package project.katacka.dominion.gameplayer;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.IdRes;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.util.Log;
@@ -77,6 +78,10 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     private TextView tvDrawCount;
     private TextView tvDiscardCount;
+
+    private TextView tvOppDiscard;
+    private TextView tvOppDraw;
+    private ConstraintLayout oppDiscardLayout;
 
     private ImageView drawPile;
     private ConstraintLayout discardPile;
@@ -170,6 +175,13 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         tvDiscardCount = activity.findViewById(R.id.textViewDiscardCount);
         tvDrawCount.setText("0");
         tvDiscardCount.setText("0");
+
+        tvOppDraw = activity.findViewById(R.id.textViewOppDraw);
+        tvOppDiscard = activity.findViewById(R.id.textViewOppDiscard);
+        oppDiscardLayout = activity.findViewById((R.id.oppDiscardCard));
+        oppDiscardLayout.setRotation(180);
+        tvOppDraw.setText("0");
+        tvOppDiscard.setText("0");
 
         drawPile = activity.findViewById(R.id.ivDrawCard);
         discardPile = activity.findViewById(R.id.imageViewDiscard);
@@ -305,6 +317,9 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             amount.setText(Integer.toString(num));
         }
 
+        TextView description = cardView.findViewById(R.id.tvDescription);
+        description.setText(card.getFormattedText().toString());
+
         TextView type = cardView.findViewById(R.id.textViewType);
         type.setText(card.getType().toString());
 
@@ -313,6 +328,60 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         String name = card.getPhotoId();
         int resID = res.getIdentifier(name, "drawable", "project.katacka.dominion_card_back");
         image.setImageResource(resID);
+    }
+
+    private void updateOppDrawDiscard(int player){
+        if (player == playerNum) return;
+        DominionDeckState currPlayerDeck = state.getDominionPlayer(player).getDeck();
+        tvOppDraw.setText(Integer.toString(currPlayerDeck.getDrawSize()));
+        int discardSize = currPlayerDeck.getDiscardSize();
+        tvOppDiscard.setText(Integer.toString(discardSize));
+        if (discardSize > 0) {
+            updateCardView(oppDiscardLayout, currPlayerDeck.getLastDiscard(), -1);
+            oppDiscardLayout.setVisibility(View.VISIBLE);
+        }
+        else {
+            oppDiscardLayout.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void updateOppHand(int player){
+        int handSize;
+        if (player == playerNum){
+            handSize = 5;
+        } else {
+            handSize = state.getDominionPlayer(player).getDeck().getHandSize();
+        }
+        ConstraintLayout oppCardsLayout = activity.findViewById(R.id.Opponent_Cards);
+        oppCardsLayout.removeAllViews();
+        ImageView[] cards = new ImageView[handSize];
+        for (int i = 0; i < handSize; i++){
+            cards[i] = new ImageView(activity);
+            cards[i].setScaleType(ImageView.ScaleType.FIT_XY);
+            cards[i].setImageResource(R.drawable.dominion_opponent_card_back);
+            cards[i].setId(View.generateViewId());
+            oppCardsLayout.addView(cards[i]);
+        }
+        ConstraintSet set = new ConstraintSet();
+        set.clone(oppCardsLayout);
+        float biasMultiplier = Math.min(1/5.0f, 1/(float)handSize);
+        @IdRes int layoutID = oppCardsLayout.getId();
+        for (int i = 0; i < handSize; i++){
+            ImageView card = cards[i];
+            @IdRes int id = card.getId();
+
+            set.connect(id, ConstraintSet.LEFT, layoutID, ConstraintSet.LEFT);
+            set.connect(id, ConstraintSet.RIGHT, layoutID, ConstraintSet.RIGHT);
+            set.connect(id, ConstraintSet.TOP, layoutID, ConstraintSet.TOP);
+            set.connect(id, ConstraintSet.BOTTOM, layoutID, ConstraintSet.BOTTOM);
+
+
+            set.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
+            set.constrainWidth(id, ConstraintSet.WRAP_CONTENT);
+
+            set.setHorizontalBias(id, i*biasMultiplier);
+        }
+        set.applyTo(oppCardsLayout);
     }
 
     //TODO: fix to update tabs more accurately for attack turns
@@ -327,8 +396,12 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             //updateTabs(state.getCurrentTurn());
             if (state.getIsAttackTurn()) {
                 updateTabs(state.getAttackTurn());
+                updateOppDrawDiscard(state.getAttackTurn());
+                updateOppHand(state.getAttackTurn());
             } else {
                 updateTabs(state.getCurrentTurn());
+                updateOppDrawDiscard(state.getCurrentTurn());
+                updateOppHand(state.getCurrentTurn());
             }
 
             updateTurnInfo(state.getActions(), state.getBuys(), state.getTreasure());
@@ -382,24 +455,39 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             shows how to convert string to resource id to use to set image view
             */ //TODO: Move to correct place
 
-            //display player hand
+            ////////display player hand////////////
+            //get hand
             ArrayList<DominionCardState> hand = state.getDominionPlayer(playerNum).getDeck().getHand();
+            TableRow cardRow = activity.findViewById(R.id.User_Cards);
 
-            //TableRow handRow =
+            /*
+            ArrayList<DominionCardState> testhand = new ArrayList<DominionCardState>();
 
-            //make arraylist of constraint layouts
-            //ArrayList<ConstraintLayout> handLayouts = new ArrayList<>(MAX_CARDS);
-            for(int i = 0; i < MAX_CARDS && i<hand.size(); i++){
+            testhand.add(0, state.getBaseCards().get(1).getCard());
+            testhand.add(1, state.getBaseCards().get(2).getCard());
+            testhand.add(2, state.getShopCards().get(8).getCard());
+            testhand.add(3, state.getShopCards().get(9).getCard());
+            testhand.add(4, state.getBaseCards().get(3).getCard());
+            */
 
-
+            int i = 0;
+            ConstraintLayout layout;
+            //for every item in hand up to five,
+            for(DominionCardState cardView : hand) {
+                layout = (ConstraintLayout) cardRow.getVirtualChildAt(i); //TODO: This is sometimes null, and will cause crash
+                int exists = 1;
+                DominionCardState card = hand.get(i);
+                //if the card exists
+                if (card != null){
+                    //read xml and update corresponding textviews and such
+                    updateCardView(layout, card, exists);
+                    layout.setVisibility(View.VISIBLE);
+                } else { //card does not exist
+                    //updateCardView(null, null, -1*exists); TODO: See change here Hayden
+                    layout.setVisibility(View.INVISIBLE);
+                }
+                i++;
             }
-
-            for (DominionCardState card: hand) {
-
-
-            }
-
-            //for each loop displays info for each linear layout according to hand
 
             //Update treasure, actions, and buys
 
@@ -419,13 +507,10 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     }//updateTabs
 
     /**
-     * this method gets called when the user clicks the die or hold button. It
-     * creates a new PigRollAction or PigHoldAction and sends it to the game.
      *
      * @param button
      * 		the button that was clicked
      */
-    //TODO: FIX TAB UPDATES, currently only work on the first time user clicks end turn button
     public void onClick(View button) {
         Log.i("DomHumPlayer: onClick", "End turn button clicked.");
         GameAction action = null;
@@ -448,10 +533,3 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     }
 
 }
-
-//TODO: Hayden
-/*
-    use recieveInfo to update tab indentation
-       need to know whose turn it is XXX
-    manually call receiveInfo from gameState until written by Ryan
- */

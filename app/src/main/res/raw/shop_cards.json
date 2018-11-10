@@ -102,7 +102,7 @@
       "title": "Moneylender",
       "photoStringID": "dominion_moneylender",
       "text": "You may trash a Copper from your hand for +3 Gold",
-      "cost": 0,
+      "cost": 4,
       "type": "ACTION",
       "amount": 10,
       "action": "moneylenderAction"
