@@ -119,8 +119,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     }
 
     public String toString(){
-        String string = "CardView Name: " + super.name;
-        return string;
+        return "CardView Name: " + super.name;
     }
 
     @Override
@@ -195,7 +194,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
                     shopPiles.add((ConstraintLayout) ((TableRow) shopRow).getVirtualChildAt(k));
                 }
                 for (ConstraintLayout shopCard: shopPiles) {
-                    shopCard.setOnLongClickListener(longClickListener);
+                    shopCard.setOnClickListener(shopClickListener);
                 }
             }
         }
@@ -210,7 +209,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
                     basePiles.add((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k));
                 }
                 for (ConstraintLayout baseCard: basePiles) {
-                    baseCard.setOnLongClickListener(longClickListener);
+                    baseCard.setOnClickListener(shopClickListener);
                 }
             }
         }
@@ -339,9 +338,9 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         FrameLayout layout = cardView.findViewById(R.id.frameLayoutAmount);
         if (num == -1){
-            layout.setVisibility(View.INVISIBLE);
+            layout.setVisibility(View.GONE);
         } else {
-            layout.setVisibility(View.INVISIBLE);
+            layout.setVisibility(View.VISIBLE);
             TextView amount = cardView.findViewById(R.id.textViewAmount);
             amount.setText(Integer.toString(num));
         }
@@ -449,15 +448,19 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
             for(int i=0; i < hand.size(); i++){
                 layout = (ConstraintLayout) cardRow.getChildAt(i);
-                layout.setOnClickListener(this);
-                card = hand.get(i);
-                //if the card exists
-                if (card != null){
-                    //read xml and update corresponding textviews and such
-                    updateCardView(layout, card, exists);
-                } else { //card does not exist
-                    updateCardView(layout, card, -1*exists);
+                if (layout != null) {
+                    Log.e("a", "receiveInfo: " + cardRow.getVirtualChildCount());
+                    layout.setOnClickListener(handClickListener);
+                    card = hand.get(i);
+                    //if the card exists
+                    if (card != null && layout != null) {
+                        //read xml and update corresponding textviews and such
+                        updateCardView(layout, card, exists);
+                    } else { //card does not exist
+                        updateCardView(layout, card, -1 * exists);
+                    }
                 }
+                else Log.e("LayoutError", "receiveInfo: " + layout);
             }
 
             //Update treasure, actions, and buys
@@ -516,49 +519,45 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         game.sendAction(action);
     }// onClick'
 
-    public boolean draw(){
-
-        return true;
-    }
-
-    View.OnLongClickListener longClickListener = new View.OnLongClickListener(){
+    View.OnClickListener handClickListener = new View.OnClickListener() {
         @Override
-        public boolean onLongClick(View v) {
-            GameAction action = null;
+        public void onClick(View v) {
+            if(v == null){ return; }
+            Log.i("DomHumPlayer: onClick", "Player's card button clicked.");
+            int targetIdx = ((TableRow) v.getParent()).indexOfChild(v);
+            game.sendAction(new DominionPlayCardAction(thisPlayer, targetIdx));
+        }
+    };
+
+    View.OnClickListener shopClickListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            //GameAction action = null;
             boolean isBaseCard = basePiles.contains(v);
+            int index;
+            TextView title = v.findViewById(R.id.textViewTitle);
+            String titleString = title.getText().toString();
+
             if(isBaseCard){
                 Log.i("DominionHumanPlayer: onLongClick", "basecard longpressed");
+                for (index = 0; index < state.getBaseCards().size(); index++) {
+                    if (state.getBaseCards().get(index).getCard().getTitle().equals(titleString)) {
+                        break;
+                    }
+                }
             }
             else {
                 Log.i("DominionHumanPlayer: onLongClick", "shopcard longpressed");
-            }
-
-            Log.i("DominionHumanPlayer: onLongClick", "shopcard longpressed");
-            int index = 0;
-            TextView title = v.findViewById(R.id.textViewTitle);
-            String titleString = title.getText().toString();
-            if(!isBaseCard) {
-                for (int j = 0; j < state.getShopCards().size(); j++) {
-                    if (state.getShopCards().get(j).getCard().getTitle().equals(titleString)) {
-                        index = j;
-                        break;
-                    }
-                }
-            }
-            else{
-                for (int j = 0; j < state.getBaseCards().size(); j++) {
-                    if (state.getBaseCards().get(j).getCard().getTitle().equals(titleString)) {
-                        index = j;
+                for (index = 0; index < state.getShopCards().size(); index++) {
+                    if (state.getShopCards().get(index).getCard().getTitle().equals(titleString)) {
                         break;
                     }
                 }
             }
 
-            action = new DominionBuyCardAction(thisPlayer, index, isBaseCard);
-
-            //state.buyCard(state.getCurrentTurn(), index, isBaseCard);
-            game.sendAction(action);
-            return false;
+            game.sendAction(new DominionBuyCardAction(thisPlayer, index, isBaseCard));
+            Log.i("Player 0 num cards before buy: ", "" + state.getDominionPlayer(0).getDeck().getDiscardSize());
+            Log.i("Player 0 num cards after buy: ", "" + state.getDominionPlayer(0).getDeck().getDiscardSize());
         }
     };
 }
