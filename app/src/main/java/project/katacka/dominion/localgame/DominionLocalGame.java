@@ -125,7 +125,9 @@ public class DominionLocalGame extends LocalGame {
             int cardIndex = action.getCardIndex();
 
             return state.playCard(playerID, cardIndex);
+
         } else if (gameAction instanceof DominionBuyCardAction){
+
             DominionBuyCardAction action = (DominionBuyCardAction) gameAction;
             GamePlayer player = action.getPlayer();
 
@@ -134,7 +136,9 @@ public class DominionLocalGame extends LocalGame {
             boolean isBaseCard = action.getIsBaseCard();
 
             return state.buyCard(playerIndex, cardIndex, isBaseCard);
+
         } else if (gameAction instanceof DominionEndTurnAction){
+
             DominionEndTurnAction action = (DominionEndTurnAction) gameAction;
             int playerIndex = getPlayerIdx(action.getPlayer());
 
