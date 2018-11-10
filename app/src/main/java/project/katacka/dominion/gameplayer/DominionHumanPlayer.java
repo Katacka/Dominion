@@ -131,9 +131,6 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         //set display based XML resource
         activity.setContentView(R.layout.activity_main);
 
-        //TODO figure out if we need this
-        //handler = new ShopPileHandler(state);
-        //detector = new GestureDetector(activity, handler);
 
         //init all the things
         tabLayout = activity.findViewById(R.id.Player_Tabs);
@@ -164,11 +161,12 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         for(int i = 0, j = baseLayout.getChildCount(); i < j; i++){
             baseRows.add((TableRow) baseLayout.getChildAt(i));
         }
-
         /*
         External Citation
-        iterating through table layout
-        https://stackoverflow.com/questions/3327599/get-all-tablerows-in-a-tablelayout
+        Date: 11/2/18
+        Problem: iterating through table layout
+        Source: https://stackoverflow.com/questions/3327599/get-all-tablerows-in-a-tablelayout
+        Solution: using getChildAt(i)
          */
 
         tvActions = activity.findViewById(R.id.tvActions);
@@ -423,9 +421,10 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             }
             /*
             External Citation
-            setting imageview using string
-            https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
-            shows how to convert string to resource id to use to set image view
+            Date: 11/3/18
+            Problem: figuring out how to set imageview using string
+            Source: https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
+            Solution: source shows how to convert string to resource id to use to set image view
             */ //TODO: Move to correct place
 
             ////////display player hand////////////
