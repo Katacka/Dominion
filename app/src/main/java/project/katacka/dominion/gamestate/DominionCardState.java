@@ -274,7 +274,7 @@ public class DominionCardState {
      * @return Action completed successfully, meaning Copper in hand is trashed
      */
     private boolean moneylenderAction(DominionGameState game) {
-        if(game.dominionPlayers[game.currentTurn].getDeck().discard("Copper")) {
+        if(game.dominionPlayers[game.currentTurn].getDeck().removeCard("Copper")) {
             game.treasure += 3;
             return true;
         }

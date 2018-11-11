@@ -1,6 +1,8 @@
 package project.katacka.dominion.gameplayer;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.IdRes;
@@ -9,9 +11,12 @@ import android.support.constraint.ConstraintSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -24,6 +29,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import project.katacka.dominion.MainActivity;
 import project.katacka.dominion.R;
@@ -151,6 +157,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         //tab set up stuff
         TypedValue outValueInactive = new TypedValue();
         TypedValue outValueActive = new TypedValue();
+
         //true means follow the resource if it references another resource
         activity.getResources().getValue(R.dimen.tabInactive, outValueInactive, true);
         activity.getResources().getValue(R.dimen.tabActive, outValueActive, true);
@@ -207,6 +214,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
                 }
                 for (ConstraintLayout shopCard: shopPiles) {
                     shopCard.setOnClickListener(shopClickListener);
+                    shopCard.setOnLongClickListener(shopLongClickListener);
                 }
             }
         }
@@ -262,41 +270,15 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         //set default individual tab widths as percentages of the parents constraints
         //by default, tab1 is active
 
-        switch(activePlayer){
-            case 0:
-                c.constrainPercentWidth(R.id.playerTab1, tabActiveVal);
-                c.constrainPercentWidth(R.id.playerTab2, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab3, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab4, tabInactiveVal);
-                break;
-            case 1:
-                c.constrainPercentWidth(R.id.playerTab1, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab2, tabActiveVal);
-                c.constrainPercentWidth(R.id.playerTab3, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab4, tabInactiveVal);
-                break;
-            case 2:
-                c.constrainPercentWidth(R.id.playerTab1, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab2, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab3, tabActiveVal);
-                c.constrainPercentWidth(R.id.playerTab4, tabInactiveVal);
-                break;
-            case 3:
-                c.constrainPercentWidth(R.id.playerTab1, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab2, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab3, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab4, tabActiveVal);
-                break;
-            default:
-                c.constrainPercentWidth(R.id.playerTab1, tabActiveVal);
-                c.constrainPercentWidth(R.id.playerTab2, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab3, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab4, tabInactiveVal);
-                break;
+        int[] playerTabs = {R.id.playerTab1, R.id.playerTab2, R.id.playerTab3, R.id.playerTab4};
+        for(int i = 0; i < state.getDominionPlayers().length; i++) {
+            if (playerNum == i) c.constrainPercentWidth(playerTabs[i], tabActiveVal);
+            else c.constrainPercentWidth(playerTabs[i], tabInactiveVal);
         }
+
         c.applyTo(tabLayout);
-        c.clone((ConstraintLayout) activity.findViewById(R.id.Player_Tabs));
-        c.constrainPercentWidth(R.id.playerTab1, R.dimen.tabActive);
+        //c.clone((ConstraintLayout) activity.findViewById(R.id.Player_Tabs));
+        //c.constrainPercentWidth(R.id.playerTab1, R.dimen.tabActive);
     }
 
     private void updateTurnInfo(int actions, int buys, int treasure){
@@ -331,7 +313,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             discardPile.setVisibility(View.INVISIBLE);
         } else {
             discardPile.setVisibility(View.VISIBLE);
-            updateCardView(discardPile, playerState.getDeck().getLastDiscard(), -1);
+            updateCardView(discardPile, card, -1);
         }
     }
 
@@ -436,8 +418,12 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             //updateTabs(state.getCurrentTurn());
             if (state.getIsAttackTurn()) {
                 updateTabs(state.getAttackTurn());
+                updateOppDrawDiscard(state.getAttackTurn());
+                updateOppHand(state.getAttackTurn());
             } else {
                 updateTabs(state.getCurrentTurn());
+                updateOppDrawDiscard(state.getCurrentTurn());
+                updateOppHand(state.getCurrentTurn());
             }
 
             updateTurnInfo(state.getActions(), state.getBuys(), state.getTreasure());
@@ -509,24 +495,23 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             testhand.add(4, state.getBaseCards().get(3).getCard());
             */
 
-            int i = 0;
             ConstraintLayout layout;
             //for every item in hand up to five,
-            for(DominionCardState cardView : hand) {
+            int childCount = cardRow.getChildCount();
+            for(int i = 0; i < childCount; i++) {
                 layout = (ConstraintLayout) cardRow.getVirtualChildAt(i);
-                layout.setOnClickListener(handClickListener);
-                int exists = 1;
-                DominionCardState card = hand.get(i);
-                //if the card exists
-                if (card != null){
+                if (i < hand.size()) {
+                    layout.setOnClickListener(handClickListener);
+                    DominionCardState card = hand.get(i);
+
+                    //if the card exists
                     //read xml and update corresponding textviews and such
-                    updateCardView(layout, card, exists);
+                    updateCardView(layout, card, -1);
                     layout.setVisibility(View.VISIBLE);
-                } else { //card does not exist
-                    //updateCardView(null, null, -1*exists); TODO: See change here Hayden
-                    layout.setVisibility(View.INVISIBLE);
                 }
-                i++;
+                else { //card does not exist
+                    layout.setVisibility(View.GONE);
+                }
             }
 
             //Update treasure, actions, and buys
@@ -583,30 +568,74 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         return true;
     }
 
-    View.OnClickListener endTurnClickListener = new View.OnClickListener(){
-        @Override
-        public void onClick(View v) {
-            Log.i("DomHumPlayer: onClick", "End turn button clicked.");
-            game.sendAction(new DominionEndTurnAction(thisPlayer));
-        }
+    private View.OnClickListener endTurnClickListener = (View v) -> {
+        Log.i("DomHumPlayer: onClick", "End turn button clicked.");
+        game.sendAction(new DominionEndTurnAction(thisPlayer));
     };
 
-    View.OnClickListener handClickListener = new View.OnClickListener(){
-        @Override
-        public void onClick(View v) {
-            Log.i("DomHumPlayer: onClick", "Player card button clicked.");
-            int targetIdx = ((TableRow) v.getParent()).indexOfChild(v);
-            game.sendAction(new DominionPlayCardAction(thisPlayer, targetIdx));
-        }
+    private View.OnClickListener handClickListener = (View v) -> {
+        Log.i("DomHumPlayer: onClick", "Player card button clicked.");
+        int targetIdx = ((TableRow) v.getParent()).indexOfChild(v);
+        game.sendAction(new DominionPlayCardAction(thisPlayer, targetIdx));
     };
 
-    View.OnClickListener shopClickListener = new View.OnClickListener(){
-        @Override
-        public void onClick(View v) {
-            Log.i("DomHumPlayer: onClick", "Shop card button clicked.");
-            boolean isBaseCard = basePiles.contains(v);
-            int targetIdx = ((TableRow) v.getParent()).indexOfChild(v);
-            game.sendAction(new DominionBuyCardAction(thisPlayer, targetIdx, isBaseCard));
-        }
+    private View.OnClickListener shopClickListener = (View v) -> {
+        Log.i("DomHumPlayer: onClick", "Shop card button clicked.");
+        boolean isBaseCard = basePiles.contains(v);
+        TableRow parentView = ((TableRow) v.getParent());
+        int colOffset = ((TableLayout) parentView.getParent()).indexOfChild(parentView) * parentView.getChildCount();
+        int targetIdx =  parentView.indexOfChild(v) + colOffset;
+        game.sendAction(new DominionBuyCardAction(thisPlayer, targetIdx, isBaseCard));
     };
+
+    private View.OnLongClickListener shopLongClickListener = (View v) -> { //Not applied to base cards
+        Log.i("DomHumPlayer: onClick", "Shop card button long-clicked.");
+        TableRow parentView = ((TableRow) v.getParent());
+        //parentView.removeView(v);
+
+        int colOffset = ((TableLayout) parentView.getParent()).indexOfChild(parentView) * parentView.getChildCount();
+        int targetIdx =  parentView.indexOfChild(v) + colOffset;
+
+        DominionShopPileState pile = state.getShopCards().get(targetIdx);
+
+        final Dialog dialog = new Dialog(activity);
+        dialog.setContentView(populateCardLayout(pile));
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.setLayout(500, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        return true;
+    };
+
+    protected View populateCardLayout(DominionShopPileState pile){
+        View cardCopy = LayoutInflater.from(activity).inflate(R.layout.shop_card, null, false);
+        DominionCardState card = pile.getCard();
+
+        //Sets the card title
+        ((TextView) cardCopy.findViewById(R.id.textViewTitle))
+                .setText(card.getTitle());
+
+        //Sets the card image
+        ((ImageView) cardCopy.findViewById(R.id.imageViewArt))
+                .setImageResource(res.getIdentifier(card.getPhotoId(), "drawable", "project.katacka.dominion_card_back"));
+
+        //Sets the card text
+        cardCopy.findViewById(R.id.tvDescription).setVisibility(View.VISIBLE);
+        ((TextView) cardCopy.findViewById(R.id.tvDescription))
+                .setText(card.getFormattedText());
+
+        //Sets the card cost text
+        ((TextView) cardCopy.findViewById(R.id.textViewCost))
+                .setText(String.format(Locale.US, "%d", card.getCost()));
+
+        //Sets the card amount text
+        ((TextView) cardCopy.findViewById(R.id.textViewAmount))
+                .setText(String.format(Locale.US, "%d", pile.getAmount()));
+
+        //Sets the card type text
+        ((TextView) cardCopy.findViewById(R.id.textViewType))
+                .setText(card.getType().toString());
+
+        return cardCopy;
+    }
 }

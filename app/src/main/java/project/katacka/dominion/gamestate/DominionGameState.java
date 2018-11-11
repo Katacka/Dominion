@@ -316,13 +316,14 @@ public class DominionGameState extends GameState {
         if(isLegalPlay(playerID, cardIndex)) {
             DominionDeckState deck = this.dominionPlayers[playerID].getDeck();
             DominionCardState card = deck.getHand().get(cardIndex);
+            deck.discard(cardIndex); //Discarding before playing the card fixes cases like moneylender
             if(!card.cardAction(this)){
                 return false;
             }
-            if(card.getType() == DominionCardType.ACTION){
+            else if(card.getType() == DominionCardType.ACTION){
                 actions--;
             }
-            deck.discard(cardIndex);
+
             return true;
         }
         return false;

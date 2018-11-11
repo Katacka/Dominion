@@ -22,6 +22,7 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
     @Override
     public boolean playTurnPhase(turnPhases tempPhase) {
         Log.d("SimpleAI", "Playing turn");
+        if(currentPhase == turnPhases.END) currentPhase = turnPhases.SETUP;
         currentPhase = turnPhases.IN_PROGRESS;
 
         switch (tempPhase) {
