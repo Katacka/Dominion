@@ -3,7 +3,7 @@
     {
       "title": "Copper",
       "photoStringID": "dominion_copper",
-      "text": "+1 Gold",
+      "text": "+1 Treasure",
       "cost": 0,
       "type": "TREASURE",
       "amount": 60,
@@ -25,7 +25,7 @@
     {
       "title": "Silver",
       "photoStringID": "dominion_silver",
-      "text": "+2 Gold",
+      "text": "+2 Treasure",
       "cost": 3,
       "type": "TREASURE",
       "amount": 40,
@@ -47,7 +47,7 @@
     {
       "title": "Gold",
       "photoStringID": "dominion_gold",
-      "text": "+3 Gold",
+      "text": "+3 Treasure",
       "cost": 6,
       "type": "TREASURE",
       "amount": 30,
