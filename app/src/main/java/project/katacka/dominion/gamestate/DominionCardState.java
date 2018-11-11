@@ -225,6 +225,10 @@ public class DominionCardState {
         else return victoryPoints;
     }
 
+    public int getSimpleVictoryPoints() {
+        return victoryPoints;
+    }
+
     private boolean moatAction(DominionGameState game) {
         //Will have other behavior upon adding ATTACK cards
         return baseAction(game);

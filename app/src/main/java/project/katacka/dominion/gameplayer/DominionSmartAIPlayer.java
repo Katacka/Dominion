@@ -103,31 +103,36 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
                                                             .flatMap(piles -> piles)
                                                             .filter(pile -> pile.getAmount() > 0 &&
                                                                     pile.getCard().getCost() <= gameState.getTreasure() &&
-                                                                    pile.getCard().getType() != DominionCardType.BLANK);
+                                                                    pile.getCard().getType() != DominionCardType.BLANK &&
+                                                                    !pile.getCard().getTitle().equals("Copper"));
 
             DominionShopPileState[] orderedActionArray;
             if (predictTreasureDraw() < 8) {
-                orderedActionArray = buyOptionsStream.map(DominionShopPileState::getCard)
-                        .sorted(Comparator.comparing(DominionCardState::getAddedTreasure)
-                                .thenComparing(DominionCardState::getAddedActions)
-                                .thenComparing(DominionCardState::getAddedDraw)
-                                .thenComparing(DominionCardState::getCost))
+                orderedActionArray = buyOptionsStream
+                        .sorted(Comparator.comparing(DominionShopPileState::getAddedTreasure)
+                                .thenComparing(DominionShopPileState::getAddedActions)
+                                .thenComparing(DominionShopPileState::getAddedDraw)
+                                .thenComparing(DominionShopPileState::getCost).reversed())
                         .toArray(DominionShopPileState[]::new);
             }
             else {
                 //TODO: Fix implementation
-                /*orderedActionArray = buyOptionsStream.map(DominionShopPileState::getCard)
-                        .sorted(Comparator.comparing((a,b) -> a.getVictoryPoints(compPlayer.getDeck().getTotalCards()) > b.getVictoryPoints(compPlayer.getDeck().getTotalCards()) ? a : b)
-                                .thenComparing(DominionCardState::getAddedActions)
-                                .thenComparing(DominionCardState::getAddedDraw)
-                                .thenComparing(DominionCardState::getCost))
-                        .toArray(DominionShopPileState[]::new);*/
+                orderedActionArray = buyOptionsStream
+                        .sorted(Comparator.comparing(DominionShopPileState::getSimpleVictoryPoints)
+                                .thenComparing(DominionShopPileState::getAddedActions)
+                                .thenComparing(DominionShopPileState::getAddedDraw)
+                                .thenComparing(DominionShopPileState::getCost).reversed())
+                        .toArray(DominionShopPileState[]::new);
             }
 
             if(orderedActionArray.length < 1) {
                 return false; //Informs the AI that not all actions could be used
             }
 
+            for(DominionShopPileState pile: orderedActionArray) {
+                Log.e("AI Hand", "Card: " + pile.getCard().getTitle());
+            }
+            Log.e("", "\n");
             DominionShopPileState selectedPile = orderedActionArray[0];
             boolean isBaseCard = selectedPile.isBaseCard();
             int pileIdx = (isBaseCard) ? baseCards.indexOf(selectedPile) : shopCards.indexOf(selectedPile);
@@ -140,6 +145,10 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
 
         //currentPhase = turnPhases.END;
         return false;
+    }
+
+    protected int getVictoryPoints(DominionCardState card) {
+        return card.getVictoryPoints(compPlayer.getDeck().getTotalCards());
     }
 
     @Override
