@@ -5,6 +5,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -126,8 +127,20 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
     }
 
     private boolean playOTKInfinitePhase() {
-        //ArrayList<DominionCardState> cardOptionArray = hand.stream().filter(card -> card.get)
-        return true;
+        /*ArrayList<DominionCardState> cardOptionArray = hand.stream().sorted((a, b) -> {
+            String cardName_A = a.getTitle();
+            String cardName_B = b.getTitle();
+            return Objects.equals(cardName_A, cardName_B) ? 0 :
+                    cardName_A.equals("Silver") ? 1 :
+                    cardName_B.equals("Silver") ? -1 :
+                            cardName_A.equals("Village") ? 1 :
+                                    cardName_B.equals("Village") ? -1 :
+                                            cardName_A.equals("Council Room") ? 1 :
+                                                    cardName_B.equals("Council Room") ? -1 :
+                                                            cardName_A.equals("Silver") ? 1 :
+                                                                    cardName_B.equals("Silver") ? -1 :
+        })*/
+        return false;
     }
 
     private boolean playOTKWinPhase() {
@@ -152,7 +165,7 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
             currentPhase = turnPhases.WIN;
             //TODO: See how fast this runs to determine an ideal sleep time
             sleep(30);
-            game.sendAction(new DominionBuyCardAction(this, pileIdx, isBaseCard)); //TODO: BuyCardAction needs proper params
+            game.sendAction(new DominionBuyCardAction(this, pileIdx, isBaseCard));
             return true;
         }
 
