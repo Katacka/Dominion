@@ -78,7 +78,9 @@ public class DominionComputerPlayer extends GameComputerPlayer {
                 Log.e(TAG, "receiveInfo: " + info.toString());
             }
 
-            playTurnPhase(currentPhase);
+            if(gameState.canMove(playerNum)) {
+                playTurnPhase(currentPhase);
+            }
         }
     }
 
