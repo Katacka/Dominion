@@ -361,6 +361,7 @@ public class DominionHumanPlayer extends GameHumanPlayer{
             layout = (ConstraintLayout) cardRow.getChildAt(i);
             if (i + handOffset < hand.size()) {
                 layout.setOnClickListener(handClickListener);
+                layout.setOnTouchListener(handSwipeListener);
                 DominionCardState card = hand.get(i + handOffset);
 
                 //if the card exists
@@ -517,6 +518,25 @@ public class DominionHumanPlayer extends GameHumanPlayer{
         int handOffsetTemp = handOffset;
         handOffset = (hand.size() - handOffset > 5) ? handOffset : Math.max(handOffset - 1, 0);
         game.sendAction(new DominionPlayCardAction(thisPlayer, targetIdx + handOffsetTemp));
+    };
+
+    /**
+     * Handles navigation of the player hand
+     */
+    private OnSwipeTouchListener handSwipeListener = new OnSwipeTouchListener(activity) {
+        @Override
+        public void onSwipeRight(float distX) {
+            handOffset = Math.max(handOffset - 1, 0);
+            Log.e("a", "onSwipeLeft: " + handOffset);
+            updatePlayerHand();
+        }
+
+        @Override
+        public void onSwipeLeft(float distX) {
+            handOffset = Math.min(handOffset + 1, Math.max(hand.size() - 5, 0));
+            Log.e("a", "onSwipeRight: " + handOffset);
+            updatePlayerHand();
+        }
     };
 
     /**
