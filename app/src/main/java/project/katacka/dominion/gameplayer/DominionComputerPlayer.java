@@ -9,18 +9,14 @@ import java.util.stream.IntStream;
 import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gameframework.GameComputerPlayer;
-import project.katacka.dominion.gameframework.GameMainActivity;
 import project.katacka.dominion.gameframework.infoMsg.GameInfo;
 import project.katacka.dominion.gameframework.infoMsg.GameState;
 import project.katacka.dominion.gameframework.infoMsg.IllegalMoveInfo;
-import project.katacka.dominion.gameframework.infoMsg.NotYourTurnInfo;
-import project.katacka.dominion.gameframework.util.GameTimer;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionCardType;
 import project.katacka.dominion.gamestate.DominionGameState;
 import project.katacka.dominion.gamestate.DominionPlayerState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
-import project.katacka.dominion.localgame.DominionGameInfo;
 
 import static android.content.ContentValues.TAG;
 
@@ -33,8 +29,8 @@ public class DominionComputerPlayer extends GameComputerPlayer {
     protected ArrayList<DominionShopPileState> shopCards;
     protected ArrayList<DominionShopPileState> baseCards;
 
-    protected enum turnPhases {ACTION, TREASURE, BUY, END, IN_PROGRESS, SETUP, INFINITE, WIN}
-    protected turnPhases currentPhase;
+    protected enum TurnPhases {ACTION, TREASURE, BUY, END, IN_PROGRESS, SETUP, INFINITE, WIN}
+    protected TurnPhases currentPhase;
 
     protected Random rand;
 
@@ -47,7 +43,7 @@ public class DominionComputerPlayer extends GameComputerPlayer {
      */
     public DominionComputerPlayer(String name) {
         super(name);
-        currentPhase = turnPhases.END;
+        currentPhase = TurnPhases.END;
         rand = new Random();
     }
 
@@ -97,7 +93,7 @@ public class DominionComputerPlayer extends GameComputerPlayer {
         return false;
     }
 
-    protected boolean playTurnPhase(turnPhases tempPhase) {
+    protected boolean playTurnPhase(TurnPhases tempPhase) {
         return true;
     }
 
@@ -114,11 +110,11 @@ public class DominionComputerPlayer extends GameComputerPlayer {
                                    .findAny()
                                    .orElse(-1);
         if (treasureIdx < 0) {
-            //currentPhase = turnPhases.BUY;
+            //currentPhase = TurnPhases.BUY;
             return false;
         }
 
-        currentPhase = turnPhases.TREASURE;
+        currentPhase = TurnPhases.TREASURE;
         sleep(100);
         game.sendAction(new DominionPlayCardAction(this, treasureIdx));
         return true;
@@ -127,7 +123,7 @@ public class DominionComputerPlayer extends GameComputerPlayer {
     protected boolean endTurn() {
         Log.d("AI", "Ending turn");
 
-        currentPhase = turnPhases.END;
+        currentPhase = TurnPhases.END;
         sleep(100);
         game.sendAction(new DominionEndTurnAction(this));
 
