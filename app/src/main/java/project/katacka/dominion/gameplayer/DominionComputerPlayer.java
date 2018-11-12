@@ -35,8 +35,8 @@ public abstract class DominionComputerPlayer extends GameComputerPlayer {
     protected ArrayList<DominionShopPileState> shopCards;
     protected ArrayList<DominionShopPileState> baseCards;
 
-    protected enum turnPhases {ACTION, TREASURE, BUY, END, IN_PROGRESS, SETUP, INFINITE, WIN}
-    protected turnPhases currentPhase;
+    protected enum TurnPhases {ACTION, TREASURE, BUY, END, IN_PROGRESS, SETUP, INFINITE, WIN}
+    protected TurnPhases currentPhase;
 
     protected Random rand;
 
@@ -49,7 +49,7 @@ public abstract class DominionComputerPlayer extends GameComputerPlayer {
      */
     public DominionComputerPlayer(String name) {
         super(name);
-        currentPhase = turnPhases.END;
+        currentPhase = TurnPhases.END;
         rand = new Random();
     }
 
@@ -96,7 +96,7 @@ public abstract class DominionComputerPlayer extends GameComputerPlayer {
         return false;
     }
 
-    protected boolean playTurnPhase(turnPhases tempPhase) {
+    protected boolean playTurnPhase(TurnPhases tempPhase) {
         return true;
     }
 
@@ -113,11 +113,11 @@ public abstract class DominionComputerPlayer extends GameComputerPlayer {
                                    .findAny()
                                    .orElse(-1);
         if (treasureIdx < 0) {
-            //currentPhase = turnPhases.BUY;
+            //currentPhase = TurnPhases.BUY;
             return false;
         }
 
-        currentPhase = turnPhases.TREASURE;
+        currentPhase = TurnPhases.TREASURE;
         sleep(100);
         game.sendAction(new DominionPlayCardAction(this, treasureIdx));
         return true;
@@ -126,7 +126,7 @@ public abstract class DominionComputerPlayer extends GameComputerPlayer {
     protected boolean endTurn() {
         Log.d("AI", "Ending turn");
 
-        currentPhase = turnPhases.END;
+        currentPhase = TurnPhases.END;
         sleep(100);
         game.sendAction(new DominionEndTurnAction(this));
 

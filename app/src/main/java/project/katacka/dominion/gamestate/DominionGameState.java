@@ -36,7 +36,7 @@ public class DominionGameState extends GameState implements Serializable{
     //  as well as providence to detect game over
     private final int PILE_COPPER = 0;
     private final int PILE_ESTATE = 1;
-    private final int PILE_PROVIDENCE = 6;
+    private final int PILE_PROVIDENCE = 5;
 
     protected DominionPlayerState dominionPlayers[]; //Sorted by order of turn
 
