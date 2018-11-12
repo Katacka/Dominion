@@ -3,6 +3,14 @@ package project.katacka.dominion.gamedisplay;
 import project.katacka.dominion.gameframework.GamePlayer;
 import project.katacka.dominion.gameframework.actionMsg.GameAction;
 
+
+/**
+ * @author Ashika Hayden Julian Ryan
+ *
+ * Sent to DominionLocalGame to play a card
+ * Handled in makeMove
+ */
+
 public class DominionPlayCardAction extends GameAction {
 
     //The index of the card in the player's hand
