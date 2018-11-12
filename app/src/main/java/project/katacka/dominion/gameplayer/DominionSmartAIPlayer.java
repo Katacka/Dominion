@@ -37,7 +37,7 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
     private boolean hasNeededMoneylenders;
     private boolean hasNeededCouncilRooms;
     private boolean hasNeededVillages;
-    private int villageCouncilNum;
+    private boolean villageBuy;
     private boolean hasNeededSilvers;
     private boolean canGoInfinite;
 
@@ -48,7 +48,6 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
     /**
      * Constructs a DominionSmartAIPlayer intended to be both adaptable and competitive
      * @param name Describes the name of the AI player
-     * @return A DominionSmartAIPlayer object
      */
     public DominionSmartAIPlayer(String name) {
         super(name);
@@ -60,7 +59,7 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
         hasNeededVillages = false;
         hasNeededSilvers = false;
         canGoInfinite = false;
-        villageCouncilNum = 0;
+        villageBuy = true;
     }
 
     /**
@@ -251,15 +250,15 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
                 action = new DominionBuyCardAction(this, baseCards.indexOf(silverCard), true);
                 hasNeededSilvers = true;
             }
-            else if (gameState.getTreasure() >= 3 && villageCard != null && (!hasNeededVillages || hasNeededCouncilRooms) && villageCouncilNum == 1) {
-                action = new DominionBuyCardAction(this, shopCards.indexOf(villageCard), false);
-                hasNeededVillages = true;
-                villageCouncilNum = 2;
-            }
-            else if (gameState.getTreasure() >= 5 && councilRoomCard != null && (!hasNeededCouncilRooms || villageCouncilNum == 2)) {
+            else if (gameState.getTreasure() >= 5 && councilRoomCard != null && (!hasNeededCouncilRooms || !villageBuy)) {
                 action = new DominionBuyCardAction(this, shopCards.indexOf(councilRoomCard), false);
                 hasNeededCouncilRooms = true;
-                villageCouncilNum = 1;
+                villageBuy = true;
+            }
+            else if (gameState.getTreasure() >= 3 && villageCard != null && (!hasNeededVillages || hasNeededCouncilRooms)) {
+                action = new DominionBuyCardAction(this, shopCards.indexOf(villageCard), false);
+                hasNeededVillages = true;
+                villageBuy = false;
             }
             else return false;
 
@@ -483,11 +482,10 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
 
             currentPhase = TurnPhases.BUY;
             sleep(100);
-            game.sendAction(new DominionBuyCardAction(this, pileIdx, isBaseCard)); //TODO: BuyCardAction needs proper params
+            game.sendAction(new DominionBuyCardAction(this, pileIdx, isBaseCard));
             return true;
         }
 
-        //currentPhase = TurnPhases.END;
         return false;
     }
 
@@ -511,6 +509,10 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
         }
     }
 
+    /**
+     * Recieves info from DominionLocalGame regarding DominionGameState
+     * @param info Describes the DominionGameState
+     */
     @Override
     protected void receiveInfo(GameInfo info) {
         super.receiveInfo(info);
@@ -599,8 +601,8 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
 
 
     public String toString(){
-        String string = "CardView Name: " + super.name;
-        return string;
+        return "CardView Name: " + super.name;
+
     }
 }
 

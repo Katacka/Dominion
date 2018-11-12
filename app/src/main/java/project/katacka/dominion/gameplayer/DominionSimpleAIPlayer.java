@@ -10,22 +10,32 @@ import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionCardType;
 import project.katacka.dominion.gamestate.DominionShopPileState;
 
-
+/**
+ * Simple AI behavior intended to provide a random, casual computer opponent
+ * @author Julian Donovan, Ryan Regier, Ashika Mulagada, Hayden Liao
+ */
 public class DominionSimpleAIPlayer extends DominionComputerPlayer {
 
-
+    /**
+     * Constructs a DominionSimpleAIPlayer intended to be both adaptable and competitive
+     * @param name Describes the name of the AI player
+     */
     public DominionSimpleAIPlayer(String name) {
         super(name);
     }
 
+    /**
+     * Overrides DominionComputerPlayer's playTurnPhase method, introducing mostly randomized behaviors
+     * @param tempPhase Describes the selected phase
+     * @return A boolean value describing phase success
+     */
     @Override
     public boolean playTurnPhase(TurnPhases tempPhase) {
         Log.d("SimpleAI", "Playing turn");
         if(tempPhase == TurnPhases.END) tempPhase = TurnPhases.ACTION;
         currentPhase = TurnPhases.IN_PROGRESS;
 
-
-        switch (tempPhase) { //TODO: rename temp to something to make it more clear (ex. old v. new phase)
+        switch (tempPhase) {
             case ACTION:
                 if (playSimpleActionPhase()) break;
             case TREASURE:
@@ -36,81 +46,82 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
                 endTurn();
                 break;
             case IN_PROGRESS:
-                //Should never get here: only occurs if phase does not get set
-                Log.e("SimpleAI", "Never left in progress.");
-                //No break so turn ends
             default:
                 endTurn();
                 return false;
         }
 
-        //if(currentPhase == TurnPhases.IN_PROGRESS) currentPhase = tempPhase;
         return true;
     }
 
-    //TODO: Reference all actions properly
-    public boolean playSimpleActionPhase() {
-        //while (gameState.getActions() > 0) {
+    /**
+     * Handles the simpleAI's action phase, playing a valid action at random
+     * @return A boolean value describing phase success
+     */
+    private boolean playSimpleActionPhase() {
         if (gameState.getActions() > 0) {
             DominionCardState[] actionArray = hand.stream()
-                    .filter(card -> card.getType() == DominionCardType.ACTION ||
-                            card.getType() == DominionCardType.REACTION ||
-                            card.getType() == DominionCardType.ATTACK).toArray(DominionCardState[]::new);
+                                                  .filter(card -> card.getType() == DominionCardType.ACTION ||
+                                                                  card.getType() == DominionCardType.REACTION ||
+                                                                  card.getType() == DominionCardType.ATTACK).toArray(DominionCardState[]::new);
 
             if (actionArray.length < 1) {
-                //currentPhase = TurnPhases.TREASURE;
                 return false; //Informs the AI that not all actions could be used
             }
+
             DominionCardState randCard = actionArray[rand.nextInt(actionArray.length)];
             int handIdx = hand.indexOf(randCard);
 
             if (!handleMoneylender(randCard)) {
-                //currentPhase = TurnPhases.TREASURE;
-                return false; //Informs the AI that not all actions could be used
+                return false; //Informs the AI that Moneylender could not be used
             }
 
             currentPhase = TurnPhases.ACTION;
             sleep(100);
-            game.sendAction(new DominionPlayCardAction(this, handIdx)); //TODO: PlayCardAction needs index
+            game.sendAction(new DominionPlayCardAction(this, handIdx));
             return true;
         }
-            //}
 
-        //currentPhase = TurnPhases.TREASURE;
         return false;
     }
 
+    /**
+     * Handles the Moneylender card's special discard behaviors
+     * @param randCard Describes the card in question
+     * @return A boolean value describing the success of the Moneylender card
+     */
     private boolean handleMoneylender(DominionCardState randCard) {
         boolean isCopper = hand.stream().anyMatch(card -> card.getTitle().equals("Copper"));
         return !randCard.getTitle().equals("Moneylender") || isCopper;
     }
 
-    public boolean playSimpleBuyPhase() {
+    /**
+     * Handles the simpleAI's action phase, buying a valid card at random
+     * @return A boolean value describing phase success
+     */
+    private boolean playSimpleBuyPhase() {
         if (gameState.getBuys() > 0) {
-            Log.i("a" + gameState.getBuys(), "gameTreasure: " + gameState.getTreasure());
-
             DominionShopPileState[] buyOptionsArray = Stream.of(shopCards.stream(), baseCards.stream())
-                                                  .flatMap(piles -> piles)
-                                                  .filter(pile -> pile.getAmount() > 0 &&
-                                                                  pile.getCard().getCost() <= gameState.getTreasure() &&
-                                                                  pile.getCard().getType() != DominionCardType.BLANK)
-                                                  .toArray(DominionShopPileState[]::new);
+                                                            .flatMap(piles -> piles)
+                                                            .filter(pile -> pile.getAmount() > 0 &&
+                                                                            pile.getCard().getCost() <= gameState.getTreasure() &&
+                                                                            pile.getCard().getType() != DominionCardType.BLANK)
+                                                            .toArray(DominionShopPileState[]::new);
 
             if(buyOptionsArray.length < 1) {
-                //currentPhase = TurnPhases.END;
                 return false; //Informs the AI that not all actions could be used
             }
+
             DominionShopPileState randPile = buyOptionsArray[rand.nextInt(buyOptionsArray.length)];
             boolean isBaseCard = randPile.isBaseCard();
             int pileIdx = (isBaseCard) ? baseCards.indexOf(randPile) : shopCards.indexOf(randPile);
 
             currentPhase = TurnPhases.BUY;
             sleep(100);
-            game.sendAction(new DominionBuyCardAction(this, pileIdx, isBaseCard)); //TODO: BuyCardAction needs proper params
+            game.sendAction(new DominionBuyCardAction(this, pileIdx, isBaseCard));
             return true;
         }
 
-        //currentPhase = TurnPhases.END;
         return false;
     }
 

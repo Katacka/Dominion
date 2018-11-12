@@ -2,12 +2,15 @@ package project.katacka.dominion.gameplayer;
 
 import android.app.Dialog;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.annotation.IdRes;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -18,6 +21,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 import project.katacka.dominion.R;
 import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
 import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
@@ -38,6 +43,9 @@ import project.katacka.dominion.gamestate.DominionShopPileState;
  * @author Ryan Regier, Julian Donovan, Ashika Mulagada, Hayden Liao
  */
 public class DominionHumanPlayer extends GameHumanPlayer{
+    private Integer grayOverlayIdx;
+
+    private int handOffset;
 
     private float tabInactiveVal;
     private float tabActiveVal;
@@ -77,9 +85,13 @@ public class DominionHumanPlayer extends GameHumanPlayer{
     private ConstraintLayout mainLayout;
 
     private DominionPlayerState playerState;
+    private GameHumanPlayer thisPlayer;
 
     public DominionHumanPlayer(String name) {
         super(name);
+        grayOverlayIdx = Integer.MAX_VALUE;
+        handOffset = 0;
+        thisPlayer = this;
     }
 
     public String toString(){
@@ -146,8 +158,11 @@ public class DominionHumanPlayer extends GameHumanPlayer{
      */
     protected void initAfterReady() {
         //Sets tab names
-        for(int i = 0; i < allPlayerNames.length; i++) {
-            ((TextView) tabLayout.getChildAt(i).findViewById(R.id.playerName)).setText(allPlayerNames[i]);
+        for(int i = 0; i < tabLayout.getChildCount(); i++) {
+            if (i < allPlayerNames.length) {
+                ((TextView) tabLayout.getChildAt(i).findViewById(R.id.playerName)).setText(allPlayerNames[i]);
+            }
+            else tabLayout.getChildAt(i).setVisibility(View.GONE);
         }
     }
 
@@ -344,9 +359,9 @@ public class DominionHumanPlayer extends GameHumanPlayer{
         int childCount = cardRow.getChildCount();
         for(int i = 0; i < childCount; i++) {
             layout = (ConstraintLayout) cardRow.getChildAt(i);
-            if (i < hand.size()) {
+            if (i + handOffset < hand.size()) {
                 layout.setOnClickListener(handClickListener);
-                DominionCardState card = hand.get(i);
+                DominionCardState card = hand.get(i + handOffset);
 
                 //if the card exists
                 //read xml and update corresponding textViews and such
@@ -369,7 +384,7 @@ public class DominionHumanPlayer extends GameHumanPlayer{
          * https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
          * shows how to convert string to resource id to use to set image view
          */
-        basePiles = new ArrayList<ConstraintLayout>();
+        basePiles = new ArrayList<>();
         int c = 0, start = 0, end = 2;
         for(int a = 0, b = baseLayout.getChildCount(); a < b; a++){
             View baseRow = baseLayout.getChildAt(a);
@@ -385,6 +400,7 @@ public class DominionHumanPlayer extends GameHumanPlayer{
                     DominionCardState cardState = state.getBaseCards().get(c).getCard();
                     int amount = state.getBaseCards().get(c).getAmount();
                     updateCardView(baseCard, cardState, amount);
+                    if (amount == 0) displayEmptyStack(basePiles.get(r));
                     c++;
                 }
                 start = start+2;
@@ -417,11 +433,26 @@ public class DominionHumanPlayer extends GameHumanPlayer{
                     DominionCardState cardState = state.getShopCards().get(m).getCard();
                     int amount = state.getShopCards().get(m).getAmount();
                     updateCardView(shopCard, cardState, amount);
+                    if (amount == 0) displayEmptyStack(shopCard);
                     m++;
-                    //TODO: Change display with empty piles
                 }
             }
         }
+    }
+
+    /**
+     * Generates and adds a gray filter on top of some pre-existing layout
+     * @param cardLayout Describes the card being grayed out
+     */
+    private void displayEmptyStack(View cardLayout) {
+        //Defines constraints and coloring for the gray overlay
+        LinearLayout grayOverlay = new LinearLayout(activity);
+        grayOverlay.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT));
+        grayOverlay.setBackgroundColor(Color.parseColor("#c8000000"));
+        if (grayOverlayIdx < ((ConstraintLayout) cardLayout).getChildCount()) ((ConstraintLayout) cardLayout).removeViewAt(grayOverlayIdx);
+        grayOverlayIdx = ((ConstraintLayout) cardLayout).getChildCount();
+        ((ConstraintLayout) cardLayout).addView(grayOverlay, grayOverlayIdx);
     }
 
     //TODO: fix to update tabs more accurately for attack turns
@@ -461,10 +492,6 @@ public class DominionHumanPlayer extends GameHumanPlayer{
         }
     }
 
-    public boolean draw(){
-        return true;
-    }
-
     /**
      * Plays all treasures in hand for current player
      */
@@ -487,7 +514,9 @@ public class DominionHumanPlayer extends GameHumanPlayer{
     private View.OnClickListener handClickListener = (View v) -> {
         Log.i("DomHumPlayer: onClick", "Player card button clicked.");
         int targetIdx = ((LinearLayout) v.getParent()).indexOfChild(v);
-        game.sendAction(new DominionPlayCardAction(this, targetIdx));
+        int handOffsetTemp = handOffset;
+        handOffset = (hand.size() - handOffset > 5) ? handOffset : Math.max(handOffset - 1, 0);
+        game.sendAction(new DominionPlayCardAction(thisPlayer, targetIdx + handOffsetTemp));
     };
 
     /**
@@ -495,7 +524,7 @@ public class DominionHumanPlayer extends GameHumanPlayer{
      */
     private View.OnClickListener shopClickListener = (View v) -> {
         Log.i("DomHumPlayer: onClick", "Shop card button clicked.");
-        boolean isBaseCard = basePiles.contains(v); //TODO: Fix, since this boolean is always false
+        boolean isBaseCard = basePiles.contains(v);
         TableRow parentView = ((TableRow) v.getParent());
         int colOffset = ((TableLayout) parentView.getParent()).indexOfChild(parentView) * parentView.getChildCount();
         int targetIdx =  parentView.indexOfChild(v) + colOffset;
