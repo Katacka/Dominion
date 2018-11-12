@@ -176,7 +176,7 @@ public class DominionHumanPlayer extends GameHumanPlayer{
 
         int[] playerTabs = {R.id.playerTab1, R.id.playerTab2, R.id.playerTab3, R.id.playerTab4};
         for(int i = 0; i < state.getDominionPlayers().length; i++) {
-            if (playerNum == i) c.constrainPercentWidth(playerTabs[i], tabActiveVal);
+            if (state.canMove(i)) c.constrainPercentWidth(playerTabs[i], tabActiveVal);
             else c.constrainPercentWidth(playerTabs[i], tabInactiveVal);
         }
 
@@ -297,6 +297,14 @@ public class DominionHumanPlayer extends GameHumanPlayer{
         oppCardsLayout.removeAllViews();
         ImageView[] cards = new ImageView[handSize];
         for (int i = 0; i < handSize; i++){
+            /**
+             * External citation
+             * Date: 11/08/2018
+             * Problem: Everything needed an ID to create a constraint set
+             * Resource:
+             *  https://stackoverflow.com/questions/50526880/constraint-layout-layout-crashing-all-children-of-constraint-layout-should-hav#50870367
+             * Solution: Generate View ID function used.
+             */
             cards[i] = new ImageView(activity);
             cards[i].setScaleType(ImageView.ScaleType.FIT_XY);
             cards[i].setImageResource(R.drawable.dominion_opponent_card_back);
@@ -458,13 +466,16 @@ public class DominionHumanPlayer extends GameHumanPlayer{
     }
 
     /**
-     * Ends turn for current player
+     * Plays all treasures in hand for current player
      */
     private View.OnClickListener playAllClickListener = (View v) -> {
         Log.i("DomHumPlayer: onClick", "PlayAll button clicked.");
         game.sendAction(new DominionPlayAllAction(this));
     };
 
+    /**
+     * Ends turn for current player
+     */
     private View.OnClickListener endTurnClickListener = (View v) -> {
         Log.i("DomHumPlayer: onClick", "End turn button clicked.");
         game.sendAction(new DominionEndTurnAction(this));

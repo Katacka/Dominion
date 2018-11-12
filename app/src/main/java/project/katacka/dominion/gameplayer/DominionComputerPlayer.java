@@ -9,18 +9,14 @@ import java.util.stream.IntStream;
 import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gameframework.GameComputerPlayer;
-import project.katacka.dominion.gameframework.GameMainActivity;
 import project.katacka.dominion.gameframework.infoMsg.GameInfo;
 import project.katacka.dominion.gameframework.infoMsg.GameState;
 import project.katacka.dominion.gameframework.infoMsg.IllegalMoveInfo;
-import project.katacka.dominion.gameframework.infoMsg.NotYourTurnInfo;
-import project.katacka.dominion.gameframework.util.GameTimer;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionCardType;
 import project.katacka.dominion.gamestate.DominionGameState;
 import project.katacka.dominion.gamestate.DominionPlayerState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
-import project.katacka.dominion.localgame.DominionGameInfo;
 
 import static android.content.ContentValues.TAG;
 

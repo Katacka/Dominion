@@ -22,18 +22,24 @@ import project.katacka.dominion.gamestate.DominionGameState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
 
 /**
- * Implementation of Local Game for Dominion
+ * Implementation of Local Game for Dominion.
  *
- * @author Ryan Regier
+ * @author Ryan Regier, Julian Donovan, Ashika Mulagada, Hayden Liao
  */
 public class DominionLocalGame extends LocalGame {
 
     //The offical copy of the game state
     private DominionGameState state;
+
+    //The cards used for the GameState
     private ArrayList<DominionShopPileState> baseCards;
     private ArrayList<DominionShopPileState> shopCards;
 
 
+    /**
+     * Constructor. Reads cards from XML.
+     * @param context The context in which the game is created. Used to read the XML.
+     */
     public DominionLocalGame(Context context){
         super();
         CardReader reader = new CardReader("base");
@@ -42,14 +48,12 @@ public class DominionLocalGame extends LocalGame {
     }
 
     /**
-     * Notify the given player that its state has changed. This should involve sending
-     * a GameInfo object to the player. If the game is not a perfect-information game
-     * this method should remove any information from the game that the player is not
-     * allowed to know.
+     * Copies and sends game state. Hides cards that cannot be seen.
      *
      * @param p
      * 			the player to notify
      */
+    @Override
     protected void sendUpdatedStateTo(GamePlayer p){
         DominionGameState copy = new DominionGameState(state, getPlayerIdx(p));
         p.sendInfo(copy);
@@ -64,6 +68,7 @@ public class DominionLocalGame extends LocalGame {
      * @return
      * 		true iff the player is allowed to move
      */
+    @Override
     protected boolean canMove(int playerIdx){
         return state.canMove(playerIdx);
     }
@@ -76,9 +81,10 @@ public class DominionLocalGame extends LocalGame {
      * 			a message that tells who has won the game, or null if the
      * 			game is not over
      */
+    @Override
     protected String checkIfGameOver(){
         if (!state.getGameOver()){
-            return null;
+            return null; //Game is not over
         }
 
         int[] scores = state.getPlayerScores();
@@ -86,21 +92,22 @@ public class DominionLocalGame extends LocalGame {
         String result;
         if (winner != -1){ //No tie
             result = String.format(Locale.US, "%s has won.\nScores:\n", playerNames[winner]);
-        } else {
+        } else { //In case of tie
             int[] tiedPlayers = state.getTiedPlayers();
             int numTied = tiedPlayers.length;
             result = String.format(Locale.US, "There was a %d-way tie between ", numTied);
             for (int i = 0; i < numTied; i++){
-                if (i == numTied-1){
+                if (i == numTied-1){ //Last player in tied list.
                     result += String.format(Locale.US, "%s.\nScores:\n", playerNames[i]);
-                } else if ( i == numTied - 2){
+                } else if ( i == numTied - 2){ //Second to last player in tied list.
                     result += String.format(Locale.US, "%s and ", playerNames[i]);
-                } else {
+                } else { //All other players
                     result += String.format(Locale.US, "%s, ", playerNames[i]);
                 }
             }
         }
 
+        //Prints everyone's scores out
         for(int i = 0; i < playerNames.length; i++){
             result += String.format(Locale.US, "%s: %d\n", playerNames[i], scores[i]);
         }
@@ -117,6 +124,7 @@ public class DominionLocalGame extends LocalGame {
      * @return
      * 			Tells whether the move was a legal one.
      */
+    @Override
     protected boolean makeMove(GameAction gameAction){
         if (gameAction instanceof DominionPlayCardAction){
             DominionPlayCardAction action = (DominionPlayCardAction) gameAction;
@@ -155,10 +163,13 @@ public class DominionLocalGame extends LocalGame {
         }
     }
 
+    /**
+     * Starts the game. Creates initial game state.
+     * @param players The list of players in the game.
+     */
     @Override
     public void start(GamePlayer[] players) {
         super.start(players);
-        //TODO: Julian read cards here
         state = new DominionGameState(players.length, baseCards, shopCards);
     }
 }
