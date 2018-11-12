@@ -238,7 +238,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         int[] playerTabs = {R.id.playerTab1, R.id.playerTab2, R.id.playerTab3, R.id.playerTab4};
         for(int i = 0; i < state.getDominionPlayers().length; i++) {
-            if (playerNum == i) c.constrainPercentWidth(playerTabs[i], tabActiveVal);
+            if (state.canMove(i)) c.constrainPercentWidth(playerTabs[i], tabActiveVal);
             else c.constrainPercentWidth(playerTabs[i], tabInactiveVal);
         }
 
