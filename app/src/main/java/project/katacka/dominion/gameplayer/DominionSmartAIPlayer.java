@@ -23,7 +23,7 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
     private int remGold;
     private int remCards;
     private double avgDraw;
-    private int handTreasure;
+    //private int handTreasure;
     private int pilesEmpty;
 
     enum BehaviorTypes {BIGMONEY, OTK}
@@ -35,14 +35,25 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
     private boolean hasNeededMoneylenders;
     private boolean hasNeededCouncilRooms;
     private boolean hasNeededVillages;
+    private int villageCouncilNum;
     private boolean hasNeededSilvers;
     private boolean canGoInfinite;
+
+    private ArrayList<DominionShopPileState> availableVPPiles;
+    private int totalVPCards;
+    private int totalVPCardsCost;
 
     public DominionSmartAIPlayer(String name) {
         super(name);
         remCopper = 7; //Player starts with 7 cards in their hand
         compBehavior = BehaviorTypes.OTK;
         currentOTKSetupPhase = TurnPhases.ACTION;
+        hasNeededMoneylenders = false;
+        hasNeededCouncilRooms = false;
+        hasNeededVillages = false;
+        hasNeededSilvers = false;
+        canGoInfinite = false;
+        villageCouncilNum = 0;
     }
 
     //TODO: Add phase switch from OTK to BigMoney
@@ -69,14 +80,13 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
 
     //TODO: Determine if boolean is useful
     private boolean playOTKTurnPhase(TurnPhases tempPhase) {
-        Log.d("SimpleAI", "Using Big Money behavior");
+        Log.d("SimpleAI", "Using OTK behavior");
         currentPhase = TurnPhases.IN_PROGRESS;
 
         switch (tempPhase) {
             case SETUP:
                 if (hasNeededCouncilRooms && hasNeededVillages && hasNeededMoneylenders && hasNeededSilvers && remCopper <= 1) {
                     canGoInfinite = true;
-                    break;
                 }
                 else if (playOTKSetupPhase(currentOTKSetupPhase)) break;
             case INFINITE:
@@ -97,7 +107,7 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
     }
 
     private boolean playOTKSetupPhase(TurnPhases tempPhase) {
-        Log.d("SimpleAI", "Using Big Money behavior setup");
+        Log.d("SimpleAI", "Using OTK behavior setup");
         currentOTKSetupPhase = TurnPhases.IN_PROGRESS;
 
         switch (tempPhase) {
@@ -108,6 +118,7 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
             case BUY:
                 if (playOTKSetupBuyPhase()) break;
             case END:
+                currentOTKSetupPhase = TurnPhases.ACTION;
                 return false;
             case IN_PROGRESS:
                 break;
@@ -143,6 +154,7 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
             currentOTKSetupPhase = TurnPhases.ACTION;
             sleep(100);
             game.sendAction(action);
+            return true;
         }
 
         return false;
@@ -153,6 +165,7 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
                 .filter(i -> hand.get(i).getType() == DominionCardType.TREASURE)
                 .findAny()
                 .orElse(-1);
+
         if (treasureIdx < 0) {
             return false;
         }
@@ -164,35 +177,38 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
     }
 
     private boolean playOTKSetupBuyPhase() {
-        if (gameState.getBuys() > 0 && handTreasure > 2) { //2 treasure is not enough to buy any of the necessary cards
+        if (gameState.getBuys() > 0 && gameState.getTreasure() > 2) { //2 treasure is not enough to buy any of the necessary cards
             DominionBuyCardAction action;
 
-            DominionCardState moneylenderCard = shopCards.stream().filter(pile -> !pile.isEmpty()).map(DominionShopPileState::getCard).filter(card -> card.getTitle().equals("Moneylender")).findFirst().orElse(null);
-            DominionCardState silverCard = baseCards.stream().filter(pile -> !pile.isEmpty()).map(DominionShopPileState::getCard).filter(card -> card.getTitle().equals("Silver")).findFirst().orElse(null);
-            DominionCardState villageCard = shopCards.stream().filter(pile -> !pile.isEmpty()).map(DominionShopPileState::getCard).filter(card -> card.getTitle().equals("Village")).findFirst().orElse(null);
-            DominionCardState councilRoomCard = shopCards.stream().filter(pile -> !pile.isEmpty()).map(DominionShopPileState::getCard).filter(card -> card.getTitle().equals("Council Room")).findFirst().orElse(null);
+            DominionShopPileState moneylenderCard = shopCards.stream().filter(pile -> !pile.isEmpty()).filter(pile -> pile.getCard().getTitle().equals("Moneylender")).findFirst().orElse(null);
+            DominionShopPileState silverCard = baseCards.stream().filter(pile -> !pile.isEmpty()).filter(pile -> pile.getCard().getTitle().equals("Silver")).findFirst().orElse(null);
+            DominionShopPileState villageCard = shopCards.stream().filter(pile -> !pile.isEmpty()).filter(pile -> pile.getCard().getTitle().equals("Village")).findFirst().orElse(null);
+            DominionShopPileState councilRoomCard = shopCards.stream().filter(pile -> !pile.isEmpty()).filter(pile -> pile.getCard().getTitle().equals("Council Room")).findFirst().orElse(null);
 
-            if (handTreasure >= 4 && moneylenderCard != null && !hasNeededMoneylenders) {
-                action = new DominionBuyCardAction(this, hand.indexOf(moneylenderCard), false);
+            if (gameState.getTreasure() >= 4 && moneylenderCard != null && !hasNeededMoneylenders) {
+                action = new DominionBuyCardAction(this, shopCards.indexOf(moneylenderCard), false);
                 hasNeededMoneylenders = true;
             }
-            else if (handTreasure >= 4 && silverCard != null && !hasNeededSilvers) {
-                action = new DominionBuyCardAction(this, hand.indexOf(silverCard), true);
+            else if (gameState.getTreasure() >= 3 && silverCard != null && !hasNeededSilvers) {
+                action = new DominionBuyCardAction(this, baseCards.indexOf(silverCard), true);
                 hasNeededSilvers = true;
             }
-            else if (handTreasure >= 3 && villageCard != null && !hasNeededVillages) {
-                action = new DominionBuyCardAction(this, hand.indexOf(villageCard), false);
+            else if (gameState.getTreasure() >= 3 && villageCard != null && (!hasNeededVillages || hasNeededCouncilRooms) && villageCouncilNum <= 2) {
+                action = new DominionBuyCardAction(this, shopCards.indexOf(villageCard), false);
                 hasNeededVillages = true;
+                villageCouncilNum++;
             }
-            else if (handTreasure >= 5 && councilRoomCard != null && !hasNeededCouncilRooms) {
-                action = new DominionBuyCardAction(this, hand.indexOf(councilRoomCard), false);
+            else if (gameState.getTreasure() >= 5 && councilRoomCard != null && (!hasNeededCouncilRooms || villageCouncilNum >= 3)) {
+                action = new DominionBuyCardAction(this, shopCards.indexOf(councilRoomCard), false);
                 hasNeededCouncilRooms = true;
+                villageCouncilNum = 1;
             }
             else return false;
 
             currentOTKSetupPhase = TurnPhases.BUY;
             sleep(100);
             game.sendAction(action);
+            return true;
         }
 
         return false;
@@ -207,7 +223,8 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
             DominionCardState councilRoomCard = hand.stream().filter(card -> card.getTitle().equals("Council Room")).findFirst().orElse(null);
             //DominionCardState otherCard = hand.stream().filter(card -> !card.getTitle().equals("Silver") && !card.getTitle().equals("Village") && !card.getTitle().equals("Council Room")).findFirst().orElse(null);
 
-            if (silverCard != null) {
+            if(canBuyAllVP()) return false;
+            else if (silverCard != null) {
                 action = new DominionPlayCardAction(this, hand.indexOf(silverCard));
             }
             else if (villageCard != null) {
@@ -224,28 +241,38 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
             currentPhase = TurnPhases.INFINITE;
             sleep(100);
             game.sendAction(action);
+            return true;
         }
 
         return false;
     }
 
-    private boolean playOTKWinPhase() {
+    private boolean canBuyAllVP() {
         //Ordered list of viable victory points piles from least value to greatest
-        ArrayList<DominionShopPileState> availableVPPiles = Stream.of(baseCards.stream(), shopCards.stream())
-                                                            .flatMap(pile -> pile)
-                                                            .filter(pile -> pile.getCard().getType() == DominionCardType.TREASURE &&
-                                                                            (pile.getAmount() > 1 ||
-                                                                            (pile.getAmount() > 0 && pile.getCard().getTitle().equals("Province"))))
-                                                            .sorted(Comparator.comparing(DominionShopPileState::getSimpleVictoryPoints))
-                                                            .collect(Collectors.toCollection(ArrayList::new));
-        int totalVPCards = availableVPPiles.stream()
-                           .mapToInt(DominionShopPileState::getAmount)
-                           .sum();
+        availableVPPiles = Stream.of(baseCards.stream(), shopCards.stream())
+                .flatMap(pile -> pile)
+                .filter(pile -> pile.getCard().getType() == DominionCardType.VICTORY &&
+                        (pile.getAmount() > 1 ||
+                                (pile.getAmount() > 0 && pile.getCard().getTitle().equals("Province"))))
+                .sorted(Comparator.comparing(DominionShopPileState::getSimpleVictoryPoints))
+                .collect(Collectors.toCollection(ArrayList::new));
 
-        if (gameState.getBuys() >= totalVPCards && availableVPPiles.size() > 0) {
+        totalVPCards = availableVPPiles.stream()
+                .mapToInt(DominionShopPileState::getAmount)
+                .sum();
+
+        totalVPCardsCost = availableVPPiles.stream()
+                .mapToInt(card -> card.getAmount() * card.getCost())
+                .sum();
+
+        return gameState.getBuys() >= totalVPCards && gameState.getTreasure() > totalVPCardsCost;
+    }
+
+    private boolean playOTKWinPhase() {
+        if (canBuyAllVP() && availableVPPiles.size() > 0) {
             DominionShopPileState selectedPile = availableVPPiles.get(0);
-            trackTreasure(selectedPile.getCard()); //Should do nothing
             boolean isBaseCard = selectedPile.isBaseCard();
+            Log.e("a", "playOTKWinPhase: " + shopCards.toString());
             int pileIdx = (isBaseCard) ? baseCards.indexOf(selectedPile) : shopCards.indexOf(selectedPile);
 
             currentPhase = TurnPhases.WIN;
@@ -336,7 +363,7 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
                                                                     !pile.getCard().getTitle().equals("Copper"));
 
             DominionShopPileState[] orderedActionArray;
-            if (predictTreasureDraw() < 8) {
+            if (gameState.getTreasure() < 8) {
                 orderedActionArray = buyOptionsStream
                         .sorted(Comparator.comparing(DominionShopPileState::getAddedTreasure)
                                 .thenComparing(DominionShopPileState::getAddedActions)
@@ -403,18 +430,10 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
 
             if (draw != null && discard != null && hand != null) { //TODO: Ensure draw is being populated with shuffled discard
                 //Draw parameters
-                remCards = draw.size();
-                //Stream<DominionCardState> allTreasures = Stream.of(draw.stream(), discard.stream(), hand.stream())
-                /*DominionCardState[] remainingTreasures = draw.stream()
-                                                               .filter(card -> card.getType() == DominionCardType.TREASURE)
-                                                               .toArray(DominionCardState[]::new);
-                remCopper = (int) Arrays.stream(remainingTreasures).filter(card -> card.getTitle().equals("Copper")).count();
-                remSilver = (int) Arrays.stream(remainingTreasures).filter(card -> card.getTitle().equals("Silver")).count();
-                remGold = (int) Arrays.stream(remainingTreasures).filter(card -> card.getTitle().equals("Gold")).count();
-                avgDraw = 5;*/
+                remCards = draw.size() + discard.size();
 
-                //Hand parameters
-                handTreasure = hand.stream().filter(card -> card.getType() == DominionCardType.TREASURE).mapToInt(DominionCardState::getAddedTreasure).sum();
+                //TODO: Improve avgDraw
+                avgDraw = 5;
 
                 //Shop parameters
                 pilesEmpty = (int) Stream.of(shopCards.stream(), baseCards.stream())
@@ -449,14 +468,14 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
         double statModifier = 1;
         for(double i = avgDraw; i > 0; i--) {
             if(i < 1) statModifier = i;
-                expectedTreasure += calcExpectedTreasure() * statModifier;
+            expectedTreasure += calcExpectedTreasure() * statModifier;
         }
         Log.e("Expected treasure", " " + expectedTreasure);
         return  expectedTreasure;
     }
 
-    private int calcExpectedTreasure() { //TODO: Render more intelligent accounting for card distribution
-        int remTreasure = (remGold * 3) + (remSilver * 2) + remCopper;
+    private double calcExpectedTreasure() { //TODO: Render more intelligent accounting for card distribution
+        double remTreasure = (remGold * 3) + (remSilver * 2) + remCopper;
         return remTreasure / remCards;
     }
 
