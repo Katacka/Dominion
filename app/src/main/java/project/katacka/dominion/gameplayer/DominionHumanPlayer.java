@@ -36,6 +36,7 @@ import project.katacka.dominion.R;
 import project.katacka.dominion.gamedisplay.Cards;
 import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
 import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
+import project.katacka.dominion.gamedisplay.DominionPlayAllAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gameframework.GameHumanPlayer;
 import project.katacka.dominion.gameframework.GameMainActivity;
@@ -74,6 +75,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     private Resources res;
 
     private Button bEndTurn = null;
+    private Button bPlayAll = null;
 
     private GameMainActivity activity = null;
 
@@ -118,6 +120,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         //init all the things
         tabLayout = activity.findViewById(R.id.Player_Tabs);
         bEndTurn = activity.findViewById(R.id.buttonEndTurn);
+        bPlayAll = activity.findViewById(R.id.buttonPlayAll);
 
         //tab set up stuff
         TypedValue outValueInactive = new TypedValue();
@@ -205,6 +208,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         //set listeners
         bEndTurn.setOnClickListener(endTurnClickListener);
+        bPlayAll.setOnClickListener(playAllClickListener);
     }
 
     /**
@@ -534,6 +538,11 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         return true;
     }
+
+    private View.OnClickListener playAllClickListener = (View v) -> {
+        Log.i("DomHumPlayer: onClick", "PlayAll button clicked.");
+        game.sendAction(new DominionPlayAllAction(this));
+    };
 
     private View.OnClickListener endTurnClickListener = (View v) -> {
         Log.i("DomHumPlayer: onClick", "End turn button clicked.");
