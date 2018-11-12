@@ -109,12 +109,8 @@ public class DominionGameState extends GameState implements Serializable{
         this.buys = 1;
         this.actions = 1;
         this.silverBoon = false;
-        dominionPlayers[currentTurn].startTurn();
 
-        //Everyone draw their first 5 cards
-        for (DominionPlayerState playerState : dominionPlayers){
-            playerState.getDeck().drawMultiple(5);
-        }
+        dominionPlayers[currentTurn].startTurn();
 
         this.isGameOver = false; //The game is not over
         this.playerQuit = -1; //No player has quit
