@@ -5,9 +5,6 @@ import project.katacka.dominion.gameframework.actionMsg.GameAction;
 
 public class DominionPlayAllAction extends GameAction {
 
-    //The index of the card in the player's hand
-    private int cardIndex;
-
     /**
      * constructor for DominionPlayCardAction
      *

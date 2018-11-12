@@ -21,15 +21,13 @@ import static android.content.ContentValues.TAG;
  * A wrapper class for GsonDeserializer purposed to provide card generation abstraction.
  * Reads JSON files and returns ArrayLists with CardPile instances
  *
- * @author Julian Donovan, Ryan Regier
+ * @author Julian Donovan, Ryan Regier, Ashika Mulagada, Hayden Liao
  */
 public class CardReader{
 
     private GsonBuilder gsonBuilder;
     private final Type arrayType;
     private final Gson gsonParser;
-
-    //TODO: Card art of differing sizes
 
     /**
      * Constructs a CardReader object serving as a wrapper to interface with the GsonDeserializer class
@@ -41,6 +39,8 @@ public class CardReader{
         gsonBuilder.registerTypeAdapter(arrayType, new GsonDeserializer(expansionSet));
         gsonParser = gsonBuilder.create();
     }
+
+    //Known bug: Images have different sizes
 
     /**
      * An overloaded generateCards method intended to simplify cases where all possible

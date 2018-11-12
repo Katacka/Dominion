@@ -9,12 +9,10 @@ import java.util.ArrayList;
  */
 public class DominionPlayerState implements Serializable{
 
-    //Player fields. Note that victoryPoints is not accurate until end of game (gardens)
+    //Player fields.
     protected final String name;
     protected final DominionDeckState deck;
-    protected int victoryPoints;
-
-    private int turnsPlayed;
+    private int turnsPlayed; //Used to break ties.
 
     public int getTurnsPlayed() {
         return turnsPlayed;
@@ -27,7 +25,7 @@ public class DominionPlayerState implements Serializable{
     /**
      * Constructor.
      * @param name The player's name
-     * @param copperPile The pile where copper is stored. Decremented to create starting deck.
+     * @param copperPile The pile where copper is stored. Used to create starting deck.
      * @param estate The estate card. Used to create starting deck.
      */
     public DominionPlayerState(String name, DominionShopPileState copperPile, DominionCardState estate) {
@@ -38,8 +36,6 @@ public class DominionPlayerState implements Serializable{
         populateStartingDeck(copperPile, estate);
 
         deck.drawMultiple(5);
-
-        this.victoryPoints = 3;
 
         turnsPlayed = 0;
     }
@@ -52,8 +48,6 @@ public class DominionPlayerState implements Serializable{
      */
     public DominionPlayerState(DominionPlayerState playerState, boolean isThisPlayer){
         this.name = playerState.name;
-        if(isThisPlayer) this.victoryPoints = playerState.victoryPoints;
-        else this.victoryPoints = 0;
         this.deck = new DominionDeckState(playerState.deck, isThisPlayer);
         this.turnsPlayed = playerState.turnsPlayed;
     }
@@ -70,18 +64,6 @@ public class DominionPlayerState implements Serializable{
         deck.addManyToDiscard(copper.getCard(), 7);
         copper.removeAmount(7); //Removes 7 copper from the base card's draw pile
         deck.addManyToDiscard(estate, 3);
-        //deck.reshuffle();
-    }
-
-    /**
-     *
-     * For testing purposes. Replaces cards in hand with specific set of cards to allow testing of actions
-     */
-    public void testMoat(DominionCardState gold, DominionCardState moat){
-        ArrayList<DominionCardState> hand = deck.getHand();
-        hand.set(0, moat);
-        hand.set(1, gold);
-        hand.set(2, gold);
     }
 
     public DominionDeckState getDeck() {

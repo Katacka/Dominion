@@ -348,6 +348,14 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         oppCardsLayout.removeAllViews();
         ImageView[] cards = new ImageView[handSize];
         for (int i = 0; i < handSize; i++){
+            /**
+             * External citation
+             * Date: 11/08/2018
+             * Problem: Everything needed an ID to create a constraint set
+             * Resource:
+             *  https://stackoverflow.com/questions/50526880/constraint-layout-layout-crashing-all-children-of-constraint-layout-should-hav#50870367
+             * Solution: Generate View ID function used.
+             */
             cards[i] = new ImageView(activity);
             cards[i].setScaleType(ImageView.ScaleType.FIT_XY);
             cards[i].setImageResource(R.drawable.dominion_opponent_card_back);
@@ -376,7 +384,6 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         set.applyTo(oppCardsLayout);
     }
 
-    //TODO: fix to update tabs more accurately for attack turns
     //TODO: Break into more functions
     @Override
     public void receiveInfo(GameInfo info) {

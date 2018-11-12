@@ -7,7 +7,7 @@ import java.util.Locale;
  * A data class intended to represent a pile of cards in the shop.
  * Tracks card type and amount.
  *
- * @author Ryan Regier, Julian Donovan, Hayden Liao
+ * @author Ryan Regier, Julian Donovan, Hayden Liao, Ashika Mulagada
  */
 public class DominionShopPileState implements Serializable{
     private final DominionCardState card;
@@ -82,30 +82,24 @@ public class DominionShopPileState implements Serializable{
         return amount <= 0;
     }
 
-    //DominionCardState wrapper functions as utilized by DominionSmartAI
     public int getAddedActions() {
-        if (this.card != null) return card.getAddedActions();
-        return -1;
+        return card.getAddedActions();
     }
 
     public int getAddedTreasure() {
-        if (this.card != null) return card.getAddedTreasure();
-        return -1;
+        return card.getAddedTreasure();
     }
 
     public int getAddedDraw() {
-        if (this.card != null) return card.getAddedDraw();
-        return -1;
+        return card.getAddedDraw();
     }
 
     public int getCost() {
-        if (this.card != null) return card.getCost();
-        return -1;
+        return card.getCost();
     }
 
     public int getSimpleVictoryPoints() {
-        if (this.card != null) return card.getSimpleVictoryPoints();
-        return -1;
+        return card.getSimpleVictoryPoints();
     }
 
     @Override

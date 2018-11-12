@@ -26,8 +26,7 @@ public class DominionCardState implements Serializable{
     private final String text;
     private final int cost;
     private final DominionCardType type;
-    //private final Method action;
-    private final String methodName;
+    private final String methodName; //Method cannot serialize, so name is stored instead
     private final int addedTreasure;
     private final int addedActions;
     private final int addedDraw;
@@ -62,8 +61,6 @@ public class DominionCardState implements Serializable{
             throw new IllegalArgumentException("Card type does not exist.");
         }
 
-        //Dynamically assigned by method reflection, allowing for a String method reference to be held in JSON
-        //this.action = getMethod(action);
         this.methodName = action;
 
         this.addedTreasure = addedTreasure;
@@ -115,17 +112,8 @@ public class DominionCardState implements Serializable{
     }
 
     /**
-     * External Citation
-     * Date: 10/4
-     * Source: https://stackoverflow.com/questions/13604111/final-variable-assignment-with-try-catch
-     * Problem: wouldn't let action be assigned if final
-     * Solution: used method to get Method
-     */
-
-    /**
      * Gets function of this class corresponding to {@code action}.
-     * Used to load functions for card actions from JSON.
-
+     *
      * @param action A String name referencing the relevant DominionCardState function
      * @return A Method reference to a DominionCardState function
      */
@@ -234,16 +222,6 @@ public class DominionCardState implements Serializable{
         return victoryPoints;
     }
 
-    private boolean moatAction(DominionGameState game) {
-        //Will have other behavior upon adding ATTACK cards
-        return baseAction(game);
-    }
-
-    private boolean merchantAction(DominionGameState game) {
-        game.silverBoon = true; //The first Silver played is worth one more
-        return baseAction(game);
-    }
-
     /////////////////////////////////////////////////////////////////////////
     /*
     Functions below this point are card actions. They are called when the card is played.
@@ -254,6 +232,34 @@ public class DominionCardState implements Serializable{
 
     */
     ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Moat action:
+     *
+     * +2 cards
+     * Reveal during attack to avoid its effects
+     *
+     * @param game The game state
+     * @return Action completed successfully
+     */
+    private boolean moatAction(DominionGameState game) {
+        //Will have other behavior upon adding ATTACK cards
+        return baseAction(game);
+    }
+
+    /**
+     * Merchant action:
+     * +1 card, +1 action, first silver +1 treasure
+     *
+     * Known bug: Playing multiple merchants allows multiple bonus treasure.
+     *
+     * @param game The game state
+     * @return Action completed successfully
+     */
+    private boolean merchantAction(DominionGameState game) {
+        game.silverBoon = true; //The first Silver played is worth one more
+        return baseAction(game);
+    }
 
     /**
      * Council room action:
@@ -311,6 +317,8 @@ public class DominionCardState implements Serializable{
      *     <li>Buys</li>
      *     <li>Treasure</li>
      * </ul>
+     *
+     * Also used by cards that don't do anything
      *
      * @param game The game the card is played in
      * @return Action success
