@@ -66,7 +66,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     private ArrayList<TableRow> baseRows;
     private ArrayList<ConstraintLayout> basePiles;
 
-    //private TableRow cardRow = null;
+    private TableRow cardRow = null;
     ArrayList<DominionCardState> hand;
 
     private Resources res;
@@ -119,8 +119,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     }
 
     public String toString(){
-        String string = "CardView Name: " + super.name;
-        return string;
+        return "CardView Name: " + super.name;
     }
 
     @Override
@@ -131,6 +130,9 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         //set display based XML resource
         activity.setContentView(R.layout.activity_main);
 
+        //TODO figure out if we need this
+        //handler = new ShopPileHandler(state);
+        //detector = new GestureDetector(activity, handler);
 
         //init all the things
         tabLayout = activity.findViewById(R.id.Player_Tabs);
@@ -143,6 +145,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         //tab set up stuff
         TypedValue outValueInactive = new TypedValue();
         TypedValue outValueActive = new TypedValue();
+
         //true means follow the resource if it references another resource
         activity.getResources().getValue(R.dimen.tabInactive, outValueInactive, true);
         activity.getResources().getValue(R.dimen.tabActive, outValueActive, true);
@@ -161,12 +164,11 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         for(int i = 0, j = baseLayout.getChildCount(); i < j; i++){
             baseRows.add((TableRow) baseLayout.getChildAt(i));
         }
+
         /*
         External Citation
-        Date: 11/2/18
-        Problem: iterating through table layout
-        Source: https://stackoverflow.com/questions/3327599/get-all-tablerows-in-a-tablelayout
-        Solution: using getChildAt(i)
+        iterating through table layout
+        https://stackoverflow.com/questions/3327599/get-all-tablerows-in-a-tablelayout
          */
 
         tvActions = activity.findViewById(R.id.tvActions);
@@ -336,7 +338,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         FrameLayout layout = cardView.findViewById(R.id.frameLayoutAmount);
         if (num == -1){
-            layout.setVisibility(View.INVISIBLE);
+            layout.setVisibility(View.GONE);
         } else {
             layout.setVisibility(View.VISIBLE);
             TextView amount = cardView.findViewById(R.id.textViewAmount);
@@ -421,16 +423,14 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             }
             /*
             External Citation
-            Date: 11/3/18
-            Problem: figuring out how to set imageview using string
-            Source: https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
-            Solution: source shows how to convert string to resource id to use to set image view
-            */ //TODO: Move to correct place
+            setting imageview using string
+            https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
+            shows how to convert string to resource id to use to set image view
+            */ //TODO: Move citation to correct place
 
-            ////////display player hand////////////
             //get hand
             hand = state.getDominionPlayer(playerNum).getDeck().getHand();
-            TableRow cardRow = activity.findViewById(R.id.User_Cards);
+            cardRow = activity.findViewById(R.id.User_Cards);
 
             /*
             ArrayList<DominionCardState> testhand = new ArrayList<DominionCardState>();
@@ -442,24 +442,25 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             testhand.add(4, state.getBaseCards().get(3).getCard());
             */
 
-            int i = 0;
             ConstraintLayout layout;
-            //for every item in hand up to five,
-            for(DominionCardState cardView : hand) {
+            int exists = 1;
+            DominionCardState card;
 
-                layout = (ConstraintLayout) cardRow.getVirtualChildAt(i);
-                Log.e("a", "receiveInfo: " + cardRow.getVirtualChildCount());
-                if (layout != null) layout.setOnClickListener(handClickListener);
-                int exists = 1;
-                DominionCardState card = hand.get(i);
-                //if the card exists
-                if (card != null && layout != null){
-                    //read xml and update corresponding textviews and such
-                    updateCardView(layout, card, exists);
-                } else { //card does not exist
-                    //updateCardView(null, null, -1*exists);
+            for(int i=0; i < hand.size(); i++){
+                layout = (ConstraintLayout) cardRow.getChildAt(i);
+                if (layout != null) {
+                    Log.e("a", "receiveInfo: " + cardRow.getVirtualChildCount());
+                    layout.setOnClickListener(handClickListener);
+                    card = hand.get(i);
+                    //if the card exists
+                    if (card != null && layout != null) {
+                        //read xml and update corresponding textviews and such
+                        updateCardView(layout, card, exists);
+                    } else { //card does not exist
+                        updateCardView(layout, card, -1 * exists);
+                    }
                 }
-                i++;
+                else Log.e("LayoutError", "receiveInfo: " + layout);
             }
 
             //Update treasure, actions, and buys
@@ -496,6 +497,8 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         }
         else if(v instanceof ConstraintLayout){
             Log.i("DomHumPlayer: onClick", "Player's card button clicked.");
+
+            /*
             TextView title = v.findViewById(R.id.textViewTitle);
             String titleString = title.getText().toString();
 
@@ -503,7 +506,13 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
                 if(hand.get(i).getTitle().equals(titleString)){
                     index = i;
                 }
-            }
+            }*/
+
+            index = cardRow.indexOfChild(v);
+
+            //((ConstraintLayout) v).indexOfChild(v)
+            //v.indexOfChild(View child)
+
             action = new DominionPlayCardAction(this, index);
         }
 

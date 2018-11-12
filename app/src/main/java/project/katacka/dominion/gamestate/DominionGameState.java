@@ -249,10 +249,14 @@ public class DominionGameState extends GameState {
      * @return A boolean describing whether the card was successfully bought
      */
     public boolean buyCard(int playerID, int cardIndex, boolean isBaseCard){
+
         if (isLegalBuy(playerID, cardIndex, isBaseCard)) {
             DominionShopPileState cardPile;
-            if (isBaseCard) cardPile = baseCards.get(cardIndex);
-            else cardPile = shopCards.get(cardIndex);
+            if (isBaseCard)
+                cardPile = baseCards.get(cardIndex);
+            else
+                cardPile = shopCards.get(cardIndex);
+
             dominionPlayers[playerID].getDeck().discardNew(cardPile.getCard());
             cardPile.removeCard();
             buys--;
