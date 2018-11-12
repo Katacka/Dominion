@@ -147,7 +147,6 @@ public class DominionLocalGame extends LocalGame {
     @Override
     public void start(GamePlayer[] players) {
         super.start(players);
-        //TODO: Julian read cards here
         state = new DominionGameState(players.length, baseCards, shopCards);
     }
 }

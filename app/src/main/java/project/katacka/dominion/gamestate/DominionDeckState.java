@@ -2,6 +2,7 @@ package project.katacka.dominion.gamestate;
 
 import android.text.TextUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
@@ -13,7 +14,7 @@ import java.util.stream.Stream;
  *
  * @author Ryan Regier, Julian Donovan, Hayden Liao, Ashika Mulagada
  */
-public class DominionDeckState {
+public class DominionDeckState implements Serializable{
 
     private final ArrayList<DominionCardState> draw;
     private final ArrayList<DominionCardState> discard;

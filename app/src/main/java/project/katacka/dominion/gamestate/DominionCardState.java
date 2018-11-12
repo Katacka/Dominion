@@ -2,6 +2,7 @@ package project.katacka.dominion.gamestate;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -13,7 +14,7 @@ import static android.content.ContentValues.TAG;
  *
  * @author Julian Donovan, Hayden Liao, Ashika Mulagada, Ryan Regier
  */
-public class DominionCardState {
+public class DominionCardState implements Serializable{
 
     //A card with no data, used for obfuscation
     public static final DominionCardState BLANK_CARD = new DominionCardState();
@@ -25,7 +26,8 @@ public class DominionCardState {
     private final String text;
     private final int cost;
     private final DominionCardType type;
-    private final Method action;
+    //private final Method action;
+    private final String methodName;
     private final int addedTreasure;
     private final int addedActions;
     private final int addedDraw;
@@ -61,7 +63,8 @@ public class DominionCardState {
         }
 
         //Dynamically assigned by method reflection, allowing for a String method reference to be held in JSON
-        this.action = getMethod(action);
+        //this.action = getMethod(action);
+        this.methodName = action;
 
         this.addedTreasure = addedTreasure;
         this.addedActions = addedActions;
@@ -80,7 +83,8 @@ public class DominionCardState {
         this.text = other.text;
         this.cost = other.cost;
         this.type = other.type;
-        this.action = other.action;
+        //this.action = other.action;
+        this.methodName = other.methodName;
         this.addedTreasure = other.addedTreasure;
         this.addedActions = other.addedActions;
         this.addedBuys = other.addedBuys;
@@ -100,7 +104,8 @@ public class DominionCardState {
         this.type = DominionCardType.BLANK;
 
         //Dynamically assigned by method reflection, allowing for a String method reference to be held in JSON
-        this.action = getMethod("baseAction");
+        //this.action = getMethod("baseAction");
+        this.methodName = "baseAction";
 
         this.addedTreasure = 0;
         this.addedActions = 0;
@@ -141,7 +146,7 @@ public class DominionCardState {
      */
     public boolean cardAction(DominionGameState game) {
         try {
-            Boolean result = (Boolean) action.invoke(this, game); //return automatically boxed to Boolean
+            Boolean result = (Boolean) getMethod(methodName).invoke(this, game); //return automatically boxed to Boolean
             return result; //Note: automatically unboxed
         }
         catch (IllegalArgumentException e) {
@@ -203,8 +208,8 @@ public class DominionCardState {
         return type;
     }
 
-    public Method getAction() {
-        return action;
+    public String getAction() {
+        return methodName;
     }
 
     public int getAddedTreasure() { return addedTreasure; }

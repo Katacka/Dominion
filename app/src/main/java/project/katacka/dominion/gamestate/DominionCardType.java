@@ -1,10 +1,12 @@
 package project.katacka.dominion.gamestate;
 
+import java.io.Serializable;
+
 /**
  * Enum class purposed to handle DominionCardState types
  * @author Ryan Regier, Hayden Liao
  */
-public enum DominionCardType {
+public enum DominionCardType implements Serializable{
     TREASURE,
     VICTORY,
     ACTION,

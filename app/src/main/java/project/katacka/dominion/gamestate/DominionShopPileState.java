@@ -1,5 +1,6 @@
 package project.katacka.dominion.gamestate;
 
+import java.io.Serializable;
 import java.util.Locale;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Locale;
  *
  * @author Ryan Regier, Julian Donovan, Hayden Liao
  */
-public class DominionShopPileState {
+public class DominionShopPileState implements Serializable{
     private final DominionCardState card;
     private int amount;
     private boolean isBaseCard;

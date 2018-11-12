@@ -4,6 +4,7 @@ package project.katacka.dominion.gamestate;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
@@ -14,7 +15,7 @@ import project.katacka.dominion.gameframework.infoMsg.GameState;
  * A data class intended to represent the state of a game object
  * @author Ryan Regier, Julian Donovan, Ashika Mulagada, Hayden Liao
  */
-public class DominionGameState extends GameState {
+public class DominionGameState extends GameState implements Serializable{
 
     /**
      * The six base cards, in the following order:

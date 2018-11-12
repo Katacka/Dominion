@@ -1,12 +1,13 @@
 package project.katacka.dominion.gamestate;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * A data class intended to represent the state of a player object
  * @author Ryan Regier, Julian Donovan, Ashika Mulagada, Hayden Liao
  */
-public class DominionPlayerState {
+public class DominionPlayerState implements Serializable{
 
     //Player fields. Note that victoryPoints is not accurate until end of game (gardens)
     protected final String name;
