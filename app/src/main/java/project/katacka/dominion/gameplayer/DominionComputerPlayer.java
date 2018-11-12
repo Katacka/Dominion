@@ -20,7 +20,13 @@ import project.katacka.dominion.gamestate.DominionShopPileState;
 
 import static android.content.ContentValues.TAG;
 
-public class DominionComputerPlayer extends GameComputerPlayer {
+/**
+ * allows computer player to play cards, end turn and receive info from DominionLocalGame
+ * used as parent class for AI players
+ * @author Ryan Regier, Julian Donovan, Ashika Mulagada, Hayden Liao
+ */
+
+public abstract class DominionComputerPlayer extends GameComputerPlayer {
     protected DominionGameState gameState;
     protected DominionPlayerState compPlayer;
     protected ArrayList<DominionCardState> draw;
@@ -47,18 +53,6 @@ public class DominionComputerPlayer extends GameComputerPlayer {
         rand = new Random();
     }
 
-    /*@Override
-    protected void timerTicked() {
-        if(turnStarted == false) {
-            turnStarted = true;
-            playTurn();
-        }
-    }*/
-
-    /*protected void initAfterReady() {
-        //Used to initialize dynamic data structs if necessary
-    }*/
-
     /**
      * Callback-method implemented in the subclass whenever updated
      * state is received.
@@ -80,6 +74,13 @@ public class DominionComputerPlayer extends GameComputerPlayer {
         }
     }
 
+    /**
+     * updates the correct computer player's hand, draw, discard
+     *      and awareness of the community shop and base cards
+     *
+     * @param info
+     *      the game state received from DominionLocalGame
+     */
     private boolean updateInfo(GameInfo info) {
         if(((DominionGameState) info).canMove(this.playerNum)) {
             gameState = (DominionGameState) info;
