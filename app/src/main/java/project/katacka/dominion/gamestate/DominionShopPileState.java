@@ -25,7 +25,6 @@ public class DominionShopPileState {
         this.card = card;
         this.amount = Math.max(amount, 0);
         this.isBaseCard = isBaseCard;
-
     }
 
     /**
@@ -80,6 +79,32 @@ public class DominionShopPileState {
      */
     public boolean isEmpty(){
         return amount <= 0;
+    }
+
+    //DominionCardState wrapper functions as utilized by DominionSmartAI
+    public int getAddedActions() {
+        if (this.card != null) return card.getAddedActions();
+        return -1;
+    }
+
+    public int getAddedTreasure() {
+        if (this.card != null) return card.getAddedTreasure();
+        return -1;
+    }
+
+    public int getAddedDraw() {
+        if (this.card != null) return card.getAddedDraw();
+        return -1;
+    }
+
+    public int getCost() {
+        if (this.card != null) return card.getCost();
+        return -1;
+    }
+
+    public int getSimpleVictoryPoints() {
+        if (this.card != null) return card.getSimpleVictoryPoints();
+        return -1;
     }
 
     @Override

@@ -225,6 +225,10 @@ public class DominionCardState {
         else return victoryPoints;
     }
 
+    public int getSimpleVictoryPoints() {
+        return victoryPoints;
+    }
+
     private boolean moatAction(DominionGameState game) {
         //Will have other behavior upon adding ATTACK cards
         return baseAction(game);
@@ -270,7 +274,7 @@ public class DominionCardState {
      * @return Action completed successfully, meaning Copper in hand is trashed
      */
     private boolean moneylenderAction(DominionGameState game) {
-        if(game.dominionPlayers[game.currentTurn].getDeck().discard("Copper")) {
+        if(game.dominionPlayers[game.currentTurn].getDeck().removeCard("Copper")) {
             game.treasure += 3;
             return true;
         }

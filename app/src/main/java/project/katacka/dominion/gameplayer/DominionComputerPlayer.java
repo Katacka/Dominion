@@ -33,9 +33,10 @@ public class DominionComputerPlayer extends GameComputerPlayer {
     protected ArrayList<DominionShopPileState> shopCards;
     protected ArrayList<DominionShopPileState> baseCards;
 
-    protected boolean turnStarted;
-    protected enum turnPhases {ACTION, TREASURE, BUY, END, IN_PROGRESS}
+    protected enum turnPhases {ACTION, TREASURE, BUY, END, IN_PROGRESS, SETUP, INFINITE, WIN}
     protected turnPhases currentPhase;
+
+    protected Random rand;
 
     /**
      * Invokes the super-class constructor, setting the player's
@@ -46,8 +47,8 @@ public class DominionComputerPlayer extends GameComputerPlayer {
      */
     public DominionComputerPlayer(String name) {
         super(name);
-        turnStarted = false;
         currentPhase = turnPhases.END;
+        rand = new Random();
     }
 
     /*@Override
@@ -77,8 +78,9 @@ public class DominionComputerPlayer extends GameComputerPlayer {
                 Log.e(TAG, "receiveInfo: " + info.toString());
             }
 
-            if(currentPhase == turnPhases.END) currentPhase = turnPhases.ACTION;
-            playTurnPhase(currentPhase);
+            if(gameState.canMove(playerNum)) {
+                playTurnPhase(currentPhase);
+            }
         }
     }
 

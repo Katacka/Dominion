@@ -129,6 +129,16 @@ public class DominionDeckState {
         return draw.size();
     }
 
+    public boolean removeCard(String cardName){
+        for(DominionCardState card : hand){
+            if(card.getTitle().equals(cardName)) {
+                hand.remove(card);
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Puts card in the discard pile.
      * This card will be removed from the hand, if it exists.

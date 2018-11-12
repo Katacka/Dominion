@@ -1,39 +1,29 @@
 package project.katacka.dominion.gameplayer;
 
-import android.content.Context;
+import android.app.Dialog;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
+import android.support.annotation.IdRes;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-
-import project.katacka.dominion.MainActivity;
 import project.katacka.dominion.R;
-import project.katacka.dominion.gamedisplay.Cards;
 import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
 import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gameframework.GameHumanPlayer;
 import project.katacka.dominion.gameframework.GameMainActivity;
-import project.katacka.dominion.gameframework.GamePlayer;
-import project.katacka.dominion.gameframework.actionMsg.GameAction;
 import project.katacka.dominion.gameframework.infoMsg.GameInfo;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gameframework.infoMsg.NotYourTurnInfo;
@@ -43,31 +33,23 @@ import project.katacka.dominion.gamestate.DominionPlayerState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
 
 /**
- * TODO: Javadoc comment here
+ *
  */
-public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClickListener{
+public class DominionHumanPlayer extends GameHumanPlayer{
 
-    private final int MAX_CARDS = 5;
     private float tabInactiveVal;
     private float tabActiveVal;
 
     private DominionGameState state;
-    private LinearLayout tab1 = null;
-    private LinearLayout tab2 = null;
-    private LinearLayout tab3 = null;
-    private LinearLayout tab4 = null;
     private ConstraintLayout tabLayout = null;
 
     private TableLayout shopLayout = null;
-    private ArrayList<TableRow> shopRows;
     private ArrayList<ConstraintLayout> shopPiles;
 
     private TableLayout baseLayout = null;
-    private ArrayList<TableRow> baseRows;
     private ArrayList<ConstraintLayout> basePiles;
 
-    private TableRow cardRow = null;
-    ArrayList<DominionCardState> hand;
+    private ArrayList<DominionCardState> hand;
 
     private Resources res;
 
@@ -82,40 +64,19 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     private TextView tvDrawCount;
     private TextView tvDiscardCount;
 
+    private TextView tvOppDiscard;
+    private TextView tvOppDraw;
+    private ConstraintLayout oppDiscardLayout;
+
     private ImageView drawPile;
     private ConstraintLayout discardPile;
 
+    private ConstraintLayout mainLayout;
+
     private DominionPlayerState playerState;
 
-    GamePlayer thisPlayer = this;
-
     public DominionHumanPlayer(String name) {
-        this(name, 5); //Default starting hand size is 5
-    }
-
-    public DominionHumanPlayer(String name, int numCards) {
         super(name);
-    }
-
-    //TODO: Reference all actions properly
-    public boolean playSimpleActionPhase() {
-        return true;
-    }
-
-    public boolean playAllTreasures() {
-        return true;
-    }
-
-    public boolean playSimpleBuyPhase() {
-        return true;
-    }
-
-    public boolean quitGame() {
-        return true;
-    }
-
-    public boolean endTurn() {
-        return true;
     }
 
     public String toString(){
@@ -130,16 +91,8 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         //set display based XML resource
         activity.setContentView(R.layout.activity_main);
 
-        //TODO figure out if we need this
-        //handler = new ShopPileHandler(state);
-        //detector = new GestureDetector(activity, handler);
-
         //init all the things
         tabLayout = activity.findViewById(R.id.Player_Tabs);
-        tab1 = (LinearLayout) tabLayout.getChildAt(0);
-        tab2 = (LinearLayout) tabLayout.getChildAt(1);
-        tab3 = (LinearLayout) tabLayout.getChildAt(2);
-        tab4 = (LinearLayout) tabLayout.getChildAt(3);
         bEndTurn = activity.findViewById(R.id.buttonEndTurn);
 
         //tab set up stuff
@@ -152,24 +105,8 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         tabInactiveVal = outValueInactive.getFloat();
         tabActiveVal = outValueActive.getFloat();
 
-        //making array list of tablerows for shop and base cards
         shopLayout = activity.findViewById(R.id.Shop_Cards);
-        shopRows = new ArrayList<TableRow>();
-        for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
-            shopRows.add((TableRow) shopLayout.getChildAt(i));
-        }
-
         baseLayout = activity.findViewById(R.id.Base_Cards);
-        baseRows = new ArrayList<TableRow>();
-        for(int i = 0, j = baseLayout.getChildCount(); i < j; i++){
-            baseRows.add((TableRow) baseLayout.getChildAt(i));
-        }
-
-        /*
-        External Citation
-        iterating through table layout
-        https://stackoverflow.com/questions/3327599/get-all-tablerows-in-a-tablelayout
-         */
 
         tvActions = activity.findViewById(R.id.tvActions);
         tvBuys = activity.findViewById(R.id.tvBuys);
@@ -181,43 +118,21 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         tvDrawCount.setText("0");
         tvDiscardCount.setText("0");
 
+        tvOppDraw = activity.findViewById(R.id.textViewOppDraw);
+        tvOppDiscard = activity.findViewById(R.id.textViewOppDiscard);
+        oppDiscardLayout = activity.findViewById((R.id.oppDiscardCard));
+        oppDiscardLayout.setRotation(180);
+        tvOppDraw.setText("0");
+        tvOppDiscard.setText("0");
+
         drawPile = activity.findViewById(R.id.ivDrawCard);
         discardPile = activity.findViewById(R.id.imageViewDiscard);
 
-        for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
-            View shopRow = shopLayout.getChildAt(i);
-            //should always be true
-            if(shopRow instanceof TableRow){
-                //cards are ConstraintLayouts in XML
-                shopPiles = new ArrayList<ConstraintLayout>();
-                for (int k = 0; k < ((TableRow) shopRow).getChildCount(); k++) {
-                    shopPiles.add((ConstraintLayout) ((TableRow) shopRow).getVirtualChildAt(k));
-                }
-                for (ConstraintLayout shopCard: shopPiles) {
-                    shopCard.setOnClickListener(shopClickListener);
-                }
-            }
-        }
-
-        for(int i = 0, j = baseLayout.getChildCount(); i < j; i++){
-            View baseRow = baseLayout.getChildAt(i);
-            //should always be true
-            if(baseRow instanceof TableRow){
-                //cards are ConstraintLayouts in XML
-                basePiles = new ArrayList<ConstraintLayout>();
-                for (int k = 0; k < ((TableRow) baseRow).getChildCount(); k++) {
-                    basePiles.add((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k));
-                }
-                for (ConstraintLayout baseCard: basePiles) {
-                    baseCard.setOnClickListener(shopClickListener);
-                }
-            }
-        }
+        mainLayout = activity.findViewById(R.id.constraintMain);
 
         res = activity.getResources();
 
-        //set listeners
-        bEndTurn.setOnClickListener(this);
+        bEndTurn.setOnClickListener(endTurnClickListener);
     }
 
     /**
@@ -231,62 +146,44 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         }
     }
 
-    //TODO: Set correctly
     @Override
     public View getTopView() {
-        return null;
+        return mainLayout;
     }
 
     /**
      * sets tabs so the tab of the current player is 100% of the constraint width
      * other players are 85% of constraint width
-     * @param activePlayer player to set active tab for
      *
      */
-    private void updateTabs(int activePlayer){
+    private void updateTabs(){
+        /**
+         * External Citation:
+         * Date: Nov 4, 2018
+         * Source: https://stackoverflow.com/questions/44749481/how-to-change-constraint-layouts-child-views-constraints-programatically#44750506
+         * Problem: wanted to set tab widths programatically
+         * Solution: Use ConstraintSet to clone ConstraintLayout width and set tabs relative to that ConstraintLayout
+         */
         ConstraintSet c = new ConstraintSet();
-        //clone Player_tabs (tabs wrapper)constraints
         c.clone(tabLayout);
         //set default individual tab widths as percentages of the parents constraints
         //by default, tab1 is active
 
-        switch(activePlayer){
-            case 0:
-                c.constrainPercentWidth(R.id.playerTab1, tabActiveVal);
-                c.constrainPercentWidth(R.id.playerTab2, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab3, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab4, tabInactiveVal);
-                break;
-            case 1:
-                c.constrainPercentWidth(R.id.playerTab1, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab2, tabActiveVal);
-                c.constrainPercentWidth(R.id.playerTab3, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab4, tabInactiveVal);
-                break;
-            case 2:
-                c.constrainPercentWidth(R.id.playerTab1, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab2, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab3, tabActiveVal);
-                c.constrainPercentWidth(R.id.playerTab4, tabInactiveVal);
-                break;
-            case 3:
-                c.constrainPercentWidth(R.id.playerTab1, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab2, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab3, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab4, tabActiveVal);
-                break;
-            default:
-                c.constrainPercentWidth(R.id.playerTab1, tabActiveVal);
-                c.constrainPercentWidth(R.id.playerTab2, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab3, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab4, tabInactiveVal);
-                break;
+        int[] playerTabs = {R.id.playerTab1, R.id.playerTab2, R.id.playerTab3, R.id.playerTab4};
+        for(int i = 0; i < state.getDominionPlayers().length; i++) {
+            if (playerNum == i) c.constrainPercentWidth(playerTabs[i], tabActiveVal);
+            else c.constrainPercentWidth(playerTabs[i], tabInactiveVal);
         }
+
         c.applyTo(tabLayout);
-        c.clone((ConstraintLayout) activity.findViewById(R.id.Player_Tabs));
-        c.constrainPercentWidth(R.id.playerTab1, R.dimen.tabActive);
     }
 
+    /**
+     * Updates textViews that provide player info
+     * @param actions The current number of player's actions
+     * @param buys The current number of player's buys
+     * @param treasure The current number of player's treasures
+     */
     private void updateTurnInfo(int actions, int buys, int treasure){
         /**
          * External Citation
@@ -301,6 +198,9 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         tvTreasure.setText(activity.getString(R.string.treasure, treasure));
     }
 
+    /**
+     * Updates player's draw and discard piles
+     */
     private void updateDrawDiscard(){
         DominionDeckState deck = playerState.getDeck();
         int drawSize = deck.getDrawSize();
@@ -319,7 +219,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             discardPile.setVisibility(View.INVISIBLE);
         } else {
             discardPile.setVisibility(View.VISIBLE);
-            updateCardView(discardPile, playerState.getDeck().getLastDiscard(), -1);
+            updateCardView(discardPile, card, -1);
         }
     }
 
@@ -338,7 +238,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         FrameLayout layout = cardView.findViewById(R.id.frameLayoutAmount);
         if (num == -1){
-            layout.setVisibility(View.GONE);
+            layout.setVisibility(View.INVISIBLE);
         } else {
             layout.setVisibility(View.VISIBLE);
             TextView amount = cardView.findViewById(R.id.textViewAmount);
@@ -346,7 +246,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         }
 
         TextView description = cardView.findViewById(R.id.tvDescription);
-        description.setText(card.getFormattedText().toString());
+        description.setText(card.getFormattedText());
 
         TextView type = cardView.findViewById(R.id.textViewType);
         type.setText(card.getType().toString());
@@ -358,7 +258,166 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         image.setImageResource(resID);
     }
 
+    /**
+     * Updates opponent's draw and discard pile
+     * @param player The current player who's draw and discard should be drawn.
+     */
+    private void updateOppDrawDiscard(int player){
+        if (player == playerNum) return;
+        DominionDeckState currPlayerDeck = state.getDominionPlayer(player).getDeck();
+        tvOppDraw.setText(Integer.toString(currPlayerDeck.getDrawSize()));
+        int discardSize = currPlayerDeck.getDiscardSize();
+        tvOppDiscard.setText(Integer.toString(discardSize));
+        if (discardSize > 0) {
+            updateCardView(oppDiscardLayout, currPlayerDeck.getLastDiscard(), -1);
+            oppDiscardLayout.setVisibility(View.VISIBLE);
+        }
+        else {
+            oppDiscardLayout.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    /**
+     * Updates opponent's hand pile
+     * @param player The current player who's hand should be drawn.
+     */
+    private void updateOppHand(int player){
+        int handSize;
+        if (player == playerNum){
+            handSize = 5;
+        } else {
+            handSize = state.getDominionPlayer(player).getDeck().getHandSize();
+        }
+        ConstraintLayout oppCardsLayout = activity.findViewById(R.id.Opponent_Cards);
+        oppCardsLayout.removeAllViews();
+        ImageView[] cards = new ImageView[handSize];
+        for (int i = 0; i < handSize; i++){
+            cards[i] = new ImageView(activity);
+            cards[i].setScaleType(ImageView.ScaleType.FIT_XY);
+            cards[i].setImageResource(R.drawable.dominion_opponent_card_back);
+            cards[i].setId(View.generateViewId());
+            oppCardsLayout.addView(cards[i]);
+        }
+        ConstraintSet set = new ConstraintSet();
+        set.clone(oppCardsLayout);
+        float biasMultiplier = Math.min(1/5.0f, 1/(float)handSize);
+        @IdRes int layoutID = oppCardsLayout.getId();
+        for (int i = 0; i < handSize; i++){
+            ImageView card = cards[i];
+            @IdRes int id = card.getId();
+
+            set.connect(id, ConstraintSet.LEFT, layoutID, ConstraintSet.LEFT);
+            set.connect(id, ConstraintSet.RIGHT, layoutID, ConstraintSet.RIGHT);
+            set.connect(id, ConstraintSet.TOP, layoutID, ConstraintSet.TOP);
+            set.connect(id, ConstraintSet.BOTTOM, layoutID, ConstraintSet.BOTTOM);
+
+            set.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
+            set.constrainWidth(id, ConstraintSet.WRAP_CONTENT);
+
+            set.setHorizontalBias(id, i*biasMultiplier);
+        }
+        set.applyTo(oppCardsLayout);
+    }
+
+    /**
+     * Updates player's hand
+     */
+    private void updatePlayerHand(){
+        hand = state.getDominionPlayer(playerNum).getDeck().getHand();
+        LinearLayout cardRow = activity.findViewById(R.id.User_Cards);
+
+        ConstraintLayout layout;
+        //for every item in hand up to five,
+        int childCount = cardRow.getChildCount();
+        for(int i = 0; i < childCount; i++) {
+            layout = (ConstraintLayout) cardRow.getChildAt(i);
+            if (i < hand.size()) {
+                layout.setOnClickListener(handClickListener);
+                DominionCardState card = hand.get(i);
+
+                //if the card exists
+                //read xml and update corresponding textViews and such
+                updateCardView(layout, card, -1);
+                layout.setVisibility(View.VISIBLE);
+            }
+            else { //card does not exist
+                layout.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    /**
+     * Updates the base piles
+     */
+    private void updateBasePiles(){
+        /**
+         * External Citation
+         * setting imageview using string
+         * https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
+         * shows how to convert string to resource id to use to set image view
+         */
+        basePiles = new ArrayList<ConstraintLayout>();
+        int c = 0, start = 0, end = 2;
+        for(int a = 0, b = baseLayout.getChildCount(); a < b; a++){
+            View baseRow = baseLayout.getChildAt(a);
+
+            if(baseRow instanceof TableRow){
+                for (int k = 0; k < 2; k++) {
+                    basePiles.add((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k));
+                }
+
+                for (int r=start; r<end; r++) {
+                    ConstraintLayout baseCard = basePiles.get(r);
+                    baseCard.setOnClickListener(shopClickListener);
+                    DominionCardState cardState = state.getBaseCards().get(c).getCard();
+                    int amount = state.getBaseCards().get(c).getAmount();
+                    updateCardView(baseCard, cardState, amount);
+                    c++;
+                }
+                start = start+2;
+                end = end+2;
+            }
+        }
+
+    }
+
+    /**
+     * Updates the shop piles
+     */
+    private void updateShopPiles(){
+        int m = 0;
+        for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
+            View shopRow = shopLayout.getChildAt(i);
+
+            //should always be true
+            if(shopRow instanceof TableRow){
+
+                //cards are ConstraintLayouts in XML
+                shopPiles = new ArrayList<>();
+                for (int k = 0; k < 5; k++) {
+                    shopPiles.add((ConstraintLayout) ((TableRow) shopRow).getVirtualChildAt(k));
+                }
+
+                for (ConstraintLayout shopCard: shopPiles) {
+                    shopCard.setOnClickListener(shopClickListener);
+                    shopCard.setOnLongClickListener(shopLongClickListener);
+                    DominionCardState cardState = state.getShopCards().get(m).getCard();
+                    int amount = state.getShopCards().get(m).getAmount();
+                    updateCardView(shopCard, cardState, amount);
+                    m++;
+                    //TODO: Change display with empty piles
+                }
+            }
+        }
+    }
+
     //TODO: fix to update tabs more accurately for attack turns
+    //TODO: Break into more functions
+
+    /**
+     * Receives game state info and calls update methods to reflect state
+     * @param info Game information
+     */
     @Override
     public void receiveInfo(GameInfo info) {
         //get updated info
@@ -367,197 +426,91 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             playerState = state.getDominionPlayer(playerNum);
 
             //update tabs to reflect turn
-            //updateTabs(state.getCurrentTurn());
             if (state.getIsAttackTurn()) {
-                updateTabs(state.getAttackTurn());
+                updateTabs();
+                updateOppDrawDiscard(state.getAttackTurn());
+                updateOppHand(state.getAttackTurn());
             } else {
-                updateTabs(state.getCurrentTurn());
+                updateTabs();
+                updateOppDrawDiscard(state.getCurrentTurn());
+                updateOppHand(state.getCurrentTurn());
             }
 
             updateTurnInfo(state.getActions(), state.getBuys(), state.getTreasure());
             updateDrawDiscard();
-
-            //Display shop
-            int m = 0;
-            for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
-                View shopRow = shopLayout.getChildAt(i);
-
-                //should always be true
-                if(shopRow instanceof TableRow){
-
-                    //cards are ConstraintLayouts in XML
-                    shopPiles = new ArrayList<ConstraintLayout>();
-                    for (int k = 0; k < 5; k++) {
-                        shopPiles.add((ConstraintLayout) ((TableRow) shopRow).getVirtualChildAt(k));
-                    }
-
-                    for (ConstraintLayout shopCard: shopPiles) {
-                        DominionCardState cardState = state.getShopCards().get(m).getCard();
-                        int amount = state.getShopCards().get(m).getAmount();
-                        updateCardView(shopCard, cardState, amount);
-                        m++;
-                        //TODO: Change display with empty piles
-                    }
-                }
-            }
-
-            //display base cards
-            basePiles = new ArrayList<ConstraintLayout>();
-            int c = 0, start = 0, end = 2;
-            for(int a = 0, b = baseLayout.getChildCount(); a < b; a++){
-                View baseRow = baseLayout.getChildAt(a);
-                if(baseRow instanceof TableRow){
-                    for (int k = 0; k < 2; k++) {
-                        basePiles.add((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k));
-                    }
-                    for (int r=start; r<end; r++) {
-                        ConstraintLayout baseCard = basePiles.get(r);
-                        DominionCardState cardState = state.getBaseCards().get(c).getCard();
-                        int amount = state.getBaseCards().get(c).getAmount();
-                        updateCardView(baseCard, cardState, amount);
-                        c++;
-                    }
-                    start = start+2;
-                    end = end+2;
-                }
-            }
-            /*
-            External Citation
-            setting imageview using string
-            https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
-            shows how to convert string to resource id to use to set image view
-            */ //TODO: Move citation to correct place
-
-            //get hand
-            hand = state.getDominionPlayer(playerNum).getDeck().getHand();
-            cardRow = activity.findViewById(R.id.User_Cards);
-
-            /*
-            ArrayList<DominionCardState> testhand = new ArrayList<DominionCardState>();
-
-            testhand.add(0, state.getBaseCards().get(1).getCard());
-            testhand.add(1, state.getBaseCards().get(2).getCard());
-            testhand.add(2, state.getShopCards().get(8).getCard());
-            testhand.add(3, state.getShopCards().get(9).getCard());
-            testhand.add(4, state.getBaseCards().get(3).getCard());
-            */
-
-            ConstraintLayout layout;
-            int exists = 1;
-            DominionCardState card;
-
-            for(int i=0; i < hand.size(); i++){
-                layout = (ConstraintLayout) cardRow.getChildAt(i);
-                if (layout != null) {
-                    Log.e("a", "receiveInfo: " + cardRow.getVirtualChildCount());
-                    layout.setOnClickListener(handClickListener);
-                    card = hand.get(i);
-                    //if the card exists
-                    if (card != null && layout != null) {
-                        //read xml and update corresponding textviews and such
-                        updateCardView(layout, card, exists);
-                    } else { //card does not exist
-                        updateCardView(layout, card, -1 * exists);
-                    }
-                }
-                else Log.e("LayoutError", "receiveInfo: " + layout);
-            }
-
-            //Update treasure, actions, and buys
+            updateShopPiles();
+            updateBasePiles();
+            updatePlayerHand();
 
         } else if(info instanceof NotYourTurnInfo) {
             //TODO: actually do something if not player turn
             Log.i("DominionHumanPlayer: recieveInfo", "Not your turn.");
         }
+    }
 
-        //TODO: Move citation to correct place
-        /* External Citation:
-        Date: Nov 4, 2018
-        Source: https://stackoverflow.com/questions/44749481/how-to-change-constraint-layouts-child-views-constraints-programatically#44750506
-        Problem: wanted to set tab widths programatically
-        Solution: Use ConstraintSet to clone ConstraintLayout width and set tabs relative to that ConstraintLayout
-         */
-    }//updateTabs
+    public boolean draw(){
+        return true;
+    }
 
     /**
-     *
-     * @param v
-     * 		the button that was clicked
+     * Ends turn for current player
      */
-    public void onClick(View v) {
-        GameAction action = null;
-        int index = 0;
-        if(v == null){ return; }
-        else if(v instanceof Button){
-            if(v == bEndTurn){
-                action = new DominionEndTurnAction(this);
-                Log.i("TAG: ", "" + state.getCurrentTurn());
-                Log.i("DomHumPlayer: onClick", "End turn button clicked.");
-            }
-        }
-        else if(v instanceof ConstraintLayout){
-            Log.i("DomHumPlayer: onClick", "Player's card button clicked.");
-
-            /*
-            TextView title = v.findViewById(R.id.textViewTitle);
-            String titleString = title.getText().toString();
-
-            for (int i = 0; i<hand.size(); i++) {
-                if(hand.get(i).getTitle().equals(titleString)){
-                    index = i;
-                }
-            }*/
-
-            index = cardRow.indexOfChild(v);
-
-            //((ConstraintLayout) v).indexOfChild(v)
-            //v.indexOfChild(View child)
-
-            action = new DominionPlayCardAction(this, index);
-        }
-
-        game.sendAction(action);
-    }// onClick'
-
-    View.OnClickListener handClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if(v == null){ return; }
-            Log.i("DomHumPlayer: onClick", "Player's card button clicked.");
-            int targetIdx = ((TableRow) v.getParent()).indexOfChild(v);
-            game.sendAction(new DominionPlayCardAction(thisPlayer, targetIdx));
-        }
+    private View.OnClickListener endTurnClickListener = (View v) -> {
+        Log.i("DomHumPlayer: onClick", "End turn button clicked.");
+        game.sendAction(new DominionEndTurnAction(this));
     };
 
-    View.OnClickListener shopClickListener = new View.OnClickListener(){
-        @Override
-        public void onClick(View v) {
-            //GameAction action = null;
-            boolean isBaseCard = basePiles.contains(v);
-            int index;
-            TextView title = v.findViewById(R.id.textViewTitle);
-            String titleString = title.getText().toString();
-
-            if(isBaseCard){
-                Log.i("DominionHumanPlayer: onLongClick", "basecard longpressed");
-                for (index = 0; index < state.getBaseCards().size(); index++) {
-                    if (state.getBaseCards().get(index).getCard().getTitle().equals(titleString)) {
-                        break;
-                    }
-                }
-            }
-            else {
-                Log.i("DominionHumanPlayer: onLongClick", "shopcard longpressed");
-                for (index = 0; index < state.getShopCards().size(); index++) {
-                    if (state.getShopCards().get(index).getCard().getTitle().equals(titleString)) {
-                        break;
-                    }
-                }
-            }
-
-            game.sendAction(new DominionBuyCardAction(thisPlayer, index, isBaseCard));
-            Log.i("Player 0 num cards before buy: ", "" + state.getDominionPlayer(0).getDeck().getDiscardSize());
-            Log.i("Player 0 num cards after buy: ", "" + state.getDominionPlayer(0).getDeck().getDiscardSize());
-        }
+    /**
+     * Plays the card tapped on
+     */
+    private View.OnClickListener handClickListener = (View v) -> {
+        Log.i("DomHumPlayer: onClick", "Player card button clicked.");
+        int targetIdx = ((LinearLayout) v.getParent()).indexOfChild(v);
+        game.sendAction(new DominionPlayCardAction(this, targetIdx));
     };
+
+    /**
+     * Buys the card in shop tapped on
+     */
+    private View.OnClickListener shopClickListener = (View v) -> {
+        Log.i("DomHumPlayer: onClick", "Shop card button clicked.");
+        boolean isBaseCard = basePiles.contains(v); //TODO: Fix, since this boolean is always false
+        TableRow parentView = ((TableRow) v.getParent());
+        int colOffset = ((TableLayout) parentView.getParent()).indexOfChild(parentView) * parentView.getChildCount();
+        int targetIdx =  parentView.indexOfChild(v) + colOffset;
+        game.sendAction(new DominionBuyCardAction(this, targetIdx, isBaseCard));
+    };
+
+    /**
+     * Displays a dialog with card and description for the card in shop that is long pressed
+     */
+    private View.OnLongClickListener shopLongClickListener = (View v) -> { //Not applied to base cards
+        Log.i("DomHumPlayer: onClick", "Shop card button long-clicked.");
+        TableRow parentView = ((TableRow) v.getParent());
+
+        int colOffset = ((TableLayout) parentView.getParent()).indexOfChild(parentView) * parentView.getChildCount();
+        int targetIdx =  parentView.indexOfChild(v) + colOffset;
+
+        DominionShopPileState pile = state.getShopCards().get(targetIdx);
+
+        final Dialog dialog = new Dialog(activity);
+        dialog.setContentView(populateCardLayout(pile));
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.setLayout(500, 750); //TODO: put width, height in dimen (or aspect ratio?)
+
+        return true;
+    };
+
+    /**
+     * Creates new cardView and populates it (for card description dialogue)
+     * @param pile Shop pile that will be used for card description dialogue
+     * @return cardView to be displayed
+     */
+    protected View populateCardLayout(DominionShopPileState pile){
+        ConstraintLayout cardView = (ConstraintLayout) LayoutInflater.from(activity).inflate(R.layout.player_card, mainLayout, false);
+        DominionCardState card = pile.getCard();
+        updateCardView(cardView, card, pile.getAmount());
+        return cardView;
+    }
 }
