@@ -10,6 +10,7 @@ import java.util.Locale;
 import project.katacka.dominion.R;
 import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
 import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
+import project.katacka.dominion.gamedisplay.DominionPlayAllAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gameframework.GamePlayer;
 import project.katacka.dominion.gameframework.LocalGame;
@@ -125,6 +126,13 @@ public class DominionLocalGame extends LocalGame {
             int cardIndex = action.getCardIndex();
 
             return state.playCard(playerID, cardIndex);
+        } else if (gameAction instanceof DominionPlayAllAction){
+            DominionPlayAllAction action = (DominionPlayAllAction) gameAction;
+            GamePlayer player = action.getPlayer();
+
+            int playerID = getPlayerIdx(player);
+
+            return state.playAllTreasures(playerID);
         } else if (gameAction instanceof DominionBuyCardAction){
             DominionBuyCardAction action = (DominionBuyCardAction) gameAction;
             GamePlayer player = action.getPlayer();
