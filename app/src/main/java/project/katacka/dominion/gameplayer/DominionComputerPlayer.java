@@ -96,24 +96,25 @@ public abstract class DominionComputerPlayer extends GameComputerPlayer {
         return false;
     }
 
+    /**
+     * Overridden by child classes to implement varied turnPhase behavior
+     * @param tempPhase The currently relevant phase
+     */
     protected boolean playTurnPhase(TurnPhases tempPhase) {
         return true;
     }
 
-    /*protected boolean genericCardCheck(DominionCardState card) {
-        return (card != null && card.getType() != DominionCardType.BLANK && card.getType() != null);
-    }*/ //TODO: Move to testing
-
-    protected boolean playTreasure() { //TODO: Do we need a callback here..?
-        //for(int i = 0; i < hand.size(); i++) {
-            //Log.i("c: " + hand.toString(), "t: " + gameState.getTreasure());
-
+    /**
+     * Plays a treasure from the player's hand
+     * @return Returns a boolean describing success
+     */
+    boolean playTreasure() {
         int treasureIdx = IntStream.range(0, hand.size())
                                    .filter(i -> hand.get(i).getType() == DominionCardType.TREASURE)
                                    .findAny()
                                    .orElse(-1);
+
         if (treasureIdx < 0) {
-            //currentPhase = TurnPhases.BUY;
             return false;
         }
 
@@ -123,13 +124,15 @@ public abstract class DominionComputerPlayer extends GameComputerPlayer {
         return true;
     }
 
-    protected boolean endTurn() {
+    /**
+     * Ends the player's turn
+     * @return Returns a boolean describing success
+     */
+    boolean endTurn() {
         Log.d("AI", "Ending turn");
-
         currentPhase = TurnPhases.END;
         sleep(100);
         game.sendAction(new DominionEndTurnAction(this));
-
         return true;
     }
 }
