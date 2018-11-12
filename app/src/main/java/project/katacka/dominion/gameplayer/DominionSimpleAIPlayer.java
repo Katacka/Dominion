@@ -24,7 +24,8 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
         if(tempPhase == TurnPhases.END) tempPhase = TurnPhases.ACTION;
         currentPhase = TurnPhases.IN_PROGRESS;
 
-        switch (tempPhase) {
+
+        switch (tempPhase) { //TODO: rename temp to something to make it more clear (ex. old v. new phase)
             case ACTION:
                 if (playSimpleActionPhase()) break;
             case TREASURE:
@@ -35,7 +36,9 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
                 endTurn();
                 break;
             case IN_PROGRESS:
-                break;
+                //Should never get here: only occurs if phase does not get set
+                Log.e("SimpleAI", "Never left in progress.");
+                //No break so turn ends
             default:
                 endTurn();
                 return false;

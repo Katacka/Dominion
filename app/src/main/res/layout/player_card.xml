@@ -5,8 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/dominion_card_border_squared"
-    android:minWidth="20dp"
-    android:maxWidth="145dp"
     android:padding="2dp"
     app:layout_constraintHeight_default="percent"
     app:layout_constraintHeight_percent="1">

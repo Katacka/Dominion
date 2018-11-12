@@ -2,6 +2,7 @@ package project.katacka.dominion.gamestate;
 
 import android.text.TextUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
@@ -13,7 +14,7 @@ import java.util.stream.Stream;
  *
  * @author Ryan Regier, Julian Donovan, Hayden Liao, Ashika Mulagada
  */
-public class DominionDeckState {
+public class DominionDeckState implements Serializable{
 
     private final ArrayList<DominionCardState> draw;
     private final ArrayList<DominionCardState> discard;
@@ -35,9 +36,11 @@ public class DominionDeckState {
      */
     public DominionDeckState(DominionDeckState deckState, boolean isRealDeck){
 
-        this.draw = new ArrayList<DominionCardState>(deckState.draw.size());
-        this.discard = new ArrayList<DominionCardState>(deckState.discard.size());
-        this.hand = new ArrayList<DominionCardState>(deckState.hand.size());
+        this.draw = new ArrayList<>(deckState.draw.size());
+        this.discard = new ArrayList<>(deckState.discard.size());
+        this.hand = new ArrayList<>(deckState.hand.size());
+
+        //Creates empty deck and discard, since they are not known to player
 
         for(int i = 0; i < deckState.draw.size(); i++){
             this.draw.add(DominionCardState.BLANK_CARD);
@@ -46,12 +49,12 @@ public class DominionDeckState {
         for(int i = 0; i < deckState.discard.size() - 1; i++){
             this.discard.add(DominionCardState.BLANK_CARD);
         }
-        //Reveal the top of the discard pile
+        //Reveal the top of the discard pile, since it is face up
         if (deckState.discard.size() >= 1){
             this.discard.add(new DominionCardState(deckState.discard.get(deckState.discard.size()-1)));
         }
 
-
+        //Show the player's hand if they are holding it, or blank cards otherwise
         if(isRealDeck){
             //Show hand
             for(DominionCardState card : deckState.hand){

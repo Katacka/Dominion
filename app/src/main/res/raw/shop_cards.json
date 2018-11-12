@@ -13,7 +13,7 @@
     {
       "title": "Market",
       "photoStringID": "dominion_market",
-      "text": "+1 Card\n+1 Action\n+1 Buy\n+1 Gold",
+      "text": "+1 Card\n+1 Action\n+1 Buy\n+1 Treasure",
       "cost": 5,
       "type": "ACTION",
       "amount": 10,
@@ -37,7 +37,7 @@
     {
       "title": "Merchant",
       "photoStringID": "dominion_merchant",
-      "text": "+1 Card\n+1 Action\nThe first time you play a Silver this turn, +1 Gold",
+      "text": "+1 Card\n+1 Action\nThe first time you play a Silver this turn, +1 Treasure",
       "cost": 3,
       "type": "ACTION",
       "amount": 10,
@@ -57,7 +57,7 @@
     {
       "title": "Festival",
       "photoStringID": "dominion_festival",
-      "text": "+2 Actions\n+1 Buy\n+2 Gold",
+      "text": "+2 Actions\n+1 Buy\n+2 Treasure",
       "cost": 5,
       "type": "ACTION",
       "amount": 10,
@@ -101,7 +101,7 @@
     {
       "title": "Moneylender",
       "photoStringID": "dominion_moneylender",
-      "text": "You may trash a Copper from your hand for +3 Gold",
+      "text": "You may trash a Copper from your hand for +3 Treasure",
       "cost": 4,
       "type": "ACTION",
       "amount": 10,
@@ -112,7 +112,7 @@
     {
       "title": "Remodel",
       "photoStringID": "dominion_remodel",
-      "text": "Trash a card from your hand. Gain a card costing up to 2 Gold more than it",
+      "text": "Trash a card from your hand. Gain a card costing up to 2 Treasure more than it",
       "cost": 4,
       "type": "ACTION",
       "amount": 10,
@@ -130,7 +130,7 @@
     {
       "title": "Artisan",
       "photoStringID": "dominion_artisan",
-      "text": "Add a card to your hand costing up to 5 Gold. Put a card from your hand onto your deck",
+      "text": "Add a card to your hand costing up to 5 Treasure. Put a card from your hand onto your deck",
       "cost": 6,
       "type": "ACTION",
       "amount": 10,
@@ -158,7 +158,7 @@
     {
       "title": "Militia",
       "photoStringID": "dominion_militia",
-      "text": "+2 Gold\nEach other player discards down to 3 cards in hand",
+      "text": "+2 Treasure\nEach other player discards down to 3 cards in hand",
       "cost": 4,
       "type": "ATTACK",
       "amount": 10,

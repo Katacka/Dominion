@@ -2,6 +2,7 @@ package project.katacka.dominion.gamestate;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -13,7 +14,7 @@ import static android.content.ContentValues.TAG;
  *
  * @author Julian Donovan, Hayden Liao, Ashika Mulagada, Ryan Regier
  */
-public class DominionCardState {
+public class DominionCardState implements Serializable{
 
     //A card with no data, used for obfuscation
     public static final DominionCardState BLANK_CARD = new DominionCardState();
@@ -25,7 +26,7 @@ public class DominionCardState {
     private final String text;
     private final int cost;
     private final DominionCardType type;
-    private final Method action;
+    private final String methodName; //Method cannot serialize, so name is stored instead
     private final int addedTreasure;
     private final int addedActions;
     private final int addedDraw;
@@ -60,8 +61,7 @@ public class DominionCardState {
             throw new IllegalArgumentException("Card type does not exist.");
         }
 
-        //Dynamically assigned by method reflection, allowing for a String method reference to be held in JSON
-        this.action = getMethod(action);
+        this.methodName = action;
 
         this.addedTreasure = addedTreasure;
         this.addedActions = addedActions;
@@ -80,7 +80,8 @@ public class DominionCardState {
         this.text = other.text;
         this.cost = other.cost;
         this.type = other.type;
-        this.action = other.action;
+        //this.action = other.action;
+        this.methodName = other.methodName;
         this.addedTreasure = other.addedTreasure;
         this.addedActions = other.addedActions;
         this.addedBuys = other.addedBuys;
@@ -100,7 +101,8 @@ public class DominionCardState {
         this.type = DominionCardType.BLANK;
 
         //Dynamically assigned by method reflection, allowing for a String method reference to be held in JSON
-        this.action = getMethod("baseAction");
+        //this.action = getMethod("baseAction");
+        this.methodName = "baseAction";
 
         this.addedTreasure = 0;
         this.addedActions = 0;
@@ -110,17 +112,8 @@ public class DominionCardState {
     }
 
     /**
-     * External Citation
-     * Date: 10/4
-     * Source: https://stackoverflow.com/questions/13604111/final-variable-assignment-with-try-catch
-     * Problem: wouldn't let action be assigned if final
-     * Solution: used method to get Method
-     */
-
-    /**
      * Gets function of this class corresponding to {@code action}.
-     * Used to load functions for card actions from JSON.
-
+     *
      * @param action A String name referencing the relevant DominionCardState function
      * @return A Method reference to a DominionCardState function
      */
@@ -141,7 +134,7 @@ public class DominionCardState {
      */
     public boolean cardAction(DominionGameState game) {
         try {
-            Boolean result = (Boolean) action.invoke(this, game); //return automatically boxed to Boolean
+            Boolean result = (Boolean) getMethod(methodName).invoke(this, game); //return automatically boxed to Boolean
             return result; //Note: automatically unboxed
         }
         catch (IllegalArgumentException e) {
@@ -203,8 +196,8 @@ public class DominionCardState {
         return type;
     }
 
-    public Method getAction() {
-        return action;
+    public String getAction() {
+        return methodName;
     }
 
     public int getAddedTreasure() { return addedTreasure; }
@@ -229,16 +222,6 @@ public class DominionCardState {
         return victoryPoints;
     }
 
-    private boolean moatAction(DominionGameState game) {
-        //Will have other behavior upon adding ATTACK cards
-        return baseAction(game);
-    }
-
-    private boolean merchantAction(DominionGameState game) {
-        game.silverBoon = true; //The first Silver played is worth one more
-        return baseAction(game);
-    }
-
     /////////////////////////////////////////////////////////////////////////
     /*
     Functions below this point are card actions. They are called when the card is played.
@@ -249,6 +232,34 @@ public class DominionCardState {
 
     */
     ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Moat action:
+     *
+     * +2 cards
+     * Reveal during attack to avoid its effects
+     *
+     * @param game The game state
+     * @return Action completed successfully
+     */
+    private boolean moatAction(DominionGameState game) {
+        //Will have other behavior upon adding ATTACK cards
+        return baseAction(game);
+    }
+
+    /**
+     * Merchant action:
+     * +1 card, +1 action, first silver +1 treasure
+     *
+     * Known bug: Playing multiple merchants allows multiple bonus treasure.
+     *
+     * @param game The game state
+     * @return Action completed successfully
+     */
+    private boolean merchantAction(DominionGameState game) {
+        game.silverBoon = true; //The first Silver played is worth one more
+        return baseAction(game);
+    }
 
     /**
      * Council room action:
@@ -306,6 +317,8 @@ public class DominionCardState {
      *     <li>Buys</li>
      *     <li>Treasure</li>
      * </ul>
+     *
+     * Also used by cards that don't do anything
      *
      * @param game The game the card is played in
      * @return Action success

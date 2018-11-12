@@ -4,8 +4,11 @@ package project.katacka.dominion.gamestate;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.stream.IntStream;
 import java.util.Random;
 
 import project.katacka.dominion.gameframework.infoMsg.GameState;
@@ -14,7 +17,7 @@ import project.katacka.dominion.gameframework.infoMsg.GameState;
  * A data class intended to represent the state of a game object
  * @author Ryan Regier, Julian Donovan, Ashika Mulagada, Hayden Liao
  */
-public class DominionGameState extends GameState {
+public class DominionGameState extends GameState implements Serializable{
 
     /**
      * The six base cards, in the following order:
@@ -33,7 +36,7 @@ public class DominionGameState extends GameState {
     //  as well as providence to detect game over
     private final int PILE_COPPER = 0;
     private final int PILE_ESTATE = 1;
-    private final int PILE_PROVIDENCE = 5;
+    private final int PILE_PROVIDENCE = 6;
 
     protected DominionPlayerState dominionPlayers[]; //Sorted by order of turn
 
@@ -97,20 +100,22 @@ public class DominionGameState extends GameState {
             this.dominionPlayers[i] = new DominionPlayerState("Player " + i,
                     baseCards.get(PILE_COPPER), //The copper pile
                     baseCards.get(PILE_ESTATE).getCard()); //The estate card
+
         }
 
-        //Sets up turn with player 0 as first player
-        this.currentTurn = (new Random()).nextInt(numPlayers); //TODO: Verify first turn randomization is having no other unintended effects
+        //Sets up turn with a random first player
+        this.currentTurn = (new Random()).nextInt(numPlayers);
         this.treasure = 0;
         this.buys = 1;
         this.actions = 1;
         this.silverBoon = false;
+
         dominionPlayers[currentTurn].startTurn();
 
         this.isGameOver = false; //The game is not over
         this.playerQuit = -1; //No player has quit
 
-        this.attackTurn = this.currentTurn; //In the event of an attack
+        this.attackTurn = this.currentTurn;
         this.isAttackTurn = false;
 
         this.emptyPiles = 0;
@@ -122,8 +127,9 @@ public class DominionGameState extends GameState {
      * @param gameState Relevant DominionGameState from which data will be gathered
      */
     public DominionGameState(DominionGameState gameState, int player){
-        this.baseCards= new ArrayList<>();
-        this.shopCards= new ArrayList<>();
+        //Copies all base cards and shop cards
+        this.baseCards= new ArrayList<>(gameState.baseCards.size());
+        this.shopCards= new ArrayList<>(gameState.shopCards.size());
 
         for(DominionShopPileState basePileState: gameState.baseCards){
             this.baseCards.add(new DominionShopPileState(basePileState));
@@ -141,6 +147,8 @@ public class DominionGameState extends GameState {
             this.dominionPlayers[i] = new DominionPlayerState(gameState.dominionPlayers[i],
                     player == i);
         }
+
+        //Copy all other instance variables
         this.currentTurn = gameState.currentTurn;
         this.attackTurn = gameState.attackTurn;
         this.isAttackTurn = gameState.isAttackTurn;
@@ -156,20 +164,14 @@ public class DominionGameState extends GameState {
         this.treasure = gameState.treasure;
     }
 
-    /**
-     * Method to actually "start" the game.
-     * Temporary method so that random card shuffling does not make instances non-identical.
-     */
-    public void start(){
-        for (DominionPlayerState player : dominionPlayers) {
-            //Everyone draws their starting hand
-            player.getDeck().drawMultiple(5);
-        }
-    }
-
     @Override
+    /**
+     * Converts the game state to a String representation.
+     * For debugging purposes.
+     */
     public String toString() {
 
+        //Strings that will be joined to form final String.
         String turnStr, batStr, boonStr, baseStr, shopStr, playerStr, emptyPilesStr, providenceEmptyStr, quitStr, gameOverStr;
 
         String attackString = "";
@@ -241,10 +243,14 @@ public class DominionGameState extends GameState {
      * @return A boolean describing whether the card was successfully bought
      */
     public boolean buyCard(int playerID, int cardIndex, boolean isBaseCard){
+
         if (isLegalBuy(playerID, cardIndex, isBaseCard)) {
             DominionShopPileState cardPile;
-            if (isBaseCard) cardPile = baseCards.get(cardIndex);
-            else cardPile = shopCards.get(cardIndex);
+            if (isBaseCard)
+                cardPile = baseCards.get(cardIndex);
+            else
+                cardPile = shopCards.get(cardIndex);
+
             dominionPlayers[playerID].getDeck().discardNew(cardPile.getCard());
             cardPile.removeCard();
             buys--;
@@ -411,6 +417,10 @@ public class DominionGameState extends GameState {
         return buys;
     }
 
+    public int getTreasure() {
+        return treasure;
+    }
+
     public ArrayList<DominionShopPileState> getBaseCards() {
         return baseCards;
     }
@@ -453,15 +463,23 @@ public class DominionGameState extends GameState {
         return scores;
     }
 
-    //In the case of a tie,
+    //In the case of a tie, this is populated with the indexes of all tied players.
     private int[] tiedPlayers;
 
+    /**
+     * Determines game winner. In case of tie, determines all winners.
+     * Will only return accurate value on game over.
+     * @return The id of the player who won. If the game is not over, returns -1. In case of
+     *              a tie, returns -1 and sets {@code tiedPlayers} to the list of tied players.
+     */
     public int getWinner(){
         if (!isGameOver) return -1;
         else{
-            int[] scores = getPlayerScores();
-            int maxScore = 0;
-            int winner = 0;
+
+            //Check if there is a winner
+            int[] scores = getPlayerScores(); //The scores of every player
+            int maxScore = 0; //The highest score seen
+            int winner = 0; //The index of the winner
             int tie = 0;
             for (int i = 0; i < numPlayers; i++){
                 int score = scores[i];
@@ -514,16 +532,17 @@ public class DominionGameState extends GameState {
         }
     }
 
+    /**
+     * Gets a list of all players tied for highest score and turns played.
+     * Only accurate if getWinner was called and returned -1 while the game was over.
+     * @return List of indexes of tied players. Returns null if not valid.
+     */
     public int[] getTiedPlayers(){
         return tiedPlayers;
     }
 
     public int getCurrentTurn(){
         return currentTurn;
-    }
-
-    public void setDominionPlayers(DominionPlayerState[] dominionPlayers) {
-        this.dominionPlayers = dominionPlayers;
     }
 
     public int getAttackTurn(){
@@ -536,9 +555,5 @@ public class DominionGameState extends GameState {
 
     public boolean getIsAttackTurn(){
         return isAttackTurn;
-    }
-
-    public int getTreasure() {
-        return treasure;
     }
 }

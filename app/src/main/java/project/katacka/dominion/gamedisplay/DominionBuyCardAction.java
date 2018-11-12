@@ -3,12 +3,18 @@ package project.katacka.dominion.gamedisplay;
 import project.katacka.dominion.gameframework.GamePlayer;
 import project.katacka.dominion.gameframework.actionMsg.GameAction;
 
+/**
+ * @author Ashika Hayden Julian Ryan
+ *
+ * Sent to DominionLocalGame to buy a card
+ * Handled in makeMove
+ */
 public class DominionBuyCardAction extends GameAction {
 
-    //Which card is being bought
+    //card to be bought
     private int cardIndex;
 
-    //Whether the card is from the base cards. If not, it is from the kingdom cards.
+    //if not a base card, it is a shop card
     private boolean isBaseCard;
 
     /**
