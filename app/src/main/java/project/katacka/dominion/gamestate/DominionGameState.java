@@ -336,12 +336,12 @@ public class DominionGameState extends GameState implements Serializable{
     }
 
     /**
-     * Action which will play every treasure card in player's hand.
+     * Action which will play every card that is not an action in player's hand.
      *
      * @param playerID The player performing the action. Must be their turn
      * @return Whether action completes successfully.
      */
-    public boolean playAllTreasures(int playerID){
+    public boolean playAllCards(int playerID){
         if (canMove(playerID)){
             ArrayList<DominionCardState> hand = dominionPlayers[currentTurn].getDeck().getHand();
 
@@ -350,7 +350,7 @@ public class DominionGameState extends GameState implements Serializable{
             int i = 0;
             while (i < hand.size()){
                 DominionCardState card = hand.get(i);
-                if (card.getType() == DominionCardType.TREASURE){
+                if (card.getType() != DominionCardType.ACTION){
                     playCard(playerID, i);
                 }
                 else {

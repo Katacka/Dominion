@@ -65,7 +65,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     private ArrayList<TableRow> baseRows;
     private ArrayList<ConstraintLayout> basePiles;
 
-    private TableRow cardRow = null;
+    private LinearLayout cardRow = null;
     ArrayList<DominionCardState> hand;
 
     private Resources res;
@@ -448,7 +448,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             for(int i=0; i < hand.size(); i++){
                 layout = (ConstraintLayout) cardRow.getChildAt(i);
                 if (layout != null) {
-                    Log.e("a", "receiveInfo: " + cardRow.getVirtualChildCount());
+                    Log.e("a", "receiveInfo: " + cardRow.getChildCount());
                     layout.setOnClickListener(handClickListener);
                     card = hand.get(i);
                     //if the card exists
@@ -523,7 +523,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         public void onClick(View v) {
             if(v == null){ return; }
             Log.i("DomHumPlayer: onClick", "Player's card button clicked.");
-            int targetIdx = ((TableRow) v.getParent()).indexOfChild(v);
+            int targetIdx = ((LinearLayout) v.getParent()).indexOfChild(v);
             game.sendAction(new DominionPlayCardAction(thisPlayer, targetIdx));
         }
     };
