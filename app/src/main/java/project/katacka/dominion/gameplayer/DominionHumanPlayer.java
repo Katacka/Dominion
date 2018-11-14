@@ -546,3 +546,4 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         }
     };
 }
+//TODO : ASHI make player hand shrink to size (gone vs invalidate)
