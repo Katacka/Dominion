@@ -65,7 +65,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     private ArrayList<TableRow> baseRows;
     private ArrayList<ConstraintLayout> basePiles;
 
-    private TableRow cardRow = null;
+    private LinearLayout cardRow = null;
     ArrayList<DominionCardState> hand;
 
     private Resources res;
@@ -129,16 +129,13 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         //set display based XML resource
         activity.setContentView(R.layout.activity_main);
 
-        //TODO figure out if we need this
-        //handler = new ShopPileHandler(state);
-        //detector = new GestureDetector(activity, handler);
-
         //init all the things
         tabLayout = activity.findViewById(R.id.Player_Tabs);
         tab1 = (LinearLayout) tabLayout.getChildAt(0);
         tab2 = (LinearLayout) tabLayout.getChildAt(1);
         tab3 = (LinearLayout) tabLayout.getChildAt(2);
         tab4 = (LinearLayout) tabLayout.getChildAt(3);
+
         bEndTurn = activity.findViewById(R.id.buttonEndTurn);
 
         //tab set up stuff
@@ -448,15 +445,15 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             for(int i=0; i < hand.size(); i++){
                 layout = (ConstraintLayout) cardRow.getChildAt(i);
                 if (layout != null) {
-                    Log.e("a", "receiveInfo: " + cardRow.getVirtualChildCount());
+                    Log.e("a", "receiveInfo: " + cardRow.getChildCount());
                     layout.setOnClickListener(handClickListener);
                     card = hand.get(i);
                     //if the card exists
-                    if (card != null && layout != null) {
+                    if (card != null) {
                         //read xml and update corresponding textviews and such
                         updateCardView(layout, card, exists);
                     } else { //card does not exist
-                        updateCardView(layout, card, -1 * exists);
+                        //updateCardView(layout, card, -1 * exists);
                     }
                 }
                 else Log.e("LayoutError", "receiveInfo: " + layout);
@@ -559,4 +556,6 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             Log.i("Player 0 num cards after buy: ", "" + state.getDominionPlayer(0).getDeck().getDiscardSize());
         }
     };
+    //draw loops and recieveinfo
+    //traceback receiveinfo
 }
