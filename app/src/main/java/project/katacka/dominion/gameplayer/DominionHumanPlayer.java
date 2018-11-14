@@ -129,13 +129,16 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         //set display based XML resource
         activity.setContentView(R.layout.activity_main);
 
+        //TODO figure out if we need this
+        //handler = new ShopPileHandler(state);
+        //detector = new GestureDetector(activity, handler);
+
         //init all the things
         tabLayout = activity.findViewById(R.id.Player_Tabs);
         tab1 = (LinearLayout) tabLayout.getChildAt(0);
         tab2 = (LinearLayout) tabLayout.getChildAt(1);
         tab3 = (LinearLayout) tabLayout.getChildAt(2);
         tab4 = (LinearLayout) tabLayout.getChildAt(3);
-
         bEndTurn = activity.findViewById(R.id.buttonEndTurn);
 
         //tab set up stuff
@@ -179,36 +182,6 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         drawPile = activity.findViewById(R.id.ivDrawCard);
         discardPile = activity.findViewById(R.id.imageViewDiscard);
-
-        for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
-            View shopRow = shopLayout.getChildAt(i);
-            //should always be true
-            if(shopRow instanceof TableRow){
-                //cards are ConstraintLayouts in XML
-                shopPiles = new ArrayList<ConstraintLayout>();
-                for (int k = 0; k < ((TableRow) shopRow).getChildCount(); k++) {
-                    shopPiles.add((ConstraintLayout) ((TableRow) shopRow).getVirtualChildAt(k));
-                }
-                for (ConstraintLayout shopCard: shopPiles) {
-                    shopCard.setOnClickListener(shopClickListener);
-                }
-            }
-        }
-
-        for(int i = 0, j = baseLayout.getChildCount(); i < j; i++){
-            View baseRow = baseLayout.getChildAt(i);
-            //should always be true
-            if(baseRow instanceof TableRow){
-                //cards are ConstraintLayouts in XML
-                basePiles = new ArrayList<ConstraintLayout>();
-                for (int k = 0; k < ((TableRow) baseRow).getChildCount(); k++) {
-                    basePiles.add((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k));
-                }
-                for (ConstraintLayout baseCard: basePiles) {
-                    baseCard.setOnClickListener(shopClickListener);
-                }
-            }
-        }
 
         res = activity.getResources();
 
@@ -320,6 +293,35 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     }
 
     /**
+     * Updates player's hand
+     */
+    private void updatePlayerHand(){
+        hand = state.getDominionPlayer(playerNum).getDeck().getHand();
+        cardRow = activity.findViewById(R.id.User_Cards);
+
+        ConstraintLayout layout;
+        int exists = 1;
+        DominionCardState card;
+
+        for(int i=0; i < hand.size(); i++){
+            layout = (ConstraintLayout) cardRow.getChildAt(i);
+            if (layout != null) {
+                Log.e("a", "receiveInfo: " + cardRow.getChildCount());
+                layout.setOnClickListener(handClickListener);
+                card = hand.get(i);
+                //if the card exists
+                if (card != null && layout != null) {
+                    //read xml and update corresponding textviews and such
+                    updateCardView(layout, card, exists);
+                } else { //card does not exist
+                    updateCardView(layout, card, -1 * exists);
+                }
+            }
+            else Log.e("LayoutError", "receiveInfo: " + layout);
+        }
+    }
+
+    /**
      * Draws the card at the given view
      * @param cardView The view to draw the card
      * @param card The card to display
@@ -354,6 +356,71 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         image.setImageResource(resID);
     }
 
+    /**
+     * Updates the shop piles
+     */
+    private void updateShopPiles(){
+        int m = 0;
+        for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
+            View shopRow = shopLayout.getChildAt(i);
+
+            //should always be true
+            if(shopRow instanceof TableRow){
+
+                //cards are ConstraintLayouts in XML
+                shopPiles = new ArrayList<>();
+                for (int k = 0; k < 5; k++) {
+                    shopPiles.add((ConstraintLayout) ((TableRow) shopRow).getVirtualChildAt(k));
+                }
+
+                for (ConstraintLayout shopCard: shopPiles) {
+                    shopCard.setOnClickListener(shopClickListener);
+                    //shopCard.setOnLongClickListener(shopLongClickListener);
+                    DominionCardState cardState = state.getShopCards().get(m).getCard();
+                    int amount = state.getShopCards().get(m).getAmount();
+                    updateCardView(shopCard, cardState, amount);
+                    //if (amount == 0) displayEmptyStack(shopCard);
+                    m++;
+                }
+            }
+        }
+    }
+
+    /**
+     * Updates the base piles
+     */
+    private void updateBasePiles(){
+        /**
+         * External Citation
+         * setting imageview using string
+         * https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
+         * shows how to convert string to resource id to use to set image view
+         */
+        basePiles = new ArrayList<>();
+        int c = 0, start = 0, end = 2;
+        for(int a = 0; a < baseLayout.getChildCount(); a++){
+            View baseRow = baseLayout.getChildAt(a);
+
+            if(baseRow instanceof TableRow){
+                for (int k = 0; k < 2; k++) {
+                    basePiles.add((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k));
+                }
+
+                for (int r=start; r<end; r++) {
+                    ConstraintLayout baseCard = basePiles.get(r);
+                    baseCard.setOnClickListener(shopClickListener);
+                    DominionCardState cardState = state.getBaseCards().get(c).getCard();
+                    int amount = state.getBaseCards().get(c).getAmount();
+                    updateCardView(baseCard, cardState, amount);
+                    //if (amount == 0) displayEmptyStack(basePiles.get(r));
+                    c++;
+                }
+                start = start+2;
+                end = end+2;
+            }
+        }
+    }
+
     //TODO: fix to update tabs more accurately for attack turns
     @Override
     public void receiveInfo(GameInfo info) {
@@ -372,94 +439,16 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
             updateTurnInfo(state.getActions(), state.getBuys(), state.getTreasure());
             updateDrawDiscard();
+            updateShopPiles();
+            updateBasePiles();
+            updatePlayerHand();
 
-            //Display shop
-            int m = 0;
-            for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
-                View shopRow = shopLayout.getChildAt(i);
-
-                //should always be true
-                if(shopRow instanceof TableRow){
-
-                    //cards are ConstraintLayouts in XML
-                    shopPiles = new ArrayList<ConstraintLayout>();
-                    for (int k = 0; k < 5; k++) {
-                        shopPiles.add((ConstraintLayout) ((TableRow) shopRow).getVirtualChildAt(k));
-                    }
-
-                    for (ConstraintLayout shopCard: shopPiles) {
-                        DominionCardState cardState = state.getShopCards().get(m).getCard();
-                        int amount = state.getShopCards().get(m).getAmount();
-                        updateCardView(shopCard, cardState, amount);
-                        m++;
-                        //TODO: Change display with empty piles
-                    }
-                }
-            }
-
-            //display base cards
-            basePiles = new ArrayList<ConstraintLayout>();
-            int c = 0, start = 0, end = 2;
-            for(int a = 0, b = baseLayout.getChildCount(); a < b; a++){
-                View baseRow = baseLayout.getChildAt(a);
-                if(baseRow instanceof TableRow){
-                    for (int k = 0; k < 2; k++) {
-                        basePiles.add((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k));
-                    }
-                    for (int r=start; r<end; r++) {
-                        ConstraintLayout baseCard = basePiles.get(r);
-                        DominionCardState cardState = state.getBaseCards().get(c).getCard();
-                        int amount = state.getBaseCards().get(c).getAmount();
-                        updateCardView(baseCard, cardState, amount);
-                        c++;
-                    }
-                    start = start+2;
-                    end = end+2;
-                }
-            }
             /*
             External Citation
             setting imageview using string
             https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
             shows how to convert string to resource id to use to set image view
             */ //TODO: Move citation to correct place
-
-            //get hand
-            hand = state.getDominionPlayer(playerNum).getDeck().getHand();
-            cardRow = activity.findViewById(R.id.User_Cards);
-
-            /*
-            ArrayList<DominionCardState> testhand = new ArrayList<DominionCardState>();
-
-            testhand.add(0, state.getBaseCards().get(1).getCard());
-            testhand.add(1, state.getBaseCards().get(2).getCard());
-            testhand.add(2, state.getShopCards().get(8).getCard());
-            testhand.add(3, state.getShopCards().get(9).getCard());
-            testhand.add(4, state.getBaseCards().get(3).getCard());
-            */
-
-            ConstraintLayout layout;
-            int exists = 1;
-            DominionCardState card;
-
-            for(int i=0; i < hand.size(); i++){
-                layout = (ConstraintLayout) cardRow.getChildAt(i);
-                if (layout != null) {
-                    Log.e("a", "receiveInfo: " + cardRow.getChildCount());
-                    layout.setOnClickListener(handClickListener);
-                    card = hand.get(i);
-                    //if the card exists
-                    if (card != null) {
-                        //read xml and update corresponding textviews and such
-                        updateCardView(layout, card, exists);
-                    } else { //card does not exist
-                        //updateCardView(layout, card, -1 * exists);
-                    }
-                }
-                else Log.e("LayoutError", "receiveInfo: " + layout);
-            }
-
-            //Update treasure, actions, and buys
 
         } else if(info instanceof NotYourTurnInfo) {
             //TODO: actually do something if not player turn
@@ -520,7 +509,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         public void onClick(View v) {
             if(v == null){ return; }
             Log.i("DomHumPlayer: onClick", "Player's card button clicked.");
-            int targetIdx = ((TableRow) v.getParent()).indexOfChild(v);
+            int targetIdx = ((LinearLayout) v.getParent()).indexOfChild(v);
             game.sendAction(new DominionPlayCardAction(thisPlayer, targetIdx));
         }
     };
@@ -556,6 +545,4 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             Log.i("Player 0 num cards after buy: ", "" + state.getDominionPlayer(0).getDeck().getDiscardSize());
         }
     };
-    //draw loops and recieveinfo
-    //traceback receiveinfo
 }
