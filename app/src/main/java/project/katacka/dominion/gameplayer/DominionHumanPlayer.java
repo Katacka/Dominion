@@ -78,6 +78,10 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     private TextView tvBuys;
     private TextView tvTreasure;
 
+    private TextView tvOppDraw;
+    private TextView tvOppDiscard;
+    private ConstraintLayout oppDiscardLayout;
+
     private TextView tvDrawCount;
     private TextView tvDiscardCount;
 
@@ -179,6 +183,13 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         tvDiscardCount = activity.findViewById(R.id.textViewDiscardCount);
         tvDrawCount.setText("0");
         tvDiscardCount.setText("0");
+
+        tvOppDraw = activity.findViewById(R.id.textViewOppDraw);
+        tvOppDiscard = activity.findViewById(R.id.textViewOppDiscard);
+        oppDiscardLayout = activity.findViewById(R.id.oppDiscardCard);
+        oppDiscardLayout.setRotation(180);
+        tvOppDraw.setText("0");
+        tvOppDiscard.setText("0");
 
         drawPile = activity.findViewById(R.id.ivDrawCard);
         discardPile = activity.findViewById(R.id.imageViewDiscard);
@@ -357,6 +368,21 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         image.setImageResource(resID);
     }
 
+    private void updateOppDrawDiscard(int player){
+        if (player == playerNum) return; //TODO: Ensure this is correct if  human starts
+        DominionDeckState currPlayerDeck = state.getDominionPlayer(player).getDeck();
+        tvOppDraw.setText(Integer.toString(currPlayerDeck.getDrawSize()));
+        int discardSize = currPlayerDeck.getDiscardSize();
+        tvOppDiscard.setText(Integer.toString(discardSize));
+        if (discardSize > 0) {
+            updateCardView(oppDiscardLayout, currPlayerDeck.getLastDiscard(), -1);
+            oppDiscardLayout.setVisibility(View.VISIBLE);
+        }
+        else {
+            oppDiscardLayout.setVisibility(View.INVISIBLE);
+        }
+    }
+
     //TODO: fix to update tabs more accurately for attack turns
     @Override
     public void receiveInfo(GameInfo info) {
@@ -375,6 +401,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
             updateTurnInfo(state.getActions(), state.getBuys(), state.getTreasure());
             updateDrawDiscard();
+            updateOppDrawDiscard(state.getCurrentTurn());
 
             //Display shop
             int m = 0;

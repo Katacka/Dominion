@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="5dp"
         android:gravity="center"
+        android:lines="1"
         android:text="Title"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/imageViewArt"
