@@ -158,6 +158,12 @@ public class DominionLocalGame extends LocalGame {
             int playerIndex = getPlayerIdx(action.getPlayer());
 
             return state.endTurn(playerIndex);
+        } else if(gameAction instanceof DominionPlayAllAction){
+
+            DominionPlayAllAction action = (DominionPlayAllAction) gameAction;
+            int playerIndex = getPlayerIdx(action.getPlayer());
+
+            return state.playAllTreasures(playerIndex);
         } else {
             return false;
         }
