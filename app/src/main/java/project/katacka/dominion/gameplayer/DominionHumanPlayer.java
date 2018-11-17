@@ -28,6 +28,7 @@ import project.katacka.dominion.MainActivity;
 import project.katacka.dominion.R;
 import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
 import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
+import project.katacka.dominion.gamedisplay.DominionPlayAllAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gameframework.GameHumanPlayer;
 import project.katacka.dominion.gameframework.GameMainActivity;
@@ -45,6 +46,8 @@ import project.katacka.dominion.gamestate.DominionShopPileState;
  * TODO: Javadoc comment here
  */
 public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClickListener{
+
+    //TODO: Hayden work on dialogue box for viewing card description
 
     private final int MAX_CARDS = 5;
     private float tabInactiveVal;
@@ -68,9 +71,12 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     private LinearLayout cardRow = null;
     ArrayList<DominionCardState> hand;
 
+    private int handOffset;
+
     private Resources res;
 
     private Button bEndTurn = null;
+    private Button bPlayAll = null;
 
     private GameMainActivity activity = null;
 
@@ -139,7 +145,9 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         tab2 = (LinearLayout) tabLayout.getChildAt(1);
         tab3 = (LinearLayout) tabLayout.getChildAt(2);
         tab4 = (LinearLayout) tabLayout.getChildAt(3);
+
         bEndTurn = activity.findViewById(R.id.buttonEndTurn);
+        bPlayAll = activity.findViewById(R.id.buttonPlayAll);
 
         //tab set up stuff
         TypedValue outValueInactive = new TypedValue();
@@ -184,9 +192,6 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         discardPile = activity.findViewById(R.id.imageViewDiscard);
 
         res = activity.getResources();
-
-        //set listeners
-        bEndTurn.setOnClickListener(this);
     }
 
     /**
@@ -198,6 +203,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         for(int i = 0; i < allPlayerNames.length; i++) {
             ((TextView) tabLayout.getChildAt(i).findViewById(R.id.playerName)).setText(allPlayerNames[i]);
         }
+
     }
 
     //TODO: Set correctly
@@ -300,11 +306,28 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         cardRow = activity.findViewById(R.id.User_Cards);
 
         ConstraintLayout layout;
-        int exists = 1;
         DominionCardState card;
 
-        for(int i=0; i < hand.size(); i++){
+        int childCount = cardRow.getChildCount();
+        for(int i = 0; i < childCount; i++){
             layout = (ConstraintLayout) cardRow.getChildAt(i);
+            if(i < hand.size()){
+                layout.setOnClickListener(handClickListener);
+                card = hand.get(i);
+                updateCardView(layout, card, -1);
+                layout.setVisibility(View.VISIBLE);
+            } else {
+                layout.setVisibility(View.GONE);
+            }
+        }
+
+        //old code
+        ////////////////////////////////////////////////////////////////////////////////////
+        /*
+        for(int i=0; i < hand.size(); i++){
+
+            layout = (ConstraintLayout) cardRow.getChildAt(i);
+
             if (layout != null) {
                 Log.e("a", "receiveInfo: " + cardRow.getChildCount());
                 layout.setOnClickListener(handClickListener);
@@ -319,6 +342,9 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             }
             else Log.e("LayoutError", "receiveInfo: " + layout);
         }
+        */
+        ////////////////////////////////////////////////////////////////////////////////////
+
     }
 
     /**
@@ -443,6 +469,10 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             updateBasePiles();
             updatePlayerHand();
 
+            //set listeners
+            bEndTurn.setOnClickListener(this);
+            bPlayAll.setOnClickListener(handClickListener);
+
             /*
             External Citation
             setting imageview using string
@@ -482,35 +512,39 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         }
         else if(v instanceof ConstraintLayout){
             Log.i("DomHumPlayer: onClick", "Player's card button clicked.");
-
-            /*
-            TextView title = v.findViewById(R.id.textViewTitle);
-            String titleString = title.getText().toString();
-
-            for (int i = 0; i<hand.size(); i++) {
-                if(hand.get(i).getTitle().equals(titleString)){
-                    index = i;
-                }
-            }*/
-
             index = cardRow.indexOfChild(v);
-
-            //((ConstraintLayout) v).indexOfChild(v)
-            //v.indexOfChild(View child)
-
             action = new DominionPlayCardAction(this, index);
         }
 
         game.sendAction(action);
-    }// onClick'
+    }// onClick
 
-    View.OnClickListener handClickListener = new View.OnClickListener() {
+    View.OnClickListener handClickListener = new View.OnClickListener(){
         @Override
-        public void onClick(View v) {
-            if(v == null){ return; }
-            Log.i("DomHumPlayer: onClick", "Player's card button clicked.");
+        public void onClick(View v){
+            if(v == null) { return; }
+
+            if(v == activity.findViewById(R.id.buttonPlayAll)){
+               Log.i("DomHumPlayer: HandClickListener onClick: ", "Play all button clicked");
+
+               game.sendAction(new DominionPlayAllAction(thisPlayer));
+            } else {
+                //Hayden's code
+                Log.i("DomHumPlayer: onClick", "Player card button clicked.");
+                int toPlayIdx = ((LinearLayout)v.getParent()).indexOfChild(v);
+                game.sendAction(new DominionPlayCardAction(thisPlayer, toPlayIdx));
+
+
+                //Julian's code
+            /*
+            Log.i("DomHumPlayer: onClick", "Player card button clicked.");
             int targetIdx = ((LinearLayout) v.getParent()).indexOfChild(v);
-            game.sendAction(new DominionPlayCardAction(thisPlayer, targetIdx));
+            int handOffsetTemp = handOffset;
+            handOffset = (hand.size() - handOffset > 5) ? handOffset : Math.max(handOffset - 1, 0);
+            game.sendAction(new DominionPlayCardAction(thisPlayer, targetIdx + handOffsetTemp));
+            */
+
+            }
         }
     };
 
