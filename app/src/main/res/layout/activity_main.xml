@@ -217,7 +217,9 @@
             app:layout_constraintStart_toEndOf="@+id/Base_Cards"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".45" />
+            app:layout_constraintWidth_percent=".45" >
+
+        </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/Player_Tabs"
@@ -314,7 +316,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <FrameLayout
                 android:id="@+id/frameLayout"
@@ -367,9 +370,10 @@
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/dominion_opponent_card_back"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
