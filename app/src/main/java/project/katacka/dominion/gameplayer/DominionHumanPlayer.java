@@ -80,14 +80,18 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     private TextView tvTreasure;
 
     private TextView tvOppDraw;
+    private ImageView oppDraw;
     private TextView tvOppDiscard;
     private ConstraintLayout oppDiscardLayout;
+    private ImageView oppEmptyDiscard;
 
     private TextView tvDrawCount;
     private TextView tvDiscardCount;
 
     private ImageView drawPile;
     private ConstraintLayout discardPile;
+    private ImageView emptyDiscardPile;
+    private ImageView emptyDrawPile;
 
     private DominionPlayerState playerState;
 
@@ -186,14 +190,18 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         tvDiscardCount.setText("0");
 
         tvOppDraw = activity.findViewById(R.id.textViewOppDraw);
+        oppDraw = activity.findViewById(R.id.ivOppDrawCard);
         tvOppDiscard = activity.findViewById(R.id.textViewOppDiscard);
         oppDiscardLayout = activity.findViewById(R.id.oppDiscardCard);
         oppDiscardLayout.setRotation(180);
+        oppEmptyDiscard = activity.findViewById(R.id.oppDiscardEmpty);
         tvOppDraw.setText("5");
         tvOppDiscard.setText("0");
 
         drawPile = activity.findViewById(R.id.ivDrawCard);
         discardPile = activity.findViewById(R.id.imageViewDiscard);
+        emptyDiscardPile = activity.findViewById(R.id.imageViewDiscardEmpty);
+        emptyDrawPile = activity.findViewById(R.id.imageViewDrawEmpty);
 
         for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
             View shopRow = shopLayout.getChildAt(i);
@@ -323,13 +331,18 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         if(drawSize == 0){
             drawPile.setVisibility(View.INVISIBLE);
+            emptyDrawPile.setVisibility(View.VISIBLE);
+
         } else {
             drawPile.setVisibility(View.VISIBLE);
+            emptyDrawPile.setVisibility(View.INVISIBLE);
         }
         if(discardSize == 0){
             discardPile.setVisibility(View.INVISIBLE);
+            emptyDiscardPile.setVisibility(View.VISIBLE);
         } else {
             discardPile.setVisibility(View.VISIBLE);
+            emptyDiscardPile.setVisibility(View.INVISIBLE);
             updateCardView(discardPile, playerState.getDeck().getLastDiscard(), -1);
         }
     }
@@ -372,15 +385,23 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     private void updateOppDrawDiscard(int player){
         if (player == playerNum) return;
         DominionDeckState currPlayerDeck = state.getDominionPlayer(player).getDeck();
-        tvOppDraw.setText(Integer.toString(currPlayerDeck.getDrawSize()));
+        int drawSize = currPlayerDeck.getDrawSize();
+        tvOppDraw.setText(Integer.toString(drawSize));
+        if (drawSize > 0){
+            oppDraw.setImageResource(R.drawable.dominion_opponent_card_back);
+        } else {
+            oppDraw.setImageResource(R.drawable.dominion_draw);
+        }
         int discardSize = currPlayerDeck.getDiscardSize();
         tvOppDiscard.setText(Integer.toString(discardSize));
         if (discardSize > 0) {
             updateCardView(oppDiscardLayout, currPlayerDeck.getLastDiscard(), -1);
             oppDiscardLayout.setVisibility(View.VISIBLE);
+            oppEmptyDiscard.setVisibility(View.INVISIBLE);
         }
         else {
             oppDiscardLayout.setVisibility(View.INVISIBLE);
+            oppEmptyDiscard.setVisibility(View.VISIBLE);
         }
     }
 
