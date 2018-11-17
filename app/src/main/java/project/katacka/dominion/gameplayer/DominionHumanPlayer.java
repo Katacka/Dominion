@@ -1,5 +1,6 @@
 package project.katacka.dominion.gameplayer;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -8,9 +9,11 @@ import android.support.constraint.ConstraintSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -67,6 +70,8 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     private LinearLayout cardRow = null;
     ArrayList<DominionCardState> hand;
+
+    ConstraintLayout mainLayout;
 
     private Resources res;
 
@@ -185,6 +190,8 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         res = activity.getResources();
 
+        mainLayout = activity.findViewById(R.id.constraintMain);
+
         //set listeners
         bEndTurn.setOnClickListener(this);
     }
@@ -203,7 +210,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
     //TODO: Set correctly
     @Override
     public View getTopView() {
-        return null;
+        return mainLayout;
     }
 
     /**
@@ -336,7 +343,9 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         FrameLayout layout = cardView.findViewById(R.id.frameLayoutAmount);
         if (num == -1){
-            layout.setVisibility(View.GONE);
+            //ASHI
+            //layout.setVisibility(View.GONE);
+            layout.setVisibility(View.INVISIBLE);
         } else {
             layout.setVisibility(View.VISIBLE);
             TextView amount = cardView.findViewById(R.id.textViewAmount);
@@ -375,7 +384,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
 
                 for (ConstraintLayout shopCard: shopPiles) {
                     shopCard.setOnClickListener(shopClickListener);
-                    //shopCard.setOnLongClickListener(shopLongClickListener);
+                    shopCard.setOnLongClickListener(shopLongClickListener);
                     DominionCardState cardState = state.getShopCards().get(m).getCard();
                     int amount = state.getShopCards().get(m).getAmount();
                     updateCardView(shopCard, cardState, amount);
@@ -519,31 +528,49 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
         public void onClick(View v) {
             //GameAction action = null;
             boolean isBaseCard = basePiles.contains(v);
-            int index;
-            TextView title = v.findViewById(R.id.textViewTitle);
-            String titleString = title.getText().toString();
 
-            if(isBaseCard){
-                Log.i("DominionHumanPlayer: onLongClick", "basecard longpressed");
-                for (index = 0; index < state.getBaseCards().size(); index++) {
-                    if (state.getBaseCards().get(index).getCard().getTitle().equals(titleString)) {
-                        break;
-                    }
-                }
-            }
-            else {
-                Log.i("DominionHumanPlayer: onLongClick", "shopcard longpressed");
-                for (index = 0; index < state.getShopCards().size(); index++) {
-                    if (state.getShopCards().get(index).getCard().getTitle().equals(titleString)) {
-                        break;
-                    }
-                }
-            }
+            TableRow parentView = (TableRow) v.getParent();
+            //is the table row the top row or bottom row
+            TableLayout parentLayout = (TableLayout) parentView.getParent();
+            int offSet = parentLayout.indexOfChild(parentView) * parentView.getVirtualChildCount();
+            int desiredIndex = parentView.indexOfChild(v) + offSet;
 
-            game.sendAction(new DominionBuyCardAction(thisPlayer, index, isBaseCard));
-            Log.i("Player 0 num cards before buy: ", "" + state.getDominionPlayer(0).getDeck().getDiscardSize());
-            Log.i("Player 0 num cards after buy: ", "" + state.getDominionPlayer(0).getDeck().getDiscardSize());
+            game.sendAction(new DominionBuyCardAction(thisPlayer, desiredIndex, isBaseCard));
         }
     };
+
+    View.OnLongClickListener shopLongClickListener = new View.OnLongClickListener(){
+      @Override
+      public boolean onLongClick(View v) {
+          TableRow parentView = (TableRow) v.getParent();
+          //is the table row the top row or bottom row
+          TableLayout parentLayout = (TableLayout) parentView.getParent();
+          int offSet = parentLayout.indexOfChild(parentView) * parentView.getVirtualChildCount();
+          int desiredIndex = parentView.indexOfChild(v) + offSet;
+
+          //get dominion shop pile state
+          DominionShopPileState pileState = state.getShopCards().get(desiredIndex);
+
+          final Dialog dialog = new Dialog(activity);
+          dialog.setContentView(populateCardLayout(pileState));
+          dialog.show();
+          Window window = dialog.getWindow();
+          double height = mainLayout.getHeight() * 0.50;
+          window.setLayout((int) (height * 0.66), (int) height);
+
+          return true;
+      }
+    };
+
+    /**
+     * Creates new cardView and populates it (for card description dialogue)
+     * @param pile Shop pile that will be used for card description dialogue
+     * @return cardView to be displayed
+     */
+    protected View populateCardLayout(DominionShopPileState pile){
+        ConstraintLayout cardView = (ConstraintLayout) LayoutInflater.from(activity).inflate(R.layout.player_card, mainLayout, false);
+        DominionCardState card = pile.getCard();
+        updateCardView(cardView, card, pile.getAmount());
+        return cardView;
+    }
 }
-//TODO : ASHI make player hand shrink to size (gone vs invalidate)
