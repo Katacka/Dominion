@@ -6,4 +6,5 @@
     <dimen name="table_row_vert_pad">10dp</dimen>
     <dimen name="table_row_horiz_pad">50dp</dimen>
     <dimen name="config_horiz_margin">20dp</dimen>
+    <dimen name="menu_button_offset">32dp</dimen>
 </resources>

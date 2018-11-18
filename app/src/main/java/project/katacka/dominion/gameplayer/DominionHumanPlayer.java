@@ -101,6 +101,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private TextView tvDrawCount;
     private TextView tvDiscardCount;
 
+    private TextView bMenu;
+
     private ImageView drawPile;
     private ConstraintLayout discardPile;
     private ImageView emptyDiscardPile;
@@ -223,7 +225,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         mainLayout = activity.findViewById(R.id.constraintMain);
 
         //set listeners
-        //bEndTurn.setOnClickListener(this);
+        bMenu = activity.findViewById(R.id.bMenu);
     }
 
     /**
@@ -257,37 +259,14 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         //set default individual tab widths as percentages of the parents constraints
         //by default, tab1 is active
 
-        switch(activePlayer){
-            case 0:
-                c.constrainPercentWidth(R.id.playerTab1, tabActiveVal);
-                c.constrainPercentWidth(R.id.playerTab2, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab3, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab4, tabInactiveVal);
-                break;
-            case 1:
-                c.constrainPercentWidth(R.id.playerTab1, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab2, tabActiveVal);
-                c.constrainPercentWidth(R.id.playerTab3, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab4, tabInactiveVal);
-                break;
-            case 2:
-                c.constrainPercentWidth(R.id.playerTab1, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab2, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab3, tabActiveVal);
-                c.constrainPercentWidth(R.id.playerTab4, tabInactiveVal);
-                break;
-            case 3:
-                c.constrainPercentWidth(R.id.playerTab1, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab2, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab3, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab4, tabActiveVal);
-                break;
-            default:
-                c.constrainPercentWidth(R.id.playerTab1, tabActiveVal);
-                c.constrainPercentWidth(R.id.playerTab2, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab3, tabInactiveVal);
-                c.constrainPercentWidth(R.id.playerTab4, tabInactiveVal);
-                break;
+        int[] playerTabs = {R.id.playerTab1, R.id.playerTab2, R.id.playerTab3, R.id.playerTab4};
+
+        for(int i = 0; i < state.getDominionPlayers().length; i++){
+            if(i == activePlayer){
+                c.constrainPercentWidth(playerTabs[i], tabActiveVal);
+            } else {
+                c.constrainPercentWidth(playerTabs[i], tabInactiveVal);
+            }
         }
         c.applyTo(tabLayout);
         c.clone((ConstraintLayout) activity.findViewById(R.id.Player_Tabs));
@@ -604,7 +583,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             if(v == null) { return; }
 
             GameAction action = null;
-            if(v == activity.findViewById(R.id.buttonPlayAll)){
+            if(v == bPlayAll){
                Log.i("DomHumPlayer: HandClickListener onClick: ", "Play all button clicked");
 
                action = new DominionPlayAllAction(thisPlayer);
@@ -613,7 +592,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 Log.i("DomHumPlayer: onClick", "End turn button clicked.");
 
                 action = new DominionEndTurnAction(thisPlayer);
-            } else if(v instanceof ConstraintLayout){
+            } else if(v instanceof ConstraintLayout){ //v is one of the playerCards
                 Log.i("DomHumPlayer: onClick", "Player's card button clicked.");
 
                 int index = cardRow.indexOfChild(v);
@@ -641,6 +620,13 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             int desiredIndex = parentView.indexOfChild(v) + offSet;
 
             game.sendAction(new DominionBuyCardAction(thisPlayer, desiredIndex, isBaseCard));
+        }
+    };
+
+    View.OnClickListener menuClickListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            //bring up a window
         }
     };
 
