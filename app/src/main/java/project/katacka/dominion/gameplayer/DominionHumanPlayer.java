@@ -97,6 +97,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private TextView tvDrawCount;
     private TextView tvDiscardCount;
 
+    private TextView bMenu;
+
     private ImageView drawPile;
     private ConstraintLayout discardPile;
     private ImageView emptyDiscardPile;
@@ -219,7 +221,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         mainLayout = activity.findViewById(R.id.constraintMain);
 
         //set listeners
-        //bEndTurn.setOnClickListener(this);
+        bMenu = activity.findViewById(R.id.bMenu);
     }
 
     /**
@@ -561,7 +563,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             if(v == null) { return; }
 
             GameAction action = null;
-            if(v == activity.findViewById(R.id.buttonPlayAll)){
+            if(v == bPlayAll){
                Log.i("DomHumPlayer: HandClickListener onClick: ", "Play all button clicked");
 
                action = new DominionPlayAllAction(thisPlayer);
@@ -570,7 +572,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 Log.i("DomHumPlayer: onClick", "End turn button clicked.");
 
                 action = new DominionEndTurnAction(thisPlayer);
-            } else if(v instanceof ConstraintLayout){
+            } else if(v instanceof ConstraintLayout){ //v is one of the playerCards
                 Log.i("DomHumPlayer: onClick", "Player's card button clicked.");
 
                 int index = cardRow.indexOfChild(v);
@@ -598,6 +600,13 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             int desiredIndex = parentView.indexOfChild(v) + offSet;
 
             game.sendAction(new DominionBuyCardAction(thisPlayer, desiredIndex, isBaseCard));
+        }
+    };
+
+    View.OnClickListener menuClickListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            //bring up a window
         }
     };
 

@@ -424,6 +424,19 @@
             </FrameLayout>
 
         </android.support.constraint.ConstraintLayout>
+
+        <Button
+            android:id="@+id/bMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/menu_button_offset"
+            android:background="#339999"
+            android:text="Menu"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/Player_Tabs"
+            app:layout_constraintEnd_toStartOf="@+id/Base_Cards"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
     <!-- Game Log -->
