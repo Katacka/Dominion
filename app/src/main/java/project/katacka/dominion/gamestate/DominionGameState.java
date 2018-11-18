@@ -289,8 +289,7 @@ public class DominionGameState extends GameState implements Serializable{
                 buys = 1;
                 actions = 1;
                 DominionPlayerState currPlayer = dominionPlayers[currentTurn];
-                currPlayer.getDeck().discardAll();
-                currPlayer.getDeck().drawMultiple(5);
+                currPlayer.endTurn();
                 currentTurn = (currentTurn + 1) % numPlayers;
                 attackTurn = currentTurn;
                 numMerchants = 0;
@@ -329,7 +328,7 @@ public class DominionGameState extends GameState implements Serializable{
         if(isLegalPlay(playerID, cardIndex)) {
             DominionDeckState deck = this.dominionPlayers[playerID].getDeck();
             DominionCardState card = deck.getHand().get(cardIndex);
-            deck.discard(cardIndex); //Discarding before playing the card fixes cases like moneylender
+            deck.putInPlay(cardIndex); //Discarding before playing the card fixes cases like moneylender
             if(!card.cardAction(this)){
                 return false;
             }

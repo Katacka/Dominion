@@ -1,6 +1,7 @@
 package project.katacka.dominion.gamestate;
 
 import android.content.Context;
+import android.renderscript.ScriptGroup;
 import android.support.annotation.RawRes;
 import android.util.Log;
 
@@ -11,6 +12,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -73,6 +75,24 @@ public class CardReader{
     }
 
     /**
+     * Alternative card reader.
+     * Here for testing purposes.
+     * @param ins The input stream to read the cards from
+     * @param uniqueCardPiles The number of cards to read, chosen randomly
+     * @return An ArrayList of all shop piles read from JSON, or null if an error occurs
+     */
+    public ArrayList<DominionShopPileState> generateCards(InputStream ins, int uniqueCardPiles){
+        try {
+            ArrayList<DominionShopPileState> cardPiles = gsonParser.fromJson(new InputStreamReader(ins, "UTF-8"), arrayType);
+            return (uniqueCardPiles > 0) ? selectCards(cardPiles, uniqueCardPiles) : cardPiles;
+        }
+        catch (UnsupportedEncodingException e){
+            Log.e(TAG, "Encoding not valid - failed to read cards.");
+            return null;
+        }
+    }
+
+    /**
      * Returns a selection of the DominionShopPileState ArrayList as parsed by GsonDeserializer
      * @param cardPiles ArrayList of DominionShopPileState objects as parsed by GsonDeserializer
      * @param uniqueCardPiles Number of unique, requested card piles
@@ -83,7 +103,7 @@ public class CardReader{
     private ArrayList<DominionShopPileState> selectCards(ArrayList<DominionShopPileState> cardPiles, int uniqueCardPiles) {
         if (cardPiles.size() > uniqueCardPiles) {
             Collections.shuffle(cardPiles);
-            return (ArrayList<DominionShopPileState>) cardPiles.subList(0, uniqueCardPiles);
+            return  new ArrayList<>(cardPiles.subList(0, uniqueCardPiles));
         }
         return cardPiles;
     }
