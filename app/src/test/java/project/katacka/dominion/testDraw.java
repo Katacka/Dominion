@@ -41,9 +41,9 @@ public class testDraw {
          */
 
 
-        DominionShopPileState copperPile = new DominionShopPileState(copper, 10);
+        DominionShopPileState copperPile = new DominionShopPileState(copper, 10, true);
 
-        ArrayList<DominionShopPileState> shopPileArray = new ArrayList<>();
+        ArrayList<DominionShopPileState> shopPileArray = new ArrayList<>(1);
         shopPileArray.add(copperPile);
 
         //make a state

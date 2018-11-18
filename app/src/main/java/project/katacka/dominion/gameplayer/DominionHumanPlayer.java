@@ -424,13 +424,12 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     }
 
-
     private void setGrayedOut(ConstraintLayout shopCard) {
         /*
          * External Citation
          * Date: 11/18/18
          * Problem: Trying to use PorterDuffColorFilter
-         * Source: https://stackoverflow.com/questions/11036835/how-to-apply-a-color-filter-to-a-view-with-all-children
+         * Source: https://developer.android.com/reference/android/graphics/PorterDuff.Mode
          * Solution: Used PorterDuff Multiply mode to make color filter
          */
         ColorFilter grayFilter = new PorterDuffColorFilter(Color.DKGRAY, PorterDuff.Mode.MULTIPLY);
@@ -439,7 +438,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         ((ImageView) shopCard.findViewById(R.id.imageViewCost)).setColorFilter(grayFilter);
         ((ImageView) shopCard.findViewById(R.id.imageViewAmount)).setColorFilter(grayFilter);
     }
-
 
     /**
      * Updates the base piles
