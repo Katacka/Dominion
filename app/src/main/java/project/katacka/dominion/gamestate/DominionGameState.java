@@ -51,7 +51,9 @@ public class DominionGameState extends GameState implements Serializable{
     protected int actions;
     protected int buys;
     protected int treasure;
-    protected boolean silverBoon; //Merchant: First silver is worth 1 more
+
+    protected int numMerchants;
+    protected boolean silverPlayed;
 
     private int emptyPiles;
     private boolean providenceEmpty = false;
@@ -108,7 +110,9 @@ public class DominionGameState extends GameState implements Serializable{
         this.treasure = 0;
         this.buys = 1;
         this.actions = 1;
-        this.silverBoon = false;
+
+        this.numMerchants = 0;
+        this.silverPlayed = false;
 
         dominionPlayers[currentTurn].startTurn();
 
@@ -157,7 +161,9 @@ public class DominionGameState extends GameState implements Serializable{
 
         this.emptyPiles = gameState.emptyPiles;
         this.providenceEmpty = gameState.providenceEmpty;
-        this.silverBoon = gameState.silverBoon;
+
+        this.numMerchants = gameState.numMerchants;
+        this.silverPlayed = gameState.silverPlayed;
 
         this.actions = gameState.actions;
         this.buys = gameState.buys;
@@ -184,7 +190,7 @@ public class DominionGameState extends GameState implements Serializable{
         batStr = String.format(Locale.US, "There are %d buys, %d actions, and %d treasure remaining.",
                 buys, actions, treasure);
 
-        boonStr = silverBoon ? "A silver boon is in effect.\n" : "";
+        boonStr = !silverPlayed ? "The next silver is worth an extra " + numMerchants + " treasure.\n" : "";
 
         String[] baseStrs = new String[baseCards.size()];
         for (int i = 0; i < baseCards.size(); i++){
@@ -287,7 +293,8 @@ public class DominionGameState extends GameState implements Serializable{
                 currPlayer.getDeck().drawMultiple(5);
                 currentTurn = (currentTurn + 1) % numPlayers;
                 attackTurn = currentTurn;
-                silverBoon = false;
+                numMerchants = 0;
+                silverPlayed = false;
                 dominionPlayers[currentTurn].startTurn();
             }
 
