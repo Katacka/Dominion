@@ -548,7 +548,7 @@ public class DominionHumanPlayer extends GameHumanPlayer implements View.OnClick
             for(int i=0; i < hand.size(); i++){
                 layout = (ConstraintLayout) cardRow.getChildAt(i);
                 if (layout != null) {
-                    Log.e("a", "receiveInfo: " + cardRow.getChildCount());
+                    Log.e("HumanPlayer", "receiveInfo: " + cardRow.getChildCount()); //TODO: Remove or demote from error
                     layout.setOnClickListener(handClickListener);
                     card = hand.get(i);
                     //if the card exists
