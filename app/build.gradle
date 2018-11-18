@@ -23,6 +23,9 @@ android {
     buildToolsVersion '28.0.2'
     productFlavors {
     }
+    sourceSets {
+        test.resources.srcDirs += 'src/test/res'
+    }
 }
 
 dependencies {
