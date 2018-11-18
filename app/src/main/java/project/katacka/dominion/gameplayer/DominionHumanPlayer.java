@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.IdRes;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.util.Log;
@@ -87,11 +88,19 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private TextView tvBuys;
     private TextView tvTreasure;
 
+    private TextView tvOppDraw;
+    private ImageView oppDraw;
+    private TextView tvOppDiscard;
+    private ConstraintLayout oppDiscardLayout;
+    private ImageView oppEmptyDiscard;
+
     private TextView tvDrawCount;
     private TextView tvDiscardCount;
 
     private ImageView drawPile;
     private ConstraintLayout discardPile;
+    private ImageView emptyDiscardPile;
+    private ImageView emptyDrawPile;
 
     private DominionPlayerState playerState;
 
@@ -191,8 +200,19 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         tvDrawCount.setText("0");
         tvDiscardCount.setText("0");
 
+        tvOppDraw = activity.findViewById(R.id.textViewOppDraw);
+        oppDraw = activity.findViewById(R.id.ivOppDrawCard);
+        tvOppDiscard = activity.findViewById(R.id.textViewOppDiscard);
+        oppDiscardLayout = activity.findViewById(R.id.oppDiscardCard);
+        oppDiscardLayout.setRotation(180);
+        oppEmptyDiscard = activity.findViewById(R.id.oppDiscardEmpty);
+        tvOppDraw.setText("5");
+        tvOppDiscard.setText("0");
+
         drawPile = activity.findViewById(R.id.ivDrawCard);
         discardPile = activity.findViewById(R.id.imageViewDiscard);
+        emptyDiscardPile = activity.findViewById(R.id.imageViewDiscardEmpty);
+        emptyDrawPile = activity.findViewById(R.id.imageViewDrawEmpty);
 
         res = activity.getResources();
 
@@ -295,13 +315,18 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
         if(drawSize == 0){
             drawPile.setVisibility(View.INVISIBLE);
+            emptyDrawPile.setVisibility(View.VISIBLE);
+
         } else {
             drawPile.setVisibility(View.VISIBLE);
+            emptyDrawPile.setVisibility(View.INVISIBLE);
         }
         if(discardSize == 0){
             discardPile.setVisibility(View.INVISIBLE);
+            emptyDiscardPile.setVisibility(View.VISIBLE);
         } else {
             discardPile.setVisibility(View.VISIBLE);
+            emptyDiscardPile.setVisibility(View.INVISIBLE);
             updateCardView(discardPile, playerState.getDeck().getLastDiscard(), -1);
         }
     }
@@ -430,6 +455,79 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     }
 
+    private void updateOppDrawDiscard(int player){
+        if (player == playerNum) return;
+        DominionDeckState currPlayerDeck = state.getDominionPlayer(player).getDeck();
+        int drawSize = currPlayerDeck.getDrawSize();
+        tvOppDraw.setText(Integer.toString(drawSize));
+        if (drawSize > 0){
+            oppDraw.setImageResource(R.drawable.dominion_opponent_card_back);
+        } else {
+            oppDraw.setImageResource(R.drawable.dominion_draw);
+        }
+        int discardSize = currPlayerDeck.getDiscardSize();
+        tvOppDiscard.setText(Integer.toString(discardSize));
+        if (discardSize > 0) {
+            updateCardView(oppDiscardLayout, currPlayerDeck.getLastDiscard(), -1);
+            oppDiscardLayout.setVisibility(View.VISIBLE);
+            oppEmptyDiscard.setVisibility(View.INVISIBLE);
+        }
+        else {
+            oppDiscardLayout.setVisibility(View.INVISIBLE);
+            oppEmptyDiscard.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void updateOppHand(int player){
+        //Finds how many cards to display
+        int handSize;
+        if (player == playerNum){
+            handSize = 5;
+        } else {
+            handSize = state.getDominionPlayer(player).getDeck().getHandSize();
+        }
+
+        ConstraintLayout oppCardsLayout = activity.findViewById(R.id.Opponent_Cards);
+        oppCardsLayout.removeAllViews();
+
+        //Creates new image views and puts them in layout
+        ImageView[] cards = new ImageView[handSize];
+        for (int i = 0; i < handSize; i++){
+            cards[i] = new ImageView(activity);
+            cards[i].setScaleType(ImageView.ScaleType.FIT_START);
+            cards[i].setImageResource(R.drawable.dominion_opponent_card_back);
+            cards[i].setId(View.generateViewId()); //Needed to allow constraints
+            oppCardsLayout.addView(cards[i]);
+        }
+
+        ConstraintSet set = new ConstraintSet();
+        set.clone(oppCardsLayout);
+        float biasMultiplier = Math.min(0.2f, 1/(float)handSize); //How far apart the cards should be, as a percentage
+        @IdRes int layoutID = oppCardsLayout.getId();
+
+        //Add constraints to every card image
+        for (int i = 0; i < handSize; i++){
+            ImageView card = cards[i];
+            @IdRes int id = card.getId();
+
+            //Constrain to all four edges of the layout
+            set.connect(id, ConstraintSet.LEFT, layoutID, ConstraintSet.LEFT);
+            set.connect(id, ConstraintSet.RIGHT, layoutID, ConstraintSet.RIGHT);
+            set.connect(id, ConstraintSet.TOP, layoutID, ConstraintSet.TOP);
+            set.connect(id, ConstraintSet.BOTTOM, layoutID, ConstraintSet.BOTTOM);
+
+            //Have it fill the height it can
+            set.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
+            //Have it be wide enough to maintain aspect ration
+            set.constrainWidth(id, ConstraintSet.WRAP_CONTENT);
+
+            //Position the card in the correct position
+            //This is the entire reason we use a constraint layout
+            set.setHorizontalBias(id, i*biasMultiplier);
+        }
+        set.applyTo(oppCardsLayout);
+    }
+
     //TODO: fix to update tabs more accurately for attack turns
     @Override
     public void receiveInfo(GameInfo info) {
@@ -451,6 +549,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             updateShopPiles();
             updateBasePiles();
             updatePlayerHand();
+
+            updateOppDrawDiscard(state.getCurrentTurn());
+            updateOppHand(state.getCurrentTurn());
 
             //set listeners
             bEndTurn.setOnClickListener(handClickListener);

@@ -1,8 +1,6 @@
 package project.katacka.dominion.localgame;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -15,9 +13,7 @@ import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gameframework.GamePlayer;
 import project.katacka.dominion.gameframework.LocalGame;
 import project.katacka.dominion.gameframework.actionMsg.GameAction;
-import project.katacka.dominion.gameframework.infoMsg.GameState;
 import project.katacka.dominion.gamestate.CardReader;
-import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionGameState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
 
@@ -140,7 +136,7 @@ public class DominionLocalGame extends LocalGame {
 
             int playerID = getPlayerIdx(player);
 
-            return state.playAllTreasures(playerID);
+            return state.playAllCards(playerID);
         } else if (gameAction instanceof DominionBuyCardAction){
 
             DominionBuyCardAction action = (DominionBuyCardAction) gameAction;
@@ -163,7 +159,7 @@ public class DominionLocalGame extends LocalGame {
             DominionPlayAllAction action = (DominionPlayAllAction) gameAction;
             int playerIndex = getPlayerIdx(action.getPlayer());
 
-            return state.playAllTreasures(playerIndex);
+            return state.playAllCards(playerIndex);
         } else {
             return false;
         }

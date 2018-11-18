@@ -257,7 +257,7 @@ public class DominionCardState implements Serializable{
      * @return Action completed successfully
      */
     private boolean merchantAction(DominionGameState game) {
-        game.silverBoon = true; //The first Silver played is worth one more
+        game.numMerchants++;
         return baseAction(game);
     }
 
@@ -300,9 +300,9 @@ public class DominionCardState implements Serializable{
      * @return Action completed successfully.
      */
     private boolean silverAction(DominionGameState game) {
-        if(game.silverBoon) {
-            game.treasure += 1; //Handles merchant silver boon
-            game.silverBoon = false;
+        if(!game.silverPlayed) {
+            game.treasure += game.numMerchants; //Handles merchant silver bonus
+            game.silverPlayed = true;
         }
 
         return baseAction(game);
