@@ -19,6 +19,7 @@ public class DominionDeckState implements Serializable{
     private final ArrayList<DominionCardState> draw;
     private final ArrayList<DominionCardState> discard;
     private final ArrayList<DominionCardState> hand;
+    private final ArrayList<DominionCardState> inPlay;
 
     /**
      * Constructor. Creates empty deck.
@@ -27,6 +28,7 @@ public class DominionDeckState implements Serializable{
         draw = new ArrayList<>(10);
         discard = new ArrayList<>(10);
         hand = new ArrayList<>(10);
+        inPlay = new ArrayList<>(10);
     }
 
     /**
@@ -39,6 +41,7 @@ public class DominionDeckState implements Serializable{
         this.draw = new ArrayList<>(deckState.draw.size());
         this.discard = new ArrayList<>(deckState.discard.size());
         this.hand = new ArrayList<>(deckState.hand.size());
+        this.inPlay = new ArrayList<>(deckState.inPlay.size());
 
         //Creates empty deck and discard, since they are not known to player
 
@@ -66,6 +69,11 @@ public class DominionDeckState implements Serializable{
             for(int i = 0; i < deckState.hand.size(); i++){
                 this.hand.add(DominionCardState.BLANK_CARD);
             }
+        }
+
+        //Populate the in play cards
+        for(DominionCardState card : deckState.inPlay){
+            this.inPlay.add(new DominionCardState(card));
         }
     }
 
@@ -142,6 +150,18 @@ public class DominionDeckState implements Serializable{
         return false;
     }
 
+    public boolean putInPlay(int handIndex) {
+        if (handIndex < 0 || handIndex >= hand.size()){
+            return false;
+        }
+        else {
+            DominionCardState card = hand.get(handIndex);
+            inPlay.add(card);
+            hand.remove(handIndex);
+            return true;
+        }
+    }
+
     /**
      * Puts card in the discard pile.
      * This card will be removed from the hand, if it exists.
@@ -202,8 +222,10 @@ public class DominionDeckState implements Serializable{
      * Discards all cards in hand.
      */
     public void discardAll(){
+        discard.addAll(inPlay);
         discard.addAll(hand);
 
+        inPlay.clear();
         hand.clear();
     }
 
