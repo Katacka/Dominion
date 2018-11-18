@@ -4,6 +4,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.annotation.IdRes;
@@ -401,22 +404,38 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     DominionCardState cardState = state.getShopCards().get(m).getCard();
                     int amount = state.getShopCards().get(m).getAmount();
                     updateCardView(shopCard, cardState, amount);
-                    //if (amount == 0) displayEmptyStack(shopCard);
+                    if (amount == 0) setGrayedOut(shopCard);
                     m++;
                 }
             }
         }
     }
 
+    private void setGrayedOut(ConstraintLayout shopCard) {
+        /*
+         * External Citation
+         * Date: 11/18/18
+         * Problem: Trying to use PorterDuffColorFilter
+         * Source: https://developer.android.com/reference/android/graphics/PorterDuff.Mode
+         * Solution: Used PorterDuff Multiply mode to make color filter
+         */
+        ColorFilter grayFilter = new PorterDuffColorFilter(Color.DKGRAY, PorterDuff.Mode.MULTIPLY);
+        ((ImageView) shopCard.findViewById(R.id.imageViewArt)).setColorFilter(grayFilter);
+        shopCard.getBackground().setColorFilter(grayFilter);
+        ((ImageView) shopCard.findViewById(R.id.imageViewCost)).setColorFilter(grayFilter);
+        ((ImageView) shopCard.findViewById(R.id.imageViewAmount)).setColorFilter(grayFilter);
+    }
+
     /**
      * Updates the base piles
      */
     private void updateBasePiles(){
-        /**
+        /*
          * External Citation
-         * setting imageview using string
-         * https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
-         * shows how to convert string to resource id to use to set image view
+         * Date: 11/5/18
+         * Problem: setting imageview using string
+         * Source: https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
+         * Solution: shows how to convert string to resource id to use to set image view
          */
         basePiles = new ArrayList<>();
         int c = 0, start = 0, end = 2;
@@ -434,7 +453,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     DominionCardState cardState = state.getBaseCards().get(c).getCard();
                     int amount = state.getBaseCards().get(c).getAmount();
                     updateCardView(baseCard, cardState, amount);
-                    //if (amount == 0) displayEmptyStack(basePiles.get(r));
+                    if (amount == 0) setGrayedOut(baseCard);
                     c++;
                 }
                 start = start+2;

@@ -98,11 +98,11 @@
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:scaleType="fitStart"
+                android:src="@drawable/gold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/gold"
-                android:src="@drawable/gold" />
+                app:srcCompat="@drawable/gold" />
 
             <TextView
                 android:id="@+id/textViewCost"
@@ -141,12 +141,12 @@
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:scaleType="fitStart"
+                android:src="@drawable/red_square"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/red_square"
-                android:src="@drawable/red_square"/>
+                app:srcCompat="@drawable/red_square" />
 
             <TextView
                 android:id="@+id/textViewAmount"
