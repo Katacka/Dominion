@@ -3,7 +3,9 @@ package project.katacka.dominion.gameplayer;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
@@ -23,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -39,6 +42,7 @@ import project.katacka.dominion.gameframework.GameMainActivity;
 import project.katacka.dominion.gameframework.GamePlayer;
 import project.katacka.dominion.gameframework.actionMsg.GameAction;
 import project.katacka.dominion.gameframework.infoMsg.GameInfo;
+import project.katacka.dominion.gameframework.infoMsg.IllegalMoveInfo;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gameframework.infoMsg.NotYourTurnInfo;
 import project.katacka.dominion.gamestate.DominionDeckState;
@@ -106,12 +110,16 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     GamePlayer thisPlayer = this;
 
+    private Handler myHandler;
+    private Drawable background;
+
     public DominionHumanPlayer(String name) {
         this(name, 5); //Default starting hand size is 5
     }
 
     public DominionHumanPlayer(String name, int numCards) {
         super(name);
+        myHandler = new Handler();
     }
 
     //TODO: Reference all actions properly
@@ -217,6 +225,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         res = activity.getResources();
 
         mainLayout = activity.findViewById(R.id.constraintMain);
+        background = mainLayout.getBackground();
 
         //set listeners
         //bEndTurn.setOnClickListener(this);
@@ -567,6 +576,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         } else if(info instanceof NotYourTurnInfo) {
             //TODO: actually do something if not player turn
             Log.i("DominionHumanPlayer: recieveInfo", "Not your turn.");
+
+        } else if (info instanceof IllegalMoveInfo){
+            flash(Color.RED, 250);
+            Log.i("HumanPlayer", "Illegal move");
+            Toast.makeText(activity, "Illegal move", Toast.LENGTH_SHORT).show();
         }
 
         //TODO: Move citation to correct place
@@ -657,5 +671,41 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         DominionCardState card = pile.getCard();
         updateCardView(cardView, card, pile.getAmount());
         return cardView;
+    }
+
+    @Override
+    protected void flash(int color, int duration) {
+        View top = this.getTopView();
+        if (top == null) return;
+
+        //This part is different
+        //Background is not saved - this is done when GUI is set
+        //This prevents a race condition where the "flashed" background gets saved
+        top.setBackgroundColor(color);
+        Log.i("Human", "Starting flash");
+
+        myHandler.postDelayed(new Unflasher(), duration);
+    }
+
+    /**
+    * helper-class to finish a "flash".
+     * Making our own so that a image background can be supported
+    *
+    */
+    private class Unflasher implements Runnable {
+
+        // constructor
+        public Unflasher() {
+
+        }
+
+        // method to run at the appropriate time: sets background color
+        // back to the original
+        public void run() {
+            View top = getTopView();
+            if (top == null) return;
+            top.setBackground(background);
+            Log.i("Human", "Ending flash");
+        }
     }
 }
