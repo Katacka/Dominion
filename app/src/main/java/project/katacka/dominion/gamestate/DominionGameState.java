@@ -289,8 +289,7 @@ public class DominionGameState extends GameState implements Serializable{
                 buys = 1;
                 actions = 1;
                 DominionPlayerState currPlayer = dominionPlayers[currentTurn];
-                currPlayer.getDeck().discardAll();
-                currPlayer.getDeck().drawMultiple(5);
+                currPlayer.endTurn();
                 currentTurn = (currentTurn + 1) % numPlayers;
                 attackTurn = currentTurn;
                 numMerchants = 0;
