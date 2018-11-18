@@ -329,7 +329,7 @@ public class DominionGameState extends GameState implements Serializable{
         if(isLegalPlay(playerID, cardIndex)) {
             DominionDeckState deck = this.dominionPlayers[playerID].getDeck();
             DominionCardState card = deck.getHand().get(cardIndex);
-            deck.discard(cardIndex); //Discarding before playing the card fixes cases like moneylender
+            deck.putInPlay(cardIndex); //Discarding before playing the card fixes cases like moneylender
             if(!card.cardAction(this)){
                 return false;
             }
