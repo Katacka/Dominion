@@ -162,6 +162,12 @@ public class DominionDeckState implements Serializable{
         }
     }
 
+    public DominionCardState getLastPlayed(){
+        int size = inPlay.size();
+        if (size == 0) return null;
+        else return inPlay.get(size-1);
+    }
+
     /**
      * Puts card in the discard pile.
      * This card will be removed from the hand, if it exists.
