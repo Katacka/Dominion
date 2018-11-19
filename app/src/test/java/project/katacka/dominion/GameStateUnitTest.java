@@ -24,11 +24,9 @@ import project.katacka.dominion.gamestate.DominionShopPileState;
 //TODO: Javadoc
 public class GameStateUnitTest {
 
-    private static ArrayList<DominionShopPileState> baseCards;
-    private static ArrayList<DominionShopPileState> shopCards;
-
-    private ArrayList<DominionShopPileState> baseClone;
-    private ArrayList<DominionShopPileState> shopClone;
+    private ArrayList<DominionShopPileState> baseCards;
+    private ArrayList<DominionShopPileState> shopCards;
+    private DominionGameState state;
 
     private final int COPPER = 0;
     private final int ESTATE = 1;
@@ -40,44 +38,19 @@ public class GameStateUnitTest {
 
     @BeforeClass
     public static void setupCards(){
-
-        /**
-         * External citation
-         * Problem: Trying to access resources (card jsons) for unit testing.
-         * Resource:
-         *  https://stackoverflow.com/questions/29341744/android-studio-unit-testing-read-data-input-file#29488904
-         * Solution:
-         *  Updated gradle to add res directory for testing. Created this directory, copied in JSONS.
-         *  Using class loader to get resources as stream.
-         */
-
-        CardReader reader = new CardReader("base");
-        try (InputStream shopStream = GameStateUnitTest.class.getClassLoader().getResourceAsStream("shop_cards.json");
-             InputStream baseStream = GameStateUnitTest.class.getClassLoader().getResourceAsStream("base_cards.json")){
-            shopCards = reader.generateCards(shopStream, 10);
-            baseCards = reader.generateCards(baseStream, 7);
-        } catch (IOException e) {
-            Log.e("Testing", "Error while generating card pile: ");
-        }
+        GameStateGenerator.setupCards();
     }
 
-    @Before
-    public void cloneCards(){
-        baseClone = new ArrayList<>(baseCards.size());
-        for (DominionShopPileState pile : baseCards){
-            baseClone.add(new DominionShopPileState(pile));
-        }
-
-        shopClone = new ArrayList<>(shopCards.size());
-        for (DominionShopPileState pile : shopCards){
-            shopClone.add(new DominionShopPileState(pile));
-        }
+    private void setupState(int players){
+        state = GameStateGenerator.getNewState(players);
+        baseCards = state.getBaseCards();
+        shopCards = state.getShopCards();
     }
 
     //TODO: fix assumption that player 0 goes first
     @Test
     public void testCopper(){
-        DominionGameState state = new DominionGameState(4, baseClone, shopClone);
+        setupState(4);
         DominionDeckState deck = state.getDominionPlayers()[0].getDeck();
         setupSpecialHand(deck);
 
@@ -96,7 +69,7 @@ public class GameStateUnitTest {
     //can't play moneylender with no copper
     //new version: can play moneylender with no copper
     public void testMoneyLenderNoCopper(){
-        DominionGameState state = new DominionGameState(4, baseClone, shopClone);
+        setupState(4);
         DominionDeckState deck = state.getDominionPlayers()[0].getDeck();
         setupSpecialHand(deck);
 
@@ -116,7 +89,7 @@ public class GameStateUnitTest {
 
     @Test
     public void testMoneyLenderWithOneCopper(){
-        DominionGameState state = new DominionGameState(4, baseClone, shopClone);
+        setupState(4);
         DominionDeckState deck = state.getDominionPlayers()[0].getDeck();
         setupSpecialHand(deck);
 
@@ -138,7 +111,7 @@ public class GameStateUnitTest {
 
     @Test
     public void testMoneyLenderWithManyCopper(){
-        DominionGameState state = new DominionGameState(4, baseClone, shopClone);
+        setupState(4);
         DominionDeckState deck = state.getDominionPlayers()[0].getDeck();
         setupSpecialHand(deck);
         ArrayList<DominionCardState> hand = deck.getHand();
@@ -175,7 +148,7 @@ public class GameStateUnitTest {
 
     @Test
     public void testIsTurn(){
-        DominionGameState state = new DominionGameState(4, baseClone, shopClone);
+        setupState(4);
 
         boolean playedCard1 = state.playCard(1, 1);
         assertFalse(playedCard1);
@@ -192,7 +165,7 @@ public class GameStateUnitTest {
 
     @Test
     public void testNoActions(){
-        DominionGameState state = new DominionGameState(4, baseClone, shopClone);
+        setupState(4);
         DominionDeckState deck = state.getDominionPlayers()[0].getDeck();
         setupSpecialHand(deck);
         ArrayList<DominionCardState> hand = deck.getHand();
