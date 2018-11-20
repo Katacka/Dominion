@@ -51,17 +51,25 @@ public class GameStateUnitTest {
     @Test
     public void testCopper(){
         setupState(4);
+
         DominionDeckState deck = state.getDominionPlayers()[0].getDeck();
         setupSpecialHand(deck);
 
-        state.playCard(0, 0); //Plays a copper
+        //play first card in hand, a copper
+        state.playCard(0, 0);
+
+        //assert treasure, actions and buys not decremented
         assertEquals("Treasure", 1, state.getTreasure());
         assertEquals("Actions", 1, state.getActions());
         assertEquals("Buys", 1, state.getBuys());
 
+        //check first card in hand is the second card from the start of turn
         assertEquals(deck.getHand().get(0), baseCards.get(ESTATE).getCard());
+
+        //check that most recent discard is now a copper
         assertEquals(deck.getLastDiscard(), baseCards.get(COPPER).getCard());
 
+        //check that hand increased in size by 1
         assertEquals(deck.getHandSize(), 6);
     }
 
