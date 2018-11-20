@@ -225,10 +225,9 @@ public class DominionCardState implements Serializable{
     /*
     Functions below this point are card actions. They are called when the card is played.
     Note that we cannot know what functions will be called until runtime, since cards are linked to
-        methods by reading the XML.
+        methods by reading the JSON.
     It is assumed the card is legal to play - these methods will not check for sufficient actions,
         current player's turn, ect.
-
     */
     ///////////////////////////////////////////////////////////////////////////
 
@@ -241,7 +240,7 @@ public class DominionCardState implements Serializable{
      * @param game The game state
      * @return Action completed successfully
      */
-    private boolean moatAction(DominionGameState game) {
+    public boolean moatAction(DominionGameState game) {
         //Will have other behavior upon adding ATTACK cards
         return baseAction(game);
     }
@@ -250,12 +249,12 @@ public class DominionCardState implements Serializable{
      * Merchant action:
      * +1 card, +1 action, first silver +1 treasure
      *
-     * Known bug: Playing multiple merchants allows multiple bonus treasure.
+     * TODO: Known bug: Playing multiple merchants allows multiple bonus treasure.
      *
      * @param game The game state
      * @return Action completed successfully
      */
-    private boolean merchantAction(DominionGameState game) {
+    public boolean merchantAction(DominionGameState game) {
         game.numMerchants++;
         return baseAction(game);
     }
@@ -266,7 +265,7 @@ public class DominionCardState implements Serializable{
      * @param game The game state the card is played in
      * @return Action completed successfuly
      */
-    private boolean councilRoomAction(DominionGameState game) {
+    public boolean councilRoomAction(DominionGameState game) {
         //Card text: "Each other player draws a card"
         for (int i = 0; i < game.dominionPlayers.length; i++) {
             if (i != game.currentTurn) game.dominionPlayers[i].getDeck().draw();
@@ -283,7 +282,7 @@ public class DominionCardState implements Serializable{
      * @param game The game state the card is played in
      * @return Action completed successfully, meaning Copper in hand is trashed
      */
-    private boolean moneylenderAction(DominionGameState game) {
+    public boolean moneylenderAction(DominionGameState game) {
         if(game.dominionPlayers[game.currentTurn].getDeck().removeCard("Copper")) {
             game.treasure += 3;
             return true;
@@ -298,7 +297,7 @@ public class DominionCardState implements Serializable{
      * @param game The game state the card is played in
      * @return Action completed successfully.
      */
-    private boolean silverAction(DominionGameState game) {
+    public boolean silverAction(DominionGameState game) {
         if(!game.silverPlayed) {
             game.treasure += game.numMerchants; //Handles merchant silver bonus
             game.silverPlayed = true;
@@ -322,7 +321,7 @@ public class DominionCardState implements Serializable{
      * @param game The game the card is played in
      * @return Action success
      */
-    private boolean baseAction(DominionGameState game) {
+    public boolean baseAction(DominionGameState game) {
         DominionPlayerState currentPlayer = game.dominionPlayers[game.currentTurn];
         currentPlayer.getDeck().drawMultiple(this.addedDraw);
         game.actions += this.addedActions;

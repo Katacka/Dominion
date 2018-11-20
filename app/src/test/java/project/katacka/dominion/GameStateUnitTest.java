@@ -48,8 +48,7 @@ public class GameStateUnitTest {
         shopCards = state.getShopCards();
         currPlayer = state.getCurrentTurn();
     }
-
-    //TODO: fix assumption that player 0 goes first
+    
     @Test
     public void testCopper(){
         setupState(4);
