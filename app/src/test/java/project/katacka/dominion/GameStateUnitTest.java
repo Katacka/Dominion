@@ -81,12 +81,12 @@ public class GameStateUnitTest {
 
         boolean playedCard = state.playCard(currPlayer, 3); //try to player Money Lender
 
-        assertFalse(playedCard); //make sure you haven't played the card
+        assertFalse(playedCard); //make sure you haven't played the card //TODO: Change state or test, as this is no longer state behavior.
 
         //make sure you still have moneylender in hand
         assertEquals(shopCards.get(MONEY_LENDER).getCard(), deck.getHand().get(3)); //TODO: This is no longer behavior. Change test or behavior of state.
 
-        assertEquals(1, state.getActions()); //still have an action
+        assertEquals(1, state.getActions()); //still have an action //TODO: Change state or test, as this is no longer state behavior.
     }
 
     @Test

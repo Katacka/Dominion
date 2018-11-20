@@ -331,7 +331,7 @@ public class DominionGameState extends GameState implements Serializable{
             DominionCardState card = deck.getHand().get(cardIndex);
             deck.putInPlay(cardIndex); //Discarding before playing the card fixes cases like moneylender
             if(!card.cardAction(this)){
-                Log.e("GameState", "Card " + cardIndex + " failed to play successfully");
+                //Log.e("GameState", "Card " + cardIndex + " failed to play successfully");
                 //Must return true, since card is already removed from hand
                 return true; //TODO: Make it where card actions can never fail
             }
