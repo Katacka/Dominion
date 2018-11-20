@@ -12,6 +12,11 @@ import project.katacka.dominion.gamestate.DominionGameState;
 import project.katacka.dominion.gamestate.DominionPlayerState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
 
+/**
+ * Tests the copy constructors for every class in the game state.
+ *
+ * @author Ryan Regier
+ */
 public class CopyConstructorTest {
 
     private DominionGameState state;
@@ -26,6 +31,9 @@ public class CopyConstructorTest {
         state = GameStateGenerator.getNewState(4);
     }
 
+    /**
+     * Tests DominionGameState
+     */
     @Test
     public void testState(){
 
@@ -61,6 +69,9 @@ public class CopyConstructorTest {
         assertNotEquals("Game State Not Copy", state, newState);
     }
 
+    /**
+     * Tests DominionCardState
+     */
     @Test
     public void testCard(){
         DominionCardState copper, moat, blank;
@@ -78,6 +89,9 @@ public class CopyConstructorTest {
         assertEquals("Blank copy", blank, copyBlank);
     }
 
+    /**
+     * Tests DominionDeckState
+     */
     @Test
     public void testDeck(){
         DominionCardState copper = state.getShopCards().get(0).getCard();
@@ -128,6 +142,9 @@ public class CopyConstructorTest {
         assertNotEquals("Unequal", deck, unequal);
     }
 
+    /**
+     * Tests DominionPlayerState
+     */
     @Test
     public void testPlayer(){
         DominionPlayerState actual, shown, hidden, unequal;
@@ -168,6 +185,9 @@ public class CopyConstructorTest {
         assertNotEquals("Unequal", actual, unequal);
     }
 
+    /**
+     * Tests DominionShopPileState
+     */
     @Test
     public void testShopPile(){
         DominionShopPileState actual, copy, unequal;
@@ -179,6 +199,11 @@ public class CopyConstructorTest {
         assertNotEquals("Unequal", actual, unequal);
     }
 
+    /**
+     * Clears the arrays that have their cards obfuscated so equality can be checked.
+     * Used for comparing copied game states
+     * @param state The state to clear from. Modified in place.
+     */
     private void clearHiddenContent(DominionGameState state){
         int currPlayer = state.getCurrentTurn();
         DominionPlayerState[] players = state.getDominionPlayers();
