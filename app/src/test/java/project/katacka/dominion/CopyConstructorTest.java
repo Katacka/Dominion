@@ -4,19 +4,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-
 import static org.junit.Assert.*;
 
-import project.katacka.dominion.gameframework.infoMsg.GameState;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionDeckState;
 import project.katacka.dominion.gamestate.DominionGameState;
 import project.katacka.dominion.gamestate.DominionPlayerState;
-
-//import static org.junit.Assert.assertEquals;
+import project.katacka.dominion.gamestate.DominionShopPileState;
 
 public class CopyConstructorTest {
 
@@ -87,7 +81,7 @@ public class CopyConstructorTest {
     @Test
     public void testDeck(){
         DominionCardState copper = state.getShopCards().get(0).getCard();
-        DominionDeckState deck, shown, hidden;
+        DominionDeckState deck, shown, hidden, unequal;
         deck = state.getDominionPlayer(0).getDeck();
 
         //Make changes to  deck so that arrays are not empty
@@ -96,6 +90,8 @@ public class CopyConstructorTest {
         deck.getInPlay().add(copper);
         shown = new DominionDeckState(deck, true);
         hidden = new DominionDeckState(deck, false);
+
+        unequal = state.getDominionPlayer(1).getDeck();
 
         //Ensure decks are not the same - otherwise obfuscation did not occur
         assertNotEquals("Shown deck not same", deck, shown);
@@ -127,6 +123,60 @@ public class CopyConstructorTest {
         shown.getHand().clear();
         hidden.getHand().clear();
         assertEquals("Shown and hidden", shown, hidden);
+
+        //Makes sure different decks are not seen as equal
+        assertNotEquals("Unequal", deck, unequal);
+    }
+
+    @Test
+    public void testPlayer(){
+        DominionPlayerState actual, shown, hidden, unequal;
+        actual = state.getDominionPlayer(0);
+        shown = new DominionPlayerState(actual, true);
+        hidden = new DominionPlayerState(actual, false);
+        unequal = state.getDominionPlayer(1);
+
+        //Check that obfuscation worked
+        assertNotEquals("Shown not equal", actual, shown);
+        assertNotEquals("Hidden not equal", actual, hidden);
+        assertNotEquals("Shown not hidden", shown, hidden);
+
+        //Helper variables
+        DominionDeckState actualDeck, shownDeck, hiddenDeck;
+        actualDeck = actual.getDeck();
+        shownDeck = shown.getDeck();
+        hiddenDeck = hidden.getDeck();
+
+        //Check shown is equal when draw/discard is cleared.
+        //Because hand is obfucated for hidden, it should still be unequal
+        //The deck copying is checked in the test of the deck copy constructor
+        actualDeck.getDraw().clear();
+        actualDeck.getDiscard().clear();
+        shownDeck.getDraw().clear();
+        shownDeck.getDiscard().clear();
+        hiddenDeck.getDraw().clear();
+        hiddenDeck.getDiscard().clear();
+        assertEquals("Shown equal", actual, shown);
+        assertNotEquals("Hidden hides hand", actual, hidden);
+
+        //Makes sure hidden is otherwise the same after clearing hand
+        actualDeck.getHand().clear();
+        hiddenDeck.getHand().clear();
+        assertEquals("Hidden equal", actual, hidden);
+
+        //Makes sure different players are not the same
+        assertNotEquals("Unequal", actual, unequal);
+    }
+
+    @Test
+    public void testShopPile(){
+        DominionShopPileState actual, copy, unequal;
+        actual = state.getShopCards().get(0);
+        copy = new DominionShopPileState(actual);
+        unequal = state.getShopCards().get(1);
+
+        assertEquals("Equal", actual, copy);
+        assertNotEquals("Unequal", actual, unequal);
     }
 
     private void clearHiddenContent(DominionGameState state){
