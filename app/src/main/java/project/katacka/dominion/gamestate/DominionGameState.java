@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.IntStream;
 import java.util.Random;
 
@@ -170,6 +171,75 @@ public class DominionGameState extends GameState implements Serializable{
         this.treasure = gameState.treasure;
     }
 
+    @Override
+    /**
+     * Converts the game state to a String representation.
+     * For debugging purposes.
+     */
+    public String toString() {
+
+        //Strings that will be joined to form final String.
+        String turnStr, batStr, boonStr, baseStr, shopStr, playerStr, emptyPilesStr, providenceEmptyStr, quitStr, gameOverStr;
+
+        String attackString = "";
+        if (isAttackTurn){
+            attackString = String.format(Locale.US,
+                    "An attack has been played. Player #%d is responding to the attack", attackTurn);
+        }
+        turnStr = String.format(Locale.US, "It is player #%d's turn. %s", currentTurn, attackString);
+
+        batStr = String.format(Locale.US, "There are %d buys, %d actions, and %d treasure remaining.",
+                buys, actions, treasure);
+
+        boonStr = !silverPlayed ? "The next silver is worth an extra " + numMerchants + " treasure.\n" : "";
+
+        String[] baseStrs = new String[baseCards.size()];
+        for (int i = 0; i < baseCards.size(); i++){
+            baseStrs[i] = baseCards.get(i).toString();
+        }
+
+        /**
+         * External Citation
+         * Date: 10/7
+         * Problem: Needed to turn array of strings into single array
+         * Resource:
+         *  https://stackoverflow.com/questions/1978933/a-quick-and-easy-way-to-join-array-elements-with-a-separator-the-opposite-of-sp
+         * Solution: Used built-in Android helper function
+         */
+        baseStr = String.format(Locale.US, "\nThe base cards in the shop:\n%s",
+                TextUtils.join("\n", baseStrs));
+
+        String[] shopStrs = new String[shopCards.size()];
+        for (int i = 0; i < shopCards.size(); i++){
+            shopStrs[i] = shopCards.get(i).toString();
+        }
+        shopStr = String.format(Locale.US, "\nThe kingdom cards in the shop:\n%s",
+                TextUtils.join("\n", shopStrs));
+
+        String[] playerStrs = new String[dominionPlayers.length];
+        for (int i = 0; i < dominionPlayers.length; i++){
+            playerStrs[i] = dominionPlayers[i].toString();
+        }
+        playerStr = String.format(Locale.US, "There are %d players in the game:\n%s",
+                dominionPlayers.length, TextUtils.join("\n", playerStrs));
+
+        emptyPilesStr = String.format(Locale.US, "There are %d empty piles.", emptyPiles);
+
+        providenceEmptyStr = providenceEmpty ? "The providence pile is empty.\n" : "";
+
+        quitStr = playerQuit >= 0 ? "Player #" + playerQuit + " has quit the game." : "No player has quit the game.";
+
+        if (isGameOver){
+            gameOverStr = "The game is over.";
+        } else {
+            gameOverStr = "The game is not over.";
+        }
+
+        return String.format(Locale.US, "%s\n%s\n%s%s\n%s\n%s\n%s\n%s%s\n%s", turnStr, batStr,
+                boonStr, baseStr, shopStr, playerStr, emptyPilesStr, providenceEmptyStr, quitStr, gameOverStr);
+    }
+
+
     //Start of actions that can be performed by a player
     /**
      * Moves a card from the shop to a player's hand
@@ -261,7 +331,9 @@ public class DominionGameState extends GameState implements Serializable{
             DominionCardState card = deck.getHand().get(cardIndex);
             deck.putInPlay(cardIndex); //Discarding before playing the card fixes cases like moneylender
             if(!card.cardAction(this)){
-                return false;
+                //Log.e("GameState", "Card " + cardIndex + " failed to play successfully");
+                //Must return true, since card is already removed from hand
+                return true; //TODO: Make it where card actions can never fail
             }
             else if(card.getType() == DominionCardType.ACTION){
                 actions--;
@@ -288,7 +360,13 @@ public class DominionGameState extends GameState implements Serializable{
             while (i < hand.size()){
                 DominionCardState card = hand.get(i);
                 if (card.getType() != DominionCardType.ACTION){
-                    playCard(playerID, i);
+                    boolean played = playCard(playerID, i);
+
+                    //This should not be happening
+                    if (!played){
+                        Log.e("GameState","Unable to play card " + i + " in play all cards");
+                        return true;
+                    }
                 }
                 else {
                     i++;
@@ -494,6 +572,42 @@ public class DominionGameState extends GameState implements Serializable{
         return isAttackTurn;
     }
 
+
+    //Autogenerated methods
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DominionGameState that = (DominionGameState) o;
+        return currentTurn == that.currentTurn &&
+                attackTurn == that.attackTurn &&
+                isAttackTurn == that.isAttackTurn &&
+                isGameOver == that.isGameOver &&
+                playerQuit == that.playerQuit &&
+                numPlayers == that.numPlayers &&
+                actions == that.actions &&
+                buys == that.buys &&
+                treasure == that.treasure &&
+                numMerchants == that.numMerchants &&
+                silverPlayed == that.silverPlayed &&
+                emptyPiles == that.emptyPiles &&
+                providenceEmpty == that.providenceEmpty &&
+                Objects.equals(baseCards, that.baseCards) &&
+                Objects.equals(shopCards, that.shopCards) &&
+                Arrays.equals(dominionPlayers, that.dominionPlayers) &&
+                Arrays.equals(tiedPlayers, that.tiedPlayers);
+    }
+
+    @Override
+    public int hashCode() {
+
+        int result = Objects.hash(baseCards, shopCards, currentTurn, attackTurn, isAttackTurn, isGameOver, playerQuit, numPlayers, actions, buys, treasure, numMerchants, silverPlayed, emptyPiles, providenceEmpty);
+        result = 31 * result + Arrays.hashCode(dominionPlayers);
+        result = 31 * result + Arrays.hashCode(tiedPlayers);
+        return result;
+    }
+
     @Override
     /**
      * Converts the game state to a String representation.
@@ -562,3 +676,4 @@ public class DominionGameState extends GameState implements Serializable{
                 boonStr, baseStr, shopStr, playerStr, emptyPilesStr, providenceEmptyStr, quitStr, gameOverStr);
     }
 }
+

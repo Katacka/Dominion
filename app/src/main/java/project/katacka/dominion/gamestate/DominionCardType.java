@@ -23,8 +23,10 @@ public enum DominionCardType implements Serializable{
      * @return A DominionCardType enum, describing card type, or null if type does not exist
      */
     public static DominionCardType getTypeFromString(String typeName){
+        if (typeName == null) return null;
+        String lower = typeName.toUpperCase();
         for (DominionCardType type : values()){
-            if (type.name().equals(typeName)){
+            if (type.name().equals(lower)){
                 return type;
             }
         }

@@ -27,6 +27,7 @@ public class GameStateUnitTest {
     private ArrayList<DominionShopPileState> baseCards;
     private ArrayList<DominionShopPileState> shopCards;
     private DominionGameState state;
+    private int currPlayer;
 
     private final int COPPER = 0;
     private final int ESTATE = 1;
@@ -45,31 +46,23 @@ public class GameStateUnitTest {
         state = GameStateGenerator.getNewState(players);
         baseCards = state.getBaseCards();
         shopCards = state.getShopCards();
+        currPlayer = state.getCurrentTurn();
     }
-
-    //TODO: fix assumption that player 0 goes first
+    
     @Test
     public void testCopper(){
         setupState(4);
-
-        DominionDeckState deck = state.getDominionPlayers()[0].getDeck();
+        DominionDeckState deck = state.getDominionPlayers()[currPlayer].getDeck();
         setupSpecialHand(deck);
 
-        //play first card in hand, a copper
-        state.playCard(0, 0);
-
-        //assert treasure, actions and buys not decremented
+        state.playCard(currPlayer, 0); //Plays a copper
         assertEquals("Treasure", 1, state.getTreasure());
         assertEquals("Actions", 1, state.getActions());
         assertEquals("Buys", 1, state.getBuys());
 
-        //check first card in hand is the second card from the start of turn
         assertEquals(deck.getHand().get(0), baseCards.get(ESTATE).getCard());
+        assertEquals(deck.getLastPlayed(), baseCards.get(COPPER).getCard());
 
-        //check that most recent discard is now a copper
-        assertEquals(deck.getLastDiscard(), baseCards.get(COPPER).getCard());
-
-        //check that hand increased in size by 1
         assertEquals(deck.getHandSize(), 6);
     }
 
@@ -78,27 +71,27 @@ public class GameStateUnitTest {
     //new version: can play moneylender with no copper
     public void testMoneyLenderNoCopper(){
         setupState(4);
-        DominionDeckState deck = state.getDominionPlayers()[0].getDeck();
+        DominionDeckState deck = state.getDominionPlayers()[currPlayer].getDeck();
         setupSpecialHand(deck);
 
-        state.playCard(0, 0); //Plays a copper, you have no copper now
+        state.playCard(currPlayer, 0); //Plays a copper, you have no copper now
 
         assertEquals(shopCards.get(MONEY_LENDER).getCard(), deck.getHand().get(3));//money lender is 3rd card
 
-        boolean playedCard = state.playCard(0, 3); //try to player Money Lender
+        boolean playedCard = state.playCard(currPlayer, 3); //try to player Money Lender
 
-        assertFalse(playedCard); //make sure you haven't played the card
+        assertFalse(playedCard); //make sure you haven't played the card //TODO: Change state or test, as this is no longer state behavior.
 
         //make sure you still have moneylender in hand
-        assertEquals(shopCards.get(MONEY_LENDER).getCard(), deck.getHand().get(3));
+        assertEquals(shopCards.get(MONEY_LENDER).getCard(), deck.getHand().get(3)); //TODO: This is no longer behavior. Change test or behavior of state.
 
-        assertEquals(1, state.getActions()); //still have an action
+        assertEquals(1, state.getActions()); //still have an action //TODO: Change state or test, as this is no longer state behavior.
     }
 
     @Test
     public void testMoneyLenderWithOneCopper(){
         setupState(4);
-        DominionDeckState deck = state.getDominionPlayers()[0].getDeck();
+        DominionDeckState deck = state.getDominionPlayers()[currPlayer].getDeck();
         setupSpecialHand(deck);
 
         assertEquals(shopCards.get(MONEY_LENDER).getCard(), deck.getHand().get(4));//money lender is 4th card
@@ -106,7 +99,7 @@ public class GameStateUnitTest {
         assertEquals(0, state.getTreasure()); //have 0 treasure
         assertEquals(1, state.getActions()); //have 1 action
 
-        boolean playedCard = state.playCard(0, 4); //try to player Money Lender
+        boolean playedCard = state.playCard(currPlayer, 4); //try to player Money Lender
         assertTrue(playedCard); //make sure you played the card
 
         //make sure money lender and copper are NOT in hand
@@ -120,7 +113,7 @@ public class GameStateUnitTest {
     @Test
     public void testMoneyLenderWithManyCopper(){
         setupState(4);
-        DominionDeckState deck = state.getDominionPlayers()[0].getDeck();
+        DominionDeckState deck = state.getDominionPlayers()[currPlayer].getDeck();
         setupSpecialHand(deck);
         ArrayList<DominionCardState> hand = deck.getHand();
 
@@ -134,7 +127,7 @@ public class GameStateUnitTest {
         assertEquals(0, state.getTreasure()); //have 0 treasure
         assertEquals(1, state.getActions()); //have 1 action
 
-        boolean playedCard = state.playCard(0, 4); //try to player Money Lender
+        boolean playedCard = state.playCard(currPlayer, 4); //try to player Money Lender
         assertTrue(playedCard); //make sure you played the card
 
         //make sure money lender is NOT in hand
@@ -158,28 +151,25 @@ public class GameStateUnitTest {
     public void testIsTurn(){
         setupState(4);
 
-        boolean playedCard1 = state.playCard(1, 1);
-        assertFalse(playedCard1);
-
-        boolean playedCard2 = state.playCard(2, 2);
-        assertFalse(playedCard2);
-
-        boolean playedCard3 = state.playCard(3, 3);
-        assertFalse(playedCard3);
-
-        boolean playedCard0 = state.playCard(0, 3);
-        assertTrue(playedCard0);
+        for (int i = 0; i < 4; i++){
+            boolean playedCard = state.playCard(i, 2);
+            if (i == currPlayer){
+                assertTrue(playedCard);
+            } else {
+                assertFalse(playedCard);
+            }
+        }
     }
 
     @Test
     public void testNoActions(){
         setupState(4);
-        DominionDeckState deck = state.getDominionPlayers()[0].getDeck();
+        DominionDeckState deck = state.getDominionPlayers()[currPlayer].getDeck();
         setupSpecialHand(deck);
         ArrayList<DominionCardState> hand = deck.getHand();
 
         assertEquals(1, state.getActions());
-        assertTrue(state.playCard(0, 2)); //play moat
+        assertTrue(state.playCard(currPlayer, 2)); //play moat
 
         //should have no actions left
         assertEquals(0, state.getActions());
@@ -188,7 +178,7 @@ public class GameStateUnitTest {
         assertEquals(hand.get(3).getType(), DominionCardType.ACTION);
 
         //try to play card3
-        assertFalse(state.playCard(0, 3)); //play Money Lender
+        assertFalse(state.playCard(currPlayer, 3)); //play Money Lender
 
         assertTrue(hand.contains(shopCards.get(MONEY_LENDER).getCard()));
     }
