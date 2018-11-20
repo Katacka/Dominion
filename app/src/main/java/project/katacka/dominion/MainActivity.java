@@ -43,7 +43,11 @@ public class MainActivity extends GameMainActivity {
                 return new DominionSmartAIPlayer(name);
             }
         });
-        GameConfig defaultConfig = new GameConfig(playerTypes, 1, 4, "Dominion", PORT_NUMBER);
+        GameConfig defaultConfig = new GameConfig(playerTypes, 2, 4, "Dominion", PORT_NUMBER);
+        defaultConfig.addPlayer("You", 0);
+        defaultConfig.addPlayer("Computer 1", 1);
+        defaultConfig.addPlayer("Computer 2", 1);
+        defaultConfig.addPlayer("Smart Computer", 2);
         defaultConfig.setRemoteData("Remote player", "", 0);
 
         return defaultConfig;

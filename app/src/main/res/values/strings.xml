@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Dominion</string>
+    <string name="help">Help...</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
@@ -25,4 +26,53 @@
     <string name="actions">Actions: %1$d</string>
     <string name="buys">Buys: %1$d</string>
     <string name="treasure">Treasure: %1$d</string>
+
+    <string name="how_to_play">
+                        How to play DOMINION
+    Goal:
+        Have the most point in your deck when the game ends.
+
+    Types of cards
+        Action Cards
+            Each does something different like give you more buys, actions or cards
+            Read each description
+            Cost an action
+        Treasure
+            Basically money comes in 3 levels: copper, silver, and gold
+            don’t cost an action to play
+        Victory Cards
+            Give you points, don’t cost an action to play
+
+    Starting the game
+    Your starting deck has 10 cards, 3 estates and 7 copper
+    You may play with 2-4 players.
+    The smart AI works. It will probably beat you.
+    If you see the opponent hand going up and down and the actions, buys and treasures numbers going up, the AI is going to win. It will stop when the buys  get to about 48. You have lost. This is not a bug.
+
+    Playing the game
+    At the start of your turn you will have 1 action, 1 buy and 0 treasure
+    Playing action cards decreases your actions
+    Buying cards decreases your buys
+    Playing treasure increases your treasure
+    During your turn you may:
+    Play a card in your hand by clicking on it
+    Buy a card
+    Play enough treasure to cover the cost (in the corner in a yellow circle)
+    Click on a card in the shop to buy it
+    Note: Cards are greyed out when all of them have been bought
+    View a card description by long pressing the card
+    Ending your turn
+    Click the end turn button
+    The game will not automatically end your turn
+    You may end your turn even if there are still moves you can make
+    If you have no actions and (no treasure or no buys), you must end your turn
+
+    Ending the game
+    The game ends when either:
+    All the provinces are bought
+    Any 3 shop piles are empty
+    Winning
+    the player with the most victory points wins
+    </string>
+
 </resources>

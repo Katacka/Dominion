@@ -80,4 +80,9 @@ public class DominionPlayerState implements Serializable{
     public String toString(){
         return String.format("Player: %s\n%s", name, deck.toString());
     }
+
+    public void endTurn(){
+        deck.discardAll();
+        deck.drawMultiple(5);
+    }
 }

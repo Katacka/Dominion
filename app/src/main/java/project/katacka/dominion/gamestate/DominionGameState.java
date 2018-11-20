@@ -51,7 +51,9 @@ public class DominionGameState extends GameState implements Serializable{
     protected int actions;
     protected int buys;
     protected int treasure;
-    protected boolean silverBoon; //Merchant: First silver is worth 1 more
+
+    protected int numMerchants;
+    protected boolean silverPlayed;
 
     private int emptyPiles;
     private boolean providenceEmpty = false;
@@ -108,7 +110,9 @@ public class DominionGameState extends GameState implements Serializable{
         this.treasure = 0;
         this.buys = 1;
         this.actions = 1;
-        this.silverBoon = false;
+
+        this.numMerchants = 0;
+        this.silverPlayed = false;
 
         dominionPlayers[currentTurn].startTurn();
 
@@ -157,81 +161,14 @@ public class DominionGameState extends GameState implements Serializable{
 
         this.emptyPiles = gameState.emptyPiles;
         this.providenceEmpty = gameState.providenceEmpty;
-        this.silverBoon = gameState.silverBoon;
+
+        this.numMerchants = gameState.numMerchants;
+        this.silverPlayed = gameState.silverPlayed;
 
         this.actions = gameState.actions;
         this.buys = gameState.buys;
         this.treasure = gameState.treasure;
     }
-
-    @Override
-    /**
-     * Converts the game state to a String representation.
-     * For debugging purposes.
-     */
-    public String toString() {
-
-        //Strings that will be joined to form final String.
-        String turnStr, batStr, boonStr, baseStr, shopStr, playerStr, emptyPilesStr, providenceEmptyStr, quitStr, gameOverStr;
-
-        String attackString = "";
-        if (isAttackTurn){
-            attackString = String.format(Locale.US,
-                    "An attack has been played. Player #%d is responding to the attack", attackTurn);
-        }
-        turnStr = String.format(Locale.US, "It is player #%d's turn. %s", currentTurn, attackString);
-
-        batStr = String.format(Locale.US, "There are %d buys, %d actions, and %d treasure remaining.",
-                buys, actions, treasure);
-
-        boonStr = silverBoon ? "A silver boon is in effect.\n" : "";
-
-        String[] baseStrs = new String[baseCards.size()];
-        for (int i = 0; i < baseCards.size(); i++){
-            baseStrs[i] = baseCards.get(i).toString();
-        }
-
-        /**
-         * External Citation
-         * Date: 10/7
-         * Problem: Needed to turn array of strings into single array
-         * Resource:
-         *  https://stackoverflow.com/questions/1978933/a-quick-and-easy-way-to-join-array-elements-with-a-separator-the-opposite-of-sp
-         * Solution: Used built-in Android helper function
-         */
-        baseStr = String.format(Locale.US, "\nThe base cards in the shop:\n%s",
-                TextUtils.join("\n", baseStrs));
-
-        String[] shopStrs = new String[shopCards.size()];
-        for (int i = 0; i < shopCards.size(); i++){
-            shopStrs[i] = shopCards.get(i).toString();
-        }
-        shopStr = String.format(Locale.US, "\nThe kingdom cards in the shop:\n%s",
-                TextUtils.join("\n", shopStrs));
-
-        String[] playerStrs = new String[dominionPlayers.length];
-        for (int i = 0; i < dominionPlayers.length; i++){
-            playerStrs[i] = dominionPlayers[i].toString();
-        }
-        playerStr = String.format(Locale.US, "There are %d players in the game:\n%s",
-                dominionPlayers.length, TextUtils.join("\n", playerStrs));
-
-        emptyPilesStr = String.format(Locale.US, "There are %d empty piles.", emptyPiles);
-
-        providenceEmptyStr = providenceEmpty ? "The providence pile is empty.\n" : "";
-
-        quitStr = playerQuit >= 0 ? "Player #" + playerQuit + " has quit the game." : "No player has quit the game.";
-
-        if (isGameOver){
-            gameOverStr = "The game is over.";
-        } else {
-            gameOverStr = "The game is not over.";
-        }
-
-        return String.format(Locale.US, "%s\n%s\n%s%s\n%s\n%s\n%s\n%s%s\n%s", turnStr, batStr,
-                boonStr, baseStr, shopStr, playerStr, emptyPilesStr, providenceEmptyStr, quitStr, gameOverStr);
-    }
-
 
     //Start of actions that can be performed by a player
     /**
@@ -283,11 +220,11 @@ public class DominionGameState extends GameState implements Serializable{
                 buys = 1;
                 actions = 1;
                 DominionPlayerState currPlayer = dominionPlayers[currentTurn];
-                currPlayer.getDeck().discardAll();
-                currPlayer.getDeck().drawMultiple(5);
+                currPlayer.endTurn();
                 currentTurn = (currentTurn + 1) % numPlayers;
                 attackTurn = currentTurn;
-                silverBoon = false;
+                numMerchants = 0;
+                silverPlayed = false;
                 dominionPlayers[currentTurn].startTurn();
             }
 
@@ -322,7 +259,7 @@ public class DominionGameState extends GameState implements Serializable{
         if(isLegalPlay(playerID, cardIndex)) {
             DominionDeckState deck = this.dominionPlayers[playerID].getDeck();
             DominionCardState card = deck.getHand().get(cardIndex);
-            deck.discard(cardIndex); //Discarding before playing the card fixes cases like moneylender
+            deck.putInPlay(cardIndex); //Discarding before playing the card fixes cases like moneylender
             if(!card.cardAction(this)){
                 return false;
             }
@@ -336,12 +273,12 @@ public class DominionGameState extends GameState implements Serializable{
     }
 
     /**
-     * Action which will play every treasure card in player's hand.
+     * Action which will play every card that is not an action in player's hand.
      *
      * @param playerID The player performing the action. Must be their turn
      * @return Whether action completes successfully.
      */
-    public boolean playAllTreasures(int playerID){
+    public boolean playAllCards(int playerID){
         if (canMove(playerID)){
             ArrayList<DominionCardState> hand = dominionPlayers[currentTurn].getDeck().getHand();
 
@@ -350,7 +287,7 @@ public class DominionGameState extends GameState implements Serializable{
             int i = 0;
             while (i < hand.size()){
                 DominionCardState card = hand.get(i);
-                if (card.getType() == DominionCardType.TREASURE){
+                if (card.getType() != DominionCardType.ACTION){
                     playCard(playerID, i);
                 }
                 else {
@@ -555,5 +492,73 @@ public class DominionGameState extends GameState implements Serializable{
 
     public boolean getIsAttackTurn(){
         return isAttackTurn;
+    }
+
+    @Override
+    /**
+     * Converts the game state to a String representation.
+     * For debugging purposes.
+     */
+    public String toString() {
+
+        //Strings that will be joined to form final String.
+        String turnStr, batStr, boonStr, baseStr, shopStr, playerStr, emptyPilesStr, providenceEmptyStr, quitStr, gameOverStr;
+
+        String attackString = "";
+        if (isAttackTurn){
+            attackString = String.format(Locale.US,
+                    "An attack has been played. Player #%d is responding to the attack", attackTurn);
+        }
+        turnStr = String.format(Locale.US, "It is player #%d's turn. %s", currentTurn, attackString);
+
+        batStr = String.format(Locale.US, "There are %d buys, %d actions, and %d treasure remaining.",
+                buys, actions, treasure);
+
+        boonStr = !silverPlayed ? "The next silver is worth an extra " + numMerchants + " treasure.\n" : "";
+
+        String[] baseStrs = new String[baseCards.size()];
+        for (int i = 0; i < baseCards.size(); i++){
+            baseStrs[i] = baseCards.get(i).toString();
+        }
+
+        /**
+         * External Citation
+         * Date: 10/7
+         * Problem: Needed to turn array of strings into single array
+         * Resource:
+         *  https://stackoverflow.com/questions/1978933/a-quick-and-easy-way-to-join-array-elements-with-a-separator-the-opposite-of-sp
+         * Solution: Used built-in Android helper function
+         */
+        baseStr = String.format(Locale.US, "\nThe base cards in the shop:\n%s",
+                TextUtils.join("\n", baseStrs));
+
+        String[] shopStrs = new String[shopCards.size()];
+        for (int i = 0; i < shopCards.size(); i++){
+            shopStrs[i] = shopCards.get(i).toString();
+        }
+        shopStr = String.format(Locale.US, "\nThe kingdom cards in the shop:\n%s",
+                TextUtils.join("\n", shopStrs));
+
+        String[] playerStrs = new String[dominionPlayers.length];
+        for (int i = 0; i < dominionPlayers.length; i++){
+            playerStrs[i] = dominionPlayers[i].toString();
+        }
+        playerStr = String.format(Locale.US, "There are %d players in the game:\n%s",
+                dominionPlayers.length, TextUtils.join("\n", playerStrs));
+
+        emptyPilesStr = String.format(Locale.US, "There are %d empty piles.", emptyPiles);
+
+        providenceEmptyStr = providenceEmpty ? "The providence pile is empty.\n" : "";
+
+        quitStr = playerQuit >= 0 ? "Player #" + playerQuit + " has quit the game." : "No player has quit the game.";
+
+        if (isGameOver){
+            gameOverStr = "The game is over.";
+        } else {
+            gameOverStr = "The game is not over.";
+        }
+
+        return String.format(Locale.US, "%s\n%s\n%s%s\n%s\n%s\n%s\n%s%s\n%s", turnStr, batStr,
+                boonStr, baseStr, shopStr, playerStr, emptyPilesStr, providenceEmptyStr, quitStr, gameOverStr);
     }
 }
