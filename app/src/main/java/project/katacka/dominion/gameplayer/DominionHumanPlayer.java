@@ -113,10 +113,14 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     private DominionPlayerState playerState;
 
+    //TODO: Delete this
     GamePlayer thisPlayer = this;
 
     private Handler myHandler;
     private Drawable background;
+
+    private Drawable cardBackgroundNormal;
+    private Drawable cardBackgroudBuyable;
 
     public DominionHumanPlayer(String name) {
         this(name, 5); //Default starting hand size is 5
@@ -234,6 +238,10 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
         //set listeners
         bMenu = activity.findViewById(R.id.bMenu);
+
+        cardBackgroundNormal = res.getDrawable(R.drawable.dominion_card_border_squared, null);
+        cardBackgroudBuyable = res.getDrawable(R.drawable.dominion_card_border_green, null);
+
     }
 
     /**
@@ -385,6 +393,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      * Updates the shop piles
      */
     private void updateShopPiles(){
+        boolean isTurn = playerNum == state.getCurrentTurn();
+
         int m = 0;
         for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
             View shopRow = shopLayout.getChildAt(i);
@@ -405,6 +415,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     int amount = state.getShopCards().get(m).getAmount();
                     updateCardView(shopCard, cardState, amount);
                     if (amount == 0) setGrayedOut(shopCard);
+                    setBuyable(shopCard, isTurn && cardState.getCost() <= state.getTreasure());
                     m++;
                 }
             }
@@ -426,6 +437,14 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         ((ImageView) shopCard.findViewById(R.id.imageViewAmount)).setColorFilter(grayFilter);
     }
 
+    private void setBuyable(ConstraintLayout shopCard, boolean canBuy){
+        if (canBuy && state.getBuys() >= 1){
+            shopCard.setBackgroundResource(R.drawable.dominion_card_border_green);
+        } else {
+            shopCard.setBackgroundResource(R.drawable.dominion_card_border_squared);
+        }
+    }
+
     /**
      * Updates the base piles
      */
@@ -438,6 +457,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
          * Solution: shows how to convert string to resource id to use to set image view
          */
         basePiles = new ArrayList<>();
+        boolean isTurn = playerNum == state.getCurrentTurn();
+
         int c = 0, start = 0, end = 2;
         for(int a = 0; a < baseLayout.getChildCount(); a++){
             View baseRow = baseLayout.getChildAt(a);
@@ -454,6 +475,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     int amount = state.getBaseCards().get(c).getAmount();
                     updateCardView(baseCard, cardState, amount);
                     if (amount == 0) setGrayedOut(baseCard);
+                    setBuyable(baseCard, isTurn && cardState.getCost() <= state.getTreasure());
                     c++;
                 }
                 start = start+2;
