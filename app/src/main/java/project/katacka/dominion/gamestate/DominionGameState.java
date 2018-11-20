@@ -171,12 +171,12 @@ public class DominionGameState extends GameState implements Serializable{
         this.treasure = gameState.treasure;
     }
 
-    //@Override
+    @Override
     /**
      * Converts the game state to a String representation.
      * For debugging purposes.
      */
-    /*public String toString() {
+    public String toString() {
 
         //Strings that will be joined to form final String.
         String turnStr, batStr, boonStr, baseStr, shopStr, playerStr, emptyPilesStr, providenceEmptyStr, quitStr, gameOverStr;
@@ -196,7 +196,7 @@ public class DominionGameState extends GameState implements Serializable{
         String[] baseStrs = new String[baseCards.size()];
         for (int i = 0; i < baseCards.size(); i++){
             baseStrs[i] = baseCards.get(i).toString();
-        }*/
+        }
 
         /**
          * External Citation
@@ -206,7 +206,7 @@ public class DominionGameState extends GameState implements Serializable{
          *  https://stackoverflow.com/questions/1978933/a-quick-and-easy-way-to-join-array-elements-with-a-separator-the-opposite-of-sp
          * Solution: Used built-in Android helper function
          */
-        /*baseStr = String.format(Locale.US, "\nThe base cards in the shop:\n%s",
+        baseStr = String.format(Locale.US, "\nThe base cards in the shop:\n%s",
                 TextUtils.join("\n", baseStrs));
 
         String[] shopStrs = new String[shopCards.size()];
@@ -237,7 +237,7 @@ public class DominionGameState extends GameState implements Serializable{
 
         return String.format(Locale.US, "%s\n%s\n%s%s\n%s\n%s\n%s\n%s%s\n%s", turnStr, batStr,
                 boonStr, baseStr, shopStr, playerStr, emptyPilesStr, providenceEmptyStr, quitStr, gameOverStr);
-    }*/
+    }
 
 
     //Start of actions that can be performed by a player
@@ -331,7 +331,9 @@ public class DominionGameState extends GameState implements Serializable{
             DominionCardState card = deck.getHand().get(cardIndex);
             deck.putInPlay(cardIndex); //Discarding before playing the card fixes cases like moneylender
             if(!card.cardAction(this)){
-                return false;
+                Log.e("GameState", "Card " + cardIndex + " failed to play successfully");
+                //Must return true, since card is already removed from hand
+                return true; //TODO: Make it where card actions can never fail
             }
             else if(card.getType() == DominionCardType.ACTION){
                 actions--;
@@ -358,7 +360,13 @@ public class DominionGameState extends GameState implements Serializable{
             while (i < hand.size()){
                 DominionCardState card = hand.get(i);
                 if (card.getType() != DominionCardType.ACTION){
-                    playCard(playerID, i);
+                    boolean played = playCard(playerID, i);
+
+                    //This should not be happening
+                    if (!played){
+                        Log.e("GameState","Unable to play card " + i + " in play all cards");
+                        return true;
+                    }
                 }
                 else {
                     i++;
