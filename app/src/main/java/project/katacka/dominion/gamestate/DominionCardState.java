@@ -249,8 +249,6 @@ public class DominionCardState implements Serializable{
      * Merchant action:
      * +1 card, +1 action, first silver +1 treasure
      *
-     * TODO: Known bug: Playing multiple merchants allows multiple bonus treasure.
-     *
      * @param game The game state
      * @return Action completed successfully
      */

@@ -6,9 +6,13 @@ import project.katacka.dominion.gamestate.DominionCardType;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests the CardType enum
+ */
 public class CardTypeTest {
 
     @Test
+    //Ryan Regier
     public void testCardType(){
         assertEquals("VICTORY", DominionCardType.VICTORY, DominionCardType.getTypeFromString("VICTORY"));
         assertEquals("victory", DominionCardType.VICTORY, DominionCardType.getTypeFromString("victory"));
