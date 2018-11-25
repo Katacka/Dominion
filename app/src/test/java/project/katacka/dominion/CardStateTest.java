@@ -24,6 +24,39 @@ public class CardStateTest {
         state = GameStateGenerator.getNewState(4);
     }
 
+    //Hayden
+    @Test
+    public void cardStateConstructor(){
+
+    }
+
+    //RYAN
+    //SEPARATE CLASS, test copy constructor
+
+    //RYAN
+    @Test
+    public void testGetMethod(){
+
+    }
+
+    //RYAN
+    @Test
+    public void testCardAction(){
+
+    }
+
+    //HAYDEN
+    @Test
+    public void testMoatAction(){
+
+    }
+
+    //HAYDEN
+    @Test
+    public void testMerchantAction(){
+    }
+
+    //RYAN
     @Test
     public void testCouncilRoom(){
         int currPlayer = state.getCurrentTurn();
@@ -45,6 +78,38 @@ public class CardStateTest {
         assertEquals("Drawn 4", 9, currDeck.getHandSize());
         assertEquals("Drawn 1", 6, otherDeck.getHandSize());
         assertEquals("2 buys", 2, state.getBuys());
+    }
+
+    //RYAN AND HAYDEN
+    //DONE??
+    @Test
+    public void testMoneylenderAction(){
+
+    }
+
+    //RYAN
+    @Test
+    public void testSilverAction(){
+
+    }
+
+    //HAYDEN??
+    @Test
+    public void testBaseAction(){
+
+    }
+
+    //Hayden
+    @Test
+    public void testEquals(){
+
+    }
+
+
+    //RYAN
+    @Test
+    public void testHashCode(){
+
     }
 
 }
