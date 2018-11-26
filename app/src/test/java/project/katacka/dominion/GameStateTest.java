@@ -160,7 +160,7 @@ public class GameStateTest {
         boolean playCard = state.playCard(turn, 2); //play moat
         assertTrue(playCard);
         //TODO: This is commented out because its not working, not sure why
-        //assertTrue(deck.getHand().contains(shopCards.get(MOAT).getCard())); //test that hand no longer contains moat
+        //assertFalse(deck.getHand().contains(shopCards.get(MOAT).getCard())); //test that hand no longer contains moat
         assertEquals(0, state.getActions()); //actions decremented
 
         boolean playAnotherCard = state.playCard(turn, 3); //try to play council room (action)
