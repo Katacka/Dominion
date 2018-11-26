@@ -10,9 +10,12 @@ import java.util.stream.Stream;
 import static org.junit.Assert.*;
 import static project.katacka.dominion.GameStateGenerator.getNewState;
 
+import project.katacka.dominion.gameplayer.DominionHumanPlayer;
 import project.katacka.dominion.gamestate.DominionCardState;
+import project.katacka.dominion.gamestate.DominionCardType;
 import project.katacka.dominion.gamestate.DominionDeckState;
 import project.katacka.dominion.gamestate.DominionGameState;
+import project.katacka.dominion.gamestate.DominionPlayerState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
 
 public class CardStateTest {
@@ -49,8 +52,26 @@ public class CardStateTest {
     //TODO: Hayden
     @Test
     public void cardStateConstructor(){
+        DominionCardState copper = new DominionCardState("copper", "dominion_copper",
+                "copper description:\n +1 Treasure", 0, "TREASURE", "baseAction",
+                1, 0, 0, 0, 0);
 
+        assertEquals("title","copper", copper.getTitle());
+        assertEquals("photoid", "dominion_copper", copper.getPhotoId());
+        assertEquals("text", "copper description:\n +1 Treasure", copper.getFormattedText());
+        assertEquals("cost", 0, copper.getCost());
 
+        //TODO: @Julian, can you finish up this cardtype business. \
+            //It looks like it's some json deserialization shenanigans
+        //DominionCardType copperType = state.getBaseCards().get(COPPER);
+        //assertEquals("type", copperType, copper.getType());
+
+        assertEquals("actionName", "baseAction", copper.getAction());
+        assertEquals("addedTreasure", 1, copper.getAddedTreasure());
+        assertEquals("addedActions", 0, copper.getAddedActions());
+        assertEquals("addedDraws", 0, copper.getAddedDraw());
+        assertEquals("addedBuys", 0, copper.getAddedBuys());
+        assertEquals("added Victory points, dn account for gardens", 0, copper.getSimpleVictoryPoints());
     }
 
     //RYAN
@@ -279,10 +300,28 @@ public class CardStateTest {
         assertEquals("Silver doesn't grant bonus", 6, state.getTreasure());
     }
 
-    //TODO: Hayden
+    /**
+     * @author Hayden Liao
+     */
     @Test
     public void testBaseAction(){
+        DominionPlayerState player = state.getDominionPlayer(currPlayer);
+        DominionCardState copper = player.getDeck().getHand().get(0); //a copper card
 
+        int initHandSize = player.getDeck().getHandSize();
+        int initDrawSize = player.getDeck().getDrawSize();
+        int initDiscardSize = player.getDeck().getDiscardSize();
+        int initInPlaySize = player.getDeck().getInPlaySize();
+
+        assertEquals(5, initHandSize);
+        assertEquals(5, initDrawSize);
+        assertEquals(0, initDiscardSize);
+        assertEquals(0, initInPlaySize);
+
+        assertEquals("hand size", initHandSize + copper.getAddedDraw(), player.getDeck().getHandSize());
+        assertEquals("draw size", initDrawSize - copper.getAddedDraw(), player.getDeck().getDrawSize());
+        assertEquals("discard size", initDiscardSize, initDiscardSize);
+        assertEquals("inplay size", initInPlaySize, initInPlaySize);
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -303,5 +342,4 @@ public class CardStateTest {
         hand.add(shopCards.get(MERCHANT).getCard()); //Sixth card merchant
         hand.add(baseCards.get(SILVER).getCard()); //Seventh card Silver
     }
-
 }
