@@ -4,15 +4,34 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.stream.Stream;
+
 import static org.junit.Assert.*;
+import static project.katacka.dominion.GameStateGenerator.getNewState;
 
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionDeckState;
 import project.katacka.dominion.gamestate.DominionGameState;
+import project.katacka.dominion.gamestate.DominionShopPileState;
 
 public class CardStateTest {
 
     private DominionGameState state;
+
+    private final int COPPER = 0;
+    private final int ESTATE = 1;
+    private final int MOAT = 0;
+    private final int COUNCIL = 8;
+    private final int MONEY_LENDER = 9;
+    private final int MERCHANT = 3;
+    private final int SILVER = 2;
+
+    private int NUM_PLAYERS = 4;
+    private ArrayList<DominionShopPileState> baseCards;
+    private ArrayList<DominionShopPileState> shopCards;
+    private int currPlayer;
+
 
     @BeforeClass
     public static void setup(){
@@ -21,12 +40,85 @@ public class CardStateTest {
 
     @Before
     public void makeState(){
-        state = GameStateGenerator.getNewState(4);
+        state = getNewState(NUM_PLAYERS);
+        baseCards = state.getBaseCards();
+        shopCards = state.getShopCards();
+        currPlayer = state.getCurrentTurn();
     }
 
+
+
+    //TODO: Hayden
+    @Test
+    public void cardStateConstructor(){
+
+    }
+
+    //RYAN
+    //SEPARATE CLASS, test copy constructor
+
+    //RYAN
+    //TODO: Remove, private method
+    @Test
+    public void testGetMethod(){
+
+    }
+
+    //TODO: RYAN
+    @Test
+    public void testCardAction(){
+        /*
+         * External citation
+         * Date: 11/25/18
+         * Problem: Wanted to use streams, didn't know function names
+         * Resource:
+         *  https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html
+         * Solution: Found function names
+         */
+
+        assertEquals("All normal cards can be played.", 0, Stream.concat(state.getBaseCards().stream(), state.getShopCards().stream())
+                                                    .map(DominionShopPileState::getCard) //Converts piles to cards
+                                                    .filter(card -> !card.cardAction(state)) //Gets cards whose actions fail
+                                                    .map(DominionCardState::getTitle) //Get failing cards names (for debugging)
+                                                    .count());
+
+        assertTrue("Blank card can be played.", DominionCardState.BLANK_CARD.cardAction(state));
+    }
+
+    //TODO: HAYDEN
+    @Test
+    public void testMoatAction(){
+        int moatPosition;
+        DominionCardState moatCard = state.getShopCards().get(MOAT).getCard();
+
+
+        //get current player's deck
+        currPlayer = state.getCurrentTurn();
+        DominionDeckState currDeck = state.getDominionPlayer(currPlayer).getDeck();
+        ArrayList<DominionCardState> hand = currDeck.getHand();
+
+        //Case 1: has an action, has a moat, is player's turn
+        assertEquals("Hand size", currDeck.getHandSize(), 5);
+        assertTrue("Has action", state.getActions() > 1);
+        assertEquals("Has moat", hand.contains(moatCard));
+        moatPosition = hand.indexOf(moatCard);
+
+        //Play card
+        assertTrue("Action succeeds", moatCard.moatAction(state));
+
+        //
+
+    }
+
+    //TODO: HAYDEN
+    @Test
+    public void testMerchantAction(){
+    }
+
+    //TODO: RYAN
     @Test
     public void testCouncilRoom(){
-        int currPlayer = state.getCurrentTurn();
+        currPlayer = state.getCurrentTurn();
         int otherPlayer = (currPlayer + 1) % 4;
 
         DominionDeckState currDeck = state.getDominionPlayer(currPlayer).getDeck();
@@ -45,6 +137,178 @@ public class CardStateTest {
         assertEquals("Drawn 4", 9, currDeck.getHandSize());
         assertEquals("Drawn 1", 6, otherDeck.getHandSize());
         assertEquals("2 buys", 2, state.getBuys());
+    }
+
+    //TODO: RYAN, fix to allow moneylender to be played without copper
+    //Close to done??
+    @Test
+    public void testMoneylenderAction(){
+
+    }
+
+    //TODO: Ryan,
+    @Test
+    //can't play moneylender with no copper
+    //new version: can play moneylender with no copper
+    public void testMoneyLenderNoCopper(){
+        DominionGameState state = getNewState(4);
+        int numPlayers;
+
+        DominionDeckState deck = state.getDominionPlayers()[currPlayer].getDeck();
+        setupSpecialHand(deck);
+
+        state.playCard(currPlayer, 0); //Plays a copper, you have no copper now
+
+        assertEquals(shopCards.get(MONEY_LENDER).getCard(), deck.getHand().get(3));//money lender is 3rd card
+
+        boolean playedCard = state.playCard(currPlayer, 3); //try to player Money Lender
+
+        assertFalse(playedCard); //make sure you haven't played the card //TODO: Change state or test, as this is no longer state behavior.
+
+        //make sure you still have moneylender in hand
+        assertEquals(shopCards.get(MONEY_LENDER).getCard(), deck.getHand().get(3)); //TODO: This is no longer behavior. Change test or behavior of state.
+
+        assertEquals(1, state.getActions()); //still have an action //TODO: Change state or test, as this is no longer state behavior.
+    }
+
+    //Ryan and Hayden
+    @Test
+    public void testMoneyLenderWithOneCopper(){
+        getNewState(4);
+        DominionDeckState deck = state.getDominionPlayers()[currPlayer].getDeck();
+        setupSpecialHand(deck);
+
+        assertEquals(shopCards.get(MONEY_LENDER).getCard(), deck.getHand().get(4));//money lender is 4th card
+        assertEquals(baseCards.get(COPPER).getCard(), deck.getHand().get(0));//copper is 1st card
+        assertEquals(0, state.getTreasure()); //have 0 treasure
+        assertEquals(1, state.getActions()); //have 1 action
+
+        boolean playedCard = state.playCard(currPlayer, 4); //try to player Money Lender
+        assertTrue(playedCard); //make sure you played the card
+
+        //make sure money lender and copper are NOT in hand
+        assertFalse(deck.getHand().contains(baseCards.get(COPPER).getCard()));
+        assertFalse(deck.getHand().contains(shopCards.get(MONEY_LENDER).getCard()));
+
+        assertEquals(0, state.getActions()); //still have an action
+        assertEquals(3, state.getTreasure()); //have 3 treasure now
+    }
+
+    //Ryan and Hayden
+    @Test
+    public void testMoneyLenderWithManyCopper(){
+        getNewState(4);
+        DominionDeckState deck = state.getDominionPlayers()[currPlayer].getDeck();
+        setupSpecialHand(deck);
+        ArrayList<DominionCardState> hand = deck.getHand();
+
+        hand.add(baseCards.get(COPPER).getCard()); //Add a copper as 8th card
+        hand.add(baseCards.get(COPPER).getCard()); //and 9th card
+
+        assertEquals(baseCards.get(COPPER).getCard(), hand.get(7));//8th card is a copper
+        assertEquals(shopCards.get(MONEY_LENDER).getCard(), hand.get(4));//money lender is 4th card
+        assertEquals(baseCards.get(COPPER).getCard(), hand.get(0));//copper is 1st card
+
+        assertEquals(0, state.getTreasure()); //have 0 treasure
+        assertEquals(1, state.getActions()); //have 1 action
+
+        boolean playedCard = state.playCard(currPlayer, 4); //try to player Money Lender
+        assertTrue(playedCard); //make sure you played the card
+
+        //make sure money lender is NOT in hand
+        assertFalse(hand.contains(shopCards.get(MONEY_LENDER).getCard()));
+
+        //make sure there is still 2 coppers
+        assertTrue(hand.contains(baseCards.get(COPPER).getCard()));
+        hand.remove(baseCards.get(COPPER).getCard());
+        //still 1 copper
+        assertTrue(hand.contains(baseCards.get(COPPER).getCard()));
+
+        //remove another one
+        hand.remove(baseCards.get(COPPER).getCard());
+        assertFalse(hand.contains(baseCards.get(COPPER).getCard()));
+
+        assertEquals(0, state.getActions()); //still have an action
+        assertEquals(3, state.getTreasure()); //have 3 treasure now
+    }
+
+
+    //TODO: RYAN
+    @Test
+    public void testSilverAction(){
+        DominionCardState silver, merchant;
+        silver = state.getBaseCards().get(2).getCard();
+        merchant = state.getShopCards().get(3).getCard();
+
+        //Test we got the right cards
+        assertEquals("Got silver.", "Silver", silver.getTitle());
+        assertEquals("Got merchant.", "Merchant", merchant.getTitle());
+
+        //Test initial state
+        assertEquals("No starting treasure", 0, state.getTreasure());
+
+        //Test silver without a merchant play
+        silver.cardAction(state);
+        assertEquals("Got 2 treasure", 2, state.getTreasure());
+
+        //Reset turn, so that next silver is first on turn
+        state.endTurn(state.getCurrentTurn());
+
+        //Test silver adds treasure for every merchant played.
+        merchant.cardAction(state);
+        merchant.cardAction(state);
+        silver.cardAction(state);
+        assertEquals("Merchant bonus", 4, state.getTreasure());
+
+        //Test additional merchants do not grant extra treasure
+        merchant.cardAction(state);
+        assertEquals("Merchant doesn't grant bonus", 4, state.getTreasure());
+
+        //Test additional silver do not grant extra treasure
+        silver.cardAction(state);
+        assertEquals("Silver doesn't grant bonus", 6, state.getTreasure());
+    }
+
+    //TODO: HAYDEN??
+    @Test
+    public void testBaseAction(){
+
+    }
+
+    /*
+    Shouldn't be necessary, they are autogenerated and short.
+    //Hayden
+    @Test
+    public void testEquals(){
+
+    }
+
+
+    //TODO: RYAN
+    @Test
+    public void testHashCode(){
+
+    }
+
+    */
+
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////BELOW ARE SOME TESTING HELPER METHODS///////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @author Ryan
+     * @param deck
+     */
+    private void setupSpecialHand(DominionDeckState deck) {
+        ArrayList<DominionCardState> hand = deck.getHand();
+        hand.set(0, baseCards.get(COPPER).getCard()); //First card copper
+        hand.set(1, baseCards.get(ESTATE).getCard()); //Second card Estate
+        hand.set(2, shopCards.get(MOAT).getCard()); //Third card Moat
+        hand.set(3, shopCards.get(COUNCIL).getCard()); //Forth card Council room
+        hand.set(4, shopCards.get(MONEY_LENDER).getCard()); //Fifth card Money Lender
+        hand.add(shopCards.get(MERCHANT).getCard()); //Sixth card merchant
+        hand.add(baseCards.get(SILVER).getCard()); //Seventh card Silver
     }
 
 }

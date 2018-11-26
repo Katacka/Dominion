@@ -48,7 +48,7 @@ public class GameStateUnitTest {
         shopCards = state.getShopCards();
         currPlayer = state.getCurrentTurn();
     }
-    
+
     @Test
     public void testCopper(){
         setupState(4);
@@ -80,12 +80,11 @@ public class GameStateUnitTest {
 
         boolean playedCard = state.playCard(currPlayer, 3); //try to player Money Lender
 
-        assertFalse(playedCard); //make sure you haven't played the card //TODO: Change state or test, as this is no longer state behavior.
-
-        //make sure you still have moneylender in hand
-        assertEquals(shopCards.get(MONEY_LENDER).getCard(), deck.getHand().get(3)); //TODO: This is no longer behavior. Change test or behavior of state.
-
-        assertEquals(1, state.getActions()); //still have an action //TODO: Change state or test, as this is no longer state behavior.
+        assertTrue(playedCard); //make sure card is played
+        assertEquals(1, state.getTreasure()); //Makes sure no treasure added (1 from played copper)
+        assertEquals(5, deck.getHandSize()); //Makes sure only one card has left hand
+        assertFalse(deck.getHand().contains(shopCards.get(MONEY_LENDER).getCard())); //Makes sure card missing is moneylender
+        assertEquals(0, state.getActions()); //Tests action still removed.
     }
 
     @Test
