@@ -78,12 +78,12 @@ public class GameStateTest {
 
         int turn = state.getCurrentTurn();
 
-        state.getDominionPlayer(turn).getDeck().getDiscard().add(baseCards.get(1).getCard());
+        state.getDominionPlayer(turn).getDeck().getDiscard().add(baseCards.get(ESTATE).getCard());
 
         int[] playerScoresNew = state.getPlayerScores();
         assertEquals(4, playerScoresNew[turn]);
 
-        state.getDominionPlayer(turn).getDeck().addManyToDiscard(shopCards.get(4).getCard(), 2);
+        state.getDominionPlayer(turn).getDeck().addManyToDiscard(shopCards.get(GARDEN).getCard(), 2);
 
         playerScoresNew = state.getPlayerScores();
         assertEquals(6, playerScoresNew[turn]);
@@ -154,10 +154,9 @@ public class GameStateTest {
         assertEquals(1, state.getActions()); //actions were not decremented
 
         assertTrue(deck.getHand().contains(shopCards.get(MOAT).getCard()));
-        boolean playCard = state.playCard(turn, 2); //play moat
+        boolean playCard = state.playCard(turn, 1); //play moat
         assertTrue(playCard);
-        //TODO: This is commented out because its not working, not sure why
-        //assertFalse(deck.getHand().contains(shopCards.get(MOAT).getCard())); //test that hand no longer contains moat
+        assertFalse(deck.getHand().contains(shopCards.get(MOAT).getCard())); //test that hand no longer contains moat
         assertEquals(0, state.getActions()); //actions decremented
 
         boolean playAnotherCard = state.playCard(turn, 3); //try to play council room (action)
@@ -228,6 +227,7 @@ public class GameStateTest {
 
         int winner = state.getWinner();
         assertEquals(-1, winner); //all players tied so should return -1 for no winner
+        //TODO: Get the tied players to confirm
 
         int turn = state.getCurrentTurn();
         assertEquals(3, playerScores[turn]);
