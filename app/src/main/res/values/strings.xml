@@ -23,7 +23,7 @@
     <string name="buys">Buys: %1$d</string>
     <string name="treasure">Treasure: %1$d</string>
 
-    <string name="how_to_play"> <!-- TODO: Do we intend on using this? -->
+    <string name="how_to_play">
                         How to play DOMINION
     Goal:
         Have the most point in your deck when the game ends.

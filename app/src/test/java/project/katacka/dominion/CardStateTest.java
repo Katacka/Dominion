@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
@@ -98,14 +99,16 @@ public class CardStateTest {
 
         //Case 1: has an action, has a moat, is player's turn
         assertEquals("Hand size", currDeck.getHandSize(), 5);
-        assertTrue("Has action", state.getActions() > 1);
-        assertEquals("Has moat", hand.contains(moatCard));
+        assertTrue("Has action", state.getActions() > 0);
+        assertTrue("Has moat", hand.contains(moatCard));
         moatPosition = hand.indexOf(moatCard);
 
         //Play card
-        assertTrue("Action succeeds", moatCard.moatAction(state));
+        moatCard.moatAction(state);
 
-        //
+        //Tests value changes
+        //...
+
 
     }
 
@@ -130,7 +133,7 @@ public class CardStateTest {
 
         //Perform action
         DominionCardState councilRoom = state.getShopCards().get(8).getCard();
-        assertTrue("Action succeeds", councilRoom.councilRoomAction(state));
+        councilRoom.councilRoomAction(state);
 
         //Test new state
         assertEquals("Drawn 4", 9, currDeck.getHandSize());
@@ -150,9 +153,6 @@ public class CardStateTest {
     //can't play moneylender with no copper
     //new version: can play moneylender with no copper
     public void testMoneyLenderNoCopper(){
-        DominionGameState state = getNewState(4);
-        int numPlayers;
-
         DominionDeckState deck = state.getDominionPlayers()[currPlayer].getDeck();
         setupSpecialHand(deck);
 
@@ -162,12 +162,11 @@ public class CardStateTest {
 
         boolean playedCard = state.playCard(currPlayer, 3); //try to player Money Lender
 
-        assertFalse(playedCard); //make sure you haven't played the card //TODO: Change state or test, as this is no longer state behavior.
+        assertTrue(playedCard); //make sure card is played
 
-        //make sure you still have moneylender in hand
-        assertEquals(shopCards.get(MONEY_LENDER).getCard(), deck.getHand().get(3)); //TODO: This is no longer behavior. Change test or behavior of state.
+        assertEquals(0, state.getActions()); //action used
 
-        assertEquals(1, state.getActions()); //still have an action //TODO: Change state or test, as this is no longer state behavior.
+        assertEquals(1, state.getTreasure()); //No treasure bonus (1 from copper).
     }
 
     //Ryan and Hayden

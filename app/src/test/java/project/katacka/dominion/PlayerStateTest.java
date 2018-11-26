@@ -60,10 +60,7 @@ public class PlayerStateTest {
         DominionShopPileState copperPile = baseCards.get(COPPER);
         DominionShopPileState estatePile = baseCards.get(ESTATE);
 
-        DominionPlayerState player = new DominionPlayerState("name", copperPile, estatePile.getCard());
-
-        //test name
-        assertEquals("name", player.getName());
+        DominionPlayerState player = new DominionPlayerState(copperPile, estatePile.getCard());
 
         //test turns played
         assertEquals(0, player.getTurnsPlayed());

@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import project.katacka.dominion.gamestate.DominionCardPlace;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionDeckState;
 import project.katacka.dominion.gamestate.DominionGameState;
@@ -92,17 +93,17 @@ public class GameStateTest {
         assertNotEquals(0, treasures);
 
         if(treasures>=4){
-            assertTrue(state.isLegalBuy(turn, 4, false)); //valid card index
-            assertTrue(state.isLegalBuy(turn, 9, false)); //edge card index
+            assertTrue(state.isLegalBuy(turn, 4, DominionCardPlace.SHOP_CARD)); //valid card index
+            assertTrue(state.isLegalBuy(turn, 9, DominionCardPlace.SHOP_CARD)); //edge card index
         }
-        assertTrue(state.isLegalBuy(turn, 0, false)); //edge card index
-        assertFalse(state.isLegalBuy(turn, 10, false)); //out of bounds index
-        assertFalse(state.isLegalBuy(turn, 15, false)); //out of bounds index
+        assertTrue(state.isLegalBuy(turn, 0, DominionCardPlace.SHOP_CARD)); //edge card index
+        assertFalse(state.isLegalBuy(turn, 10, DominionCardPlace.SHOP_CARD)); //out of bounds index
+        assertFalse(state.isLegalBuy(turn, 15, DominionCardPlace.SHOP_CARD)); //out of bounds index
 
-        assertTrue(state.isLegalBuy(turn, 1, true));
-        assertFalse(state.isLegalBuy(turn, 8, true));
+        assertTrue(state.isLegalBuy(turn, 1, DominionCardPlace.BASE_CARD));
+        assertFalse(state.isLegalBuy(turn, 8, DominionCardPlace.BASE_CARD));
 
-        assertFalse(state.isLegalBuy(notTurn, 3, false));
+        assertFalse(state.isLegalBuy(notTurn, 3, DominionCardPlace.BASE_CARD));
     }
 
     @Test
@@ -207,7 +208,7 @@ public class GameStateTest {
             int discardSize = state.getDominionPlayer(turn).getDeck().getDiscardSize();
             int buys = state.getBuys();
             assertEquals(1, buys);
-            boolean buyCard = state.buyCard(turn, MOAT, false);
+            boolean buyCard = state.buyCard(turn, MOAT, DominionCardPlace.SHOP_CARD);
             assertTrue(buyCard);
 
             assertEquals(discardSize+1, state.getDominionPlayer(turn).getDeck().getDiscardSize());

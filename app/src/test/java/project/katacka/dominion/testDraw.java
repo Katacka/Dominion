@@ -44,7 +44,7 @@ public class testDraw {
         //make a state
 
         int numPlayers = 4;
-        DominionGameState state = new DominionGameState(numPlayers, shopPileArray, null);
+        DominionGameState state = new DominionGameState(numPlayers, shopPileArray, null); //TODO: Use Generator
         Log.i(this + "", "Current turn: " + state.getCurrentTurn());
         state.endTurn(state.getCurrentTurn());
 
