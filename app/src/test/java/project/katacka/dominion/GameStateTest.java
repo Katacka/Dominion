@@ -74,6 +74,16 @@ public class GameStateTest {
         for(int i = 0; i<state.getDominionPlayers().length; i++){
             assertEquals(3, playerScores[i]);
         }
+
+        int turn = state.getCurrentTurn();
+        assertEquals(3, playerScores[turn]);
+
+        state.playAllCards(turn);
+        boolean boughtCard = state.buyCard(turn, 1, true);
+        assertTrue(boughtCard);
+
+        int[] playerScoresNew = state.getPlayerScores();
+        assertNotEquals(3, playerScoresNew[turn]);
     }
 
     @Test
@@ -215,6 +225,22 @@ public class GameStateTest {
             assertEquals(buys-1, state.getBuys());
             assertEquals(treasures-shopCards.get(MOAT).getCard().getCost() , state.getTreasure());
         }
+
+    }
+
+    @Test
+    public void testGetWinner(){
+        setupCards();
+        setUpState();
+
+        int winner = state.getWinner();
+        assertEquals(-1, winner); //game isn't over
+
+        int turn = state.getCurrentTurn();
+
+        int[] playerScores = state.getPlayerScores();
+        assertEquals(3, playerScores[turn]);
+
 
     }
 
