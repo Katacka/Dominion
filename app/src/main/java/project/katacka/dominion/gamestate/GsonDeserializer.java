@@ -50,6 +50,7 @@ public class GsonDeserializer implements JsonDeserializer<ArrayList<DominionShop
             cardPiles.add(
                     new DominionShopPileState(
                             new DominionCardState(
+                                    card.get("id").getAsInt(),
                                     card.getAsJsonObject().get("title").getAsString(),
                                     card.get("photoStringID").getAsString(),
                                     card.get("text").getAsString(),

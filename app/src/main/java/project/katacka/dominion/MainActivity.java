@@ -57,5 +57,4 @@ public class MainActivity extends GameMainActivity {
     public LocalGame createLocalGame() {
         return new DominionLocalGame(this);
     }
-
 }

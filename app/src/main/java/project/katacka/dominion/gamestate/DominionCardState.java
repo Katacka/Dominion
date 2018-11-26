@@ -22,6 +22,7 @@ public class DominionCardState implements Serializable{
 
     //Card attributes
     //Final because only one instance is made per card. Changing an attribute would change all copies
+    private final int id;
     private final String title;
     private final String photoID;
     private final String text;
@@ -49,10 +50,10 @@ public class DominionCardState implements Serializable{
      * @param addedBuys The buys the card gives when plays.
      * @param victoryPoints The worth of the card in victory points.
      */
-    public DominionCardState (String name, String photoStringID, String text, int cost, String type, String action,
+    public DominionCardState (int id, String name, String photoStringID, String text, int cost, String type, String action,
                               int addedTreasure, int addedActions, int addedDraw, int addedBuys, int victoryPoints){
+        this.id = id;
         this.title = name;
-
         this.photoID = photoStringID;
         this.text = text;
         this.cost = cost;
@@ -76,12 +77,12 @@ public class DominionCardState implements Serializable{
      * @param other The instance to copy
      */
      public DominionCardState(DominionCardState other){
+        this.id = other.id;
         this.title = other.title;
         this.photoID = other.photoID;
         this.text = other.text;
         this.cost = other.cost;
         this.type = other.type;
-        //this.action = other.action;
         this.methodName = other.methodName;
         this.addedTreasure = other.addedTreasure;
         this.addedActions = other.addedActions;
@@ -95,6 +96,7 @@ public class DominionCardState implements Serializable{
      * Used to obfuscate cards players cannot "see"
      */
     private DominionCardState(){
+        this.id = -1;
         this.title = "Blank";
         this.photoID = null;
         this.text = "Blank text";
