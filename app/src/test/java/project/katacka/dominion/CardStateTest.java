@@ -279,13 +279,19 @@ public class CardStateTest {
         assertEquals("Silver doesn't grant bonus", 6, state.getTreasure());
     }
 
+    //TODO: Hayden
+    @Test
+    public void testBaseAction(){
+
+    }
+
     ////////////////////////////////////////////////////////////////////////////////
     ////////////////////BELOW ARE SOME TESTING HELPER METHODS///////////////////////
     ////////////////////////////////////////////////////////////////////////////////
 
     /**
      * @author Ryan
-     * @param deck
+     * @param deck The deck to modify the hand of
      */
     private void setupSpecialHand(DominionDeckState deck) {
         ArrayList<DominionCardState> hand = deck.getHand();
