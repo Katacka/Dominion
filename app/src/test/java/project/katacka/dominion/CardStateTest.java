@@ -57,13 +57,6 @@ public class CardStateTest {
     //SEPARATE CLASS, test copy constructor
 
     //RYAN
-    //TODO: Remove, private method
-    @Test
-    public void testGetMethod(){
-
-    }
-
-    //TODO: RYAN
     @Test
     public void testCardAction(){
         /*
@@ -144,7 +137,7 @@ public class CardStateTest {
     public void testMerchantAction_1merchant1copper1silver(){}
     public void testMerchantAction_2merchant2silver(){}
 
-    //TODO: RYAN
+    //Ryan
     @Test
     public void testCouncilRoom(){
         currPlayer = state.getCurrentTurn();
@@ -168,17 +161,9 @@ public class CardStateTest {
         assertEquals("2 buys", 2, state.getBuys());
     }
 
-    //TODO: RYAN, fix to allow moneylender to be played without copper
-    //Close to done??
+    //Ryan and Hayden
     @Test
-    public void testMoneylenderAction(){
-
-    }
-
-    //TODO: Ryan,
-    @Test
-    //can't play moneylender with no copper
-    //new version: can play moneylender with no copper
+    //can play moneylender with no copper, but nothing happens
     public void testMoneyLenderNoCopper(){
         DominionDeckState deck = state.getDominionPlayers()[currPlayer].getDeck();
         setupSpecialHand(deck);
@@ -258,7 +243,7 @@ public class CardStateTest {
     }
 
 
-    //TODO: RYAN
+    //Ryan
     @Test
     public void testSilverAction(){
         DominionCardState silver, merchant;
