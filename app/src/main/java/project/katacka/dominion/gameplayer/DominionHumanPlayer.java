@@ -21,9 +21,11 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,6 +50,7 @@ import project.katacka.dominion.gameframework.infoMsg.IllegalMoveInfo;
 import project.katacka.dominion.gamestate.DominionCardPlace;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gameframework.infoMsg.NotYourTurnInfo;
+import project.katacka.dominion.gamestate.DominionCardType;
 import project.katacka.dominion.gamestate.DominionDeckState;
 import project.katacka.dominion.gamestate.DominionGameState;
 import project.katacka.dominion.gamestate.DominionPlayerState;
@@ -80,7 +83,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private LinearLayout cardRow = null;
     private ArrayList<DominionCardState> hand;
 
-    private int handOffset;
+    private int handOffset = 0;
 
     private int pos;
 
@@ -108,6 +111,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     private TextView bMenu;
 
+    private int promptEndTurn = 1;
+
     private ImageView drawPile;
     private ConstraintLayout discardPile;
     private ImageView emptyDiscardPile;
@@ -121,6 +126,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private final Handler myHandler;
     private Drawable background;
     private Toast illegalMoveToast;
+
+    boolean isTurn;
 
     public DominionHumanPlayer(String name) {
         super(name);
@@ -315,21 +322,35 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         hand = state.getDominionPlayer(playerNum).getDeck().getHand();
         cardRow = activity.findViewById(R.id.User_Cards);
 
-        ConstraintLayout layout;
-        DominionCardState card;
-
         int childCount = cardRow.getChildCount();
+        int handCardCount = hand.size();
+
         for(int i = 0; i < childCount; i++){
-            layout = (ConstraintLayout) cardRow.getChildAt(i);
-            if(i < hand.size()){
-                layout.setOnClickListener(handClickListener);
-                card = hand.get(i);
-                updateCardView(layout, card, -1);
-                layout.setVisibility(View.VISIBLE);
+            ConstraintLayout cardLayout = (ConstraintLayout) cardRow.getChildAt(i);
+
+            if(i + handOffset < handCardCount){
+                adjustHandCardSize(handCardCount, cardLayout);
+                cardLayout.setOnClickListener(handClickListener);
+                cardLayout.setOnTouchListener(handSwipeListener);
+                Log.i("a", "updatePlayerHand: " + cardLayout.getWidth());
+
+                DominionCardState card = hand.get(i + handOffset);
+                updateCardView(cardLayout, card, -1);
+                setPlayable(cardLayout, isTurn && (card.getType() != DominionCardType.ACTION || state.getActions() > 0));
+                cardLayout.setVisibility(View.VISIBLE);
             } else {
-                layout.setVisibility(View.GONE);
+                cardLayout.setVisibility(View.GONE);
             }
         }
+    }
+
+    private void adjustHandCardSize(int handCardCount, ConstraintLayout cardLayout) {
+        int childCompNum = Math.max(5 - handCardCount, 0);
+        float d = res.getDisplayMetrics().density;
+        int childComp = Math.round(2 * childCompNum * d);
+
+        int cardWidth = cardRow.getWidth()/5 - childComp;
+        cardLayout.setMaxWidth(cardWidth);
     }
 
     /**
@@ -371,8 +392,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      * Updates the shop piles
      */
     private void updateShopPiles(){
-        boolean isTurn = playerNum == state.getCurrentTurn();
-
         int m = 0;
         for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
             View shopRow = shopLayout.getChildAt(i);
@@ -423,6 +442,14 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     }
 
+    private void setPlayable(ConstraintLayout handCard, boolean canPlay){
+        if (canPlay && state.getActions() >= 1){
+            handCard.setBackgroundResource(R.drawable.dominion_card_border_green);
+        } else {
+            handCard.setBackgroundResource(R.drawable.dominion_card_border_squared);
+        }
+    }
+
     /**
      * Updates the base piles
      */
@@ -435,7 +462,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
          * Solution: shows how to convert string to resource id to use to set image view
          */
         basePiles = new ArrayList<>();
-        boolean isTurn = playerNum == state.getCurrentTurn();
 
         //TODO: Clean up. (Just comments maybe?)
         int c = 0, start = 0, end = 2;
@@ -536,12 +562,79 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         set.applyTo(oppCardsLayout);
     }
 
+    private void promptEndTurn() {
+        if (isTurn && (hand.size() == 0 || state.getActions() == 0) && state.getBuys() == 0) {
+            handOffset = 0;
+
+            if(promptEndTurn == 1) {
+                AlertDialog.Builder endTurnPrompt = new AlertDialog.Builder(activity);
+                endTurnPrompt.setMessage("End Turn?");
+
+                endTurnPrompt.setPositiveButton(
+                    "Yes",
+                    (DialogInterface dialog, int id) -> {
+                        endTurnMsg();
+                        game.sendAction(new DominionEndTurnAction(thisPlayer));
+                    }
+                );
+
+                endTurnPrompt.setNegativeButton(
+                    "No",
+                    (DialogInterface dialog, int id) -> dialog.dismiss()
+                );
+
+                CheckBox displayDialogCheck = new CheckBox(activity);
+                displayDialogCheck.setText(R.string.display_dialog_check);
+                displayDialogCheck.setOnClickListener((View v) -> {
+                    if (displayDialogCheck.isChecked()) {
+                        promptEndTurnSettings();
+                    }
+                    else promptEndTurn = 1;
+                });
+
+                endTurnPrompt.setView(displayDialogCheck).create().show();
+            }
+            else if (promptEndTurn == -1) {
+                endTurnMsg();
+                game.sendAction(new DominionEndTurnAction(thisPlayer));
+            }
+        }
+    }
+
+    private void promptEndTurnSettings() {
+        AlertDialog.Builder endTurnSettings = new AlertDialog.Builder(activity);
+        endTurnSettings.setMessage("Enable automatic turn ending?");
+
+        endTurnSettings.setPositiveButton(
+                "Yes",
+                (DialogInterface dialog, int id) -> {
+                    promptEndTurn = -1;
+                    dialog.dismiss();
+                }
+        );
+
+        endTurnSettings.setNegativeButton(
+                "No",
+                (DialogInterface dialog, int id) -> {
+                    promptEndTurn = 0;
+                    dialog.dismiss();
+                }
+        );
+
+        endTurnSettings.create().show();
+    }
+
+    private void endTurnMsg() {
+        Toast.makeText(activity, "Turn ended", Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public void receiveInfo(GameInfo info) {
         //get updated info
         if(info instanceof DominionGameState){
             state = (DominionGameState) info;
             playerState = state.getDominionPlayer(playerNum);
+            isTurn = playerNum == state.getCurrentTurn();
 
             //Update tabs to reflect turn
             if (state.getIsAttackTurn()) {
@@ -565,6 +658,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             bPlayAll.setOnClickListener(handClickListener);
             bMenu.setOnClickListener(menuClickListener);
 
+            promptEndTurn();
         } else if(info instanceof NotYourTurnInfo) {
             //TODO: actually do something if not player turn
             Log.i("DominionHumanPlayer: receiveInfo", "Not your turn.");
@@ -580,6 +674,25 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     }
 
+    /**
+     * Handles navigation of the player hand
+     */
+    private OnSwipeTouchListener handSwipeListener = new OnSwipeTouchListener(activity) {
+        @Override
+        public void onSwipeRight(float distX) {
+            handOffset = Math.max(handOffset - 1, 0);
+            Log.e("a", "onSwipeLeft: " + handOffset);
+            updatePlayerHand();
+        }
+
+        @Override
+        public void onSwipeLeft(float distX) {
+            handOffset = Math.min(handOffset + 1, Math.max(hand.size() - 5, 0));
+            Log.e("a", "onSwipeRight: " + handOffset);
+            updatePlayerHand();
+        }
+    };
+
     private final View.OnClickListener handClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View v){
@@ -589,18 +702,23 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             if(v == bPlayAll){
                Log.i("DomHumPlayer: HandClickListener onClick: ", "Play all button clicked");
 
-               action = new DominionPlayAllAction(thisPlayer);
+                handOffset = 0;
+                action = new DominionPlayAllAction(thisPlayer);
             } else if(v == bEndTurn) {
                 Log.i("TAG: ", "" + state.getCurrentTurn());
                 Log.i("DomHumPlayer: onClick", "End turn button clicked.");
+                endTurnMsg();
 
+                handOffset = 0;
                 action = new DominionEndTurnAction(thisPlayer);
             } else if(v instanceof ConstraintLayout){ //v is one of the playerCards
                 Log.i("DomHumPlayer: onClick", "Player's card button clicked.");
 
                 int index = cardRow.indexOfChild(v);
-                action = new DominionPlayCardAction(thisPlayer, index);
-            } else {
+                int handOffsetTemp = handOffset;
+                handOffset = (hand.size() - handOffset > 5) ? handOffset : Math.max(handOffset - 1, 0);
+                action = new DominionPlayCardAction(thisPlayer, index + handOffsetTemp);
+            } else { //TODO: Why do we have this default case?
                 Log.i("DomHumPlayer: onClick", "Player card button clicked.");
 
                 int toPlayIdx = ((LinearLayout)v.getParent()).indexOfChild(v);
@@ -614,15 +732,23 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         @Override
         public void onClick(View v) {
             DominionCardPlace place;
-            if (basePiles.contains(v)) place = DominionCardPlace.BASE_CARD;
-            else place = DominionCardPlace.SHOP_CARD;
+            if (basePiles.contains(v)) {
+                place = DominionCardPlace.BASE_CARD;
+            }
+            else {
+                place = DominionCardPlace.SHOP_CARD;
+            }
 
             TableRow parentView = (TableRow) v.getParent();
 
             //This is the table row the top row or bottom row
             TableLayout parentLayout = (TableLayout) parentView.getParent();
             int offSet = parentLayout.indexOfChild(parentView) * parentView.getVirtualChildCount();
-            int desiredIndex = parentView.indexOfChild(v) + offSet;
+            int rawIndex = parentView.indexOfChild(v);
+            int desiredIndex = rawIndex + offSet;
+
+            TextView cardTitle = parentView.getChildAt(rawIndex).findViewById(R.id.textViewTitle);
+            Toast.makeText(activity, "Bought a " + cardTitle.getText(), Toast.LENGTH_SHORT).show();
 
             game.sendAction(new DominionBuyCardAction(thisPlayer, desiredIndex, place));
         }

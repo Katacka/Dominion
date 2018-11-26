@@ -5,8 +5,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
-import com.jakewharton.processphoenix.ProcessPhoenix;
-
 import project.katacka.dominion.gameframework.actionMsg.GameAction;
 import project.katacka.dominion.gameframework.actionMsg.GameOverAckAction;
 import project.katacka.dominion.gameframework.actionMsg.MyNameIsAction;
