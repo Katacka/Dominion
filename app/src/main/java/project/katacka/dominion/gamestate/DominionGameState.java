@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.stream.IntStream;
 import java.util.Random;
 
 import project.katacka.dominion.gameframework.infoMsg.GameState;
@@ -29,8 +28,8 @@ public class DominionGameState extends GameState implements Serializable{
      *  4: Gold
      *  5: Province
      */
-    protected final ArrayList<DominionShopPileState> baseCards;
-    protected final ArrayList<DominionShopPileState> shopCards;
+    private final ArrayList<DominionShopPileState> baseCards;
+    private final ArrayList<DominionShopPileState> shopCards;
 
     //Location of cards in base cards
     //Only need the locations of cards used in starter deck
@@ -39,22 +38,22 @@ public class DominionGameState extends GameState implements Serializable{
     private final int PILE_ESTATE = 1;
     private final int PILE_PROVIDENCE = 5;
 
-    protected DominionPlayerState dominionPlayers[]; //Sorted by order of turn
+    private final DominionPlayerState dominionPlayers[]; //Sorted by order of turn
 
-    protected int currentTurn;
-    protected int attackTurn; //Player ID of responder
-    protected boolean isAttackTurn;
-    protected boolean isGameOver;
-    protected int playerQuit; //Used to identify which player exited. -1 describes no player having quit
+    private int currentTurn;
+    private int attackTurn; //Player ID of responder
+    private boolean isAttackTurn;
+    private boolean isGameOver;
+    private int playerQuit; //Used to identify which player exited. -1 describes no player having quit
 
-    protected int numPlayers;
+    private final int numPlayers;
 
-    protected int actions;
-    protected int buys;
-    protected int treasure;
+    private int actions;
+    private int buys;
+    private int treasure;
 
-    protected int numMerchants;
-    protected boolean silverPlayed;
+    private int numMerchants;
+    private boolean silverPlayed;
 
     private int emptyPiles;
     private boolean providenceEmpty = false;
@@ -77,6 +76,7 @@ public class DominionGameState extends GameState implements Serializable{
                              ArrayList<DominionShopPileState> shopCardArray) {
 
         //Updates shop amounts for 2 player game
+        //TODO: Move to shop pile class
         numPlayers = paramNumPlayers;
         if (numPlayers == 2) {
             //Base cards
@@ -100,7 +100,7 @@ public class DominionGameState extends GameState implements Serializable{
         //Create the players
         this.dominionPlayers = new DominionPlayerState[numPlayers];
         for (int i = 0; i < numPlayers; i++) {
-            this.dominionPlayers[i] = new DominionPlayerState("Player " + i,
+            this.dominionPlayers[i] = new DominionPlayerState(
                     baseCards.get(PILE_COPPER), //The copper pile
                     baseCards.get(PILE_ESTATE).getCard()); //The estate card
 
@@ -176,15 +176,15 @@ public class DominionGameState extends GameState implements Serializable{
      * Moves a card from the shop to a player's hand
      * @param playerID PlayerID in question, for which data will be found
      * @param cardIndex Relative location of the card one wishes to buy
-     * @param isBaseCard Determines exists in the shop card group or base card group
+     * @param place Where the card is (shop or base)
      *
      * @return A boolean describing whether the card was successfully bought
      */
-    public boolean buyCard(int playerID, int cardIndex, boolean isBaseCard){
+    public boolean buyCard(int playerID, int cardIndex, DominionCardPlace place){
 
-        if (isLegalBuy(playerID, cardIndex, isBaseCard)) {
+        if (isLegalBuy(playerID, cardIndex, place)) {
             DominionShopPileState cardPile;
-            if (isBaseCard)
+            if (place == DominionCardPlace.BASE_CARD)
                 cardPile = baseCards.get(cardIndex);
             else
                 cardPile = shopCards.get(cardIndex);
@@ -195,7 +195,7 @@ public class DominionGameState extends GameState implements Serializable{
             treasure -= cardPile.getCard().getCost();
             if (cardPile.isEmpty()){
                 emptyPiles++;
-                if (isBaseCard && cardIndex == PILE_PROVIDENCE){
+                if (place == DominionCardPlace.BASE_CARD && cardIndex == PILE_PROVIDENCE){
                     providenceEmpty = true;
                 }
             }
@@ -260,7 +260,12 @@ public class DominionGameState extends GameState implements Serializable{
         if(isLegalPlay(playerID, cardIndex)) {
             DominionDeckState deck = this.dominionPlayers[playerID].getDeck();
             DominionCardState card = deck.getHand().get(cardIndex);
-            deck.putInPlay(cardIndex); //Discarding before playing the card fixes cases like moneylender
+            if (!deck.putInPlay(cardIndex)){
+                //Should not get here.
+                //Only occurs if card index not in hand, meaning isLegalPlay not working.
+                Log.e("DominionGameState", "Could not put in play");
+                return false;
+            };
             card.cardAction(this);
             /*if(!card.cardAction(this)){
                 //Log.e("GameState", "Card " + cardIndex + " failed to play successfully");
@@ -332,16 +337,16 @@ public class DominionGameState extends GameState implements Serializable{
      *
      * @return A boolean describing whether the selected card may legally be bought
      */
-    public boolean isLegalBuy(int playerID, int cardIndex, boolean baseCard) {
+    public boolean isLegalBuy(int playerID, int cardIndex, DominionCardPlace place) {
         if(canMove(playerID)){
             if (buys >= 1){ //Allowed to buy
-                if (!baseCard && cardIndex >= 0 && cardIndex < shopCards.size()) { //Card pile exists
+                if (place == DominionCardPlace.SHOP_CARD && cardIndex >= 0 && cardIndex < shopCards.size()) { //Card pile exists
                     DominionShopPileState shopPile = shopCards.get(cardIndex);
                     if (!shopPile.isEmpty()){
                         return treasure >= shopPile.getCard().getCost();
                     }
                 }
-                else if (baseCard && cardIndex >= 0 && cardIndex < baseCards.size()){
+                else if (place == DominionCardPlace.BASE_CARD && cardIndex >= 0 && cardIndex < baseCards.size()){
                     DominionShopPileState basePile = baseCards.get(cardIndex);
                     if (!basePile.isEmpty()){
                         return treasure >= basePile.getCard().getCost();
@@ -513,42 +518,32 @@ public class DominionGameState extends GameState implements Serializable{
     }
 
     //Autogenerated methods
+    public void addTreasure(int treasure){
+        this.treasure += treasure;
+    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DominionGameState that = (DominionGameState) o;
-        return currentTurn == that.currentTurn &&
-                attackTurn == that.attackTurn &&
-                isAttackTurn == that.isAttackTurn &&
-                isGameOver == that.isGameOver &&
-                playerQuit == that.playerQuit &&
-                numPlayers == that.numPlayers &&
-                actions == that.actions &&
-                buys == that.buys &&
-                treasure == that.treasure &&
-                numMerchants == that.numMerchants &&
-                silverPlayed == that.silverPlayed &&
-                emptyPiles == that.emptyPiles &&
-                providenceEmpty == that.providenceEmpty &&
-                Objects.equals(baseCards, that.baseCards) &&
-                Objects.equals(shopCards, that.shopCards) &&
-                Arrays.equals(dominionPlayers, that.dominionPlayers) &&
-                Arrays.equals(tiedPlayers, that.tiedPlayers);
+    public void addBuys(int buys){
+        this.buys += buys;
+    }
+
+    public void addMerchant(){
+        this.numMerchants++;
+    }
+
+    public boolean getSilverPlayed(){
+        return silverPlayed;
+    }
+
+    public void setSilverPlayed(boolean silverPlayed) {
+        this.silverPlayed = silverPlayed;
+    }
+
+    public int getNumMerchants() {
+        return numMerchants;
     }
 
     @Override
-    public int hashCode() {
-
-        int result = Objects.hash(baseCards, shopCards, currentTurn, attackTurn, isAttackTurn, isGameOver, playerQuit, numPlayers, actions, buys, treasure, numMerchants, silverPlayed, emptyPiles, providenceEmpty);
-        result = 31 * result + Arrays.hashCode(dominionPlayers);
-        result = 31 * result + Arrays.hashCode(tiedPlayers);
-        return result;
-    }
-
-    @Override
-    /**
+    /*
      * Converts the game state to a String representation.
      * For debugging purposes.
      * TODO: Remove TextUtils so that it does not fail during testing
@@ -575,7 +570,7 @@ public class DominionGameState extends GameState implements Serializable{
             baseStrs[i] = baseCards.get(i).toString();
         }
 
-        /**
+        /*
          * External Citation
          * Date: 10/7
          * Problem: Needed to turn array of strings into single array
@@ -615,5 +610,43 @@ public class DominionGameState extends GameState implements Serializable{
         return String.format(Locale.US, "%s\n%s\n%s%s\n%s\n%s\n%s\n%s%s\n%s", turnStr, batStr,
                 boonStr, baseStr, shopStr, playerStr, emptyPilesStr, providenceEmptyStr, quitStr, gameOverStr);
     }
+
+    //Autogenerated methods
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DominionGameState that = (DominionGameState) o;
+        return currentTurn == that.currentTurn &&
+                attackTurn == that.attackTurn &&
+                isAttackTurn == that.isAttackTurn &&
+                isGameOver == that.isGameOver &&
+                playerQuit == that.playerQuit &&
+                numPlayers == that.numPlayers &&
+                actions == that.actions &&
+                buys == that.buys &&
+                treasure == that.treasure &&
+                numMerchants == that.numMerchants &&
+                silverPlayed == that.silverPlayed &&
+                emptyPiles == that.emptyPiles &&
+                providenceEmpty == that.providenceEmpty &&
+                Objects.equals(baseCards, that.baseCards) &&
+                Objects.equals(shopCards, that.shopCards) &&
+                Arrays.equals(dominionPlayers, that.dominionPlayers) &&
+                Arrays.equals(tiedPlayers, that.tiedPlayers);
+    }
+
+    @Override
+    public int hashCode() {
+
+        int result = Objects.hash(baseCards, shopCards, currentTurn, attackTurn, isAttackTurn, isGameOver, playerQuit, numPlayers, actions, buys, treasure, numMerchants, silverPlayed, emptyPiles, providenceEmpty);
+        result = 31 * result + Arrays.hashCode(dominionPlayers);
+        result = 31 * result + Arrays.hashCode(tiedPlayers);
+        return result;
+    }
+
+
+
 }
 

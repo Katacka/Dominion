@@ -1,7 +1,6 @@
 package project.katacka.dominion.gamestate;
 
 import android.content.Context;
-import android.renderscript.ScriptGroup;
 import android.support.annotation.RawRes;
 import android.util.Log;
 
@@ -27,7 +26,7 @@ import static android.content.ContentValues.TAG;
  */
 public class CardReader{
 
-    private GsonBuilder gsonBuilder;
+    private final GsonBuilder gsonBuilder;
     private final Type arrayType;
     private final Gson gsonParser;
 

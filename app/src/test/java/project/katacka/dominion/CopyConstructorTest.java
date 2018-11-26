@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import project.katacka.dominion.gamestate.DominionCardPlace;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionDeckState;
 import project.katacka.dominion.gamestate.DominionGameState;
@@ -51,7 +52,7 @@ public class CopyConstructorTest {
         //Make some moves in state, to change it from initial state
         int currPlayer = state.getCurrentTurn();
         state.playAllCards(currPlayer);
-        state.buyCard(currPlayer, 0, true); //Buy some copper
+        state.buyCard(currPlayer, 0, DominionCardPlace.BASE_CARD); //Buy some copper
 
         //Create a copy
         DominionGameState other = new DominionGameState(state, currPlayer);

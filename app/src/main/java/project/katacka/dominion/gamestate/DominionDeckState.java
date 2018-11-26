@@ -102,8 +102,7 @@ public class DominionDeckState implements Serializable{
             }
         }
         int index = draw.size() - 1;
-        DominionCardState card = draw.get(index);
-        return card;
+        return draw.get(index);
     }
 
     /**
