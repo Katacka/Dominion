@@ -270,23 +270,21 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      */
     private void updateTabs(int activePlayer){
         ConstraintSet c = new ConstraintSet();
-        //clone Player_tabs (tabs wrapper)constraints
+        //clone Player_tabs (tabs wrapper) constraints
         c.clone(tabLayout);
         //set default individual tab widths as percentages of the parents constraints
         //by default, tab1 is active
 
         int[] playerTabs = {R.id.playerTab1, R.id.playerTab2, R.id.playerTab3, R.id.playerTab4};
-
-        for(int i = 0; i < state.getDominionPlayers().length; i++){
+        for(int i = 0; i < state.getNumPlayers(); i++){
             if(i == activePlayer){
                 c.constrainPercentWidth(playerTabs[i], tabActiveVal);
             } else {
                 c.constrainPercentWidth(playerTabs[i], tabInactiveVal);
             }
         }
+
         c.applyTo(tabLayout);
-        c.clone((ConstraintLayout) activity.findViewById(R.id.Player_Tabs));
-        c.constrainPercentWidth(R.id.playerTab1, R.dimen.tabActive);
     }
 
     private void updateTurnInfo(int actions, int buys, int treasure){
@@ -557,7 +555,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         set.applyTo(oppCardsLayout);
     }
 
-    //TODO: fix to update tabs more accurately for attack turns
     @Override
     public void receiveInfo(GameInfo info) {
         //get updated info
@@ -565,12 +562,15 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             state = (DominionGameState) info;
             playerState = state.getDominionPlayer(playerNum);
 
-            //update tabs to reflect turn
-            //updateTabs(state.getCurrentTurn());
+            //Update tabs to reflect turn
             if (state.getIsAttackTurn()) {
-                updateTabs(state.getAttackTurn());
+                updateTabs(state.getCurrentTurn());
+                updateOppDrawDiscard(state.getAttackTurn());
+                updateOppHand(state.getAttackTurn());
             } else {
                 updateTabs(state.getCurrentTurn());
+                updateOppDrawDiscard(state.getCurrentTurn());
+                updateOppHand(state.getCurrentTurn());
             }
 
             updateTurnInfo(state.getActions(), state.getBuys(), state.getTreasure());
@@ -578,9 +578,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             updateShopPiles();
             updateBasePiles();
             updatePlayerHand();
-
-            updateOppDrawDiscard(state.getCurrentTurn());
-            updateOppHand(state.getCurrentTurn());
 
             //set listeners
             bEndTurn.setOnClickListener(handClickListener);
