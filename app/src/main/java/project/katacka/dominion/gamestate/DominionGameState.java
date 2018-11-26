@@ -368,6 +368,8 @@ public class DominionGameState extends GameState implements Serializable{
         return treasure;
     }
 
+    public void setTreasure(int newTreasure) { treasure = newTreasure; }
+
     public ArrayList<DominionShopPileState> getBaseCards() {
         return baseCards;
     }
@@ -420,9 +422,6 @@ public class DominionGameState extends GameState implements Serializable{
      *              a tie, returns -1 and sets {@code tiedPlayers} to the list of tied players.
      */
     public int getWinner(){
-        if (!isGameOver) return -1;
-        else{
-
             //Check if there is a winner
             int[] scores = getPlayerScores(); //The scores of every player
             int maxScore = 0; //The highest score seen
@@ -476,7 +475,7 @@ public class DominionGameState extends GameState implements Serializable{
             }
 
             return -1;
-        }
+
     }
 
     /**
