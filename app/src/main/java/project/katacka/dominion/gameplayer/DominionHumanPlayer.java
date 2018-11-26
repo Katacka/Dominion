@@ -63,14 +63,10 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private final int ILLEGAL_TOAST_DURATION = 250;
     private final double CARD_WIDTH_RATIO = 0.66;
 
-    private float tabInactiveVal;
-    private float tabActiveVal;
+    private final float TAB_INACTIVE = 0.85f;
+    private final float TAB_ACTIVE = 1f;
 
     private DominionGameState state;
-    private LinearLayout tab1 = null;
-    private LinearLayout tab2 = null;
-    private LinearLayout tab3 = null;
-    private LinearLayout tab4 = null;
     private ConstraintLayout tabLayout = null;
 
     private TableLayout shopLayout = null;
@@ -124,13 +120,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     private final Handler myHandler;
     private Drawable background;
+    private Toast illegalMoveToast;
 
     public DominionHumanPlayer(String name) {
-        this(name, 5); //Default starting hand size is 5
-    }
-
-    //TODO: Merge constructors
-    public DominionHumanPlayer(String name, int numCards) {
         super(name);
         myHandler = new Handler();
     }
@@ -175,23 +167,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
         //init all the things
         tabLayout = activity.findViewById(R.id.Player_Tabs);
-        tab1 = (LinearLayout) tabLayout.getChildAt(0);
-        tab2 = (LinearLayout) tabLayout.getChildAt(1);
-        tab3 = (LinearLayout) tabLayout.getChildAt(2);
-        tab4 = (LinearLayout) tabLayout.getChildAt(3);
 
         bEndTurn = activity.findViewById(R.id.buttonEndTurn);
         bPlayAll = activity.findViewById(R.id.buttonPlayAll);
-
-        //tab set up stuff
-        TypedValue outValueInactive = new TypedValue();
-        TypedValue outValueActive = new TypedValue();
-
-        //true means follow the resource if it references another resource
-        activity.getResources().getValue(R.dimen.tabInactive, outValueInactive, true);
-        activity.getResources().getValue(R.dimen.tabActive, outValueActive, true);
-        tabInactiveVal = outValueInactive.getFloat();
-        tabActiveVal = outValueActive.getFloat();
 
         //making array list of tablerows for shop and base cards
         shopLayout = activity.findViewById(R.id.Shop_Cards);
@@ -251,10 +229,12 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      */
     protected void initAfterReady() {
         //Sets tab names
-        for(int i = 0; i < allPlayerNames.length; i++) {
-            ((TextView) tabLayout.getChildAt(i).findViewById(R.id.playerName)).setText(allPlayerNames[i]);
+        for(int i = 0; i < tabLayout.getChildCount(); i++) {
+            if (i < allPlayerNames.length) {
+                ((TextView) tabLayout.getChildAt(i).findViewById(R.id.playerName)).setText(allPlayerNames[i]);
+            }
+            else tabLayout.getChildAt(i).setVisibility(View.GONE);
         }
-
     }
 
     //TODO: Set correctly
@@ -279,9 +259,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         int[] playerTabs = {R.id.playerTab1, R.id.playerTab2, R.id.playerTab3, R.id.playerTab4};
         for(int i = 0; i < state.getNumPlayers(); i++){
             if(i == activePlayer){
-                c.constrainPercentWidth(playerTabs[i], tabActiveVal);
+                c.constrainPercentWidth(playerTabs[i], TAB_ACTIVE);
             } else {
-                c.constrainPercentWidth(playerTabs[i], tabInactiveVal);
+                c.constrainPercentWidth(playerTabs[i], TAB_INACTIVE);
             }
         }
 
@@ -306,7 +286,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         DominionDeckState deck = playerState.getDeck();
         int drawSize = deck.getDrawSize();
         int discardSize = deck.getDiscardSize();
-        DominionCardState card = deck.getLastDiscard(); //TODO: Remove this line or use variable
 
         tvDrawCount.setText(Integer.toString(drawSize));
         tvDiscardCount.setText(Integer.toString(discardSize));
@@ -474,8 +453,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     DominionCardState cardState = state.getBaseCards().get(c).getCard();
                     int amount = state.getBaseCards().get(c).getAmount();
                     updateCardView(baseCard, cardState, amount);
+                    setBuyable(baseCard, isTurn && cardState.getCost() <= state.getTreasure() && amount > 0);
                     if (amount == 0) setGrayedOut(baseCard);
-                    setBuyable(baseCard, isTurn && cardState.getCost() <= state.getTreasure());
                     c++;
                 }
                 start = start+2;
@@ -584,15 +563,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             //set listeners
             bEndTurn.setOnClickListener(handClickListener);
             bPlayAll.setOnClickListener(handClickListener);
-
             bMenu.setOnClickListener(menuClickListener);
-
-            /*
-            External Citation
-            setting imageview using string
-            https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
-            shows how to convert string to resource id to use to set image view
-            */ //TODO: Move citation to correct place
 
         } else if(info instanceof NotYourTurnInfo) {
             //TODO: actually do something if not player turn
@@ -601,17 +572,13 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         } else if (info instanceof IllegalMoveInfo){
             flash(Color.RED, ILLEGAL_TOAST_DURATION);
             Log.i("HumanPlayer", "Illegal move");
-            Toast.makeText(activity, "Illegal move", Toast.LENGTH_SHORT).show();
+            if (illegalMoveToast != null){
+                illegalMoveToast.cancel();
+            }
+            illegalMoveToast = Toast.makeText(activity, "Illegal move", Toast.LENGTH_SHORT);
+            illegalMoveToast.show();
         }
-
-        //TODO: Move citation to correct place
-        /* External Citation:
-        Date: Nov 4, 2018
-        Source: https://stackoverflow.com/questions/44749481/how-to-change-constraint-layouts-child-views-constraints-programatically#44750506
-        Problem: wanted to set tab widths programatically
-        Solution: Use ConstraintSet to clone ConstraintLayout width and set tabs relative to that ConstraintLayout
-         */
-    }//updateTabs
+    }
 
     private final View.OnClickListener handClickListener = new View.OnClickListener(){
         @Override
@@ -646,14 +613,13 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private final View.OnClickListener shopClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
-            //GameAction action = null;
-            //boolean isBaseCard = basePiles.contains(v); TODO: This was commented, below was added.
             DominionCardPlace place;
             if (basePiles.contains(v)) place = DominionCardPlace.BASE_CARD;
             else place = DominionCardPlace.SHOP_CARD;
 
             TableRow parentView = (TableRow) v.getParent();
-            //is the table row the top row or bottom row
+
+            //This is the table row the top row or bottom row
             TableLayout parentLayout = (TableLayout) parentView.getParent();
             int offSet = parentLayout.indexOfChild(parentView) * parentView.getVirtualChildCount();
             int desiredIndex = parentView.indexOfChild(v) + offSet;
@@ -665,6 +631,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private final View.OnClickListener menuClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
+            //TODO: Initialize array with resource references instead of inserting
             ArrayList<Integer> imageList = new ArrayList<Integer>();
 
             imageList.add(R.drawable.rules_manual);
@@ -688,9 +655,14 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
             ImageView image = dialogLayout.findViewById(R.id.image_help);
 
-            try{image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            try{
+                image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                //TODO: This log is always going to reveal the pos as 0, right?
                 Log.i("DomHumPlayer: onClick: Try catch", "Position is" + pos);
-                image.setImageResource(imageList.get(pos));}catch(OutOfMemoryError e){
+                image.setImageResource(imageList.get(pos));
+            }
+            catch(OutOfMemoryError e){
+                e.printStackTrace();
                 image.setImageBitmap(null);
             }
 

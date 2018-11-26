@@ -22,6 +22,7 @@ public class DominionCardState implements Serializable{
 
     //Card attributes
     //Final because only one instance is made per card. Changing an attribute would change all copies
+    private final int id;
     private final String title;
     private final String photoID;
     private final String text;
@@ -49,10 +50,10 @@ public class DominionCardState implements Serializable{
      * @param addedBuys The buys the card gives when plays.
      * @param victoryPoints The worth of the card in victory points.
      */
-    public DominionCardState (String name, String photoStringID, String text, int cost, String type, String action,
+    public DominionCardState (int id, String name, String photoStringID, String text, int cost, String type, String action,
                               int addedTreasure, int addedActions, int addedDraw, int addedBuys, int victoryPoints){
+        this.id = id;
         this.title = name;
-
         this.photoID = photoStringID;
         this.text = text;
         this.cost = cost;
@@ -76,12 +77,12 @@ public class DominionCardState implements Serializable{
      * @param other The instance to copy
      */
      public DominionCardState(DominionCardState other){
+        this.id = other.id;
         this.title = other.title;
         this.photoID = other.photoID;
         this.text = other.text;
         this.cost = other.cost;
         this.type = other.type;
-        //this.action = other.action;
         this.methodName = other.methodName;
         this.addedTreasure = other.addedTreasure;
         this.addedActions = other.addedActions;
@@ -95,6 +96,7 @@ public class DominionCardState implements Serializable{
      * Used to obfuscate cards players cannot "see"
      */
     private DominionCardState(){
+        this.id = -1;
         this.title = "Blank";
         this.photoID = null;
         this.text = "Blank text";
@@ -133,7 +135,8 @@ public class DominionCardState implements Serializable{
      */
     public boolean cardAction(DominionGameState game) {
         try {
-            return (Boolean) getMethod(methodName).invoke(this, game);
+            getMethod(methodName).invoke(this, game);
+            return true;
         }
         catch (IllegalArgumentException e) {
             Log.e(TAG, "Illegal argument encountered when running reflected action method: " + e);
@@ -240,9 +243,9 @@ public class DominionCardState implements Serializable{
      * @param game The game state
      * @return Action completed successfully
      */
-    public boolean moatAction(DominionGameState game) {
+    public void moatAction(DominionGameState game) {
         //Will have other behavior upon adding ATTACK cards
-        return baseAction(game);
+        baseAction(game);
     }
 
     /**
@@ -252,9 +255,9 @@ public class DominionCardState implements Serializable{
      * @param game The game state
      * @return Action completed successfully
      */
-    public boolean merchantAction(DominionGameState game) {
+    public void merchantAction(DominionGameState game) {
         game.addMerchant();
-        return baseAction(game);
+        baseAction(game);
     }
 
     /**
@@ -263,13 +266,13 @@ public class DominionCardState implements Serializable{
      * @param game The game state the card is played in
      * @return Action completed successfully
      */
-    public boolean councilRoomAction(DominionGameState game) {
+    public void councilRoomAction(DominionGameState game) {
         //Card text: "Each other player draws a card"
         DominionPlayerState[] players = game.getDominionPlayers();
         for (int i = 0; i < players.length; i++) {
             if (i != game.getCurrentTurn()) players[i].getDeck().draw();
         }
-        return baseAction(game);
+        baseAction(game);
     }
 
     /**
@@ -281,12 +284,10 @@ public class DominionCardState implements Serializable{
      * @param game The game state the card is played in
      * @return Action completed successfully, meaning Copper in hand is trashed
      */
-    public boolean moneylenderAction(DominionGameState game) {
+    public void moneylenderAction(DominionGameState game) {
         if(game.getDominionPlayer(game.getCurrentTurn()).getDeck().removeCard("Copper")) {
             game.addTreasure(3);
-            return true;
         }
-        return false;
     }
 
     /**
@@ -296,13 +297,13 @@ public class DominionCardState implements Serializable{
      * @param game The game state the card is played in
      * @return Action completed successfully.
      */
-    public boolean silverAction(DominionGameState game) {
+    public void silverAction(DominionGameState game) {
         if(!game.getSilverPlayed()) {
             game.addTreasure(game.getNumMerchants()); //Handles merchant silver bonus
             game.setSilverPlayed(true);
         }
 
-        return baseAction(game);
+        baseAction(game);
     }
 
     /**
@@ -320,13 +321,12 @@ public class DominionCardState implements Serializable{
      * @param game The game the card is played in
      * @return Action success
      */
-    public boolean baseAction(DominionGameState game) {
+    public void baseAction(DominionGameState game) {
         DominionPlayerState currentPlayer = game.getDominionPlayer(game.getCurrentTurn());
         currentPlayer.getDeck().drawMultiple(this.addedDraw);
         game.addActions(this.addedActions);
         game.addBuys(this.addedBuys);
         game.addTreasure(this.addedTreasure);
-        return true;
     }
 
     //Autogenerated methods

@@ -5,6 +5,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import com.jakewharton.processphoenix.ProcessPhoenix;
+
 import project.katacka.dominion.gameframework.actionMsg.GameAction;
 import project.katacka.dominion.gameframework.actionMsg.GameOverAckAction;
 import project.katacka.dominion.gameframework.actionMsg.MyNameIsAction;
@@ -247,6 +249,12 @@ public abstract class LocalGame implements Game, Tickable {
 					playersFinished[playerIdx] = true;
 					playerFinishedCount++;
 				}
+
+				//TODO: FIX App respawn
+				/*//TODO: Talk to Tirbelhorn about modified behavior
+				if (playerFinishedCount == playersFinished.length) {
+					ProcessPhoenix.triggerRebirth(ContextProvider.getContext());
+				}*/
 			}
 		}
 	}

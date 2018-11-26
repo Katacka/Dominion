@@ -37,18 +37,6 @@ public class CopyConstructorTest {
      */
     @Test
     public void testState(){
-
-        /*
-         * External Citation
-         * Date: 11/19/18
-         * Problem: Unmocked methods
-         * Resource:
-         *  http://tools.android.com/tech-docs/unit-testing-support#TOC-Method-...-not-mocked.- (linked in error message)
-         * Solution: From first article: "We are aware that the default behavior is problematic when using classes like Log or TextUtils and will evaluate possible solutions in future releases."
-         *              Since TextUtils is being used in toString, we cannot compare state strings.
-         *              Instead, equals() and hashCode() methods were auto-generated, so .equals() works and we can compare easily.
-         */
-
         //Make some moves in state, to change it from initial state
         int currPlayer = state.getCurrentTurn();
         state.playAllCards(currPlayer);

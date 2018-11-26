@@ -1,6 +1,7 @@
 {
   "base": [
     {
+      "id": 0,
       "title": "Copper",
       "photoStringID": "dominion_copper",
       "text": "+1 Treasure",
@@ -12,6 +13,7 @@
       "isBaseCard": true
     },
     {
+      "id": 1,
       "title": "Estate",
       "photoStringID": "dominion_estate",
       "text": "1 Victory Point",
@@ -23,6 +25,7 @@
       "isBaseCard": true
     },
     {
+      "id": 2,
       "title": "Silver",
       "photoStringID": "dominion_silver",
       "text": "+2 Treasure",
@@ -34,6 +37,7 @@
       "isBaseCard": true
     },
     {
+      "id": 3,
       "title": "Duchy",
       "photoStringID": "dominion_duchy",
       "text": "3 Victory Points",
@@ -45,6 +49,7 @@
       "isBaseCard": true
     },
     {
+      "id": 4,
       "title": "Gold",
       "photoStringID": "dominion_gold",
       "text": "+3 Treasure",
@@ -56,6 +61,7 @@
       "isBaseCard": true
     },
     {
+      "id": 5,
       "title": "Province",
       "photoStringID": "dominion_province",
       "text": "6 Victory Points",
@@ -64,16 +70,6 @@
       "amount": 12,
       "action": "baseAction",
       "victoryPoints": 6,
-      "isBaseCard": true
-    },
-    {
-      "title": "Blank",
-      "photoStringID": "dominion_save",
-      "text": "Blank text",
-      "cost": 0,
-      "type": "BLANK",
-      "amount": 0,
-      "action": "baseAction",
       "isBaseCard": true
     }
   ]

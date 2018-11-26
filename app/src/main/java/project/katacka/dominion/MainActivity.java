@@ -1,5 +1,7 @@
 package project.katacka.dominion;
 
+import com.jakewharton.processphoenix.ProcessPhoenix;
+
 import java.util.ArrayList;
 
 import project.katacka.dominion.gameframework.GameConfig;
@@ -57,5 +59,4 @@ public class MainActivity extends GameMainActivity {
     public LocalGame createLocalGame() {
         return new DominionLocalGame(this);
     }
-
 }

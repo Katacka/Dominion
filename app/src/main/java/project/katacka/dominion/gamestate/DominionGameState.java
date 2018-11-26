@@ -76,7 +76,6 @@ public class DominionGameState extends GameState implements Serializable{
                              ArrayList<DominionShopPileState> shopCardArray) {
 
         //Updates shop amounts for 2 player game
-        //TODO: Move to shop pile class
         numPlayers = paramNumPlayers;
         if (numPlayers == 2) {
             //Base cards
@@ -267,11 +266,6 @@ public class DominionGameState extends GameState implements Serializable{
                 return false;
             };
             card.cardAction(this);
-            /*if(!card.cardAction(this)){
-                //Log.e("GameState", "Card " + cardIndex + " failed to play successfully");
-                //Must return true, since card is already removed from hand
-                //TODO: Make it where card actions can never fail. Right now, we do nothing here
-            }*/
             if(card.getType() == DominionCardType.ACTION){
                 actions--;
             }
@@ -373,6 +367,8 @@ public class DominionGameState extends GameState implements Serializable{
         return treasure;
     }
 
+    public void setTreasure(int newTreasure) { treasure = newTreasure; }
+
     public ArrayList<DominionShopPileState> getBaseCards() {
         return baseCards;
     }
@@ -425,9 +421,6 @@ public class DominionGameState extends GameState implements Serializable{
      *              a tie, returns -1 and sets {@code tiedPlayers} to the list of tied players.
      */
     public int getWinner(){
-        if (!isGameOver) return -1;
-        else{
-
             //Check if there is a winner
             int[] scores = getPlayerScores(); //The scores of every player
             int maxScore = 0; //The highest score seen
@@ -481,7 +474,7 @@ public class DominionGameState extends GameState implements Serializable{
             }
 
             return -1;
-        }
+
     }
 
     /**
@@ -546,7 +539,6 @@ public class DominionGameState extends GameState implements Serializable{
     /*
      * Converts the game state to a String representation.
      * For debugging purposes.
-     * TODO: Remove TextUtils so that it does not fail during testing
      */
     public String toString() {
 
@@ -565,35 +557,20 @@ public class DominionGameState extends GameState implements Serializable{
 
         boonStr = !silverPlayed ? "The next silver is worth an extra " + numMerchants + " treasure.\n" : "";
 
-        String[] baseStrs = new String[baseCards.size()];
-        for (int i = 0; i < baseCards.size(); i++){
-            baseStrs[i] = baseCards.get(i).toString();
-        }
-
-        /*
-         * External Citation
-         * Date: 10/7
-         * Problem: Needed to turn array of strings into single array
-         * Resource:
-         *  https://stackoverflow.com/questions/1978933/a-quick-and-easy-way-to-join-array-elements-with-a-separator-the-opposite-of-sp
-         * Solution: Used built-in Android helper function
-         */
         baseStr = String.format(Locale.US, "\nThe base cards in the shop:\n%s",
-                TextUtils.join("\n", baseStrs));
+                baseCards.stream()
+                            .map(pile -> pile.getCard().toString())
+                            .reduce("\n", (rest, next) -> rest + "\n" + next));
 
-        String[] shopStrs = new String[shopCards.size()];
-        for (int i = 0; i < shopCards.size(); i++){
-            shopStrs[i] = shopCards.get(i).toString();
-        }
         shopStr = String.format(Locale.US, "\nThe kingdom cards in the shop:\n%s",
-                TextUtils.join("\n", shopStrs));
+                shopCards.stream()
+                            .map(pile -> pile.getCard().toString())
+                            .reduce("\n", (rest, next) -> rest + "\n" + next));
 
-        String[] playerStrs = new String[dominionPlayers.length];
-        for (int i = 0; i < dominionPlayers.length; i++){
-            playerStrs[i] = dominionPlayers[i].toString();
-        }
         playerStr = String.format(Locale.US, "There are %d players in the game:\n%s",
-                dominionPlayers.length, TextUtils.join("\n", playerStrs));
+                dominionPlayers.length, Arrays.stream(dominionPlayers)
+                                                .map(DominionPlayerState::toString)
+                                                .reduce("\n", (rest, next) -> rest + "\n" + next));
 
         emptyPilesStr = String.format(Locale.US, "There are %d empty piles.", emptyPiles);
 
