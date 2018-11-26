@@ -29,6 +29,8 @@ public class GameStateTest {
     private final int MONEY_LENDER = 9;
     private final int MERCHANT = 3;
     private final int SILVER = 2;
+    private final int GARDEN = 4;
+    private final int PROVINCE = 6;
 
     @BeforeClass
 
@@ -36,16 +38,16 @@ public class GameStateTest {
         GameStateGenerator.setupCards();
     }
 
+    @Before
     public void setUpState(){
         state = GameStateGenerator.getNewState(4);
         baseCards = state.getBaseCards();
         shopCards = state.getShopCards();
     }
 
+    //ASHIKA
     @Test
     public void testCanMove(){
-        setupCards();
-        setUpState();
         int turn = state.getCurrentTurn();
         if(turn == 0){
             assertFalse(state.canMove(1));
@@ -66,51 +68,58 @@ public class GameStateTest {
         }
     }
 
+    //ASHIKA
     @Test
     public void testGetPlayerScores(){
-        setupCards();
-        setUpState();
-
         int[] playerScores = state.getPlayerScores();
         for(int i = 0; i<state.getDominionPlayers().length; i++){
             assertEquals(3, playerScores[i]);
         }
+
+        int turn = state.getCurrentTurn();
+
+        state.getDominionPlayer(turn).getDeck().getDiscard().add(baseCards.get(1).getCard());
+
+        int[] playerScoresNew = state.getPlayerScores();
+        assertEquals(4, playerScoresNew[turn]);
+
+        state.getDominionPlayer(turn).getDeck().addManyToDiscard(shopCards.get(4).getCard(), 2);
+
+        playerScoresNew = state.getPlayerScores();
+        assertEquals(6, playerScoresNew[turn]);
     }
 
+    //ASHIKA
     @Test
     public void testIsLegalBuy() {
-        setupCards();
-        setUpState();
-
         int turn = state.getCurrentTurn();
         int notTurn;
         if (turn >= 1) notTurn = turn - 1;
         else notTurn = turn + 1;
 
-        boolean playAll = state.playAllCards(turn);
-        assertTrue(playAll);
+        state.setTreasure(4);
         int treasures = state.getTreasure();
-        assertNotEquals(0, treasures);
+        assertEquals(4, treasures);
 
-        if(treasures>=4){
-            assertTrue(state.isLegalBuy(turn, 4, DominionCardPlace.SHOP_CARD)); //valid card index
-            assertTrue(state.isLegalBuy(turn, 9, DominionCardPlace.SHOP_CARD)); //edge card index
-        }
-        assertTrue(state.isLegalBuy(turn, 0, DominionCardPlace.SHOP_CARD)); //edge card index
+        //shop cards
+        assertTrue(state.isLegalBuy(turn, GARDEN, DominionCardPlace.SHOP_CARD)); //valid card index, enough treasures
+        assertTrue(state.isLegalBuy(turn, MONEY_LENDER, DominionCardPlace.SHOP_CARD)); //edge card index
+        assertTrue(state.isLegalBuy(turn, MOAT, DominionCardPlace.SHOP_CARD)); //edge card index
         assertFalse(state.isLegalBuy(turn, 10, DominionCardPlace.SHOP_CARD)); //out of bounds index
         assertFalse(state.isLegalBuy(turn, 15, DominionCardPlace.SHOP_CARD)); //out of bounds index
+        assertFalse(state.isLegalBuy(turn, -2, DominionCardPlace.SHOP_CARD)); //out of bounds index
 
-        assertTrue(state.isLegalBuy(turn, 1, DominionCardPlace.BASE_CARD));
-        assertFalse(state.isLegalBuy(turn, 8, DominionCardPlace.BASE_CARD));
+        //base cards
+        assertTrue(state.isLegalBuy(turn, ESTATE, DominionCardPlace.BASE_CARD)); //valid index
+        assertFalse(state.isLegalBuy(turn, PROVINCE, DominionCardPlace.BASE_CARD)); //valid index, not enough treasure
+        assertFalse(state.isLegalBuy(turn, 8, DominionCardPlace.BASE_CARD)); //invalid index
 
-        assertFalse(state.isLegalBuy(notTurn, 3, DominionCardPlace.BASE_CARD));
+        assertFalse(state.isLegalBuy(notTurn, 3, DominionCardPlace.SHOP_CARD)); //not correct players turn
     }
 
+    //ASHIKA
     @Test
     public void testIsLegalPlay(){
-        setupCards();
-        setUpState();
-
         int turn = state.getCurrentTurn();
         int notTurn;
         if(turn>=1) notTurn = turn-1;
@@ -128,10 +137,9 @@ public class GameStateTest {
         assertFalse(state.isLegalPlay(notTurn, 0)); //not right player
     }
 
+    //ASHIKA
     @Test
     public void testPlayCard(){
-        setUpState();
-
         int turn = state.getCurrentTurn();
         int notTurn;
         if(turn>=1) notTurn = turn-1;
@@ -140,32 +148,25 @@ public class GameStateTest {
         DominionDeckState deck = state.getDominionPlayers()[turn].getDeck();
         setupSpecialHand(deck);
 
-        assertTrue(state.playCard(turn, 0)); //valid play
-        assertFalse(state.playCard(notTurn, 0)); //not valid play
         assertEquals(1, state.getActions());
-        assertTrue(deck.getHand().contains(shopCards.get(MOAT).getCard()));
+        assertTrue(state.playCard(turn, 0)); //valid play, playing first card in hand which is copper
+        assertFalse(state.playCard(notTurn, 0)); //not valid play because wrong turn
+        assertEquals(1, state.getActions()); //actions were not decremented
 
+        assertTrue(deck.getHand().contains(shopCards.get(MOAT).getCard()));
         boolean playCard = state.playCard(turn, 2); //play moat
         assertTrue(playCard);
-        //assertFalse(deck.getHand().contains(shopCards.get(MOAT).getCard())); //test that hand no longer contains council room
+        //TODO: This is commented out because its not working, not sure why
+        //assertFalse(deck.getHand().contains(shopCards.get(MOAT).getCard())); //test that hand no longer contains moat
+        assertEquals(0, state.getActions()); //actions decremented
 
+        boolean playAnotherCard = state.playCard(turn, 3); //try to play council room (action)
+        assertFalse(playAnotherCard); //should not be able to play action because actions are at 0
     }
 
+    //ASHIKA
     @Test
     public void testPlayAllCards(){
-       /*setupCards();
-       setUpState();
-
-       int turn = state.getCurrentTurn();
-
-       assertEquals(5, state.getDominionPlayers()[turn].getDeck().getHandSize());
-
-       assertFalse(state.playAllCards(notTurn));
-       boolean playAll = state.playAllCards(turn);
-       assertTrue(playAll);
-       assertEquals(0, state.getDominionPlayers()[turn].getDeck().getHandSize());*/
-
-        setUpState();
         int turn = state.getCurrentTurn();
 
         DominionDeckState deck = state.getDominionPlayers()[turn].getDeck();
@@ -179,11 +180,9 @@ public class GameStateTest {
         assertTrue(deck.getHand().contains(shopCards.get(MOAT).getCard()));
     }
 
+    //ASHIKA
     @Test
     public void testEndTurn(){
-        setupCards();
-        setUpState();
-
         int turn = state.getCurrentTurn();
         boolean endTurn = state.endTurn(turn);
         assertTrue(endTurn);
@@ -193,16 +192,12 @@ public class GameStateTest {
 
     @Test
     public void testBuyCard(){
-        setupCards();
-        setUpState();
-
         int turn = state.getCurrentTurn();
 
         assertEquals(0, state.getTreasure());
-        boolean playAll = state.playAllCards(turn);
-        assertTrue(playAll);
+        state.setTreasure(4);
         int treasures = state.getTreasure();
-        assertNotEquals(0, treasures);
+        assertEquals(4, treasures);
 
         if(state.getTreasure() >= 2){
             int discardSize = state.getDominionPlayer(turn).getDeck().getDiscardSize();
@@ -212,16 +207,56 @@ public class GameStateTest {
             assertTrue(buyCard);
 
             assertEquals(discardSize+1, state.getDominionPlayer(turn).getDeck().getDiscardSize());
-            assertTrue(state.getDominionPlayer(turn).getDeck().getDiscard().contains(shopCards.get(MOAT).getCard()));
+            assertTrue(state.getDominionPlayer(turn).getDeck().getDiscard().contains(shopCards.get(MOAT).getCard())); //TODO: Use get last discard function
             assertEquals(buys-1, state.getBuys());
             assertEquals(treasures-shopCards.get(MOAT).getCard().getCost() , state.getTreasure());
+
+            //TODO: Make sure none of that happens when illegal buy attempted
         }
 
     }
 
-    /**
-     * quitGame
-     */
+    @Test
+    public void testGetWinner() {
+        setupCards();
+        setUpState();
+
+        int[] playerScores = state.getPlayerScores();
+        for(int i = 0; i<state.getDominionPlayers().length; i++){
+            assertEquals(3, playerScores[i]); //all players tied
+        }
+
+        int winner = state.getWinner();
+        assertEquals(-1, winner); //all players tied so should return -1 for no winner
+
+        int turn = state.getCurrentTurn();
+        assertEquals(3, playerScores[turn]);
+
+        state.playAllCards(turn);
+        state.buyCard(turn, ESTATE, DominionCardPlace.BASE_CARD);
+        state.endTurn(turn); //one player gets more victory points
+
+        playerScores = state.getPlayerScores();
+        assertNotEquals(3, playerScores[turn]);
+
+        int newWinner = state.getWinner();
+        assertEquals(turn, newWinner); //player who bought another estate should win
+
+        int notTurn = state.getCurrentTurn();
+        if(notTurn == turn) state.endTurn(notTurn);
+        notTurn = state.getCurrentTurn();
+
+        assertEquals(3, playerScores[notTurn]);
+        state.playAllCards(notTurn);
+        state.buyCard(notTurn, ESTATE, DominionCardPlace.BASE_CARD);
+        state.endTurn(notTurn); //another player gets more victory points
+
+        playerScores = state.getPlayerScores();
+        assertNotEquals(3, playerScores[notTurn]);
+
+        newWinner = state.getWinner();
+        assertEquals(-1, newWinner); //the two players should now be tied with equal amount of turns
+    }
 
     private void setupSpecialHand(DominionDeckState deck) {
         ArrayList<DominionCardState> hand = deck.getHand();
