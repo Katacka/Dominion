@@ -19,6 +19,9 @@
     <string name="local_tab">Local Game</string>
     <string name="remote_tab">Remote Game</string>
 
+    <string name="display_dialog_check">Do not display this dialog again</string>
+    <string name="end_turn_auto_check">Automatically end turn?</string>
+
     <string name="actions">Actions: %1$d</string>
     <string name="buys">Buys: %1$d</string>
     <string name="treasure">Treasure: %1$d</string>
