@@ -124,6 +124,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     private final Handler myHandler;
     private Drawable background;
+    private Toast illegalMoveToast;
 
     public DominionHumanPlayer(String name) {
         this(name, 5); //Default starting hand size is 5
@@ -476,8 +477,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     DominionCardState cardState = state.getBaseCards().get(c).getCard();
                     int amount = state.getBaseCards().get(c).getAmount();
                     updateCardView(baseCard, cardState, amount);
+                    setBuyable(baseCard, isTurn && cardState.getCost() <= state.getTreasure() && amount > 0);
                     if (amount == 0) setGrayedOut(baseCard);
-                    setBuyable(baseCard, isTurn && cardState.getCost() <= state.getTreasure());
                     c++;
                 }
                 start = start+2;
@@ -604,7 +605,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         } else if (info instanceof IllegalMoveInfo){
             flash(Color.RED, ILLEGAL_TOAST_DURATION);
             Log.i("HumanPlayer", "Illegal move");
-            Toast.makeText(activity, "Illegal move", Toast.LENGTH_SHORT).show();
+            if (illegalMoveToast != null){
+                illegalMoveToast.cancel();
+            }
+            illegalMoveToast = Toast.makeText(activity, "Illegal move", Toast.LENGTH_SHORT);
+            illegalMoveToast.show();
         }
 
         //TODO: Move citation to correct place
