@@ -117,7 +117,7 @@ public class CardStateTest {
         assertEquals("1 buy", 1, state.getBuys());
 
         DominionCardState merchant = state.getShopCards().get(MERCHANT).getCard();
-        assertTrue("Action succeeds", merchant.merchantAction(state));
+        merchant.merchantAction(state);
 
         assertEquals("Initial hand", 4, deck.getHandSize());
         assertEquals("1 buy", 0, state.getBuys());
