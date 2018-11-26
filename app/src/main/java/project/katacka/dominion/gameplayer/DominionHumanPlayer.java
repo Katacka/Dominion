@@ -1,12 +1,17 @@
 package project.katacka.dominion.gameplayer;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.annotation.IdRes;
@@ -20,6 +25,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -81,6 +87,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     ArrayList<DominionCardState> hand;
 
     private int handOffset;
+
+    private int pos;
 
     ConstraintLayout mainLayout;
 
@@ -238,6 +246,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
         //set listeners
         bMenu = activity.findViewById(R.id.bMenu);
+
 
         cardBackgroundNormal = res.getDrawable(R.drawable.dominion_card_border_squared, null);
         cardBackgroudBuyable = res.getDrawable(R.drawable.dominion_card_border_green, null);
@@ -586,6 +595,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             bEndTurn.setOnClickListener(handClickListener);
             bPlayAll.setOnClickListener(handClickListener);
 
+            bMenu.setOnClickListener(menuClickListener);
+
             /*
             External Citation
             setting imageview using string
@@ -661,7 +672,80 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     View.OnClickListener menuClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
-            //bring up a window
+            ArrayList<Integer> imageList = new ArrayList<Integer>();
+
+            imageList.add(R.drawable.rules_manual);
+            imageList.add(R.drawable.rules_play_card);
+            imageList.add(R.drawable.rules_buy_card);
+            imageList.add(R.drawable.rules_longpress);
+            imageList.add(R.drawable.rules_end_turn);
+
+            Log.i("DomHumPlayer: onClick", "Menu clicked.");
+            pos = 0;
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setPositiveButton("Next", null);
+            builder.setNegativeButton("Previous", null);
+
+            final AlertDialog dialog = builder.create();
+            LayoutInflater inflater = activity.getLayoutInflater();
+            View dialogLayout = inflater.inflate(R.layout.dialog_help, null);
+
+            dialog.setView(dialogLayout);
+
+            ImageView image = dialogLayout.findViewById(R.id.image_help);
+
+            try{image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                Log.i("DomHumPlayer: onClick: Try catch", "Position is" + pos);
+                image.setImageResource(imageList.get(pos));}catch(OutOfMemoryError e){
+                image.setImageBitmap(null);
+            }
+
+            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.i("DomHumPlayer: onClick", "Position is" + pos);
+                            Log.i("DomHumPlayer: onClick", "Next clicked.");
+                            if(pos< (imageList.size()-1)){
+                                pos++;
+                            }
+                            Log.i("DomHumPlayer: onClick", "Position is" + pos);
+                            try{image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                                Log.i("DomHumPlayer: onClick: Try catch", "Position is" + pos);
+                                image.setImageResource(imageList.get(pos));}catch(OutOfMemoryError e){
+                                image.setImageBitmap(null);
+                            }
+                        }
+                    });
+                    Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                    prevButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.i("DomHumPlayer: onClick", "Position is" + pos);
+                            Log.i("DomHumPlayer: onClick", "prev clicked.");
+                            if(pos > 0){
+                                pos--;
+                            }
+                            Log.i("DomHumPlayer: onClick", "Position is" + pos);
+                            try{image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                                Log.i("DomHumPlayer: onClick: Try catch", "Position is" + pos);
+                                image.setImageResource(imageList.get(pos));}catch(OutOfMemoryError e){
+                                image.setImageBitmap(null);
+                            }
+                        }
+                    });
+                }
+            });
+
+            dialog.show();
+
+            Window window = dialog.getWindow();
+            double width = mainLayout.getWidth() * 0.75;
+            window.setLayout((int) (width), (int) (width * 0.71));
         }
     };
 
