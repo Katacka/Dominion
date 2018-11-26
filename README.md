@@ -8,7 +8,7 @@ Note: These are UNIX solutions as Windows terminal support is awful. Ryan, best 
 #### Pull Failure: <br />
   #Open a terminal  <br />
   git clone https://github.com/Katacka/Dominion/ #This should create a directory containing the git repo, prepend sudo if necessary <br />
-  #Open the resulting folder as a new project within Android Stuido <br />
+  #Open the resulting folder as a new project within Android Studio <br />
   #Things should work <br />
   
 #### Push Failure: <br />

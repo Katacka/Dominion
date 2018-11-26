@@ -2,11 +2,6 @@ package project.katacka.dominion;
 
 import org.junit.Test;
 
-import project.katacka.dominion.gamestate.DominionCardState;
-import project.katacka.dominion.gamestate.DominionGameState;
-import project.katacka.dominion.gamestate.DominionPlayerState;
-import project.katacka.dominion.gamestate.DominionShopPileState;
-
 public class testShuffleDiscard {
 
     @Test

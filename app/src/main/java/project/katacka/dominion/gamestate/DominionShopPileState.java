@@ -13,7 +13,7 @@ import java.util.Objects;
 public class DominionShopPileState implements Serializable{
     private final DominionCardState card;
     private int amount;
-    private boolean isBaseCard;
+    private final DominionCardPlace place;
 
     /**
      * Constructor.
@@ -23,10 +23,10 @@ public class DominionShopPileState implements Serializable{
      * @param card The card the pile represents
      * @param amount The positive number of cards in the pile
      */
-    public DominionShopPileState(DominionCardState card, int amount, boolean isBaseCard){
+    public DominionShopPileState(DominionCardState card, int amount, DominionCardPlace place){
         this.card = card;
         this.amount = Math.max(amount, 0);
-        this.isBaseCard = isBaseCard;
+        this.place = place;
     }
 
     /**
@@ -36,15 +36,15 @@ public class DominionShopPileState implements Serializable{
     public DominionShopPileState(DominionShopPileState shopPileState){
         this.card = shopPileState.card;
         this.amount = shopPileState.amount;
-        this.isBaseCard = shopPileState.isBaseCard;
+        this.place = shopPileState.place;
     }
 
     public DominionCardState getCard() {
         return card;
     }
 
-    public boolean isBaseCard() {
-        return isBaseCard;
+    public DominionCardPlace getPlace() {
+        return place;
     }
 
     public int getAmount(){
@@ -117,13 +117,13 @@ public class DominionShopPileState implements Serializable{
         if (o == null || getClass() != o.getClass()) return false;
         DominionShopPileState that = (DominionShopPileState) o;
         return amount == that.amount &&
-                isBaseCard == that.isBaseCard &&
+                place == that.place &&
                 Objects.equals(card, that.card);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(card, amount, isBaseCard);
+        return Objects.hash(card, amount, place);
     }
 }

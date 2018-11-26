@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
+import project.katacka.dominion.gamestate.DominionCardPlace;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionCardType;
 import project.katacka.dominion.gamestate.DominionShopPileState;
@@ -42,7 +43,7 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
                 if (playTreasure()) break;
             case BUY:
                 if (playSimpleBuyPhase()) break;
-            case END:
+            case END: //TODO: Not reachable case (according to linter)
                 endTurn();
                 break;
             case IN_PROGRESS:
@@ -113,12 +114,12 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
             }
 
             DominionShopPileState randPile = buyOptionsArray[rand.nextInt(buyOptionsArray.length)];
-            boolean isBaseCard = randPile.isBaseCard();
-            int pileIdx = (isBaseCard) ? baseCards.indexOf(randPile) : shopCards.indexOf(randPile);
+            DominionCardPlace place = randPile.getPlace();
+            int pileIdx = (place == DominionCardPlace.BASE_CARD) ? baseCards.indexOf(randPile) : shopCards.indexOf(randPile);
 
             currentPhase = TurnPhases.BUY;
             sleep(100);
-            game.sendAction(new DominionBuyCardAction(this, pileIdx, isBaseCard));
+            game.sendAction(new DominionBuyCardAction(this, pileIdx, place));
             return true;
         }
 
@@ -126,8 +127,7 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
     }
 
     public String toString(){
-        String string = "CardView Name: " + super.name;
-        return string;
+        return "CardView Name: " + super.name;
     }
 }
 

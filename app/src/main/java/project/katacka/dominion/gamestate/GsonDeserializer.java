@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class GsonDeserializer implements JsonDeserializer<ArrayList<DominionShopPileState>> {
 
-    String expansionSet;
+    private final String expansionSet;
 
     /**
      * Creates a customized deserializer capable of interpreting raw JSON
@@ -34,7 +34,7 @@ public class GsonDeserializer implements JsonDeserializer<ArrayList<DominionShop
      * @param type The type of object to deserialize to
      * @param jsonContext The surrounding context as to the JSON element
      * @return A DominionCardState ArrayList as populated by JSON data
-     * @throws JsonParseException
+     * @throws JsonParseException Throws when parsing fails
      */
     @Override
     public ArrayList<DominionShopPileState> deserialize(JsonElement el, Type type, JsonDeserializationContext jsonContext)
@@ -63,7 +63,7 @@ public class GsonDeserializer implements JsonDeserializer<ArrayList<DominionShop
                                     (card.has("victoryPoints")) ? card.get("victoryPoints").getAsInt() : 0
                             ),
                             card.get("amount").getAsInt(),
-                            card.has("isBaseCard")
+                            (card.has("isBaseCard")) ? DominionCardPlace.BASE_CARD : DominionCardPlace.SHOP_CARD
                     )
             );
         });

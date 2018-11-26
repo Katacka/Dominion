@@ -38,7 +38,7 @@ public abstract class DominionComputerPlayer extends GameComputerPlayer {
     protected enum TurnPhases {ACTION, TREASURE, BUY, END, IN_PROGRESS, SETUP, INFINITE, WIN}
     protected TurnPhases currentPhase;
 
-    protected Random rand;
+    protected final Random rand;
 
     /**
      * Invokes the super-class constructor, setting the player's

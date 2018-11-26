@@ -81,7 +81,7 @@
             <!--
             External citation
             Date: 11/5/18
-            Problem: Iamges would show up on preview, but not when actually running the app
+            Problem: Images would show up on preview, but not when actually running the app
             Resource:
                 https://stackoverflow.com/questions/18251187/imageview-displaying-in-layout-but-not-on-actual-device
             Solution:

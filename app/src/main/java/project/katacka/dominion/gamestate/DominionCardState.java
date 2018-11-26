@@ -133,8 +133,7 @@ public class DominionCardState implements Serializable{
      */
     public boolean cardAction(DominionGameState game) {
         try {
-            Boolean result = (Boolean) getMethod(methodName).invoke(this, game); //return automatically boxed to Boolean
-            return result; //Note: automatically unboxed
+            return (Boolean) getMethod(methodName).invoke(this, game);
         }
         catch (IllegalArgumentException e) {
             Log.e(TAG, "Illegal argument encountered when running reflected action method: " + e);
@@ -183,6 +182,7 @@ public class DominionCardState implements Serializable{
         return text;
     }
 
+    //TODO: What is this vs. getFormattedText and why do we need both?
     public String getPlainText() {
         return text.replaceAll("[\\s]", " ");
     }
@@ -253,7 +253,7 @@ public class DominionCardState implements Serializable{
      * @return Action completed successfully
      */
     public boolean merchantAction(DominionGameState game) {
-        game.numMerchants++;
+        game.addMerchant();
         return baseAction(game);
     }
 
@@ -261,12 +261,13 @@ public class DominionCardState implements Serializable{
      * Council room action:
      * +4 Cards, 1 Buy, Each other player draws a card
      * @param game The game state the card is played in
-     * @return Action completed successfuly
+     * @return Action completed successfully
      */
     public boolean councilRoomAction(DominionGameState game) {
         //Card text: "Each other player draws a card"
-        for (int i = 0; i < game.dominionPlayers.length; i++) {
-            if (i != game.currentTurn) game.dominionPlayers[i].getDeck().draw();
+        DominionPlayerState[] players = game.getDominionPlayers();
+        for (int i = 0; i < players.length; i++) {
+            if (i != game.getCurrentTurn()) players[i].getDeck().draw();
         }
         return baseAction(game);
     }
@@ -281,8 +282,8 @@ public class DominionCardState implements Serializable{
      * @return Action completed successfully, meaning Copper in hand is trashed
      */
     public boolean moneylenderAction(DominionGameState game) {
-        if(game.dominionPlayers[game.currentTurn].getDeck().removeCard("Copper")) {
-            game.treasure += 3;
+        if(game.getDominionPlayer(game.getCurrentTurn()).getDeck().removeCard("Copper")) {
+            game.addTreasure(3);
             return true;
         }
         return false;
@@ -296,9 +297,9 @@ public class DominionCardState implements Serializable{
      * @return Action completed successfully.
      */
     public boolean silverAction(DominionGameState game) {
-        if(!game.silverPlayed) {
-            game.treasure += game.numMerchants; //Handles merchant silver bonus
-            game.silverPlayed = true;
+        if(!game.getSilverPlayed()) {
+            game.addTreasure(game.getNumMerchants()); //Handles merchant silver bonus
+            game.setSilverPlayed(true);
         }
 
         return baseAction(game);
@@ -320,11 +321,11 @@ public class DominionCardState implements Serializable{
      * @return Action success
      */
     public boolean baseAction(DominionGameState game) {
-        DominionPlayerState currentPlayer = game.dominionPlayers[game.currentTurn];
+        DominionPlayerState currentPlayer = game.getDominionPlayer(game.getCurrentTurn());
         currentPlayer.getDeck().drawMultiple(this.addedDraw);
-        game.actions += this.addedActions;
-        game.buys += this.addedBuys;
-        game.treasure += this.addedTreasure;
+        game.addActions(this.addedActions);
+        game.addBuys(this.addedBuys);
+        game.addTreasure(this.addedTreasure);
         return true;
     }
 
