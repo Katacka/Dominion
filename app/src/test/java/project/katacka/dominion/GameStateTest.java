@@ -229,19 +229,45 @@ public class GameStateTest {
     }
 
     @Test
-    public void testGetWinner(){
+    public void testGetWinner() {
         setupCards();
         setUpState();
 
+        int[] playerScores = state.getPlayerScores();
+        for(int i = 0; i<state.getDominionPlayers().length; i++){
+            assertEquals(3, playerScores[i]); //all players tied
+        }
+
         int winner = state.getWinner();
-        assertEquals(-1, winner); //game isn't over
+        assertEquals(-1, winner); //all players tied so should return -1 for no winner
 
         int turn = state.getCurrentTurn();
-
-        int[] playerScores = state.getPlayerScores();
         assertEquals(3, playerScores[turn]);
 
+        state.playAllCards(turn);
+        state.buyCard(turn, ESTATE, true);
+        state.endTurn(turn); //one player gets more victory points
 
+        playerScores = state.getPlayerScores();
+        assertNotEquals(3, playerScores[turn]);
+
+        int newWinner = state.getWinner();
+        assertEquals(turn, newWinner); //player who bought another estate should win
+
+        int notTurn = state.getCurrentTurn();
+        if(notTurn == turn) state.endTurn(notTurn);
+        notTurn = state.getCurrentTurn();
+
+        assertEquals(3, playerScores[notTurn]);
+        state.playAllCards(notTurn);
+        state.buyCard(notTurn, ESTATE, true);
+        state.endTurn(notTurn); //another player gets more victory points
+
+        playerScores = state.getPlayerScores();
+        assertNotEquals(3, playerScores[notTurn]);
+
+        newWinner = state.getWinner();
+        assertEquals(-1, newWinner); //the two players should now be tied with equal amount of turns
     }
 
     /**
