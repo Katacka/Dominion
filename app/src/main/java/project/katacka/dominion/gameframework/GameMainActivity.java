@@ -274,10 +274,6 @@ public abstract class GameMainActivity extends Activity implements View.OnClickL
 		int requiresGuiCount = 0; // the number of players that require a GUI
 		guiPlayer = null; // the player that will be our GUI player
 		players = new GamePlayer[config.getNumPlayers()]; // the array to contains our players
-		if(players.length == 0) { //TODO: This is the cleanest spot I could find for this... We might need to talk to Tribelhorn
-			Log.e("Invalid number of players:", ((Integer) players.length).toString());
-			return "Game creation failed. Invalid number of players: " + players.length;
-		}
 
 		// loop through each player
 		for (int i = 0; i < players.length; i++) {

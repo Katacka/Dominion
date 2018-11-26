@@ -14,6 +14,7 @@ import project.katacka.dominion.gameframework.GamePlayer;
 import project.katacka.dominion.gameframework.LocalGame;
 import project.katacka.dominion.gameframework.actionMsg.GameAction;
 import project.katacka.dominion.gamestate.CardReader;
+import project.katacka.dominion.gamestate.DominionCardPlace;
 import project.katacka.dominion.gamestate.DominionGameState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
 
@@ -24,12 +25,12 @@ import project.katacka.dominion.gamestate.DominionShopPileState;
  */
 public class DominionLocalGame extends LocalGame {
 
-    //The offical copy of the game state
+    //The official copy of the game state
     private DominionGameState state;
 
     //The cards used for the GameState
-    private ArrayList<DominionShopPileState> baseCards;
-    private ArrayList<DominionShopPileState> shopCards;
+    private final ArrayList<DominionShopPileState> baseCards;
+    private final ArrayList<DominionShopPileState> shopCards;
 
 
     /**
@@ -144,9 +145,9 @@ public class DominionLocalGame extends LocalGame {
 
             int playerIndex = getPlayerIdx(player);
             int cardIndex = action.getCardIndex();
-            boolean isBaseCard = action.getIsBaseCard();
+            DominionCardPlace place = action.getCardPlace();
 
-            return state.buyCard(playerIndex, cardIndex, isBaseCard);
+            return state.buyCard(playerIndex, cardIndex, place);
 
         } else if (gameAction instanceof DominionEndTurnAction){
 
@@ -154,12 +155,6 @@ public class DominionLocalGame extends LocalGame {
             int playerIndex = getPlayerIdx(action.getPlayer());
 
             return state.endTurn(playerIndex);
-        } else if(gameAction instanceof DominionPlayAllAction){
-
-            DominionPlayAllAction action = (DominionPlayAllAction) gameAction;
-            int playerIndex = getPlayerIdx(action.getPlayer());
-
-            return state.playAllCards(playerIndex);
         } else {
             return false;
         }

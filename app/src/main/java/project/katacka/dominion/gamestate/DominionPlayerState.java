@@ -1,7 +1,6 @@
 package project.katacka.dominion.gamestate;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -11,7 +10,6 @@ import java.util.Objects;
 public class DominionPlayerState implements Serializable{
 
     //Player fields.
-    protected final String name;
     protected final DominionDeckState deck;
     private int turnsPlayed; //Used to break ties.
 
@@ -25,13 +23,10 @@ public class DominionPlayerState implements Serializable{
 
     /**
      * Constructor.
-     * @param name The player's name
      * @param copperPile The pile where copper is stored. Used to create starting deck.
      * @param estate The estate card. Used to create starting deck.
      */
-    public DominionPlayerState(String name, DominionShopPileState copperPile, DominionCardState estate) {
-        this.name = name;
-
+    public DominionPlayerState(DominionShopPileState copperPile, DominionCardState estate) {
         //Initializes player deck
         this.deck = new DominionDeckState();
         populateStartingDeck(copperPile, estate);
@@ -48,7 +43,6 @@ public class DominionPlayerState implements Serializable{
      * @param isThisPlayer Whether or not to obfuscate
      */
     public DominionPlayerState(DominionPlayerState playerState, boolean isThisPlayer){
-        this.name = playerState.name;
         this.deck = new DominionDeckState(playerState.deck, isThisPlayer);
         this.turnsPlayed = playerState.turnsPlayed;
     }
@@ -71,15 +65,13 @@ public class DominionPlayerState implements Serializable{
         return deck;
     }
 
-    public String getName() { return name; }
-
     /**
      * Overrides the default inherited toString() behavior, properly displaying object data
      * @return A String containing object type, name, deck and hand info
      */
     @Override
     public String toString(){
-        return String.format("Player: %s\n%s", name, deck.toString());
+        return String.format("Player:\n%s", deck.toString());
     }
 
     public void endTurn(){
@@ -94,13 +86,12 @@ public class DominionPlayerState implements Serializable{
         if (o == null || getClass() != o.getClass()) return false;
         DominionPlayerState that = (DominionPlayerState) o;
         return turnsPlayed == that.turnsPlayed &&
-                Objects.equals(name, that.name) &&
                 Objects.equals(deck, that.deck);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(name, deck, turnsPlayed);
+        return Objects.hash(deck, turnsPlayed);
     }
 }

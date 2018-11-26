@@ -7,15 +7,10 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import project.katacka.dominion.gameplayer.DominionHumanPlayer;
-import project.katacka.dominion.gameplayer.DominionSimpleAIPlayer;
+import project.katacka.dominion.gamestate.DominionCardPlace;
 import project.katacka.dominion.gamestate.DominionCardState;
-import project.katacka.dominion.gamestate.DominionDeckState;
 import project.katacka.dominion.gamestate.DominionGameState;
-import project.katacka.dominion.gamestate.DominionPlayerState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
-
-import static org.junit.Assert.*;
 
 public class testDraw {
 
@@ -41,7 +36,7 @@ public class testDraw {
          */
 
 
-        DominionShopPileState copperPile = new DominionShopPileState(copper, 10, true);
+    DominionShopPileState copperPile = new DominionShopPileState(copper, 10, DominionCardPlace.BASE_CARD);
 
         ArrayList<DominionShopPileState> shopPileArray = new ArrayList<>(1);
         shopPileArray.add(copperPile);
@@ -49,7 +44,7 @@ public class testDraw {
         //make a state
 
         int numPlayers = 4;
-        DominionGameState state = new DominionGameState(numPlayers, shopPileArray, null);
+        DominionGameState state = new DominionGameState(numPlayers, shopPileArray, null); //TODO: Use Generator
         Log.i(this + "", "Current turn: " + state.getCurrentTurn());
         state.endTurn(state.getCurrentTurn());
 

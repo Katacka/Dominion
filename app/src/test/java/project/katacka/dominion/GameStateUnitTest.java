@@ -1,24 +1,16 @@
 package project.katacka.dominion;
 
-import android.util.Log;
-
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
-import project.katacka.dominion.gameframework.infoMsg.GameState;
-import project.katacka.dominion.gamestate.CardReader;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionCardType;
 import project.katacka.dominion.gamestate.DominionDeckState;
 import project.katacka.dominion.gamestate.DominionGameState;
-import project.katacka.dominion.gamestate.DominionPlayerState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
 
 //TODO: Javadoc

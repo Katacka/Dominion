@@ -19,16 +19,12 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -36,11 +32,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
-import project.katacka.dominion.MainActivity;
 import project.katacka.dominion.R;
 import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
 import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
@@ -52,6 +45,7 @@ import project.katacka.dominion.gameframework.GamePlayer;
 import project.katacka.dominion.gameframework.actionMsg.GameAction;
 import project.katacka.dominion.gameframework.infoMsg.GameInfo;
 import project.katacka.dominion.gameframework.infoMsg.IllegalMoveInfo;
+import project.katacka.dominion.gamestate.DominionCardPlace;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gameframework.infoMsg.NotYourTurnInfo;
 import project.katacka.dominion.gamestate.DominionDeckState;
@@ -64,7 +58,11 @@ import project.katacka.dominion.gamestate.DominionShopPileState;
  */
 public class DominionHumanPlayer extends GameHumanPlayer {
 
-    private final int MAX_CARDS = 5;
+    //TODO: Remove unused variables
+
+    private final int ILLEGAL_TOAST_DURATION = 250;
+    private final double CARD_WIDTH_RATIO = 0.66;
+
     private float tabInactiveVal;
     private float tabActiveVal;
 
@@ -76,21 +74,21 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private ConstraintLayout tabLayout = null;
 
     private TableLayout shopLayout = null;
-    private ArrayList<TableRow> shopRows;
+    private ArrayList<TableRow> shopRows; //TODO: Not read from
     private ArrayList<ConstraintLayout> shopPiles;
 
     private TableLayout baseLayout = null;
-    private ArrayList<TableRow> baseRows;
+    private ArrayList<TableRow> baseRows; //TODO: Not read from
     private ArrayList<ConstraintLayout> basePiles;
 
     private LinearLayout cardRow = null;
-    ArrayList<DominionCardState> hand;
+    private ArrayList<DominionCardState> hand;
 
     private int handOffset;
 
     private int pos;
 
-    ConstraintLayout mainLayout;
+    private ConstraintLayout mainLayout;
 
     private Resources res;
 
@@ -122,24 +120,24 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private DominionPlayerState playerState;
 
     //TODO: Delete this
-    GamePlayer thisPlayer = this;
+    private final GamePlayer thisPlayer = this;
 
-    private Handler myHandler;
+    private final Handler myHandler;
     private Drawable background;
-
-    private Drawable cardBackgroundNormal;
-    private Drawable cardBackgroudBuyable;
+    private Toast illegalMoveToast;
 
     public DominionHumanPlayer(String name) {
         this(name, 5); //Default starting hand size is 5
     }
 
+    //TODO: Merge constructors
     public DominionHumanPlayer(String name, int numCards) {
         super(name);
         myHandler = new Handler();
     }
 
     //TODO: Reference all actions properly
+    //TODO: Remove these methods
     public boolean playSimpleActionPhase() {
         return true;
     }
@@ -198,13 +196,13 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
         //making array list of tablerows for shop and base cards
         shopLayout = activity.findViewById(R.id.Shop_Cards);
-        shopRows = new ArrayList<TableRow>();
+        shopRows = new ArrayList<>();
         for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
             shopRows.add((TableRow) shopLayout.getChildAt(i));
         }
 
         baseLayout = activity.findViewById(R.id.Base_Cards);
-        baseRows = new ArrayList<TableRow>();
+        baseRows = new ArrayList<>();
         for(int i = 0, j = baseLayout.getChildCount(); i < j; i++){
             baseRows.add((TableRow) baseLayout.getChildAt(i));
         }
@@ -246,11 +244,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
         //set listeners
         bMenu = activity.findViewById(R.id.bMenu);
-
-
-        cardBackgroundNormal = res.getDrawable(R.drawable.dominion_card_border_squared, null);
-        cardBackgroudBuyable = res.getDrawable(R.drawable.dominion_card_border_green, null);
-
     }
 
     /**
@@ -316,7 +309,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         DominionDeckState deck = playerState.getDeck();
         int drawSize = deck.getDrawSize();
         int discardSize = deck.getDiscardSize();
-        DominionCardState card = deck.getLastDiscard();
+        DominionCardState card = deck.getLastDiscard(); //TODO: Remove this line or use variable
 
         tvDrawCount.setText(Integer.toString(drawSize));
         tvDiscardCount.setText(Integer.toString(discardSize));
@@ -386,7 +379,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
 
         TextView description = cardView.findViewById(R.id.tvDescription);
-        description.setText(card.getFormattedText().toString());
+        description.setText(card.getFormattedText());
 
         TextView type = cardView.findViewById(R.id.textViewType);
         type.setText(card.getType().toString());
@@ -423,8 +416,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     DominionCardState cardState = state.getShopCards().get(m).getCard();
                     int amount = state.getShopCards().get(m).getAmount();
                     updateCardView(shopCard, cardState, amount);
+                    setBuyable(shopCard, isTurn && cardState.getCost() <= state.getTreasure() && amount > 0);
                     if (amount == 0) setGrayedOut(shopCard);
-                    setBuyable(shopCard, isTurn && cardState.getCost() <= state.getTreasure());
                     m++;
                 }
             }
@@ -468,6 +461,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         basePiles = new ArrayList<>();
         boolean isTurn = playerNum == state.getCurrentTurn();
 
+        //TODO: Clean up. (Just comments maybe?)
         int c = 0, start = 0, end = 2;
         for(int a = 0; a < baseLayout.getChildCount(); a++){
             View baseRow = baseLayout.getChildAt(a);
@@ -483,8 +477,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     DominionCardState cardState = state.getBaseCards().get(c).getCard();
                     int amount = state.getBaseCards().get(c).getAmount();
                     updateCardView(baseCard, cardState, amount);
+                    setBuyable(baseCard, isTurn && cardState.getCost() <= state.getTreasure() && amount > 0);
                     if (amount == 0) setGrayedOut(baseCard);
-                    setBuyable(baseCard, isTurn && cardState.getCost() <= state.getTreasure());
                     c++;
                 }
                 start = start+2;
@@ -606,12 +600,16 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
         } else if(info instanceof NotYourTurnInfo) {
             //TODO: actually do something if not player turn
-            Log.i("DominionHumanPlayer: recieveInfo", "Not your turn.");
+            Log.i("DominionHumanPlayer: receiveInfo", "Not your turn.");
 
         } else if (info instanceof IllegalMoveInfo){
-            flash(Color.RED, 250);
+            flash(Color.RED, ILLEGAL_TOAST_DURATION);
             Log.i("HumanPlayer", "Illegal move");
-            Toast.makeText(activity, "Illegal move", Toast.LENGTH_SHORT).show();
+            if (illegalMoveToast != null){
+                illegalMoveToast.cancel();
+            }
+            illegalMoveToast = Toast.makeText(activity, "Illegal move", Toast.LENGTH_SHORT);
+            illegalMoveToast.show();
         }
 
         //TODO: Move citation to correct place
@@ -623,12 +621,12 @@ public class DominionHumanPlayer extends GameHumanPlayer {
          */
     }//updateTabs
 
-    View.OnClickListener handClickListener = new View.OnClickListener(){
+    private final View.OnClickListener handClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View v){
             if(v == null) { return; }
 
-            GameAction action = null;
+            GameAction action;
             if(v == bPlayAll){
                Log.i("DomHumPlayer: HandClickListener onClick: ", "Play all button clicked");
 
@@ -653,11 +651,14 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     };
 
-    View.OnClickListener shopClickListener = new View.OnClickListener(){
+    private final View.OnClickListener shopClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
             //GameAction action = null;
-            boolean isBaseCard = basePiles.contains(v);
+            //boolean isBaseCard = basePiles.contains(v); TODO: This was commented, below was added.
+            DominionCardPlace place;
+            if (basePiles.contains(v)) place = DominionCardPlace.BASE_CARD;
+            else place = DominionCardPlace.SHOP_CARD;
 
             TableRow parentView = (TableRow) v.getParent();
             //is the table row the top row or bottom row
@@ -665,11 +666,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             int offSet = parentLayout.indexOfChild(parentView) * parentView.getVirtualChildCount();
             int desiredIndex = parentView.indexOfChild(v) + offSet;
 
-            game.sendAction(new DominionBuyCardAction(thisPlayer, desiredIndex, isBaseCard));
+            game.sendAction(new DominionBuyCardAction(thisPlayer, desiredIndex, place));
         }
     };
 
-    View.OnClickListener menuClickListener = new View.OnClickListener(){
+    private final View.OnClickListener menuClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
             ArrayList<Integer> imageList = new ArrayList<Integer>();
@@ -749,7 +750,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     };
 
-    View.OnLongClickListener shopLongClickListener = new View.OnLongClickListener(){
+    private final View.OnLongClickListener shopLongClickListener = new View.OnLongClickListener(){
       @Override
       public boolean onLongClick(View v) {
           TableRow parentView = (TableRow) v.getParent();
@@ -766,7 +767,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
           dialog.show();
           Window window = dialog.getWindow();
           double height = mainLayout.getHeight() * 0.50;
-          window.setLayout((int) (height * 0.66), (int) height);
+          window.setLayout((int) (height * CARD_WIDTH_RATIO), (int) height);
 
           return true;
       }

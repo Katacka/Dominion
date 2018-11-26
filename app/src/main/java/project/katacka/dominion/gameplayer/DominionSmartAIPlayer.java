@@ -12,6 +12,7 @@ import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gameframework.infoMsg.GameInfo;
 import project.katacka.dominion.gameframework.infoMsg.GameState;
+import project.katacka.dominion.gamestate.DominionCardPlace;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionCardType;
 import project.katacka.dominion.gamestate.DominionGameState;
@@ -27,7 +28,6 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
     private int remSilver;
     private int remGold;
     private double avgDraw;
-    private int pilesEmpty;
 
     //OTK Behavior variables
     enum BehaviorTypes {BIGMONEY, OTK}
@@ -243,20 +243,20 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
                                                              .orElse(null);
 
             if (gameState.getTreasure() >= 4 && moneylenderCard != null && !hasNeededMoneylenders) {
-                action = new DominionBuyCardAction(this, shopCards.indexOf(moneylenderCard), false);
+                action = new DominionBuyCardAction(this, shopCards.indexOf(moneylenderCard), DominionCardPlace.SHOP_CARD);
                 hasNeededMoneylenders = true;
             }
             else if (gameState.getTreasure() >= 3 && silverCard != null && !hasNeededSilvers) {
-                action = new DominionBuyCardAction(this, baseCards.indexOf(silverCard), true);
+                action = new DominionBuyCardAction(this, baseCards.indexOf(silverCard), DominionCardPlace.BASE_CARD);
                 hasNeededSilvers = true;
             }
             else if (gameState.getTreasure() >= 5 && councilRoomCard != null && (!hasNeededCouncilRooms || !villageBuy)) {
-                action = new DominionBuyCardAction(this, shopCards.indexOf(councilRoomCard), false);
+                action = new DominionBuyCardAction(this, shopCards.indexOf(councilRoomCard), DominionCardPlace.SHOP_CARD);
                 hasNeededCouncilRooms = true;
                 villageBuy = true;
             }
             else if (gameState.getTreasure() >= 3 && villageCard != null && (!hasNeededVillages || hasNeededCouncilRooms)) {
-                action = new DominionBuyCardAction(this, shopCards.indexOf(villageCard), false);
+                action = new DominionBuyCardAction(this, shopCards.indexOf(villageCard), DominionCardPlace.SHOP_CARD);
                 hasNeededVillages = true;
                 villageBuy = false;
             }
@@ -352,12 +352,12 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
     private boolean playOTKWinPhase() {
         if (canBuyAllVP() && availableVPPiles.size() > 0) {
             DominionShopPileState selectedPile = availableVPPiles.get(0);
-            boolean isBaseCard = selectedPile.isBaseCard();
-            int pileIdx = (isBaseCard) ? baseCards.indexOf(selectedPile) : shopCards.indexOf(selectedPile);
+            DominionCardPlace place = selectedPile.getPlace();
+            int pileIdx = (place == DominionCardPlace.BASE_CARD) ? baseCards.indexOf(selectedPile) : shopCards.indexOf(selectedPile);
 
             currentPhase = TurnPhases.WIN;
             sleep(100);
-            game.sendAction(new DominionBuyCardAction(this, pileIdx, isBaseCard));
+            game.sendAction(new DominionBuyCardAction(this, pileIdx, place));
             return true;
         }
 
@@ -477,12 +477,12 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
 
             DominionShopPileState selectedPile = orderedActionArray[0];
             trackTreasure(selectedPile.getCard());
-            boolean isBaseCard = selectedPile.isBaseCard();
-            int pileIdx = (isBaseCard) ? baseCards.indexOf(selectedPile) : shopCards.indexOf(selectedPile);
+            DominionCardPlace place = selectedPile.getPlace();
+            int pileIdx = (place == DominionCardPlace.BASE_CARD) ? baseCards.indexOf(selectedPile) : shopCards.indexOf(selectedPile);
 
             currentPhase = TurnPhases.BUY;
             sleep(100);
-            game.sendAction(new DominionBuyCardAction(this, pileIdx, isBaseCard));
+            game.sendAction(new DominionBuyCardAction(this, pileIdx, place));
             return true;
         }
 
@@ -510,7 +510,7 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
     }
 
     /**
-     * Recieves info from DominionLocalGame regarding DominionGameState
+     * Receives info from DominionLocalGame regarding DominionGameState
      * @param info Describes the DominionGameState
      */
     @Override
@@ -523,12 +523,6 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
             if (draw != null && discard != null && hand != null) {
                 //Draw parameters
                 avgDraw = 5;
-
-                //Shop parameters
-                pilesEmpty = (int) Stream.of(shopCards.stream(), baseCards.stream())
-                                         .flatMap(a -> a)
-                                         .filter(DominionShopPileState::isEmpty)
-                                         .count();
             }
         }
     }
@@ -575,6 +569,7 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
     }
 
     /**
+     * TODO: Use method
      * Used to predict the average treasure value the AI will draw from its
      * @return A double describing the predicted treasure value of a hand
      */

@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import project.katacka.dominion.gamestate.DominionCardPlace;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionDeckState;
 import project.katacka.dominion.gamestate.DominionGameState;
@@ -100,24 +101,20 @@ public class GameStateTest {
         int treasures = state.getTreasure();
         assertEquals(4, treasures);
 
-        //TODO: Again, these will fail after merge, because I replaced baseCard with place. Generally, replace
-        //      false with DominionCardPlace.SHOP_CARD and true with DominionCardPlace.BASE_CARD.
-        //TODO: Give card indexies names so its more obvious what cards you are trying to buy.
-
         //shop cards
-        assertTrue(state.isLegalBuy(turn, GARDEN, false)); //valid card index, enough treasures
-        assertTrue(state.isLegalBuy(turn, MONEY_LENDER, false)); //edge card index
-        assertTrue(state.isLegalBuy(turn, MOAT, false)); //edge card index
-        assertFalse(state.isLegalBuy(turn, 10, false)); //out of bounds index
-        assertFalse(state.isLegalBuy(turn, 15, false)); //out of bounds index
-        assertFalse(state.isLegalBuy(turn, -2, false)); //out of bounds index
+        assertTrue(state.isLegalBuy(turn, GARDEN, DominionCardPlace.SHOP_CARD)); //valid card index, enough treasures
+        assertTrue(state.isLegalBuy(turn, MONEY_LENDER, DominionCardPlace.SHOP_CARD)); //edge card index
+        assertTrue(state.isLegalBuy(turn, MOAT, DominionCardPlace.SHOP_CARD)); //edge card index
+        assertFalse(state.isLegalBuy(turn, 10, DominionCardPlace.SHOP_CARD)); //out of bounds index
+        assertFalse(state.isLegalBuy(turn, 15, DominionCardPlace.SHOP_CARD)); //out of bounds index
+        assertFalse(state.isLegalBuy(turn, -2, DominionCardPlace.SHOP_CARD)); //out of bounds index
 
         //base cards
-        assertTrue(state.isLegalBuy(turn, ESTATE, true)); //valid index
-        assertFalse(state.isLegalBuy(turn, PROVINCE, true)); //valid index, not enough treasure
-        assertFalse(state.isLegalBuy(turn, 8, true)); //invalid index
+        assertTrue(state.isLegalBuy(turn, ESTATE, DominionCardPlace.BASE_CARD)); //valid index
+        assertFalse(state.isLegalBuy(turn, PROVINCE, DominionCardPlace.BASE_CARD)); //valid index, not enough treasure
+        assertFalse(state.isLegalBuy(turn, 8, DominionCardPlace.BASE_CARD)); //invalid index
 
-        assertFalse(state.isLegalBuy(notTurn, 3, false)); //not correct players turn
+        assertFalse(state.isLegalBuy(notTurn, 3, DominionCardPlace.SHOP_CARD)); //not correct players turn
     }
 
     //ASHIKA
@@ -206,7 +203,7 @@ public class GameStateTest {
             int discardSize = state.getDominionPlayer(turn).getDeck().getDiscardSize();
             int buys = state.getBuys();
             assertEquals(1, buys);
-            boolean buyCard = state.buyCard(turn, MOAT, false);
+            boolean buyCard = state.buyCard(turn, MOAT, DominionCardPlace.SHOP_CARD);
             assertTrue(buyCard);
 
             assertEquals(discardSize+1, state.getDominionPlayer(turn).getDeck().getDiscardSize());
@@ -236,7 +233,7 @@ public class GameStateTest {
         assertEquals(3, playerScores[turn]);
 
         state.playAllCards(turn);
-        state.buyCard(turn, ESTATE, true);
+        state.buyCard(turn, ESTATE, DominionCardPlace.BASE_CARD);
         state.endTurn(turn); //one player gets more victory points
 
         playerScores = state.getPlayerScores();
@@ -251,7 +248,7 @@ public class GameStateTest {
 
         assertEquals(3, playerScores[notTurn]);
         state.playAllCards(notTurn);
-        state.buyCard(notTurn, ESTATE, true);
+        state.buyCard(notTurn, ESTATE, DominionCardPlace.BASE_CARD);
         state.endTurn(notTurn); //another player gets more victory points
 
         playerScores = state.getPlayerScores();
