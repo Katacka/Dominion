@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import project.katacka.dominion.GameStateUnitTest;
 import project.katacka.dominion.gamestate.CardReader;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionDeckState;
@@ -26,9 +25,6 @@ public class DominionDeckStateTest {
 
     private ArrayList<DominionShopPileState> baseCards;
     private ArrayList<DominionShopPileState> shopCards;
-
-    private ArrayList<DominionShopPileState> baseClone;
-    private ArrayList<DominionShopPileState> shopClone;
 
     private final int COPPER = 0;
     private final int ESTATE = 1;

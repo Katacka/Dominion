@@ -37,8 +37,8 @@ public class GameStateGenerator {
          */
 
         CardReader reader = new CardReader("base");
-        try (InputStream shopStream = GameStateUnitTest.class.getClassLoader().getResourceAsStream("shop_cards.json");
-             InputStream baseStream = GameStateUnitTest.class.getClassLoader().getResourceAsStream("base_cards.json")){
+        try (InputStream shopStream = GameStateGenerator.class.getClassLoader().getResourceAsStream("shop_cards.json");
+             InputStream baseStream = GameStateGenerator.class.getClassLoader().getResourceAsStream("base_cards.json")){
             shopCards = reader.generateCards(shopStream, 10);
             baseCards = reader.generateCards(baseStream, 7);
         } catch (IOException e) {
