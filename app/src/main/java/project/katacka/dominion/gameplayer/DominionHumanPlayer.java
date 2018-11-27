@@ -57,11 +57,14 @@ import project.katacka.dominion.gamestate.DominionPlayerState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
 
 /**
- * TODO: Javadoc comment here
+ * @author Hayden Liao, Ashika Mulagada, Ryan Regier, Julian Donovan
+ * contains all GUI code for Dominion human player interface
+ * has shop, player hand, draw and discard piles, opponent hand,
+ * menu button, turn tabs, current turn game stats and play all feature
+ *
+ * Suggested improvements, include inPlay view, have startup menu to select other card combinations
  */
 public class DominionHumanPlayer extends GameHumanPlayer {
-
-    //TODO: Remove unused variables
 
     private final int ILLEGAL_TOAST_DURATION = 250;
     private final double CARD_WIDTH_RATIO = 0.66;
@@ -73,11 +76,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private ConstraintLayout tabLayout = null;
 
     private TableLayout shopLayout = null;
-    private ArrayList<TableRow> shopRows; //TODO: Not read from
     private ArrayList<ConstraintLayout> shopPiles;
 
     private TableLayout baseLayout = null;
-    private ArrayList<TableRow> baseRows; //TODO: Not read from
     private ArrayList<ConstraintLayout> basePiles;
 
     private LinearLayout cardRow = null;
@@ -120,40 +121,18 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     private DominionPlayerState playerState;
 
-    //TODO: Delete this
-    private final GamePlayer thisPlayer = this;
+    private final GamePlayer thisPlayer = this; //cannot just use "this" in listeners
+        // b/c "this" references the listener class, not DominionHumanPlayer
 
     private final Handler myHandler;
     private Drawable background;
     private Toast illegalMoveToast;
 
-    boolean isTurn;
+    private boolean isTurn;
 
     public DominionHumanPlayer(String name) {
         super(name);
         myHandler = new Handler();
-    }
-
-    //TODO: Reference all actions properly
-    //TODO: Remove these methods
-    public boolean playSimpleActionPhase() {
-        return true;
-    }
-
-    public boolean playAllTreasures() {
-        return true;
-    }
-
-    public boolean playSimpleBuyPhase() {
-        return true;
-    }
-
-    public boolean quitGame() {
-        return true;
-    }
-
-    public boolean endTurn() {
-        return true;
     }
 
     public String toString(){
@@ -168,10 +147,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         //set display based XML resource
         activity.setContentView(R.layout.activity_main);
 
-        //TODO figure out if we need this
-        //handler = new ShopPileHandler(state);
-        //detector = new GestureDetector(activity, handler);
-
         //init all the things
         tabLayout = activity.findViewById(R.id.Player_Tabs);
 
@@ -180,18 +155,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
         //making array list of tablerows for shop and base cards
         shopLayout = activity.findViewById(R.id.Shop_Cards);
-        shopRows = new ArrayList<>();
-        for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
-            shopRows.add((TableRow) shopLayout.getChildAt(i));
-        }
 
         baseLayout = activity.findViewById(R.id.Base_Cards);
-        baseRows = new ArrayList<>();
-        for(int i = 0, j = baseLayout.getChildCount(); i < j; i++){
-            baseRows.add((TableRow) baseLayout.getChildAt(i));
-        }
 
-        /*
+        //TODO: finish this external citation
+        /**
         External Citation
         iterating through table layout
         https://stackoverflow.com/questions/3327599/get-all-tablerows-in-a-tablelayout
@@ -244,7 +212,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     }
 
-    //TODO: Set correctly
     @Override
     public View getTopView() {
         return mainLayout;
@@ -419,7 +386,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     }
 
     private void setGrayedOut(ConstraintLayout shopCard) {
-        /*
+        /**
          * External Citation
          * Date: 11/18/18
          * Problem: Trying to use PorterDuffColorFilter
@@ -453,7 +420,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      * Updates the base piles
      */
     private void updateBasePiles(){
-        /*
+        /**
          * External Citation
          * Date: 11/5/18
          * Problem: setting imageview using string
@@ -462,7 +429,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
          */
         basePiles = new ArrayList<>();
 
-        //TODO: Clean up. (Just comments maybe?)
+        //TODO: Clean up. (Just comments maybe?) @Ashika?
         int c = 0, start = 0, end = 2;
         for(int a = 0; a < baseLayout.getChildCount(); a++){
             View baseRow = baseLayout.getChildAt(a);
@@ -659,8 +626,14 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
             promptEndTurn();
         } else if(info instanceof NotYourTurnInfo) {
-            //TODO: actually do something if not player turn
             Log.i("DominionHumanPlayer: receiveInfo", "Not your turn.");
+            flash(Color.RED, ILLEGAL_TOAST_DURATION);
+            if (illegalMoveToast != null){
+                illegalMoveToast.cancel();
+            }
+            illegalMoveToast = Toast.makeText(activity, "Excuse you. It is not your turn.\n" +
+                    "Please wait patiently like a well-mannered citizen.\n\n~~~~~~~~~~~~~~Thank you~~~~~~~~~~~~~~", Toast.LENGTH_SHORT);
+            illegalMoveToast.show();
 
         } else if (info instanceof IllegalMoveInfo){
             flash(Color.RED, ILLEGAL_TOAST_DURATION);
@@ -717,7 +690,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 int handOffsetTemp = handOffset;
                 handOffset = (hand.size() - handOffset > 5) ? handOffset : Math.max(handOffset - 1, 0);
                 action = new DominionPlayCardAction(thisPlayer, index + handOffsetTemp);
-            } else { //TODO: Why do we have this default case?
+            } else { //TODO: Why do we have this default case? @Ashika
                 Log.i("DomHumPlayer: onClick", "Player card button clicked.");
 
                 int toPlayIdx = ((LinearLayout)v.getParent()).indexOfChild(v);
