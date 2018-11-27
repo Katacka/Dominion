@@ -148,27 +148,38 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         //set display based XML resource
         activity.setContentView(R.layout.activity_main);
 
-        //init all the things
-        tabLayout = activity.findViewById(R.id.Player_Tabs);
+        //making array list of tablerows for shop and base cards
+        shopLayout = activity.findViewById(R.id.Shop_Cards);
+        baseLayout = activity.findViewById(R.id.Base_Cards);
 
+        ///////////////////
+        //Save views
+        /////////////////
+
+        tabLayout = activity.findViewById(R.id.Player_Tabs);
         bEndTurn = activity.findViewById(R.id.buttonEndTurn);
         bPlayAll = activity.findViewById(R.id.buttonPlayAll);
 
-        //making array list of tablerows for shop and base cards
-        shopLayout = activity.findViewById(R.id.Shop_Cards);
-
-        baseLayout = activity.findViewById(R.id.Base_Cards);
-
+        //Text views showing actions, buys, and treasures
         tvActions = activity.findViewById(R.id.tvActions);
         tvBuys = activity.findViewById(R.id.tvBuys);
         tvTreasure = activity.findViewById(R.id.tvTreasures);
+
+        //Set the default values
         updateTurnInfo(0, 0, 0);
 
+        //Draw and discard piles
         tvDrawCount = activity.findViewById(R.id.textViewDrawCount);
         tvDiscardCount = activity.findViewById(R.id.textViewDiscardCount);
         tvDrawCount.setText("0");
         tvDiscardCount.setText("0");
 
+        drawPile = activity.findViewById(R.id.ivDrawCard);
+        discardPile = activity.findViewById(R.id.imageViewDiscard);
+        emptyDiscardPile = activity.findViewById(R.id.imageViewDiscardEmpty);
+        emptyDrawPile = activity.findViewById(R.id.imageViewDrawEmpty);
+
+        //Opponent draw and discard piles
         tvOppDraw = activity.findViewById(R.id.textViewOppDraw);
         oppDraw = activity.findViewById(R.id.ivOppDrawCard);
         tvOppDiscard = activity.findViewById(R.id.textViewOppDiscard);
@@ -178,18 +189,16 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         tvOppDraw.setText("5");
         tvOppDiscard.setText("0");
 
-        drawPile = activity.findViewById(R.id.ivDrawCard);
-        discardPile = activity.findViewById(R.id.imageViewDiscard);
-        emptyDiscardPile = activity.findViewById(R.id.imageViewDiscardEmpty);
-        emptyDrawPile = activity.findViewById(R.id.imageViewDrawEmpty);
-
-        res = activity.getResources();
-
+        //Main view
         mainLayout = activity.findViewById(R.id.constraintMain);
-        background = mainLayout.getBackground();
+        background = mainLayout.getBackground(); //Used for flashing
 
-        //set listeners
+        //Menu
         bMenu = activity.findViewById(R.id.bMenu);
+
+        //Resources.
+        //Used to load card images
+        res = activity.getResources();
     }
 
     /**
@@ -745,15 +754,13 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
             if (basePiles.contains(v)) {
                 place = DominionCardPlace.BASE_CARD;
-                canBuy = isTurn && state.getBuys() > 0 && state.getBaseCards().get(desiredIndex).getCost() <= state.getTreasure() && state.getBaseCards().get(desiredIndex).getAmount() > 0;
             }
             else {
                 place = DominionCardPlace.SHOP_CARD;
-                canBuy = isTurn && state.getBuys() > 0 && state.getShopCards().get(desiredIndex).getCost() <= state.getTreasure() && state.getShopCards().get(desiredIndex).getAmount() > 0;
             }
 
             TextView cardTitle = parentView.getChildAt(rawIndex).findViewById(R.id.textViewTitle);
-            if (canBuy) Toast.makeText(activity, "Bought a " + cardTitle.getText(), Toast.LENGTH_SHORT).show();
+            if (state.isLegalBuy(playerNum, desiredIndex, place)) Toast.makeText(activity, "Bought a " + cardTitle.getText(), Toast.LENGTH_SHORT).show();
 
             game.sendAction(new DominionBuyCardAction(thisPlayer, desiredIndex, place));
         }
