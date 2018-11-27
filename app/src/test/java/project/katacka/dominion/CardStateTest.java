@@ -76,10 +76,11 @@ public class CardStateTest {
         assertEquals("added Victory points, dn account for gardens", 0, copper.getSimpleVictoryPoints());
     }
 
-    //RYAN
     //SEPARATE CLASS, test copy constructor
 
-    //RYAN
+    /**
+     * @author Ryan
+     */
     @Test
     public void testCardAction(){
         /*
@@ -100,10 +101,10 @@ public class CardStateTest {
         assertTrue("Blank card can be played.", DominionCardState.BLANK_CARD.cardAction(state));
     }
 
-    /*
-    moat +2 cards
+    /**
+     * @author Hayden Liao
+     * moat +2 cards to hand
      */
-    //TODO: HAYDEN, moat action
     @Test
     public void testMoatAction(){
         DominionPlayerState p = state.getDominionPlayer(currPlayer);
@@ -113,33 +114,10 @@ public class CardStateTest {
         hand.set(2, shopCards.get(MOAT).getCard()); //ensure the hand has a moat
 
         assertEquals("hand size before", 5, hand.size());
-        assertEquals("has action", 1, state.getActions());
 
         moatCard.moatAction(state);
 
         assertEquals("hand size after", 7, hand.size()); // +2 other cards, discard not built into moatAction
-        assertEquals("has no action", 0, state.getActions());
-    }
-
-    @Test
-    public void testMerchantAction(){
-        testBaseAction();
-    }
-
-    //TODO: HAYDEN
-    @Test
-    public void testMerchantAction_2silver(){
-        currPlayer = state.getCurrentTurn();
-        DominionDeckState deck = state.getDominionPlayer(currPlayer).getDeck();
-
-        assertEquals("Initial hand", 5, deck.getHandSize());
-        assertEquals("1 buy", 1, state.getBuys());
-
-        DominionCardState merchant = state.getShopCards().get(MERCHANT).getCard();
-        merchant.merchantAction(state);
-
-        assertEquals("Initial hand", 4, deck.getHandSize());
-        assertEquals("1 buy", 0, state.getBuys());
     }
 
     /**
@@ -255,34 +233,15 @@ public class CardStateTest {
         assertEquals(3, state.getTreasure()); //have 3 treasure now
     }
 
-
-    public void testMerchantAction_1merchant2silver(){}
-    public void testMerchantAction_1merchant1copper1silver(){}
-    public void testMerchantAction_2merchant2silver(){}
-
-     /*
-        //things to test
-        treasure dif
-        used an action
-        cards in hand
-
-        Inputs/output: Playorder
-            merchant, silver (3), silver (2)
-            no actions, merchant (cannot play)
-
-            merchant copper (1) silver (3)
-            merchant, merchant, silver (4), silver (2)
-     */
-
     /**
      * @author Ryan, Hayden
      */
-    //TODO: Hayden, add silver (no merchant played)
     @Test
     public void testSilverAndMerchantAction(){
-        DominionCardState silver, merchant;
-        silver = state.getBaseCards().get(2).getCard();
-        merchant = state.getShopCards().get(3).getCard();
+        DominionCardState silver, merchant, copper;
+        silver = state.getBaseCards().get(SILVER).getCard();
+        merchant = state.getShopCards().get(MERCHANT).getCard();
+        copper = state.getBaseCards().get(COPPER).getCard();
 
         //Test we got the right cards
         assertEquals("Got silver.", "Silver", silver.getTitle());
@@ -292,29 +251,49 @@ public class CardStateTest {
         assertEquals("No starting treasure", 0, state.getTreasure());
 
         //Test silver without a merchant play
-        silver.cardAction(state);
+        silver.silverAction(state);
         assertEquals("Got 2 treasure", 2, state.getTreasure());
 
-        //Reset turn, so that next silver is first on turn
+        //RESET TURN, so that next silver is first on turn
         state.endTurn(state.getCurrentTurn());
 
         //Test silver adds treasure for every merchant played.
-        merchant.cardAction(state);
+        merchant.merchantAction(state);
 
         //merchant bonus not added yet
         assertEquals("merchant bonus before silver is played", 0, state.getTreasure());
 
-        merchant.cardAction(state);
-        silver.cardAction(state);
+        merchant.merchantAction(state);
+        silver.silverAction(state);
         assertEquals("Merchant bonus", 4, state.getTreasure());
 
         //Test additional merchants do not grant extra treasure
-        merchant.cardAction(state);
+        merchant.merchantAction(state);
         assertEquals("Merchant doesn't grant bonus", 4, state.getTreasure());
 
         //Test additional silver do not grant extra treasure
-        silver.cardAction(state);
+        silver.silverAction(state);
         assertEquals("Silver doesn't grant bonus", 6, state.getTreasure());
+
+        //RESET TURN, so that next silver is first on turn
+        state.endTurn(state.getCurrentTurn());
+
+        //play a silver
+        assertEquals("no treasure", 0, state.getTreasure());
+        silver.silverAction(state);
+        assertEquals("+2 silver", 2, state.getTreasure());
+
+        //play a merchant, no bonus because a silver has already been played
+        merchant.merchantAction(state);
+        assertEquals("+2 silver", 2, state.getTreasure());
+
+        //play copper, does not use bonus
+        copper.cardAction(state);
+        assertEquals("+2 silver +1 copper", 3, state.getTreasure());
+
+        //
+        silver.silverAction(state);
+        assertEquals("+2 silver +1 copper +2 silver", 5, state.getTreasure());
     }
 
     /**

@@ -671,31 +671,32 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             if(v == null) { return; }
 
             GameAction action;
-            if(v == bPlayAll){
+            if(v == bPlayAll){ //clicked the play all button
                Log.i("DomHumPlayer: HandClickListener onClick: ", "Play all button clicked");
 
                 handOffset = 0;
                 action = new DominionPlayAllAction(thisPlayer);
-            } else if(v == bEndTurn) {
+            } else if(v == bEndTurn) { //clicked the end turn button
                 Log.i("TAG: ", "" + state.getCurrentTurn());
                 Log.i("DomHumPlayer: onClick", "End turn button clicked.");
                 endTurnMsg();
 
                 handOffset = 0;
                 action = new DominionEndTurnAction(thisPlayer);
-            } else if(v instanceof ConstraintLayout){ //v is one of the playerCards
+            //} else if(v instanceof ConstraintLayout){ //v is one of the playerCards
+            } else {
                 Log.i("DomHumPlayer: onClick", "Player's card button clicked.");
 
                 int index = cardRow.indexOfChild(v);
                 int handOffsetTemp = handOffset;
                 handOffset = (hand.size() - handOffset > 5) ? handOffset : Math.max(handOffset - 1, 0);
                 action = new DominionPlayCardAction(thisPlayer, index + handOffsetTemp);
-            } else { //TODO: Why do we have this default case? @Hayden?
-                Log.i("DomHumPlayer: onClick", "Player card button clicked.");
+            } //else { //TODO: Why do we have this default case? @Hayden?
+                //Log.i("DomHumPlayer: onClick", "Error in handClickListener.");
 
-                int toPlayIdx = ((LinearLayout)v.getParent()).indexOfChild(v);
-                action = new DominionPlayCardAction(thisPlayer, toPlayIdx);
-            }
+                //int toPlayIdx = ((LinearLayout)v.getParent()).indexOfChild(v);
+                //action = new DominionPlayCardAction(thisPlayer, toPlayIdx);
+            //}
             game.sendAction(action);
         }
     };
