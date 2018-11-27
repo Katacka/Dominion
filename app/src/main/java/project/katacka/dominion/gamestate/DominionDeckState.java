@@ -55,7 +55,8 @@ public class DominionDeckState implements Serializable{
         }
         //Reveal the top of the discard pile, since it is face up
         if (deckState.discard.size() >= 1){
-            this.discard.add(new DominionCardState(deckState.discard.get(deckState.discard.size()-1)));
+            this.discard.add(new
+                    DominionCardState(deckState.discard.get(deckState.discard.size()-1)));
         }
 
         //Show the player's hand if they are holding it, or blank cards otherwise
