@@ -16,6 +16,11 @@ import project.katacka.dominion.gamestate.DominionShopPileState;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests methods in DominionGameState
+ *
+ * @author Ashika
+ */
 public class GameStateTest {
 
     private ArrayList<DominionShopPileState> baseCards;
@@ -44,7 +49,6 @@ public class GameStateTest {
         shopCards = state.getShopCards();
     }
 
-    //ASHIKA
     @Test
     public void testCanMove(){
         int turn = state.getCurrentTurn();
@@ -74,7 +78,6 @@ public class GameStateTest {
         }
     }
 
-    //ASHIKA
     @Test
     public void testGetPlayerScores(){
         int[] playerScores = state.getPlayerScores();
@@ -84,18 +87,17 @@ public class GameStateTest {
 
         int turn = state.getCurrentTurn();
 
-        state.getDominionPlayer(turn).getDeck().getDiscard().add(baseCards.get(1).getCard());
+        state.getDominionPlayer(turn).getDeck().getDiscard().add(baseCards.get(ESTATE).getCard());
 
         int[] playerScoresNew = state.getPlayerScores();
         assertEquals(4, playerScoresNew[turn]);
 
-        state.getDominionPlayer(turn).getDeck().addManyToDiscard(shopCards.get(4).getCard(), 2);
+        state.getDominionPlayer(turn).getDeck().addManyToDiscard(shopCards.get(GARDEN).getCard(), 2);
 
         playerScoresNew = state.getPlayerScores();
         assertEquals(6, playerScoresNew[turn]);
     }
 
-    //ASHIKA
     @Test
     public void testIsLegalBuy() {
         int turn = state.getCurrentTurn();
@@ -123,7 +125,6 @@ public class GameStateTest {
         assertFalse(state.isLegalBuy(notTurn, 3, DominionCardPlace.SHOP_CARD)); //not correct players turn
     }
 
-    //ASHIKA
     @Test
     public void testIsLegalPlay(){
         int turn = state.getCurrentTurn();
@@ -143,7 +144,6 @@ public class GameStateTest {
         assertFalse(state.isLegalPlay(notTurn, 0)); //not right player
     }
 
-    //ASHIKA
     @Test
     public void testPlayCard(){
         int turn = state.getCurrentTurn();
@@ -159,17 +159,16 @@ public class GameStateTest {
         assertFalse(state.playCard(notTurn, 0)); //not valid play because wrong turn
         assertEquals(1, state.getActions()); //actions were not decremented
 
-        assertTrue(deck.getHand().contains(shopCards.get(COUNCIL).getCard()));
-        boolean playCard = state.playCard(turn, 2); //play moat
+        assertTrue(deck.getHand().contains(shopCards.get(MOAT).getCard()));
+        boolean playCard = state.playCard(turn, 1); //play moat
         assertTrue(playCard);
-        assertFalse(deck.getHand().contains(shopCards.get(COUNCIL).getCard())); //test that hand no longer contains moat
+        assertFalse(deck.getHand().contains(shopCards.get(MOAT).getCard())); //test that hand no longer contains moat
         assertEquals(0, state.getActions()); //actions decremented
 
         boolean playAnotherCard = state.playCard(turn, 3); //try to play council room (action)
         assertFalse(playAnotherCard); //should not be able to play action because actions are at 0
     }
 
-    //ASHIKA
     @Test
     public void testPlayAllCards(){
         int turn = state.getCurrentTurn();
@@ -185,7 +184,6 @@ public class GameStateTest {
         assertTrue(deck.getHand().contains(shopCards.get(MOAT).getCard()));
     }
 
-    //ASHIKA
     @Test
     public void testEndTurn(){
         int turn = state.getCurrentTurn();
@@ -195,7 +193,6 @@ public class GameStateTest {
         assertEquals(state.getCurrentTurn(), (turn + 1) % state.getDominionPlayers().length);
     }
 
-    //ASHIKA
     @Test
     public void testBuyCard(){
         int turn = state.getCurrentTurn();
@@ -223,7 +220,6 @@ public class GameStateTest {
         assertEquals(buys-1, state.getBuys()); //test that buys have still only decremented 1
     }
 
-    //ASHIKA
     @Test
     public void testGetWinner() {
         int[] playerScores = state.getPlayerScores();
@@ -258,8 +254,7 @@ public class GameStateTest {
         newWinner = state.getWinner();
         assertEquals(notTurn, newWinner); //the new players should now be the winner
     }
-
-    //ASHIKA
+    
     @Test
     public void testQuitGame(){
         int turn = state.getCurrentTurn();

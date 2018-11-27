@@ -9,7 +9,9 @@ import java.util.stream.IntStream;
 import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gameframework.GameComputerPlayer;
+import project.katacka.dominion.gameframework.actionMsg.GameOverAckAction;
 import project.katacka.dominion.gameframework.infoMsg.GameInfo;
+import project.katacka.dominion.gameframework.infoMsg.GameOverInfo;
 import project.katacka.dominion.gameframework.infoMsg.GameState;
 import project.katacka.dominion.gameframework.infoMsg.IllegalMoveInfo;
 import project.katacka.dominion.gamestate.DominionCardState;
@@ -61,14 +63,14 @@ public abstract class DominionComputerPlayer extends GameComputerPlayer {
      * 			the object representing the information from the game
      */
     protected void receiveInfo(GameInfo info){
-        if(info instanceof IllegalMoveInfo || (info instanceof GameState && updateInfo(info))) {
+        if (!gameOver && (info instanceof IllegalMoveInfo || (info instanceof GameState && updateInfo(info)))) {
 
             Log.d("AI", "Received info");
-            if(info instanceof IllegalMoveInfo) {
+            if (info instanceof IllegalMoveInfo) {
                 Log.e(TAG, "receiveInfo: " + info.toString());
             }
 
-            if(gameState.canMove(playerNum)) {
+            if (gameState.canMove(playerNum)) {
                 playTurnPhase(currentPhase);
             }
         }

@@ -55,7 +55,8 @@ public class DominionDeckState implements Serializable{
         }
         //Reveal the top of the discard pile, since it is face up
         if (deckState.discard.size() >= 1){
-            this.discard.add(new DominionCardState(deckState.discard.get(deckState.discard.size()-1)));
+            this.discard.add(new
+                    DominionCardState(deckState.discard.get(deckState.discard.size()-1)));
         }
 
         //Show the player's hand if they are holding it, or blank cards otherwise
@@ -255,6 +256,13 @@ public class DominionDeckState implements Serializable{
     public int getDiscardSize(){
         return discard.size();
     }
+
+    /**
+     * Gets number of cards in play
+     * @return Num cards in play
+     */
+    public int getInPlaySize(){ return inPlay.size(); }
+
 
     /**
      * Puts all discard cards into the draw pile and randomizes order of cards.

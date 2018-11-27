@@ -19,11 +19,16 @@
     <string name="local_tab">Local Game</string>
     <string name="remote_tab">Remote Game</string>
 
+    <string name="display_dialog_check">Do not display this dialog again</string>
+    <string name="end_turn_auto_check">Automatically end turn?</string>
+
     <string name="actions">Actions: %1$d</string>
     <string name="buys">Buys: %1$d</string>
     <string name="treasure">Treasure: %1$d</string>
 
     <string name="how_to_play">
+        <!-- TODO: Do we intend on using this? @Ashika -->
+        <!-- I made this for the help menu, but it looks like you're done. Do you need it? ~Hayden -->
                         How to play DOMINION
     Goal:
         Have the most point in your deck when the game ends.
