@@ -254,7 +254,7 @@ public class GameStateTest {
         newWinner = state.getWinner();
         assertEquals(notTurn, newWinner); //the new players should now be the winner
     }
-    
+
     @Test
     public void testQuitGame(){
         int turn = state.getCurrentTurn();
