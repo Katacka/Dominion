@@ -60,7 +60,7 @@
       "title": "Province",
       "photoStringID": "dominion_province",
       "text": "6 Victory Points",
-      "cost": 0,
+      "cost": 8,
       "type": "TREASURE",
       "amount": 12,
       "action": "baseAction",

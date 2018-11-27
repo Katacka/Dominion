@@ -55,24 +55,25 @@ public class DominionShopPileState implements Serializable{
      * Sets amount, but raises it to 0 if negative number supplied
      * @param amount Amount of cards left in the pile
      */
-    public void setAmount(int amount){
-        this.amount = Math.max(amount, 0);
+    public int setAmount(int amount){
+        return this.amount = Math.max(amount, 0);
     }
 
     /**
      * Remove one from the amount of cards in the pile, if the pile is not empty
      */
-    public void removeCard(){
+    public int removeCard(){
         if (amount > 0) amount--;
+        return amount;
     }
 
     /**
      * Removes set amount, but raises it to 0 if it drops below
      * @param amount Amount of cards to remove from the pile
      */
-    public void removeAmount(int amount){
+    public int removeAmount(int amount){
         this.amount -= amount;
-        this.amount = Math.max(this.amount, 0);
+        return this.amount = Math.max(this.amount, 0);
     }
 
     /**
