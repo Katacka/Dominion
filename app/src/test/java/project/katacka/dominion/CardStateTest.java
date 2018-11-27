@@ -63,10 +63,7 @@ public class CardStateTest {
         assertEquals("text", "copper description:\n +1 Treasure", copper.getFormattedText());
         assertEquals("cost", 0, copper.getCost());
 
-        //TODO: @Julian, can you finish up this cardtype business.
-            //TODO: continued: It looks like it's some json deserialization shenanigans
-        //DominionCardType copperType = state.getBaseCards().get(COPPER);
-        //assertEquals("type", copperType, copper.getType());
+        assertEquals("type", DominionCardType.TREASURE, copper.getType());
 
         assertEquals("actionName", "baseAction", copper.getAction());
         assertEquals("addedTreasure", 1, copper.getAddedTreasure());
@@ -152,19 +149,17 @@ public class CardStateTest {
     @Test
     //can play moneylender with no copper, but nothing happens
     public void testMoneyLenderNoCopper(){
+        getNewState(4);
         DominionDeckState deck = state.getDominionPlayers()[currPlayer].getDeck();
         setupSpecialHand(deck);
 
+        DominionCardState moneyLender = shopCards.get(MONEY_LENDER).getCard();
+
         state.playCard(currPlayer, 0); //Plays a copper, you have no copper now
 
-        assertEquals(shopCards.get(MONEY_LENDER).getCard(), deck.getHand().get(3));//money lender is 3rd card
-
-        boolean playedCard = state.playCard(currPlayer, 3); //try to player Money Lender
-
-        assertTrue(playedCard); //make sure card is played
+        moneyLender.moneylenderAction(state);
 
         assertEquals(0, state.getActions()); //action used
-
         assertEquals(1, state.getTreasure()); //No treasure bonus (1 from copper).
     }
 
@@ -189,7 +184,7 @@ public class CardStateTest {
         assertFalse(deck.getHand().contains(baseCards.get(COPPER).getCard()));
         assertFalse(deck.getHand().contains(shopCards.get(MONEY_LENDER).getCard()));
 
-        assertEquals(0, state.getActions()); //still have an action
+        assertEquals(0, state.getActions()); //used an action
         assertEquals(3, state.getTreasure()); //have 3 treasure now
     }
 
@@ -298,6 +293,7 @@ public class CardStateTest {
 
     /**
      * @author Hayden Liao
+     * TODO: Fix
      */
     @Test
     public void testBaseAction(){
@@ -325,7 +321,7 @@ public class CardStateTest {
     ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * @author Ryan
+     * Modifies hand to have set list of cards, used to test
      * @param deck The deck to modify the hand of
      */
     private void setupSpecialHand(DominionDeckState deck) {
