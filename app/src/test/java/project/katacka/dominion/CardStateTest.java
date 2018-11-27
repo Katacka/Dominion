@@ -64,7 +64,7 @@ public class CardStateTest {
         assertEquals("cost", 0, copper.getCost());
 
         //TODO: @Julian, can you finish up this cardtype business.
-            //It looks like it's some json deserialization shenanigans
+            //TODO: continued: It looks like it's some json deserialization shenanigans
         //DominionCardType copperType = state.getBaseCards().get(COPPER);
         //assertEquals("type", copperType, copper.getType());
 
@@ -100,33 +100,26 @@ public class CardStateTest {
         assertTrue("Blank card can be played.", DominionCardState.BLANK_CARD.cardAction(state));
     }
 
-    //TODO: HAYDEN
+    /*
+    moat +2 cards
+     */
+    //TODO: HAYDEN, moat action
     @Test
     public void testMoatAction(){
-        //int moatPosition;
-        //DominionCardState moatCard = state.getShopCards().get(MOAT).getCard();
+        DominionPlayerState p = state.getDominionPlayer(currPlayer);
+        DominionCardState moatCard = state.getShopCards().get(MOAT).getCard();
 
+        ArrayList<DominionCardState> hand = p.getDeck().getHand();
+        hand.set(2, shopCards.get(MOAT).getCard()); //ensure the hand has a moat
 
-        //get current player's deck
-        //currPlayer = state.getCurrentTurn();
-        //DominionDeckState currDeck = state.getDominionPlayer(currPlayer).getDeck();
-        //ArrayList<DominionCardState> hand = currDeck.getHand();
+        assertEquals("hand size before", 5, hand.size());
+        assertEquals("has action", 1, state.getActions());
 
-        //Case 1: has an action, has a moat, is player's turn
-        //assertEquals("Hand size", currDeck.getHandSize(), 5);
-        //assertTrue("Has action", state.getActions() > 0);
-        //assertTrue("Has moat", hand.contains(moatCard));
-        //moatPosition = hand.indexOf(moatCard);
+        moatCard.moatAction(state);
 
-        //Play card
-        //moatCard.moatAction(state);
+        assertEquals("hand size after", 7, hand.size()); // +2 other cards, discard not built into moatAction
+        assertEquals("has no action", 0, state.getActions());
     }
-
-    @Test
-    public void testXP(){
-
-    }
-
 
     @Test
     public void testMerchantAction(){
@@ -147,8 +140,6 @@ public class CardStateTest {
 
         assertEquals("Initial hand", 4, deck.getHandSize());
         assertEquals("1 buy", 0, state.getBuys());
-
-
     }
 
     /**
