@@ -121,7 +121,7 @@ public abstract class DominionComputerPlayer extends GameComputerPlayer {
         }
 
         currentPhase = TurnPhases.TREASURE;
-        sleep(100);
+        sleep(500);
         game.sendAction(new DominionPlayCardAction(this, treasureIdx));
         return true;
     }
@@ -133,7 +133,7 @@ public abstract class DominionComputerPlayer extends GameComputerPlayer {
     boolean endTurn() {
         Log.d("AI", "Ending turn");
         currentPhase = TurnPhases.END;
-        sleep(100);
+        sleep(500);
         game.sendAction(new DominionEndTurnAction(this));
         return true;
     }

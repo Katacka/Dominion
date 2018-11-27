@@ -14,6 +14,7 @@ public class DominionShopPileState implements Serializable{
     private final DominionCardState card;
     private int amount;
     private final DominionCardPlace place;
+    private boolean canBuy;
 
     /**
      * Constructor.
@@ -27,6 +28,7 @@ public class DominionShopPileState implements Serializable{
         this.card = card;
         this.amount = Math.max(amount, 0);
         this.place = place;
+        this.canBuy = true;
     }
 
     /**
@@ -37,6 +39,7 @@ public class DominionShopPileState implements Serializable{
         this.card = shopPileState.card;
         this.amount = shopPileState.amount;
         this.place = shopPileState.place;
+        this.canBuy = shopPileState.canBuy;
     }
 
     public DominionCardState getCard() {
@@ -102,6 +105,14 @@ public class DominionShopPileState implements Serializable{
 
     public int getSimpleVictoryPoints() {
         return card.getSimpleVictoryPoints();
+    }
+
+    public boolean isCanBuy() {
+        return canBuy;
+    }
+
+    public void setCanBuy(boolean canBuy) {
+        this.canBuy = canBuy;
     }
 
     @Override

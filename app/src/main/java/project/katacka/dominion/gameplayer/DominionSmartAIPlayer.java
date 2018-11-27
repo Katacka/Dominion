@@ -97,7 +97,7 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
             }
 
             currentPhase = TurnPhases.ACTION;
-            sleep(250);
+            sleep(500);
             game.sendAction(new DominionPlayCardAction(this, handIdx));
             return true;
         }
@@ -160,7 +160,7 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
             int pileIdx = (place == DominionCardPlace.BASE_CARD) ? baseCards.indexOf(selectedPile) : shopCards.indexOf(selectedPile);
 
             currentPhase = TurnPhases.BUY;
-            sleep(250);
+            sleep(500);
             game.sendAction(new DominionBuyCardAction(this, pileIdx, place));
             return true;
         }

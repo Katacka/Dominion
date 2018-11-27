@@ -118,7 +118,7 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
             int pileIdx = (place == DominionCardPlace.BASE_CARD) ? baseCards.indexOf(randPile) : shopCards.indexOf(randPile);
 
             currentPhase = TurnPhases.BUY;
-            sleep(400);
+            sleep(500);
             game.sendAction(new DominionBuyCardAction(this, pileIdx, place));
             return true;
         }

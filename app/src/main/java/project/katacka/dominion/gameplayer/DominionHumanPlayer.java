@@ -305,7 +305,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
                 DominionCardState card = hand.get(i + handOffset);
                 updateCardView(cardLayout, card, -1);
-                setPlayable(cardLayout, isTurn && (card.getType() != DominionCardType.ACTION || state.getActions() > 0));
+                setHighlight(cardLayout, isTurn && (card.getType() != DominionCardType.ACTION || state.getActions() > 0));
                 cardLayout.setVisibility(View.VISIBLE);
             } else {
                 cardLayout.setVisibility(View.GONE);
@@ -390,7 +390,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     DominionCardState cardState = state.getShopCards().get(m).getCard();
                     int amount = state.getShopCards().get(m).getAmount();
                     updateCardView(shopCard, cardState, amount);
-                    setBuyable(shopCard, isTurn && cardState.getCost() <= state.getTreasure() && amount > 0);
+                    setHighlight(shopCard, isTurn && state.getBuys() > 0 && cardState.getCost() <= state.getTreasure() && amount > 0);
                     if (amount == 0) setGrayedOut(shopCard);
                     m++;
                 }
@@ -425,28 +425,15 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     }
 
     /**
-     * Sets a green border background for cards that are buyable and a black border background for other cards
+     * Sets a green border background for cards that are buyable/playable and a black border background for other cards
      * @param shopCard Specifies the card being checked for if its buyable or not
-     * @param canBuy Specifies whether or not the card is buyable
+     * @param canDo Specifies whether or not the card is buyable
      */
-    private void setBuyable(ConstraintLayout shopCard, boolean canBuy){
-        if (canBuy && state.getBuys() >= 1){
+    private void setHighlight (ConstraintLayout shopCard, boolean canDo){
+        if (canDo){
             shopCard.setBackgroundResource(R.drawable.dominion_card_border_green);
         } else {
             shopCard.setBackgroundResource(R.drawable.dominion_card_border_squared);
-        }
-    }
-
-    /**
-     * Sets a green border background for cards that are playable and a black border background for other cards
-     * @param handCard Specifies the card being checked for if its playable or not
-     * @param canPlay Specifies whether or not the card is playable
-     */
-    private void setPlayable(ConstraintLayout handCard, boolean canPlay){
-        if (canPlay && state.getActions() >= 1){
-            handCard.setBackgroundResource(R.drawable.dominion_card_border_green);
-        } else {
-            handCard.setBackgroundResource(R.drawable.dominion_card_border_squared);
         }
     }
 
@@ -471,7 +458,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     DominionCardState cardState = state.getBaseCards().get(c).getCard();
                     int amount = state.getBaseCards().get(c).getAmount();
                     updateCardView(baseCard, cardState, amount);
-                    setBuyable(baseCard, isTurn && cardState.getCost() <= state.getTreasure() && amount > 0);
+                    setHighlight(baseCard, isTurn && state.getBuys() > 0 && cardState.getCost() <= state.getTreasure() && amount > 0);
                     if (amount == 0) setGrayedOut(baseCard);
                     c++;
                 }
@@ -695,14 +682,12 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         @Override
         public void onSwipeRight(float distX) {
             handOffset = Math.max(handOffset - 1, 0);
-            Log.e("a", "onSwipeLeft: " + handOffset);
             updatePlayerHand();
         }
 
         @Override
         public void onSwipeLeft(float distX) {
             handOffset = Math.min(handOffset + 1, Math.max(hand.size() - 5, 0));
-            Log.e("a", "onSwipeRight: " + handOffset);
             updatePlayerHand();
         }
     };
@@ -752,12 +737,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         @Override
         public void onClick(View v) {
             DominionCardPlace place;
-            if (basePiles.contains(v)) {
-                place = DominionCardPlace.BASE_CARD;
-            }
-            else {
-                place = DominionCardPlace.SHOP_CARD;
-            }
+            boolean canBuy;
 
             TableRow parentView = (TableRow) v.getParent();
 
@@ -767,8 +747,17 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             int rawIndex = parentView.indexOfChild(v);
             int desiredIndex = rawIndex + offSet;
 
+            if (basePiles.contains(v)) {
+                place = DominionCardPlace.BASE_CARD;
+                canBuy = isTurn && state.getBuys() > 0 && state.getBaseCards().get(desiredIndex).getCost() <= state.getTreasure() && state.getBaseCards().get(desiredIndex).getAmount() > 0;
+            }
+            else {
+                place = DominionCardPlace.SHOP_CARD;
+                canBuy = isTurn && state.getBuys() > 0 && state.getShopCards().get(desiredIndex).getCost() <= state.getTreasure() && state.getShopCards().get(desiredIndex).getAmount() > 0;
+            }
+
             TextView cardTitle = parentView.getChildAt(rawIndex).findViewById(R.id.textViewTitle);
-            Toast.makeText(activity, "Bought a " + cardTitle.getText(), Toast.LENGTH_SHORT).show();
+            if (canBuy) Toast.makeText(activity, "Bought a " + cardTitle.getText(), Toast.LENGTH_SHORT).show();
 
             game.sendAction(new DominionBuyCardAction(thisPlayer, desiredIndex, place));
         }
