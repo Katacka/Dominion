@@ -303,6 +303,7 @@ public class CardStateTest {
     public void testBaseAction(){
         DominionPlayerState player = state.getDominionPlayer(currPlayer);
         DominionCardState copper = player.getDeck().getHand().get(0); //a copper card
+        DominionCardState council = state.getShopCards().get(COUNCIL).getCard(); //a council room card
 
         int initHandSize = player.getDeck().getHandSize();
         int initDrawSize = player.getDeck().getDrawSize();
@@ -314,8 +315,20 @@ public class CardStateTest {
         assertEquals(0, initDiscardSize);
         assertEquals(0, initInPlaySize);
 
+        copper.baseAction(state);
+
         assertEquals("hand size", initHandSize + copper.getAddedDraw(), player.getDeck().getHandSize());
         assertEquals("draw size", initDrawSize - copper.getAddedDraw(), player.getDeck().getDrawSize());
+        assertEquals("discard size", initDiscardSize, initDiscardSize);
+        assertEquals("inplay size", initInPlaySize, initInPlaySize);
+
+        initHandSize = player.getDeck().getHandSize();
+        initDrawSize = player.getDeck().getDrawSize();
+
+        council.baseAction(state);
+
+        assertEquals("hand size", initHandSize + council.getAddedDraw(), player.getDeck().getHandSize());
+        assertEquals("draw size", initDrawSize - council.getAddedDraw(), player.getDeck().getDrawSize());
         assertEquals("discard size", initDiscardSize, initDiscardSize);
         assertEquals("inplay size", initInPlaySize, initInPlaySize);
     }
