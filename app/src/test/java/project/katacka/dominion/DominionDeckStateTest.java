@@ -54,15 +54,9 @@ public class DominionDeckStateTest {
         deck = state.getDominionPlayers()[0].getDeck();
     }
 
-    public void cloneCards(){ //Clones baseCards and shopCards for comparison purposes
-        baseClone = new ArrayList<>(baseCards.size());
-        for (DominionShopPileState pile : baseCards){
-            baseClone.add(new DominionShopPileState(pile));
-        }
-
-        shopClone = new ArrayList<>(shopCards.size());
-        for (DominionShopPileState pile : shopCards){
-            shopClone.add(new DominionShopPileState(pile));
+    public void cloneCardList(ArrayList<DominionCardState> copyList, ArrayList<DominionCardState> tmpList) {
+        for (DominionCardState card : copyList){
+            tmpList.add(new DominionCardState(card));
         }
     }
 
@@ -79,14 +73,13 @@ public class DominionDeckStateTest {
     }
 
     @Test //Julian Donovan
-    public void reveal() {
+    public void testReveal() {
         deck.getDraw().clear();
         deck.getDiscard().clear();
         assertNull(deck.reveal()); //When both the deck and discard are empty reveal is expected to return NULL
 
         setupSpecialCardList(deck.getDiscard()); //Populates the discard
-        DominionCardState topCard = new DominionCardState(deck.getDraw().get(deck.getDrawSize()));
-        assertEquals(topCard, deck.reveal()); //The top card should be a silver as set by setupSpecialCardList
+        assertNotNull(deck.reveal()); //Since the discard is shuffled into the deck, the top card cannot be known. However, it should certainly not be NULL
 
         setupSpecialCardList(deck.getDraw());
         DominionCardState silver = baseCards.get(SILVER).getCard();
@@ -94,42 +87,77 @@ public class DominionDeckStateTest {
     }
 
     @Test //Julian Donovan
-    public void draw() {
+    public void testDraw() {
         deck.getDraw().clear();
         deck.getDiscard().clear();
+        deck.getHand().clear();
         assertNull(deck.draw()); //When both the deck and discard are empty draw is expected to return NULL (as reveal should return null)
 
         setupSpecialCardList(deck.getDiscard()); //Populates the discard
-        DominionCardState topCard = new DominionCardState(deck.getDraw().get(deck.getDrawSize()));
-        assertEquals(topCard, deck.draw()); //The drawn card should be a silver as set by setupSpecialCardList
-        assertFalse(deck.getDraw().contains(topCard)); //The drawn card should have been removed from the player's draw
-        int lastHandIdx = deck.getHandSize() - 1;
-        assertEquals(topCard, deck.getHand().get(lastHandIdx)); //The drawn card hsould be added to the player's hand
+        int drawSize =  deck.getDiscardSize(); //The discard will be shuffled into the draw
+        assertNotNull(deck.draw()); //Since the discard is shuffled into the deck, the top card cannot be known. However, it should certainly not be NULL
+        assertEquals(drawSize - 1, deck.getDrawSize()); //A card should have been taken from the draw
+        assertEquals(1, deck.getHand().size()); //The drawn card should be added to the player's hand
 
         setupSpecialCardList(deck.getDraw());
         DominionCardState silver = baseCards.get(SILVER).getCard();
         assertEquals(silver, deck.draw()); //The drawn card should be a silver as set by setupSpecialCardList
         assertFalse(deck.getDraw().contains(silver)); //The drawn card should have been removed from the player's draw
-        lastHandIdx = deck.getHandSize() - 1;
-        assertEquals(silver, deck.getHand().get(lastHandIdx)); //The drawn card hsould be added to the player's hand
-    }
-
-    @Test
-    public void drawMultiple() {
-    }
-
-    @Test
-    public void putInPlay() {
-
-    }
-
-    @Test
-    public void getLastPlayed() {
-
+        int lastHandIdx = deck.getHandSize() - 1;
+        assertEquals(silver, deck.getHand().get(lastHandIdx)); //The drawn card should be added to the player's hand
     }
 
     @Test //Julian Donovan
-    public void discardByIndex() {
+    public void testDrawMultiple() {
+        deck.getDraw().clear();
+        deck.getDiscard().clear();
+        deck.getHand().clear();
+        assertFalse(deck.drawMultiple(1)); //When both the deck and discard are empty draw is expected to return false as no cards exist to draw
+        assertFalse(deck.drawMultiple(5)); //The size of the draw request fails to matter if the draw pile and discard are empty
+        assertFalse(deck.drawMultiple(-1)); //Returns false as negative cards cannot be drawn
+        assertTrue(deck.drawMultiple(0)); //Returns true as zero cards may be drawn
+
+        setupSpecialCardList(deck.getDiscard()); //Populates the discard
+        ArrayList<DominionCardState> tmpDiscard = new ArrayList<>(deck.getDiscardSize());
+        cloneCardList(deck.getDiscard(), tmpDiscard);
+
+        assertTrue(deck.drawMultiple(tmpDiscard.size())); //Since the discard is shuffled into the deck, up to getDiscardSize cards may be drawn
+        assertEquals(0, deck.getDrawSize()); //The draw should have been emptied
+        assertTrue(tmpDiscard.containsAll(deck.getHand())); //The drawn cards should have been added to the player's hand
+        assertFalse(deck.drawMultiple(1)); //Having drawn the entire discard and draw, attempting to draw more will fail
+    }
+
+    @Test //Julian Donovan
+    public void testPutInPlay() {
+        deck.getHand().clear();
+        assertFalse(deck.putInPlay(-1)); //Negative 1 is an impossible index
+        assertFalse(deck.putInPlay(deck.getHandSize())); //Accessing the size of an arrayList as an index is impossible as arrays are 0 indexed
+
+        setupSpecialCardList(deck.getHand());
+        assertTrue(deck.putInPlay(0)); //Should put estate in play
+        assertTrue(deck.putInPlay(0)); //Should put a copper in play
+
+        DominionCardState estate = baseCards.get(ESTATE).getCard();
+        assertFalse(deck.getHand().contains(estate));
+        assertEquals(estate, deck.getInPlay().get(1)); //Ensures an estate has been removed form the hand and put in play
+
+        DominionCardState copper = baseCards.get(COPPER).getCard();
+        assertFalse(deck.getHand().contains(copper));
+        assertEquals(copper, deck.getInPlay().get(0)); //Ensures an estate has been removed form the hand and put in play
+    }
+
+    @Test //Julian Donovan
+    public void testGetLastPlayed() {
+        deck.getInPlay().clear();
+        assertNull(deck.getLastPlayed()); //The inPlay array is empty, as such nothing exists to display
+
+        setupSpecialCardList(deck.getInPlay());
+        DominionCardState silver = baseCards.get(SILVER).getCard();
+        assertEquals(silver, deck.getLastPlayed()); //The last card put in the inPlay array was a silver
+    }
+
+    @Test //Julian Donovan
+    public void testDiscardByIndex() {
         assertFalse(deck.discard(deck.getHandSize()));
         assertFalse(deck.discard(-1));
 
@@ -143,7 +171,7 @@ public class DominionDeckStateTest {
     }
 
     @Test //Hayden Liao
-    public void discardByCard() {
+    public void testDiscardByCard() {
         DominionCardState copper = baseCards.get(0).getCard();
 
         deck.getDiscard().clear();
@@ -165,7 +193,7 @@ public class DominionDeckStateTest {
     }
 
     @Test //Julian Donovan
-    public void discardNew() {
+    public void testDiscardNew() {
         DominionCardState copper = baseCards.get(0).getCard();
         deck.getDiscard().clear();
 
@@ -177,7 +205,7 @@ public class DominionDeckStateTest {
     }
 
     @Test //Julian Donovan
-    public void addManyToDiscard() {
+    public void testAddManyToDiscard() {
         DominionCardState copper = baseCards.get(0).getCard();
         deck.getDiscard().clear();
 
@@ -193,27 +221,18 @@ public class DominionDeckStateTest {
     }
 
     @Test //Hayden Liao
-    public void discardAll() {
-        setupSpecialCardList(deck.getHand());
-
-        assert deck.getHandSize() > 0;
-        ArrayList<DominionCardState> tempHand = new ArrayList<>(deck.getHand().size());
-        for (DominionCardState card : deck.getHand()) {
-            tempHand.add(card);
-        }
-
-        deck.discardAll();
-
-        assertEquals(0, deck.getHandSize());
-        assertEquals(true, deck.getDiscard().containsAll(tempHand));
-    }
-
-    @Test //Hayden Liao
-    public void discardAllEmpty() {
+    public void testDiscardAll() {
         deck.getHand().clear();
-
-        assert deck.getHandSize() > 0;
         ArrayList<DominionCardState> tempHand = new ArrayList<>(deck.getHand().size());
+        for (DominionCardState card : deck.getHand()) {
+            tempHand.add(card);
+        }
+        deck.discardAll();
+        assertEquals(0, deck.getHandSize());
+        assertTrue(deck.getDiscard().containsAll(tempHand));
+
+        setupSpecialCardList(deck.getHand());
+        tempHand = new ArrayList<>(deck.getHand().size());
         for (DominionCardState card : deck.getHand()) {
             tempHand.add(card);
         }
@@ -221,11 +240,11 @@ public class DominionDeckStateTest {
         deck.discardAll();
 
         assertEquals(0, deck.getHandSize());
-        assertEquals(true, deck.getDiscard().containsAll(tempHand));
+        assertTrue(deck.getDiscard().containsAll(tempHand));
     }
 
     @Test //Hayden Liao
-    public void reshuffle() {
+    public void testReshuffle() {
         setupSpecialCardList(deck.getDiscard());
 
         ArrayList<DominionCardState> tempDiscard = new ArrayList<>(deck.getDiscard().size());
@@ -241,16 +260,16 @@ public class DominionDeckStateTest {
     }
 
     @Test
-    public void countVictory() {
-    }
+    public void testCountVictory() {
+        deck.getDiscard().clear();
+        deck.getDraw().clear();
+        deck.getHand().clear();
+        assertEquals(0, deck.countVictory()); //With no victory point cards, the total should be 0
 
-    @Test
-    public void createCardArray() {
-
-    }
-
-    @Test
-    public void equals() {
+        setupSpecialCardList(deck.getDiscard());
+        setupSpecialCardList(deck.getDraw());
+        setupSpecialCardList(deck.getHand()); //Each setup special includes 1 estate and by effect 1 VP
+        assertEquals(3, deck.countVictory());
 
     }
 }
