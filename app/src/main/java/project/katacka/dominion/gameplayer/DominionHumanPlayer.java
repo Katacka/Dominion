@@ -746,7 +746,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                                     R.drawable.rules_longpress,
                                     R.drawable.rules_end_turn));
 
-            Log.i("DomHumPlayer: onClick", "Menu clicked.");
             pos = 0;
 
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
