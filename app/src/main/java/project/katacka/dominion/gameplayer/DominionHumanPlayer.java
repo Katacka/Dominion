@@ -729,19 +729,14 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 handOffset = 0;
                 action = new DominionEndTurnAction(thisPlayer);
             //} else if(v instanceof ConstraintLayout){ //v is one of the playerCards
-            } else {
+            } else { //v is one of the playerCards
                 Log.i("DomHumPlayer: onClick", "Player's card button clicked.");
 
                 int index = cardRow.indexOfChild(v);
                 int handOffsetTemp = handOffset;
                 handOffset = (hand.size() - handOffset > 5) ? handOffset : Math.max(handOffset - 1, 0);
                 action = new DominionPlayCardAction(thisPlayer, index + handOffsetTemp);
-            } //else { //TODO: Why do we have this default case? @Hayden?
-                //Log.i("DomHumPlayer: onClick", "Error in handClickListener.");
-
-                //int toPlayIdx = ((LinearLayout)v.getParent()).indexOfChild(v);
-                //action = new DominionPlayCardAction(thisPlayer, toPlayIdx);
-            //}
+            }
             game.sendAction(action);
         }
     };

@@ -13,7 +13,7 @@ import project.katacka.dominion.gamestate.DominionDeckState;
 import project.katacka.dominion.gamestate.DominionGameState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
 
-//TODO: Javadoc
+//TODO: Delete this class? If not, javadoc?
 public class GameStateUnitTest {
 
     private ArrayList<DominionShopPileState> baseCards;
@@ -184,4 +184,5 @@ public class GameStateUnitTest {
         hand.add(shopCards.get(MERCHANT).getCard()); //Sixth card merchant
         hand.add(baseCards.get(SILVER).getCard()); //Seventh card Silver
     }
+
 }
