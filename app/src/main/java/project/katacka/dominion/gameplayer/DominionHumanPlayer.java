@@ -323,16 +323,15 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         cardRow = activity.findViewById(R.id.User_Cards);
 
         int childCount = cardRow.getChildCount();
-        int handCardCount = hand.size();
+        int handSize = hand.size();
 
         for(int i = 0; i < childCount; i++){
             ConstraintLayout cardLayout = (ConstraintLayout) cardRow.getChildAt(i);
 
-            if(i + handOffset < handCardCount){
-                adjustHandCardSize(handCardCount, cardLayout);
+            if(i + handOffset < handSize){
+                adjustHandCardSize(handSize, cardLayout);
                 cardLayout.setOnClickListener(handClickListener);
                 cardLayout.setOnTouchListener(handSwipeListener);
-                Log.i("a", "updatePlayerHand: " + cardLayout.getWidth());
 
                 DominionCardState card = hand.get(i + handOffset);
                 updateCardView(cardLayout, card, -1);
