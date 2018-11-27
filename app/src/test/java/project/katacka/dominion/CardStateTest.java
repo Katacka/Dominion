@@ -157,9 +157,14 @@ public class CardStateTest {
 
         state.playCard(currPlayer, 0); //Plays a copper, you have no copper now
 
-        moneyLender.moneylenderAction(state);
+        assertEquals(moneyLender, deck.getHand().get(3));//money lender is 3rd card
+
+        boolean playedCard = state.playCard(currPlayer, 3); //try to player Money Lender
+
+        assertTrue(playedCard); //make sure card is played
 
         assertEquals(0, state.getActions()); //action used
+
         assertEquals(1, state.getTreasure()); //No treasure bonus (1 from copper).
     }
 
@@ -293,7 +298,6 @@ public class CardStateTest {
 
     /**
      * @author Hayden Liao
-     * TODO: Fix
      */
     @Test
     public void testBaseAction(){
