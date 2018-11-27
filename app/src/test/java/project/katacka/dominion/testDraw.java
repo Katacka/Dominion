@@ -26,17 +26,17 @@ public class testDraw {
         //make a card
         //////////DON'T NEED THIS BC HUMAN PLAYER AND AI CONSTRUCTORS
 
-        /*DominionCardState copper = new DominionCardState("Copper", "dominion_copper", "+1 Gold", 0, "TREASURE", "baseAction",
+        DominionCardState copper = new DominionCardState(0, "Copper", "dominion_copper", "+1 Gold", 0, "TREASURE", "baseAction",
                 1, 0, 0, 0, 0);
-        DominionCardState estate = new DominionCardState("Estate", "dominion_estate", "1 Victory Point", 2, "VICTORY", "baseAction",
-                0, 0, 0, 0, 1);*/
+        DominionCardState estate = new DominionCardState(1, "Estate", "dominion_estate", "1 Victory Point", 2, "VICTORY", "baseAction",
+                0, 0, 0, 0, 1);
 
         /*
         DominionCardState moat = new DominionCardState("Moat", "dominion_moat", "moat card text", 0, "REACTION", "baseAction", 0, 0, 0, 0, 0);
          */
 
 
-    /*DominionShopPileState copperPile = new DominionShopPileState(copper, 10, DominionCardPlace.BASE_CARD);
+    DominionShopPileState copperPile = new DominionShopPileState(copper, 10, DominionCardPlace.BASE_CARD);
 
         ArrayList<DominionShopPileState> shopPileArray = new ArrayList<>(1);
         shopPileArray.add(copperPile);
@@ -67,6 +67,5 @@ public class testDraw {
         hand.set(2, gold);
     }
      */
-    }
 
 }

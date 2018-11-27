@@ -161,7 +161,7 @@ public class DominionCardState implements Serializable{
         return "\nDominionCardState: {\n" +
                 "\ttitle: " + getTitle() + ",\n" +
                 "\tphotoId: " + getPhotoId() + ",\n" +
-                "\ttext: " + getPlainText() + ",\n" +
+                "\ttext: " + getFormattedText() + ",\n" +
                 "\tcost: " + getCost() + ",\n" +
                 "\ttype: " + getType() + ",\n" +
                 "\taction: " + getAction() + ",\n" +
@@ -183,11 +183,6 @@ public class DominionCardState implements Serializable{
 
     public String getFormattedText() {
         return text;
-    }
-
-    //TODO: What is this vs. getFormattedText and why do we need both?
-    public String getPlainText() {
-        return text.replaceAll("[\\s]", " ");
     }
 
     public int getCost() {

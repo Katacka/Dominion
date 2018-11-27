@@ -258,6 +258,13 @@ public class DominionDeckState implements Serializable{
     }
 
     /**
+     * Gets number of cards in play
+     * @return Num cards in play
+     */
+    public int getInPlaySize(){ return inPlay.size(); }
+
+
+    /**
      * Puts all discard cards into the draw pile and randomizes order of cards.
      */
     public void reshuffle(){

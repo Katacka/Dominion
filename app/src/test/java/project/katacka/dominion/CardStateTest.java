@@ -10,9 +10,12 @@ import java.util.stream.Stream;
 import static org.junit.Assert.*;
 import static project.katacka.dominion.GameStateGenerator.getNewState;
 
+import project.katacka.dominion.gameplayer.DominionHumanPlayer;
 import project.katacka.dominion.gamestate.DominionCardState;
+import project.katacka.dominion.gamestate.DominionCardType;
 import project.katacka.dominion.gamestate.DominionDeckState;
 import project.katacka.dominion.gamestate.DominionGameState;
+import project.katacka.dominion.gamestate.DominionPlayerState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
 
 public class CardStateTest {
@@ -46,11 +49,31 @@ public class CardStateTest {
         currPlayer = state.getCurrentTurn();
     }
 
-    //TODO: Hayden
+    /**
+     * @author Hayden
+     */
     @Test
     public void cardStateConstructor(){
+        DominionCardState copper = new DominionCardState(1234, "copper", "dominion_copper",
+                "copper description:\n +1 Treasure", 0, "TREASURE", "baseAction",
+                1, 0, 0, 0, 0);
 
+        assertEquals("title","copper", copper.getTitle());
+        assertEquals("photoid", "dominion_copper", copper.getPhotoId());
+        assertEquals("text", "copper description:\n +1 Treasure", copper.getFormattedText());
+        assertEquals("cost", 0, copper.getCost());
 
+        //TODO: @Julian, can you finish up this cardtype business.
+            //It looks like it's some json deserialization shenanigans
+        //DominionCardType copperType = state.getBaseCards().get(COPPER);
+        //assertEquals("type", copperType, copper.getType());
+
+        assertEquals("actionName", "baseAction", copper.getAction());
+        assertEquals("addedTreasure", 1, copper.getAddedTreasure());
+        assertEquals("addedActions", 0, copper.getAddedActions());
+        assertEquals("addedDraws", 0, copper.getAddedDraw());
+        assertEquals("addedBuys", 0, copper.getAddedBuys());
+        assertEquals("added Victory points, dn account for gardens", 0, copper.getSimpleVictoryPoints());
     }
 
     //RYAN
@@ -80,24 +103,34 @@ public class CardStateTest {
     //TODO: HAYDEN
     @Test
     public void testMoatAction(){
-        int moatPosition;
-        DominionCardState moatCard = state.getShopCards().get(MOAT).getCard();
+        //int moatPosition;
+        //DominionCardState moatCard = state.getShopCards().get(MOAT).getCard();
 
 
         //get current player's deck
-        currPlayer = state.getCurrentTurn();
-        DominionDeckState currDeck = state.getDominionPlayer(currPlayer).getDeck();
-        ArrayList<DominionCardState> hand = currDeck.getHand();
+        //currPlayer = state.getCurrentTurn();
+        //DominionDeckState currDeck = state.getDominionPlayer(currPlayer).getDeck();
+        //ArrayList<DominionCardState> hand = currDeck.getHand();
 
         //Case 1: has an action, has a moat, is player's turn
-        assertEquals("Hand size", currDeck.getHandSize(), 5);
-        assertTrue("Has action", state.getActions() > 0);
-        assertTrue("Has moat", hand.contains(moatCard));
-        moatPosition = hand.indexOf(moatCard);
+        //assertEquals("Hand size", currDeck.getHandSize(), 5);
+        //assertTrue("Has action", state.getActions() > 0);
+        //assertTrue("Has moat", hand.contains(moatCard));
+        //moatPosition = hand.indexOf(moatCard);
 
         //Play card
-        moatCard.moatAction(state);
+        //moatCard.moatAction(state);
+    }
 
+    @Test
+    public void testXP(){
+
+    }
+
+
+    @Test
+    public void testMerchantAction(){
+        testBaseAction();
     }
 
     //TODO: HAYDEN
@@ -115,29 +148,12 @@ public class CardStateTest {
         assertEquals("Initial hand", 4, deck.getHandSize());
         assertEquals("1 buy", 0, state.getBuys());
 
-        /*
-        //things to test
-        treasure dif
-        used an action
-        cards in hand
 
-        Inputs/output: Playorder
-
-            silver (2), silver (2)
-            merchant, silver (3), silver (2)
-            no actions, merchant (cannot play)
-
-            merchant copper (1) silver (3)
-            merchant, merchant, silver (4), silver (2)
-
-
-         */
     }
-    public void testMerchantAction_1merchant2silver(){}
-    public void testMerchantAction_1merchant1copper1silver(){}
-    public void testMerchantAction_2merchant2silver(){}
 
-    //Ryan
+    /**
+     * @author Ryan
+     */
     @Test
     public void testCouncilRoom(){
         currPlayer = state.getCurrentTurn();
@@ -161,7 +177,9 @@ public class CardStateTest {
         assertEquals("2 buys", 2, state.getBuys());
     }
 
-    //Ryan and Hayden
+    /**
+     * @author Ryan and Hayden
+     */
     @Test
     //can play moneylender with no copper, but nothing happens
     public void testMoneyLenderNoCopper(){
@@ -181,7 +199,9 @@ public class CardStateTest {
         assertEquals(1, state.getTreasure()); //No treasure bonus (1 from copper).
     }
 
-    //Ryan and Hayden
+    /**
+     * @author Ryan and Hayden
+     */
     @Test
     public void testMoneyLenderWithOneCopper(){
         getNewState(4);
@@ -204,7 +224,9 @@ public class CardStateTest {
         assertEquals(3, state.getTreasure()); //have 3 treasure now
     }
 
-    //Ryan and Hayden
+    /**
+     * @author Ryan, Hayden
+     */
     @Test
     public void testMoneyLenderWithManyCopper(){
         getNewState(4);
@@ -243,9 +265,30 @@ public class CardStateTest {
     }
 
 
-    //Ryan
+    public void testMerchantAction_1merchant2silver(){}
+    public void testMerchantAction_1merchant1copper1silver(){}
+    public void testMerchantAction_2merchant2silver(){}
+
+     /*
+        //things to test
+        treasure dif
+        used an action
+        cards in hand
+
+        Inputs/output: Playorder
+            merchant, silver (3), silver (2)
+            no actions, merchant (cannot play)
+
+            merchant copper (1) silver (3)
+            merchant, merchant, silver (4), silver (2)
+     */
+
+    /**
+     * @author Ryan, Hayden
+     */
+    //TODO: Hayden, add silver (no merchant played)
     @Test
-    public void testSilverAction(){
+    public void testSilverAndMerchantAction(){
         DominionCardState silver, merchant;
         silver = state.getBaseCards().get(2).getCard();
         merchant = state.getShopCards().get(3).getCard();
@@ -266,6 +309,10 @@ public class CardStateTest {
 
         //Test silver adds treasure for every merchant played.
         merchant.cardAction(state);
+
+        //merchant bonus not added yet
+        assertEquals("merchant bonus before silver is played", 0, state.getTreasure());
+
         merchant.cardAction(state);
         silver.cardAction(state);
         assertEquals("Merchant bonus", 4, state.getTreasure());
@@ -279,10 +326,28 @@ public class CardStateTest {
         assertEquals("Silver doesn't grant bonus", 6, state.getTreasure());
     }
 
-    //TODO: Hayden
+    /**
+     * @author Hayden Liao
+     */
     @Test
     public void testBaseAction(){
+        DominionPlayerState player = state.getDominionPlayer(currPlayer);
+        DominionCardState copper = player.getDeck().getHand().get(0); //a copper card
 
+        int initHandSize = player.getDeck().getHandSize();
+        int initDrawSize = player.getDeck().getDrawSize();
+        int initDiscardSize = player.getDeck().getDiscardSize();
+        int initInPlaySize = player.getDeck().getInPlaySize();
+
+        assertEquals(5, initHandSize);
+        assertEquals(5, initDrawSize);
+        assertEquals(0, initDiscardSize);
+        assertEquals(0, initInPlaySize);
+
+        assertEquals("hand size", initHandSize + copper.getAddedDraw(), player.getDeck().getHandSize());
+        assertEquals("draw size", initDrawSize - copper.getAddedDraw(), player.getDeck().getDrawSize());
+        assertEquals("discard size", initDiscardSize, initDiscardSize);
+        assertEquals("inplay size", initInPlaySize, initInPlaySize);
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -303,5 +368,4 @@ public class CardStateTest {
         hand.add(shopCards.get(MERCHANT).getCard()); //Sixth card merchant
         hand.add(baseCards.get(SILVER).getCard()); //Seventh card Silver
     }
-
 }
