@@ -23,8 +23,8 @@ public class CardReaderTest { //Note for the grader: GSONDeserializer does not h
 
     @Test //Julian Donovan
     public void testGenerateCards() {
-        try (InputStream shopStream = GameStateUnitTest.class.getClassLoader().getResourceAsStream("shop_cards.json");
-             InputStream baseStream = GameStateUnitTest.class.getClassLoader().getResourceAsStream("base_cards.json")) {
+        try (InputStream shopStream = CardReaderTest.class.getClassLoader().getResourceAsStream("shop_cards.json");
+             InputStream baseStream = CardReaderTest.class.getClassLoader().getResourceAsStream("base_cards.json")) {
             ArrayList<DominionShopPileState> genCards = cr.generateCards(shopStream, 10);
             assertEquals(10, genCards.size()); //All 10 base shopCards have been deserialized
 
@@ -59,8 +59,8 @@ public class CardReaderTest { //Note for the grader: GSONDeserializer does not h
 
     @Test //Julian Donovan
     public void testGenerateCardsEdgeCases() {
-        try (InputStream shopStream = GameStateUnitTest.class.getClassLoader().getResourceAsStream("shop_cards.json");
-             InputStream baseStream = GameStateUnitTest.class.getClassLoader().getResourceAsStream("base_cards.json")) {
+        try (InputStream shopStream = CardReaderTest.class.getClassLoader().getResourceAsStream("shop_cards.json");
+             InputStream baseStream = CardReaderTest.class.getClassLoader().getResourceAsStream("base_cards.json")) {
             //If the uniqueCardPile argument exceeds the max number of cardPiles in the JSON, it defaults to the max card piles
             ArrayList<DominionShopPileState> genCards = cr.generateCards(shopStream, Integer.MAX_VALUE);
             assertEquals(10, genCards.size());
