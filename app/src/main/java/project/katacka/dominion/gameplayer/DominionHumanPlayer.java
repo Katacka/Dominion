@@ -236,6 +236,12 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         c.applyTo(tabLayout);
     }
 
+    /**
+     * Updates textViews that provide player info
+     * @param actions The current number of player's actions
+     * @param buys The current number of player's buys
+     * @param treasure The current number of player's treasures
+     */
     private void updateTurnInfo(int actions, int buys, int treasure){
         /**
          * External Citation
@@ -250,6 +256,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         tvTreasure.setText(activity.getString(R.string.treasure, treasure));
     }
 
+    /**
+     * Updates player's draw and discard piles to be an empty pile or display top most card
+     */
     private void updateDrawDiscard(){
         DominionDeckState deck = playerState.getDeck();
         int drawSize = deck.getDrawSize();
@@ -277,7 +286,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     }
 
     /**
-     * Updates player's hand
+     * Updates player's hand to reflect state
      */
     private void updatePlayerHand(){
         hand = state.getDominionPlayer(playerNum).getDeck().getHand();
@@ -304,6 +313,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     }
 
+    /**
+     * Adjusts hand card size for number of cards in hand
+     */
     private void adjustHandCardSize(int handCardCount, ConstraintLayout cardLayout) {
         int childCompNum = Math.max(5 - handCardCount, 0);
         float d = res.getDisplayMetrics().density;
@@ -356,7 +368,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     }
 
     /**
-     * Updates the shop piles
+     * Updates the shop piles by calling update card view with info from gamestate
      */
     private void updateShopPiles(){
         int m = 0;
@@ -393,6 +405,10 @@ public class DominionHumanPlayer extends GameHumanPlayer {
          */
     }
 
+    /**
+     * Creates a gray filter that is added to the ImageViews of cards in the shop or base piles
+     * @param shopCard Specifies the card being grayed out
+     */
     private void setGrayedOut(ConstraintLayout shopCard) {
         /**
          * External Citation
@@ -408,6 +424,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         ((ImageView) shopCard.findViewById(R.id.imageViewAmount)).setColorFilter(grayFilter);
     }
 
+    /**
+     * Sets a green border background for cards that are buyable and a black border background for other cards
+     * @param shopCard Specifies the card being checked for if its buyable or not
+     * @param canBuy Specifies whether or not the card is buyable
+     */
     private void setBuyable(ConstraintLayout shopCard, boolean canBuy){
         if (canBuy && state.getBuys() >= 1){
             shopCard.setBackgroundResource(R.drawable.dominion_card_border_green);
@@ -416,6 +437,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     }
 
+    /**
+     * Sets a green border background for cards that are playable and a black border background for other cards
+     * @param handCard Specifies the card being checked for if its playable or not
+     * @param canPlay Specifies whether or not the card is playable
+     */
     private void setPlayable(ConstraintLayout handCard, boolean canPlay){
         if (canPlay && state.getActions() >= 1){
             handCard.setBackgroundResource(R.drawable.dominion_card_border_green);
@@ -425,7 +451,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     }
 
     /**
-     * Updates the base piles
+     * Updates the base piles according to info from game state
      */
     private void updateBasePiles(){
         basePiles = new ArrayList<>(); //array list will contain all base piles
@@ -455,6 +481,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     }
 
+    /**
+     * Updates opponents draw and discard piles to be an empty pile or display top most card
+     */
     private void updateOppDrawDiscard(int player){
         if (player == playerNum) return;
         DominionDeckState currPlayerDeck = state.getDominionPlayer(player).getDeck();
@@ -478,6 +507,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     }
 
+    /**
+     * Updates opponents hand to display the number of cards in their hand
+     */
     private void updateOppHand(int player){
         //Finds how many cards to display
         int handSize;
@@ -528,6 +560,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         set.applyTo(oppCardsLayout);
     }
 
+    /**
+     * Prompts user for an alert dialog regarding ending their turn
+     */
     private void promptEndTurn() {
         if (isTurn && (hand.size() == 0 || state.getActions() == 0) && state.getBuys() == 0) {
             handOffset = 0;
@@ -567,6 +602,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     }
 
+    /**
+     * Prompts user for an alert dialog regarding automated turn ending
+     */
     private void promptEndTurnSettings() {
         AlertDialog.Builder endTurnSettings = new AlertDialog.Builder(activity);
         endTurnSettings.setMessage("Enable automatic turn ending?");
@@ -594,6 +632,10 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         Toast.makeText(activity, "Turn ended", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Receives game state info and calls update methods to reflect state, flashes red screen for illegal moves
+     * @param info Game information
+     */
     @Override
     public void receiveInfo(GameInfo info) {
         //get updated info
@@ -665,6 +707,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     };
 
+    /**
+     * Handles playing all treasures, ending a turn, and playing cards in the hand
+     */
     private final View.OnClickListener handClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View v){
@@ -701,6 +746,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     };
 
+    /**
+     * Buys the card in shop tapped on
+     */
     private final View.OnClickListener shopClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
@@ -727,6 +775,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     };
 
+    /**
+     * Displays a help menu dialog with multiple images and buttons to navigate
+     */
     private final View.OnClickListener menuClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
@@ -744,7 +795,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                                     R.drawable.rules_play_card,
                                     R.drawable.rules_buy_card,
                                     R.drawable.rules_longpress,
-                                    R.drawable.rules_end_turn));
+                                    R.drawable.rules_end_turn,
+                                    R.drawable.rules_card_swipe));
 
             pos = 0;
 
@@ -807,6 +859,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     };
 
+    /**
+     * Displays a dialog with card and description for the card in shop that is long pressed
+     */
     private final View.OnLongClickListener shopLongClickListener = new View.OnLongClickListener(){
       @Override
       public boolean onLongClick(View v) {
@@ -842,6 +897,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         return cardView;
     }
 
+    /**
+     * Flashes a background color
+     * @param color the color to flash
+     * @param duration how long to flash for
+     */
     @Override
     protected void flash(int color, int duration) {
         View top = this.getTopView();
@@ -858,7 +918,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     /**
     * helper-class to finish a "flash".
-     * Making our own so that a image background can be supported
+     * * Making our own so that a image background can be supported
     *
     */
     private class Unflasher implements Runnable {

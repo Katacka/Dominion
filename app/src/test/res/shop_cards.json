@@ -20,7 +20,7 @@
       "type": "ACTION",
       "amount": 10,
       "action": "baseAction",
-      "addedCards": 1,
+      "addedDraw": 1,
       "addedActions": 1,
       "addedBuys": 1,
       "addedTreasure": 1
@@ -34,7 +34,7 @@
       "type": "ACTION",
       "amount": 10,
       "action": "baseAction",
-      "addedCards": 2,
+      "addedDraw": 2,
       "addedActions": 1
     },
     {
@@ -46,7 +46,7 @@
       "type": "ACTION",
       "amount": 10,
       "action": "merchantAction",
-      "addedCards": 1,
+      "addedDraw": 1,
       "addedActions": 1
     },
     {
@@ -158,7 +158,7 @@
       "type": "ATTACK",
       "amount": 10,
       "action": "witchAction",
-      "addedCards": 2
+      "addedDraw": 2
     },
     {
       "id": 20,
