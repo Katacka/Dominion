@@ -38,7 +38,7 @@ public class CardReaderTest { //Note for the grader: GSONDeserializer does not h
             assertEquals(2, laboratory.getAddedDraw());
             assertEquals(1, laboratory.getAddedActions());
 
-            genCards = cr.generateCards(baseStream, 6);
+            genCards = cr.generateCards(baseStream, 7);
             assertEquals(7, genCards.size()); //All 7 baseCards have been deserialized
 
             DominionCardState province = genCards.get(5).getCard(); //Spot check for the province card
@@ -51,12 +51,22 @@ public class CardReaderTest { //Note for the grader: GSONDeserializer does not h
             assertEquals(0, copper.getCost());
             assertEquals(1, copper.getAddedTreasure());
 
+        }
+        catch (IOException e) {
+            e.printStackTrace(); //Log failure in the event an input stream error occurs
+        }
+    }
+
+    @Test //Julian Donovan
+    public void testGenerateCardsEdgeCases() {
+        try (InputStream shopStream = GameStateUnitTest.class.getClassLoader().getResourceAsStream("shop_cards.json");
+             InputStream baseStream = GameStateUnitTest.class.getClassLoader().getResourceAsStream("base_cards.json")) {
             //If the uniqueCardPile argument exceeds the max number of cardPiles in the JSON, it defaults to the max card piles
-            genCards = cr.generateCards(shopStream, Integer.MAX_VALUE);
+            ArrayList<DominionShopPileState> genCards = cr.generateCards(shopStream, Integer.MAX_VALUE);
             assertEquals(10, genCards.size());
 
-            //If the uniqueCardPile argument exceeds the max number of cardPiles in the JSON, it defaults to the max card piles
-            genCards = cr.generateCards(baseStream, Integer.MAX_VALUE);
+            //Similarly, integers of value zero or lower also default to the max available card piles
+            genCards = cr.generateCards(baseStream, -1);
             assertEquals(7, genCards.size());
 
         }
@@ -65,3 +75,5 @@ public class CardReaderTest { //Note for the grader: GSONDeserializer does not h
         }
     }
 }
+
+
