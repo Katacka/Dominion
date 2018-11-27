@@ -159,13 +159,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
         baseLayout = activity.findViewById(R.id.Base_Cards);
 
-        //TODO: finish this external citation
-        /**
-        External Citation
-        iterating through table layout
-        https://stackoverflow.com/questions/3327599/get-all-tablerows-in-a-tablelayout
-         */
-
         tvActions = activity.findViewById(R.id.tvActions);
         tvBuys = activity.findViewById(R.id.tvBuys);
         tvTreasure = activity.findViewById(R.id.tvTreasures);
@@ -353,6 +346,13 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         String name = card.getPhotoId();
         int resID = res.getIdentifier(name, "drawable", "project.katacka.dominion_card_back");
         image.setImageResource(resID);
+        /**
+         * External Citation
+         * Date: 11/5/18
+         * Problem: setting imageview using string
+         * Source: https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
+         * Solution: shows how to convert string to resource id to use to set image view
+         */
     }
 
     /**
@@ -384,6 +384,13 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 }
             }
         }
+        /**
+         External Citation
+         Date: 11/1/18
+         Problem: trying to iterate through table layout
+         Source: https://stackoverflow.com/questions/3327599/get-all-tablerows-in-a-tablelayout
+         Solution: using getChild and for each look to iterate through
+         */
     }
 
     private void setGrayedOut(ConstraintLayout shopCard) {
@@ -421,23 +428,15 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      * Updates the base piles
      */
     private void updateBasePiles(){
-        /**
-         * External Citation
-         * Date: 11/5/18
-         * Problem: setting imageview using string
-         * Source: https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
-         * Solution: shows how to convert string to resource id to use to set image view
-         */
-        basePiles = new ArrayList<>();
+        basePiles = new ArrayList<>(); //array list will contain all base piles
 
-        //TODO: Clean up. (Just comments maybe?) @Ashika?
         int c = 0, start = 0, end = 2;
         for(int a = 0; a < baseLayout.getChildCount(); a++){
             View baseRow = baseLayout.getChildAt(a);
 
-            if(baseRow instanceof TableRow){
+            if(baseRow instanceof TableRow){ //should always be true
                 for (int k = 0; k < 2; k++) {
-                    basePiles.add((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k));
+                    basePiles.add((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k)); //add pile to array list
                 }
 
                 for (int r=start; r<end; r++) {
@@ -450,7 +449,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     if (amount == 0) setGrayedOut(baseCard);
                     c++;
                 }
-                start = start+2;
+                start = start+2; //to avoid iterating over the same base piles again
                 end = end+2;
             }
         }
@@ -691,7 +690,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 int handOffsetTemp = handOffset;
                 handOffset = (hand.size() - handOffset > 5) ? handOffset : Math.max(handOffset - 1, 0);
                 action = new DominionPlayCardAction(thisPlayer, index + handOffsetTemp);
-            } else { //TODO: Why do we have this default case? @Ashika?
+            } else { //TODO: Why do we have this default case? @Hayden?
                 Log.i("DomHumPlayer: onClick", "Player card button clicked.");
 
                 int toPlayIdx = ((LinearLayout)v.getParent()).indexOfChild(v);
@@ -755,16 +754,12 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             final AlertDialog dialog = builder.create();
             LayoutInflater inflater = activity.getLayoutInflater();
             View dialogLayout = inflater.inflate(R.layout.dialog_help, null);
-
             dialog.setView(dialogLayout);
-
             ImageView image = dialogLayout.findViewById(R.id.image_help);
 
             try{
                 image.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                //TODO: This log is always going to reveal the pos as 0, right?
-                Log.i("DomHumPlayer: onClick: Try catch", "Position is" + pos);
-                image.setImageResource(imageList.get(pos));
+                image.setImageResource(imageList.get(pos)); //set dialog image to first image in array list
             }
             catch(OutOfMemoryError e){
                 e.printStackTrace();
@@ -773,19 +768,15 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
             dialog.setOnShowListener(new DialogInterface.OnShowListener() {
                 @Override
-                public void onShow(DialogInterface dialog) {
+                public void onShow(DialogInterface dialog) { //to make sure dialog doesn't close when a button is clicked
                     Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Log.i("DomHumPlayer: onClick", "Position is" + pos);
-                            Log.i("DomHumPlayer: onClick", "Next clicked.");
                             if(pos< (imageList.size()-1)){
                                 pos++;
                             }
-                            Log.i("DomHumPlayer: onClick", "Position is" + pos);
-                            try{image.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                                Log.i("DomHumPlayer: onClick: Try catch", "Position is" + pos);
+                            try{image.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to next image in array list
                                 image.setImageResource(imageList.get(pos));}catch(OutOfMemoryError e){
                                 image.setImageBitmap(null);
                             }
@@ -795,14 +786,10 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     prevButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Log.i("DomHumPlayer: onClick", "Position is" + pos);
-                            Log.i("DomHumPlayer: onClick", "prev clicked.");
                             if(pos > 0){
                                 pos--;
                             }
-                            Log.i("DomHumPlayer: onClick", "Position is" + pos);
-                            try{image.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                                Log.i("DomHumPlayer: onClick: Try catch", "Position is" + pos);
+                            try{image.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to previous image in array list
                                 image.setImageResource(imageList.get(pos));}catch(OutOfMemoryError e){
                                 image.setImageBitmap(null);
                             }
