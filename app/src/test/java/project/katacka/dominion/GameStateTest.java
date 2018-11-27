@@ -1,6 +1,5 @@
 package project.katacka.dominion;
 
-import android.util.Log;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
