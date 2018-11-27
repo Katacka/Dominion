@@ -35,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import project.katacka.dominion.R;
 import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
@@ -690,7 +691,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 int handOffsetTemp = handOffset;
                 handOffset = (hand.size() - handOffset > 5) ? handOffset : Math.max(handOffset - 1, 0);
                 action = new DominionPlayCardAction(thisPlayer, index + handOffsetTemp);
-            } else { //TODO: Why do we have this default case? @Ashika
+            } else { //TODO: Why do we have this default case? @Ashika?
                 Log.i("DomHumPlayer: onClick", "Player card button clicked.");
 
                 int toPlayIdx = ((LinearLayout)v.getParent()).indexOfChild(v);
@@ -729,14 +730,21 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private final View.OnClickListener menuClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
-            //TODO: Initialize array with resource references instead of inserting
-            ArrayList<Integer> imageList = new ArrayList<Integer>();
+            /**
+             * External Citation:
+             * Date: November 26, 2018
+             * Resource:
+             *  https://www.geeksforgeeks.org/arrays-aslist-method-in-java-with-examples/
+             * Problem: Wanted to init Arraylist with vals  instead of adding one at a time.
+             * Solution: use Arrays.asList in ArrayList constructor.
+             */
 
-            imageList.add(R.drawable.rules_manual);
-            imageList.add(R.drawable.rules_play_card);
-            imageList.add(R.drawable.rules_buy_card);
-            imageList.add(R.drawable.rules_longpress);
-            imageList.add(R.drawable.rules_end_turn);
+            ArrayList<Integer> imageList = new ArrayList<Integer>
+                    (Arrays.asList(R.drawable.rules_manual,
+                                    R.drawable.rules_play_card,
+                                    R.drawable.rules_buy_card,
+                                    R.drawable.rules_longpress,
+                                    R.drawable.rules_end_turn));
 
             Log.i("DomHumPlayer: onClick", "Menu clicked.");
             pos = 0;
