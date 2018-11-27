@@ -55,8 +55,7 @@ public class DominionDeckState implements Serializable{
         }
         //Reveal the top of the discard pile, since it is face up
         if (deckState.discard.size() >= 1){
-            this.discard.add(new
-                    DominionCardState(deckState.discard.get(deckState.discard.size()-1)));
+            this.discard.add(new DominionCardState(deckState.discard.get(deckState.discard.size()-1)));
         }
 
         //Show the player's hand if they are holding it, or blank cards otherwise
@@ -126,11 +125,12 @@ public class DominionDeckState implements Serializable{
      * Draws multiple cards at once and adds them to hand.
      * @param drawNum The number of cards to draw. Will draw fewer if deck has fewer cards.
      */
-    public void drawMultiple(int drawNum){
+    public boolean drawMultiple(int drawNum){
         for(int i = 0; i < drawNum; i++){
             DominionCardState card = draw();
-            if (card == null) return; //Occurs if draw and discard empty. No reason to continue.
+            if (card == null) return false; //Occurs if draw and discard empty. No reason to continue.
         }
+        return drawNum >= 0;
     }
 
     /**
