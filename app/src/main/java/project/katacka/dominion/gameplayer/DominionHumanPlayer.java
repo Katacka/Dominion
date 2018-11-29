@@ -32,6 +32,7 @@ import java.util.Arrays;
 
 import project.katacka.dominion.R;
 import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
+import project.katacka.dominion.gamedisplay.DominionBuyCardInfo;
 import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
 import project.katacka.dominion.gamedisplay.DominionPlayAllAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
@@ -66,6 +67,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private final float TAB_INACTIVE = 0.85f;
     private final float TAB_ACTIVE = 1f;
 
+    private final int EMPTY_PILE = Color.DKGRAY;
+    private final int BOUGHT_PILE = 0xFF80dfff;
+
     private DominionGameState state;
     private ConstraintLayout tabLayout = null;
 
@@ -97,6 +101,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     private TextView tvOppDraw;
     private ImageView oppDraw;
+    private ImageView oppDrawEmpty;
     private TextView tvOppDiscard;
     private ConstraintLayout oppDiscardLayout;
     private ImageView oppEmptyDiscard;
@@ -175,6 +180,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         //Opponent draw and discard piles
         tvOppDraw = activity.findViewById(R.id.textViewOppDraw);
         oppDraw = activity.findViewById(R.id.ivOppDrawCard);
+        oppDrawEmpty = activity.findViewById(R.id.oppDrawEmpty);
         tvOppDiscard = activity.findViewById(R.id.textViewOppDiscard);
         oppDiscardLayout = activity.findViewById(R.id.oppDiscardCard);
         oppDiscardLayout.setRotation(180);
@@ -192,6 +198,46 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         //Resources.
         //Used to load card images
         res = activity.getResources();
+
+        setShopArray();
+        setBaseArray();
+    }
+
+    public void setShopArray() {
+        shopPiles = new ArrayList<>();
+        for (int i = 0, j = shopLayout.getChildCount(); i < j; i++) {
+            View shopRow = shopLayout.getChildAt(i);
+
+            //should always be true
+            if (shopRow instanceof TableRow) {
+
+                //cards are ConstraintLayouts in XML
+                for (int k = 0; k < 5; k++) {
+                    ConstraintLayout shopCard = ((ConstraintLayout) ((TableRow) shopRow).getVirtualChildAt(k));
+                    shopPiles.add(shopCard);
+                    shopCard.setOnClickListener(shopClickListener);
+                    shopCard.setOnLongClickListener(shopLongClickListener);
+                }
+            }
+        }
+    }
+
+    public void setBaseArray() {
+        basePiles = new ArrayList<>();
+        for (int i = 0, j = baseLayout.getChildCount(); i < j; i++) {
+            View baseRow = baseLayout.getChildAt(i);
+
+            //should always be true
+            if (baseRow instanceof TableRow) {
+
+                //cards are ConstraintLayouts in XML
+                for (int k = 0; k < 2; k++) {
+                    ConstraintLayout baseCard = ((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k));
+                    basePiles.add(baseCard);
+                    baseCard.setOnClickListener(shopClickListener);
+                }
+            }
+        }
     }
 
     /**
@@ -360,7 +406,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         String name = card.getPhotoId();
         int resID = res.getIdentifier(name, "drawable", "project.katacka.dominion_card_back");
         image.setImageResource(resID);
-        /**
+        /*
          * External Citation
          * Date: 11/5/18
          * Problem: setting imageview using string
@@ -373,31 +419,16 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      * Updates the shop piles by calling update card view with info from gamestate
      */
     private void updateShopPiles(){
-        int m = 0;
-        for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
-            View shopRow = shopLayout.getChildAt(i);
 
-            //should always be true
-            if(shopRow instanceof TableRow){
-
-                //cards are ConstraintLayouts in XML
-                shopPiles = new ArrayList<>();
-                for (int k = 0; k < 5; k++) {
-                    shopPiles.add((ConstraintLayout) ((TableRow) shopRow).getVirtualChildAt(k));
-                }
-
-                for (ConstraintLayout shopCard: shopPiles) {
-                    shopCard.setOnClickListener(shopClickListener);
-                    shopCard.setOnLongClickListener(shopLongClickListener);
-                    DominionCardState cardState = state.getShopCards().get(m).getCard();
-                    int amount = state.getShopCards().get(m).getAmount();
-                    updateCardView(shopCard, cardState, amount);
-                    setHighlight(shopCard, isTurn && state.getBuys() > 0 && cardState.getCost() <= state.getTreasure() && amount > 0);
-                    if (amount == 0) setGrayedOut(shopCard);
-                    m++;
-                }
-            }
+        for(int i = 0; i<shopPiles.size(); i++){
+            ConstraintLayout cardLayout = shopPiles.get(i);
+            DominionCardState card = state.getShopCards().get(i).getCard();
+            int amount = state.getShopCards().get(i).getAmount();
+            updateCardView(cardLayout, card, amount);
+            setHighlight(cardLayout, canBuy(card, amount));
+            if (amount == 0) setColorFilter(cardLayout, EMPTY_PILE);
         }
+
         /**
          External Citation
          Date: 11/1/18
@@ -405,29 +436,39 @@ public class DominionHumanPlayer extends GameHumanPlayer {
          Source: https://stackoverflow.com/questions/3327599/get-all-tablerows-in-a-tablelayout
          Solution: using getChild and for each look to iterate through
          */
+
     }
 
     /**
      * Creates a gray filter that is added to the ImageViews of cards in the shop or base piles
      * @param shopCard Specifies the card being grayed out
      */
-    private void setGrayedOut(ConstraintLayout shopCard) {
-        /**
+    private void setColorFilter(ConstraintLayout shopCard, int color) {
+        /*
          * External Citation
          * Date: 11/18/18
          * Problem: Trying to use PorterDuffColorFilter
          * Source: https://developer.android.com/reference/android/graphics/PorterDuff.Mode
          * Solution: Used PorterDuff Multiply mode to make color filter
          */
-        ColorFilter grayFilter = new PorterDuffColorFilter(Color.DKGRAY, PorterDuff.Mode.MULTIPLY);
-        ((ImageView) shopCard.findViewById(R.id.imageViewArt)).setColorFilter(grayFilter);
-        shopCard.getBackground().setColorFilter(grayFilter);
-        ((ImageView) shopCard.findViewById(R.id.imageViewCost)).setColorFilter(grayFilter);
-        ((ImageView) shopCard.findViewById(R.id.imageViewAmount)).setColorFilter(grayFilter);
+        Log.d("Human player", "Setting filter");
+        ColorFilter filter = new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY);
+        ((ImageView) shopCard.findViewById(R.id.imageViewArt)).setColorFilter(filter);
+        shopCard.getBackground().setColorFilter(filter);
+        ((ImageView) shopCard.findViewById(R.id.imageViewCost)).setColorFilter(filter);
+        ((ImageView) shopCard.findViewById(R.id.imageViewAmount)).setColorFilter(filter);
+    }
+
+    private void clearColorFilter(ConstraintLayout shopCard) {
+        Log.d("Human player", "Clearing filter");
+        ((ImageView) shopCard.findViewById(R.id.imageViewArt)).clearColorFilter();
+        shopCard.getBackground().clearColorFilter();
+        ((ImageView) shopCard.findViewById(R.id.imageViewCost)).clearColorFilter();
+        ((ImageView) shopCard.findViewById(R.id.imageViewAmount)).clearColorFilter();
     }
 
     /**
-     * Sets a green border background for cards that are buyable/playable and a black border background for other cards
+     * Sets a green border background for cards that are buyable/playable and a black border background for other cards.
      * @param shopCard Specifies the card being checked for if its buyable or not
      * @param canDo Specifies whether or not the card is buyable
      */
@@ -437,36 +478,28 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         } else {
             shopCard.setBackgroundResource(R.drawable.dominion_card_border_squared);
         }
+
+        //Changing the background resets color filters, so we must reapply them.
+        //The card art will always have the same filter as the background should, so we just apply its filter.
+        shopCard.getBackground().setColorFilter(
+                ((ImageView) shopCard.findViewById(R.id.imageViewArt)).getColorFilter());
+    }
+
+    private boolean canBuy(DominionCardState card, int amount){
+        return isTurn && state.getBuys() > 0 && card.getCost() <= state.getTreasure() && amount > 0;
     }
 
     /**
      * Updates the base piles according to info from game state
      */
     private void updateBasePiles(){
-        basePiles = new ArrayList<>(); //array list will contain all base piles
-
-        int c = 0, start = 0, end = 2;
-        for(int a = 0; a < baseLayout.getChildCount(); a++){
-            View baseRow = baseLayout.getChildAt(a);
-
-            if(baseRow instanceof TableRow){ //should always be true
-                for (int k = 0; k < 2; k++) {
-                    basePiles.add((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k)); //add pile to array list
-                }
-
-                for (int r=start; r<end; r++) {
-                    ConstraintLayout baseCard = basePiles.get(r);
-                    baseCard.setOnClickListener(shopClickListener);
-                    DominionCardState cardState = state.getBaseCards().get(c).getCard();
-                    int amount = state.getBaseCards().get(c).getAmount();
-                    updateCardView(baseCard, cardState, amount);
-                    setHighlight(baseCard, isTurn && state.getBuys() > 0 && cardState.getCost() <= state.getTreasure() && amount > 0);
-                    if (amount == 0) setGrayedOut(baseCard);
-                    c++;
-                }
-                start = start+2; //to avoid iterating over the same base piles again
-                end = end+2;
-            }
+        for(int i = 0; i<basePiles.size(); i++){
+            ConstraintLayout cardLayout = basePiles.get(i);
+            DominionCardState card = state.getBaseCards().get(i).getCard();
+            int amount = state.getBaseCards().get(i).getAmount();
+            updateCardView(cardLayout, card, amount);
+            setHighlight(cardLayout, canBuy(card, amount));
+            if (amount == 0) setColorFilter(cardLayout, EMPTY_PILE);
         }
     }
 
@@ -479,9 +512,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         int drawSize = currPlayerDeck.getDrawSize();
         tvOppDraw.setText(Integer.toString(drawSize));
         if (drawSize > 0){
-            oppDraw.setImageResource(R.drawable.dominion_opponent_card_back);
+            oppDraw.setVisibility(View.VISIBLE);
+            oppDrawEmpty.setVisibility(View.INVISIBLE);
         } else {
-            oppDraw.setImageResource(R.drawable.dominion_draw);
+            oppDraw.setVisibility(View.INVISIBLE);
+            oppDrawEmpty.setVisibility(View.VISIBLE);
         }
         int discardSize = currPlayerDeck.getDiscardSize();
         tvOppDiscard.setText(Integer.toString(discardSize));
@@ -728,11 +763,30 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             }
             illegalMoveToast = Toast.makeText(activity, "Illegal move", Toast.LENGTH_SHORT);
             illegalMoveToast.show();
+        } else if (info instanceof DominionBuyCardInfo){
+            DominionBuyCardInfo buyInfo = (DominionBuyCardInfo) info;
+
+            //Get information needed to find the card layout
+            int index = buyInfo.getCardIndex();
+            DominionCardPlace place = buyInfo.getPlace();
+
+            //Find the card layout
+            ConstraintLayout cardView;
+            if (place == DominionCardPlace.BASE_CARD){
+                cardView = basePiles.get(index);
+            } else if (place == DominionCardPlace.SHOP_CARD){
+                cardView = shopPiles.get(index);
+            } else return;
+
+            //Flash the card layout
+            setColorFilter(cardView, BOUGHT_PILE);
+            myHandler.postDelayed(new ResetBackground(index, place), 500);
         }
     }
 
     /**
      * Handles navigation of the player hand
+     * TODO: "activity is always null" in the next line of code.
      */
     private OnSwipeTouchListener handSwipeListener = new OnSwipeTouchListener(activity) {
         @Override
@@ -799,6 +853,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             int rawIndex = parentView.indexOfChild(v);
             int desiredIndex = rawIndex + offSet;
 
+            //TODO fix this shit
             if (basePiles.contains(v)) {
                 place = DominionCardPlace.BASE_CARD;
             }
@@ -861,28 +916,45 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 @Override
                 public void onShow(DialogInterface dialog) { //to make sure dialog doesn't close when a button is clicked
                     Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                    Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                    button.setTextColor(Color.parseColor("#ff0000"));
+                    prevButton.setTextColor(Color.parseColor("#ff0000"));
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if(pos< (imageList.size()-1)){
+                                Log.i("Dominion human player", "pos is less than max");
+                                button.setTextColor(Color.parseColor("#ff0000"));
                                 pos++;
                             }
+
                             try{image.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to next image in array list
                                 image.setImageResource(imageList.get(pos));}catch(OutOfMemoryError e){
                                 image.setImageBitmap(null);
                             }
+                            if (pos == (imageList.size()-1)) button.setTextColor(Color.parseColor("#d3d3d3"));
+                            else {
+                                prevButton.setTextColor(Color.parseColor("#ff0000"));
+                                button.setTextColor(Color.parseColor("#ff0000"));
+                            }
+
                         }
                     });
-                    Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
                     prevButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(pos > 0){
+                            if(pos > 0) {
                                 pos--;
                             }
+
                             try{image.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to previous image in array list
                                 image.setImageResource(imageList.get(pos));}catch(OutOfMemoryError e){
                                 image.setImageBitmap(null);
+                            }
+                            if (pos == 0) prevButton.setTextColor(Color.parseColor("#d3d3d3"));
+                            else {
+                                prevButton.setTextColor(Color.parseColor("#ff0000"));
+                                button.setTextColor(Color.parseColor("#ff0000"));
                             }
                         }
                     });
@@ -951,7 +1023,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         top.setBackgroundColor(color);
         Log.i("Human", "Starting flash");
 
-        myHandler.postDelayed(new Unflasher(), duration);
+        myHandler.postDelayed(new Unflasher(getTopView(), background), duration);
     }
 
     /**
@@ -961,18 +1033,70 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     */
     private class Unflasher implements Runnable {
 
-        // constructor
-        public Unflasher() {
+        private final View view;
+        private final Drawable background;
 
+        // constructor
+        public Unflasher(View view, Drawable background) {
+            this.view = view;
+            this.background = background;
         }
 
         // method to run at the appropriate time: sets background color
         // back to the original
         public void run() {
-            View top = getTopView();
-            if (top == null) return;
-            top.setBackground(background);
+            if (view == null) return;
+            view.setBackground(background);
             Log.i("Human", "Ending flash");
+        }
+    }
+
+    /**
+     * Helper class to flash the background of cards.
+     * Cannot use Unflasher, because setting background drawables
+     *  was causing scaling issues
+     */
+    private class ResetBackground implements Runnable {
+
+        private final int index;
+        private final DominionCardPlace place;
+
+        //Constructor
+        public ResetBackground(int index, DominionCardPlace place){
+            this.index = index;
+            this.place = place;
+        }
+
+        /**
+         * Resets the card's color filter.
+         * If the card pile is empty, readds the empty pile filter.
+         */
+        public void run(){
+            //Vars
+            ConstraintLayout cardView;
+            DominionShopPileState pile;
+
+            //Find the corresponding card data
+            switch(place){
+                case BASE_CARD:
+                    cardView = basePiles.get(index);
+                    pile = state.getBaseCards().get(index);
+                    break;
+                case SHOP_CARD:
+                    cardView = shopPiles.get(index);
+                    pile = state.getShopCards().get(index);
+                    break;
+                default:
+                    return;
+            }
+
+            //Reset filters
+            clearColorFilter(cardView);
+
+            //Deal with empty pile case.
+            if (pile.getAmount() == 0){
+                setColorFilter(cardView, EMPTY_PILE);
+            }
         }
     }
 }
