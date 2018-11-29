@@ -129,6 +129,10 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     private boolean isTurn;
 
+    ArrayList<Integer> imageList;
+    ImageView imageHelp;
+    AlertDialog dialog;
+
     public DominionHumanPlayer(String name) {
         super(name);
         myHandler = new Handler();
@@ -829,7 +833,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
              * Solution: use Arrays.asList in ArrayList constructor.
              */
 
-            ArrayList<Integer> imageList = new ArrayList<Integer>
+            imageList = new ArrayList<Integer>
                     (Arrays.asList(R.drawable.rules_manual,
                                     R.drawable.rules_play_card,
                                     R.drawable.rules_buy_card,
@@ -843,75 +847,70 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             builder.setPositiveButton("Next", null);
             builder.setNegativeButton("Previous", null);
 
-            final AlertDialog dialog = builder.create();
+            dialog = builder.create();
             LayoutInflater inflater = activity.getLayoutInflater();
             View dialogLayout = inflater.inflate(R.layout.dialog_help, null);
             dialog.setView(dialogLayout);
-            ImageView image = dialogLayout.findViewById(R.id.image_help);
+            imageHelp = dialogLayout.findViewById(R.id.image_help);
 
-            try{
-                image.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                image.setImageResource(imageList.get(pos)); //set dialog image to first image in array list
-            }
-            catch(OutOfMemoryError e){
-                e.printStackTrace();
-                image.setImageBitmap(null);
-            }
+            imageHelp.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageHelp.setImageResource(imageList.get(pos)); //set dialog image to first image in array list
 
             dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                @Override
-                public void onShow(DialogInterface dialog) { //to make sure dialog doesn't close when a button is clicked
-                    Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-                    Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
-                    button.setTextColor(Color.parseColor("#ff0000"));
-                    prevButton.setTextColor(Color.parseColor("#ff0000"));
-                    button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if(pos< (imageList.size()-1)){
-                                Log.i("Dominion human player", "pos is less than max");
-                                button.setTextColor(Color.parseColor("#ff0000"));
-                                pos++;
-                            }
-
-                            try{image.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to next image in array list
-                                image.setImageResource(imageList.get(pos));}catch(OutOfMemoryError e){
-                                image.setImageBitmap(null);
-                            }
-                            if (pos == (imageList.size()-1)) button.setTextColor(Color.parseColor("#d3d3d3"));
-                            else {
-                                prevButton.setTextColor(Color.parseColor("#ff0000"));
-                                button.setTextColor(Color.parseColor("#ff0000"));
-                            }
-
-                        }
-                    });
-                    prevButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if(pos > 0) {
-                                pos--;
-                            }
-
-                            try{image.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to previous image in array list
-                                image.setImageResource(imageList.get(pos));}catch(OutOfMemoryError e){
-                                image.setImageBitmap(null);
-                            }
-                            if (pos == 0) prevButton.setTextColor(Color.parseColor("#d3d3d3"));
-                            else {
-                                prevButton.setTextColor(Color.parseColor("#ff0000"));
-                                button.setTextColor(Color.parseColor("#ff0000"));
-                            }
-                        }
-                    });
-                }
+                 @Override
+                 public void onShow(DialogInterface dialog) { //to make sure dialog doesn't close when a button is clicked
+                     Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                     Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                     button.setTextColor(Color.parseColor("#ff0000"));
+                     prevButton.setTextColor(Color.parseColor("#ff0000"));
+                     Log.i("Dominion Human Player", "on show");
+                     button.setOnClickListener(helpClickListener);
+                     prevButton.setOnClickListener(helpClickListener);
+                 }
             });
 
             dialog.show();
 
-            Window window = dialog.getWindow();
-            double width = mainLayout.getWidth() * 0.75;
-            window.setLayout((int) (width), (int) (width * 0.71));
+                Window window = dialog.getWindow();
+                double width = mainLayout.getWidth() * 0.75;
+            window.setLayout((int)(width),(int)(width *0.71));
+
+        }
+    };
+
+    private final View.OnClickListener helpClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(v.getId() == dialog.getButton(AlertDialog.BUTTON_POSITIVE).getId() ){
+                Log.i("Dominion human player", "On click");
+                Button nextButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                if(pos< (imageList.size()-1)){
+                    pos++;
+                }
+                imageHelp.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to next image in array list
+                imageHelp.setImageResource(imageList.get(pos));
+                if (pos == (imageList.size()-1)) nextButton.setTextColor(Color.parseColor("#d3d3d3"));
+                else {
+                    Log.i("On help click", "resetting to red");
+                    prevButton.setTextColor(Color.parseColor("#ff0000"));
+                    nextButton.setTextColor(Color.parseColor("#ff0000"));
+                }
+            }
+            else if(v.getId() == dialog.getButton(AlertDialog.BUTTON_NEGATIVE).getId()){
+                Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                Button nextButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                if(pos > 0) {
+                    pos--;
+                }
+                imageHelp.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to previous image in array list
+                imageHelp.setImageResource(imageList.get(pos));
+                if (pos == 0) prevButton.setTextColor(Color.parseColor("#d3d3d3"));
+                else {
+                    prevButton.setTextColor(Color.parseColor("#ff0000"));
+                    nextButton.setTextColor(Color.parseColor("#ff0000"));
+                }
+            }
         }
     };
 
