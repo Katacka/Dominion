@@ -2,28 +2,21 @@ package project.katacka.dominion.gameplayer;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
@@ -39,6 +32,7 @@ import java.util.Arrays;
 
 import project.katacka.dominion.R;
 import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
+import project.katacka.dominion.gamedisplay.DominionBuyCardInfo;
 import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
 import project.katacka.dominion.gamedisplay.DominionPlayAllAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
@@ -72,6 +66,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     private final float TAB_INACTIVE = 0.85f;
     private final float TAB_ACTIVE = 1f;
+
+    private final int EMPTY_PILE = Color.DKGRAY;
+    private final int BOUGHT_PILE = 0xFFFFFF77;
 
     private DominionGameState state;
     private ConstraintLayout tabLayout = null;
@@ -367,7 +364,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         String name = card.getPhotoId();
         int resID = res.getIdentifier(name, "drawable", "project.katacka.dominion_card_back");
         image.setImageResource(resID);
-        /**
+        /*
          * External Citation
          * Date: 11/5/18
          * Problem: setting imageview using string
@@ -399,13 +396,13 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     DominionCardState cardState = state.getShopCards().get(m).getCard();
                     int amount = state.getShopCards().get(m).getAmount();
                     updateCardView(shopCard, cardState, amount);
-                    setHighlight(shopCard, isTurn && state.getBuys() > 0 && cardState.getCost() <= state.getTreasure() && amount > 0);
-                    if (amount == 0) setGrayedOut(shopCard);
+                    setHighlight(shopCard, canBuy(cardState, amount));
+                    if (amount == 0) setColorFilter(shopCard, EMPTY_PILE);
                     m++;
                 }
             }
         }
-        /**
+        /*
          External Citation
          Date: 11/1/18
          Problem: trying to iterate through table layout
@@ -418,19 +415,28 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      * Creates a gray filter that is added to the ImageViews of cards in the shop or base piles
      * @param shopCard Specifies the card being grayed out
      */
-    private void setGrayedOut(ConstraintLayout shopCard) {
-        /**
+    private void setColorFilter(ConstraintLayout shopCard, int color) {
+        /*
          * External Citation
          * Date: 11/18/18
          * Problem: Trying to use PorterDuffColorFilter
          * Source: https://developer.android.com/reference/android/graphics/PorterDuff.Mode
          * Solution: Used PorterDuff Multiply mode to make color filter
          */
-        ColorFilter grayFilter = new PorterDuffColorFilter(Color.DKGRAY, PorterDuff.Mode.MULTIPLY);
-        ((ImageView) shopCard.findViewById(R.id.imageViewArt)).setColorFilter(grayFilter);
-        shopCard.getBackground().setColorFilter(grayFilter);
-        ((ImageView) shopCard.findViewById(R.id.imageViewCost)).setColorFilter(grayFilter);
-        ((ImageView) shopCard.findViewById(R.id.imageViewAmount)).setColorFilter(grayFilter);
+        Log.d("Human player", "Setting filter");
+        ColorFilter filter = new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY);
+        ((ImageView) shopCard.findViewById(R.id.imageViewArt)).setColorFilter(filter);
+        shopCard.getBackground().setColorFilter(filter);
+        ((ImageView) shopCard.findViewById(R.id.imageViewCost)).setColorFilter(filter);
+        ((ImageView) shopCard.findViewById(R.id.imageViewAmount)).setColorFilter(filter);
+    }
+
+    private void clearColorFilter(ConstraintLayout shopCard) {
+        Log.d("Human player", "Clearing filter");
+        ((ImageView) shopCard.findViewById(R.id.imageViewArt)).clearColorFilter();
+        shopCard.getBackground().clearColorFilter();
+        ((ImageView) shopCard.findViewById(R.id.imageViewCost)).clearColorFilter();
+        ((ImageView) shopCard.findViewById(R.id.imageViewAmount)).clearColorFilter();
     }
 
     /**
@@ -441,9 +447,17 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private void setHighlight (ConstraintLayout shopCard, boolean canDo){
         if (canDo){
             shopCard.setBackgroundResource(R.drawable.dominion_card_border_green);
+            shopCard.getBackground().setColorFilter(
+                    ((ImageView) shopCard.findViewById(R.id.imageViewArt)).getColorFilter());
         } else {
             shopCard.setBackgroundResource(R.drawable.dominion_card_border_squared);
+            shopCard.getBackground().setColorFilter(
+                    ((ImageView) shopCard.findViewById(R.id.imageViewArt)).getColorFilter());
         }
+    }
+
+    private boolean canBuy(DominionCardState card, int amount){
+        return isTurn && state.getBuys() > 0 && card.getCost() <= state.getTreasure() && amount > 0;
     }
 
     /**
@@ -467,8 +481,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     DominionCardState cardState = state.getBaseCards().get(c).getCard();
                     int amount = state.getBaseCards().get(c).getAmount();
                     updateCardView(baseCard, cardState, amount);
-                    setHighlight(baseCard, isTurn && state.getBuys() > 0 && cardState.getCost() <= state.getTreasure() && amount > 0);
-                    if (amount == 0) setGrayedOut(baseCard);
+                    setHighlight(baseCard, canBuy(cardState, amount));
+                    if (amount == 0) setColorFilter(baseCard, EMPTY_PILE);
                     c++;
                 }
                 start = start+2; //to avoid iterating over the same base piles again
@@ -681,6 +695,18 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             }
             illegalMoveToast = Toast.makeText(activity, "Illegal move", Toast.LENGTH_SHORT);
             illegalMoveToast.show();
+        } else if (info instanceof DominionBuyCardInfo){
+            DominionBuyCardInfo buyInfo = (DominionBuyCardInfo) info;
+            int index = buyInfo.getCardIndex();
+            DominionCardPlace place = buyInfo.getPlace();
+            ConstraintLayout cardView;
+            if (place == DominionCardPlace.BASE_CARD){
+                cardView = basePiles.get(index);
+            } else if (place == DominionCardPlace.SHOP_CARD){
+                cardView = shopPiles.get(index);
+            } else return;
+            setColorFilter(cardView, BOUGHT_PILE);
+            myHandler.postDelayed(new ResetBackground(cardView), 1000);
         }
     }
 
@@ -904,7 +930,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         top.setBackgroundColor(color);
         Log.i("Human", "Starting flash");
 
-        myHandler.postDelayed(new Unflasher(), duration);
+        myHandler.postDelayed(new Unflasher(getTopView(), background), duration);
     }
 
     /**
@@ -914,18 +940,40 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     */
     private class Unflasher implements Runnable {
 
-        // constructor
-        public Unflasher() {
+        private final View view;
+        private final Drawable background;
 
+        // constructor
+        public Unflasher(View view, Drawable background) {
+            this.view = view;
+            this.background = background;
         }
 
         // method to run at the appropriate time: sets background color
         // back to the original
         public void run() {
-            View top = getTopView();
-            if (top == null) return;
-            top.setBackground(background);
+            if (view == null) return;
+            view.setBackground(background);
             Log.i("Human", "Ending flash");
+        }
+    }
+
+    /**
+     * Helper class to flash the background of cards.
+     * Cannot use Unflasher, because setting background drawables
+     *  was causing scaling issues
+     */
+    private class ResetBackground implements Runnable {
+
+        private final ConstraintLayout cardView;
+
+        public ResetBackground(ConstraintLayout cardView){
+            this.cardView = cardView;
+        }
+
+        public void run(){
+            if (cardView == null) return;
+            clearColorFilter(cardView);
         }
     }
 }
