@@ -231,7 +231,7 @@
             app:layout_constraintStart_toEndOf="@+id/Base_Cards"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".45" >
+            app:layout_constraintWidth_percent=".50" >
 
         </android.support.constraint.ConstraintLayout>
 
