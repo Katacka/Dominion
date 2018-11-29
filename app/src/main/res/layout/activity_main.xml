@@ -321,10 +321,10 @@
 
             <ImageView
                 android:id="@+id/oppDiscardEmpty"
-                android:src="@drawable/dominion_discard"
-                android:background="@drawable/dominion_card_border_squared"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/dominion_card_border_squared"
+                android:src="@drawable/dominion_discard"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="@id/oppDiscardCard"
                 app:layout_constraintStart_toStartOf="@id/oppDiscardCard"
@@ -390,6 +390,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/dominion_opponent_card_back" />
 
+            <ImageView
+                android:id="@+id/oppDrawEmpty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/dominion_card_border_squared"
+                android:src="@drawable/dominion_draw"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@id/ivOppDrawCard"
+                app:layout_constraintStart_toStartOf="@id/ivOppDrawCard"
+                app:layout_constraintTop_toTopOf="@id/ivOppDrawCard" />
+
             <FrameLayout
                 android:id="@+id/frameLayoutAmount"
                 android:layout_width="wrap_content"
@@ -424,22 +435,6 @@
             </FrameLayout>
 
         </android.support.constraint.ConstraintLayout>
-
-        <Button
-            android:id="@+id/bMenu"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginEnd="@dimen/menu_button_offset"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:background="#339999"
-            android:text="@string/help"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/Player_Tabs"
-            app:layout_constraintEnd_toStartOf="@+id/Base_Cards"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
     <!-- Game Log -->
@@ -540,7 +535,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
-                android:background="#339999"
+                android:background="#40bfbf"
                 android:text="Play all "
                 app:layout_constraintBottom_toTopOf="@+id/buttonEndTurn"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -551,13 +546,25 @@
                 android:id="@+id/buttonEndTurn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#339999"
+                android:background="#40bfbf"
                 android:elevation="24dp"
                 android:text="End Turn"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/bMenu"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/buttonPlayAll" />
+
+            <Button
+                android:id="@+id/bMenu"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#2d8686"
+                android:text="@string/help"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonEndTurn" />
 
         </android.support.constraint.ConstraintLayout>
 
@@ -591,17 +598,18 @@
                 android:id="@+id/imageViewDrawEmpty"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-
-                android:adjustViewBounds="true"
+                android:adjustViewBounds="false"
                 android:background="@drawable/dominion_card_border_squared"
-                android:scaleType="fitCenter"
+                android:cropToPadding="false"
+                android:scaleType="centerInside"
                 android:src="@drawable/dominion_draw"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@id/imageViewDiscard"
-                app:layout_constraintEnd_toEndOf="@id/ivDrawCard"
-                app:layout_constraintStart_toStartOf="@id/ivDrawCard"
-                app:layout_constraintTop_toTopOf="@id/ivDrawCard"
-                app:srcCompat="@drawable/dominion_draw" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
 
             <include
                 android:id="@+id/imageViewDiscard"
@@ -617,13 +625,16 @@
                 android:id="@+id/imageViewDiscardEmpty"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:background="@drawable/dominion_card_border_squared"
+                android:scaleType="centerInside"
+                android:src="@drawable/dominion_discard"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivDrawCard"
-                android:src="@drawable/dominion_discard"
-                android:background="@drawable/dominion_card_border_squared"
-                android:visibility="invisible"/>
+                app:layout_constraintVertical_bias="1.0" />
 
             <FrameLayout
                 android:id="@+id/frameLayoutDrawCount"

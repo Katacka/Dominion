@@ -104,6 +104,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     private TextView tvOppDraw;
     private ImageView oppDraw;
+    private ImageView oppDrawEmpty;
     private TextView tvOppDiscard;
     private ConstraintLayout oppDiscardLayout;
     private ImageView oppEmptyDiscard;
@@ -171,6 +172,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
         tvOppDraw = activity.findViewById(R.id.textViewOppDraw);
         oppDraw = activity.findViewById(R.id.ivOppDrawCard);
+        oppDrawEmpty = activity.findViewById(R.id.oppDrawEmpty);
         tvOppDiscard = activity.findViewById(R.id.textViewOppDiscard);
         oppDiscardLayout = activity.findViewById(R.id.oppDiscardCard);
         oppDiscardLayout.setRotation(180);
@@ -477,9 +479,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         int drawSize = currPlayerDeck.getDrawSize();
         tvOppDraw.setText(Integer.toString(drawSize));
         if (drawSize > 0){
-            oppDraw.setImageResource(R.drawable.dominion_opponent_card_back);
+            oppDraw.setVisibility(View.VISIBLE);
+            oppDrawEmpty.setVisibility(View.INVISIBLE);
         } else {
-            oppDraw.setImageResource(R.drawable.dominion_draw);
+            oppDraw.setVisibility(View.INVISIBLE);
+            oppDrawEmpty.setVisibility(View.VISIBLE);
         }
         int discardSize = currPlayerDeck.getDiscardSize();
         tvOppDiscard.setText(Integer.toString(discardSize));
@@ -743,6 +747,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             int rawIndex = parentView.indexOfChild(v);
             int desiredIndex = rawIndex + offSet;
 
+            //TODO fix this shit
             if (basePiles.contains(v)) {
                 place = DominionCardPlace.BASE_CARD;
                 canBuy = isTurn && state.getBuys() > 0 && state.getBaseCards().get(desiredIndex).getCost() <= state.getTreasure() && state.getBaseCards().get(desiredIndex).getAmount() > 0;
