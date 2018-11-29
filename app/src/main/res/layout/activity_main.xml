@@ -23,21 +23,20 @@
 
         <Button
             android:id="@+id/bSeeCardsInplay"
-            android:layout_width="107dp"
-            android:layout_height="48dp"
-            android:text="See cards in play "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cards_inplay_button"
             android:textSize="9sp"
+            app:layout_constraintBottom_toTopOf="@id/Base_Cards"
+            app:layout_constraintEnd_toEndOf="@id/Base_Cards"
             app:layout_constraintStart_toStartOf="@id/Base_Cards"
-            app:layout_constraintEnd_toStartOf="@id/OpponentDiscard_Constraint"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/Base_Cards" />
-
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TableLayout
             android:id="@+id/Base_Cards"
-            android:layout_width="75dp"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
             android:layout_marginStart="12dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/Shop_Cards"
