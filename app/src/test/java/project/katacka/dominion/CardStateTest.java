@@ -63,10 +63,7 @@ public class CardStateTest {
         assertEquals("text", "copper description:\n +1 Treasure", copper.getFormattedText());
         assertEquals("cost", 0, copper.getCost());
 
-        //TODO: @Julian, can you finish up this cardtype business.
-            //TODO: continued: It looks like it's some json deserialization shenanigans
-        //DominionCardType copperType = state.getBaseCards().get(COPPER);
-        //assertEquals("type", copperType, copper.getType());
+        assertEquals("type", DominionCardType.TREASURE, copper.getType());
 
         assertEquals("actionName", "baseAction", copper.getAction());
         assertEquals("addedTreasure", 1, copper.getAddedTreasure());
@@ -152,12 +149,15 @@ public class CardStateTest {
     @Test
     //can play moneylender with no copper, but nothing happens
     public void testMoneyLenderNoCopper(){
+        getNewState(4);
         DominionDeckState deck = state.getDominionPlayers()[currPlayer].getDeck();
         setupSpecialHand(deck);
 
+        DominionCardState moneyLender = shopCards.get(MONEY_LENDER).getCard();
+
         state.playCard(currPlayer, 0); //Plays a copper, you have no copper now
 
-        assertEquals(shopCards.get(MONEY_LENDER).getCard(), deck.getHand().get(3));//money lender is 3rd card
+        assertEquals(moneyLender, deck.getHand().get(3));//money lender is 3rd card
 
         boolean playedCard = state.playCard(currPlayer, 3); //try to player Money Lender
 
@@ -189,7 +189,7 @@ public class CardStateTest {
         assertFalse(deck.getHand().contains(baseCards.get(COPPER).getCard()));
         assertFalse(deck.getHand().contains(shopCards.get(MONEY_LENDER).getCard()));
 
-        assertEquals(0, state.getActions()); //still have an action
+        assertEquals(0, state.getActions()); //used an action
         assertEquals(3, state.getTreasure()); //have 3 treasure now
     }
 
@@ -303,6 +303,7 @@ public class CardStateTest {
     public void testBaseAction(){
         DominionPlayerState player = state.getDominionPlayer(currPlayer);
         DominionCardState copper = player.getDeck().getHand().get(0); //a copper card
+        DominionCardState council = state.getShopCards().get(COUNCIL).getCard(); //a council room card
 
         int initHandSize = player.getDeck().getHandSize();
         int initDrawSize = player.getDeck().getDrawSize();
@@ -314,8 +315,20 @@ public class CardStateTest {
         assertEquals(0, initDiscardSize);
         assertEquals(0, initInPlaySize);
 
+        copper.baseAction(state);
+
         assertEquals("hand size", initHandSize + copper.getAddedDraw(), player.getDeck().getHandSize());
         assertEquals("draw size", initDrawSize - copper.getAddedDraw(), player.getDeck().getDrawSize());
+        assertEquals("discard size", initDiscardSize, initDiscardSize);
+        assertEquals("inplay size", initInPlaySize, initInPlaySize);
+
+        initHandSize = player.getDeck().getHandSize();
+        initDrawSize = player.getDeck().getDrawSize();
+
+        council.baseAction(state);
+
+        assertEquals("hand size", initHandSize + council.getAddedDraw(), player.getDeck().getHandSize());
+        assertEquals("draw size", initDrawSize - council.getAddedDraw(), player.getDeck().getDrawSize());
         assertEquals("discard size", initDiscardSize, initDiscardSize);
         assertEquals("inplay size", initInPlaySize, initInPlaySize);
     }
@@ -325,7 +338,7 @@ public class CardStateTest {
     ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * @author Ryan
+     * Modifies hand to have set list of cards, used to test
      * @param deck The deck to modify the hand of
      */
     private void setupSpecialHand(DominionDeckState deck) {
