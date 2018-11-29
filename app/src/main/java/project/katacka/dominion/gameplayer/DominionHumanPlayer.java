@@ -422,7 +422,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      * Updates the shop piles by calling update card view with info from gamestate
      */
     private void updateShopPiles(){
-
+        shopLayout.setVisibility(View.VISIBLE);
         for(int i = 0; i<shopPiles.size(); i++){
             ConstraintLayout cardLayout = shopPiles.get(i);
             DominionCardState card = state.getShopCards().get(i).getCard();
@@ -596,16 +596,29 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         DominionPlayerState playerState = state.getDominionPlayer(state.getCurrentTurn());
         cardsPlayed = playerState.getDeck().getInPlaySize();
 
-        ConstraintLayout inPlayLayout = activity.findViewById(R.id.inplay_cards);
+        ConstraintLayout inPlayLayout = activity.findViewById(R.id.Inplay_Cards);
         inPlayLayout.removeAllViews();
 
         //Creates new image views and puts them in layout
         ImageView[] cards = new ImageView[cardsPlayed];
         for (int i = 0; i < cardsPlayed; i++){
-            cards[i] = new ImageView(activity);
+            cards[i] = new ImageView(activity); //TODO: add attrset?
             cards[i].setScaleType(ImageView.ScaleType.FIT_START); //fits one axis, starting at top left
+
             DominionCardState card = playerState.getDeck().getInPlay().get(i);
-            cards[i].setImageResource(Integer.valueOf(card.getPhotoId()));
+
+            String name = card.getPhotoId();
+            int resID = res.getIdentifier(name, "drawable", "project.katacka.dominion_card_back");
+
+            /**
+             * External Citation
+             * Date: 11/5/18
+             * Problem: setting imageview using string
+             * Source: https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
+             * Solution: shows how to convert string to resource id to use to set image view
+             */
+
+            cards[i].setImageResource(resID);
             cards[i].setId(View.generateViewId()); //Needed to allow constraints
             inPlayLayout.addView(cards[i]);
         }
@@ -627,7 +640,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             set.connect(id, ConstraintSet.BOTTOM, layoutID, ConstraintSet.BOTTOM);
 
             //Have it fill the height it can
-            set.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
+            set.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT); //TODO: fix scaling?
             //Have it be wide enough to maintain aspect ration
             set.constrainWidth(id, ConstraintSet.WRAP_CONTENT);
 
@@ -636,6 +649,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             set.setHorizontalBias(id, i*biasMultiplier);
         }
         set.applyTo(inPlayLayout);
+        shopLayout.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -735,8 +749,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
             updateTurnInfo(state.getActions(), state.getBuys(), state.getTreasure());
             updateDrawDiscard();
-            //updateShopPiles();
-            updateInplay();
+            updateShopPiles();
+            //updateInplay();
             updateBasePiles();
             updatePlayerHand();
 
@@ -938,7 +952,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                                 prevButton.setTextColor(Color.parseColor("#ff0000"));
                                 button.setTextColor(Color.parseColor("#ff0000"));
                             }
-
                         }
                     });
                     prevButton.setOnClickListener(new View.OnClickListener() {

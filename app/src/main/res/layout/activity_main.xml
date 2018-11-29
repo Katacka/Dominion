@@ -34,8 +34,8 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/Inplay_Cards"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/Shop_Cards"
             app:layout_constraintTop_toTopOf="@id/Shop_Cards"
             app:layout_constraintStart_toStartOf="@id/Shop_Cards"
