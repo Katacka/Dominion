@@ -68,7 +68,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private final float TAB_ACTIVE = 1f;
 
     private final int EMPTY_PILE = Color.DKGRAY;
-    private final int BOUGHT_PILE = 0xFFFFFF77;
+    private final int BOUGHT_PILE = 0xFF80dfff;
 
     private DominionGameState state;
     private ConstraintLayout tabLayout = null;
@@ -424,37 +424,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             int amount = state.getShopCards().get(i).getAmount();
             updateCardView(cardLayout, card, amount);
             setHighlight(cardLayout, isTurn && state.getBuys() > 0 && card.getCost() <= state.getTreasure() && amount > 0);
-            if (amount == 0) setGrayedOut(cardLayout);
+            if (amount == 0) setColorFilter(cardLayout, EMPTY_PILE);
         }
 
-        /*
-        int m = 0;
-        for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
-            View shopRow = shopLayout.getChildAt(i);
-
-            //should always be true
-            if(shopRow instanceof TableRow){
-
-                //cards are ConstraintLayouts in XML
-                shopPiles = new ArrayList<>();
-                for (int k = 0; k < 5; k++) {
-                    shopPiles.add((ConstraintLayout) ((TableRow) shopRow).getVirtualChildAt(k));
-                }
-
-                for (ConstraintLayout shopCard: shopPiles) {
-                    shopCard.setOnClickListener(shopClickListener);
-                    shopCard.setOnLongClickListener(shopLongClickListener);
-                    DominionCardState cardState = state.getShopCards().get(m).getCard();
-                    int amount = state.getShopCards().get(m).getAmount();
-                    updateCardView(shopCard, cardState, amount);
-                    setHighlight(shopCard, canBuy(cardState, amount));
-                    if (amount == 0) setColorFilter(shopCard, EMPTY_PILE);
-                    m++;
-                }
-            }
-        }
-        /*
-        }*/
         /**
          External Citation
          Date: 11/1/18
@@ -524,34 +496,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             int amount = state.getBaseCards().get(i).getAmount();
             updateCardView(cardLayout, card, amount);
             setHighlight(cardLayout, isTurn && state.getBuys() > 0 && card.getCost() <= state.getTreasure() && amount > 0);
-            if (amount == 0) setGrayedOut(cardLayout);
+            if (amount == 0) setColorFilter(cardLayout, EMPTY_PILE);
         }
-
-        /*basePiles = new ArrayList<>(); //array list will contain all base piles
-
-        int c = 0, start = 0, end = 2;
-        for(int a = 0; a < baseLayout.getChildCount(); a++){
-            View baseRow = baseLayout.getChildAt(a);
-
-            if(baseRow instanceof TableRow){ //should always be true
-                for (int k = 0; k < 2; k++) {
-                    basePiles.add((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k)); //add pile to array list
-                }
-
-                for (int r=start; r<end; r++) {
-                    ConstraintLayout baseCard = basePiles.get(r);
-                    baseCard.setOnClickListener(shopClickListener);
-                    DominionCardState cardState = state.getBaseCards().get(c).getCard();
-                    int amount = state.getBaseCards().get(c).getAmount();
-                    updateCardView(baseCard, cardState, amount);
-                    setHighlight(baseCard, canBuy(cardState, amount));
-                    if (amount == 0) setColorFilter(baseCard, EMPTY_PILE);
-                    c++;
-                }
-                start = start+2; //to avoid iterating over the same base piles again
-                end = end+2;
-            }
-        }*/
     }
 
     /**
@@ -769,7 +715,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 cardView = shopPiles.get(index);
             } else return;
             setColorFilter(cardView, BOUGHT_PILE);
-            myHandler.postDelayed(new ResetBackground(cardView), 1000);
+            myHandler.postDelayed(new ResetBackground(cardView), 500);
         }
     }
 
