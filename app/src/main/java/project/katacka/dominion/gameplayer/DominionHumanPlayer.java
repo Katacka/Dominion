@@ -455,7 +455,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
          * Source: https://developer.android.com/reference/android/graphics/PorterDuff.Mode
          * Solution: Used PorterDuff Multiply mode to make color filter
          */
-        Log.d("Human player", "Setting filter");
         ColorFilter filter = new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY);
         ((ImageView) shopCard.findViewById(R.id.imageViewArt)).setColorFilter(filter);
         shopCard.getBackground().setColorFilter(filter);
@@ -464,7 +463,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     }
 
     private void clearColorFilter(ConstraintLayout shopCard) {
-        Log.d("Human player", "Clearing filter");
         ((ImageView) shopCard.findViewById(R.id.imageViewArt)).clearColorFilter();
         shopCard.getBackground().clearColorFilter();
         ((ImageView) shopCard.findViewById(R.id.imageViewCost)).clearColorFilter();
@@ -734,6 +732,14 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     }
 
+    @Override
+    protected void gameIsOver(String message){
+        super.gameIsOver(message);
+        TextView tv = activity.findViewById(R.id.textViewGameOver);
+        tv.setVisibility(View.VISIBLE);
+        tv.setText(message);
+    }
+
     /**
      * Handles navigation of the player hand
      * TODO: "activity is always null" in the next line of code.
@@ -824,7 +830,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private final View.OnClickListener menuClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
-            /**
+            /*
              * External Citation:
              * Date: November 26, 2018
              * Resource:
