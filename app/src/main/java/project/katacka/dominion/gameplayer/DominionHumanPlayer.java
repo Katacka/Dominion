@@ -79,6 +79,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private TableLayout baseLayout = null;
     private ArrayList<ConstraintLayout> basePiles;
 
+    private ConstraintLayout inplayLayout = null;
+
     private LinearLayout cardRow = null;
     private ArrayList<DominionCardState> hand;
 
@@ -149,6 +151,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         //making array list of tablerows for shop and base cards
         shopLayout = activity.findViewById(R.id.Shop_Cards);
         baseLayout = activity.findViewById(R.id.Base_Cards);
+        inplayLayout = activity.findViewById(R.id.Inplay_Cards);
 
         ///////////////////
         //Save views
@@ -543,7 +546,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             handSize = state.getDominionPlayer(player).getDeck().getHandSize();
         }
 
-        ConstraintLayout oppCardsLayout = activity.findViewById(R.id.Cards_Inplay);
+        ConstraintLayout oppCardsLayout = activity.findViewById(R.id.Opp_Cards);
         oppCardsLayout.removeAllViews();
 
         //Creates new image views and puts them in layout
@@ -585,18 +588,15 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     }
 
     /**
-     * Updates opponents hand to display the number of cards in their hand
+     * Updates cards played view with cards that have been played.
      */
-    private void updateCardsPlayed(int player){
+    private void updateInplay(){
         //Finds how many cards to display
         int cardsPlayed;
-        if (player == playerNum){
-            cardsPlayed = 0;
-        } else {
-            cardsPlayed = state.getDominionPlayer(player).getDeck().getInPlaySize();
-        }
+        DominionPlayerState playerState = state.getDominionPlayer(state.getCurrentTurn());
+        cardsPlayed = playerState.getDeck().getInPlaySize();
 
-        ConstraintLayout inPlayLayout = activity.findViewById(R.id.Cards_Inplay);
+        ConstraintLayout inPlayLayout = activity.findViewById(R.id.inplay_cards);
         inPlayLayout.removeAllViews();
 
         //Creates new image views and puts them in layout
@@ -604,8 +604,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         for (int i = 0; i < cardsPlayed; i++){
             cards[i] = new ImageView(activity);
             cards[i].setScaleType(ImageView.ScaleType.FIT_START); //fits one axis, starting at top left
-            //TODO: set image based on what cards was played
-            cards[i].setImageResource(R.drawable.dominion_opponent_card_back);
+            DominionCardState card = playerState.getDeck().getInPlay().get(i);
+            cards[i].setImageResource(Integer.valueOf(card.getPhotoId()));
             cards[i].setId(View.generateViewId()); //Needed to allow constraints
             inPlayLayout.addView(cards[i]);
         }
@@ -735,7 +735,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
             updateTurnInfo(state.getActions(), state.getBuys(), state.getTreasure());
             updateDrawDiscard();
-            updateShopPiles();
+            //updateShopPiles();
+            updateInplay();
             updateBasePiles();
             updatePlayerHand();
 
