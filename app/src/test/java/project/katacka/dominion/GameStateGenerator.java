@@ -26,7 +26,7 @@ public class GameStateGenerator {
      */
     public static void setupCards(){
 
-        /*
+        /**
          * External citation
          * Problem: Trying to access resources (card jsons) for unit testing.
          * Resource:

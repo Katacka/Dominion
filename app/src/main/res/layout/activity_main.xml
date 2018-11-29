@@ -603,7 +603,7 @@
                 android:cropToPadding="false"
                 android:scaleType="centerInside"
                 android:src="@drawable/dominion_draw"
-                android:visibility="visible"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@id/imageViewDiscard"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
