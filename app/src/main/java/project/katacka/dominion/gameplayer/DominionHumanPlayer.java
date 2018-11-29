@@ -199,6 +199,46 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         //Resources.
         //Used to load card images
         res = activity.getResources();
+
+        setShopArray();
+        setBaseArray();
+    }
+
+    public void setShopArray() {
+        shopPiles = new ArrayList<>();
+        for (int i = 0, j = shopLayout.getChildCount(); i < j; i++) {
+            View shopRow = shopLayout.getChildAt(i);
+
+            //should always be true
+            if (shopRow instanceof TableRow) {
+
+                //cards are ConstraintLayouts in XML
+                for (int k = 0; k < 5; k++) {
+                    ConstraintLayout shopCard = ((ConstraintLayout) ((TableRow) shopRow).getVirtualChildAt(k));
+                    shopPiles.add(shopCard);
+                    shopCard.setOnClickListener(shopClickListener);
+                    shopCard.setOnLongClickListener(shopLongClickListener);
+                }
+            }
+        }
+    }
+
+    public void setBaseArray() {
+        basePiles = new ArrayList<>();
+        for (int i = 0, j = baseLayout.getChildCount(); i < j; i++) {
+            View baseRow = baseLayout.getChildAt(i);
+
+            //should always be true
+            if (baseRow instanceof TableRow) {
+
+                //cards are ConstraintLayouts in XML
+                for (int k = 0; k < 2; k++) {
+                    ConstraintLayout baseCard = ((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k));
+                    basePiles.add(baseCard);
+                    baseCard.setOnClickListener(shopClickListener);
+                }
+            }
+        }
     }
 
     /**
@@ -380,6 +420,17 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      * Updates the shop piles by calling update card view with info from gamestate
      */
     private void updateShopPiles(){
+
+        for(int i = 0; i<shopPiles.size(); i++){
+            ConstraintLayout cardLayout = shopPiles.get(i);
+            DominionCardState card = state.getShopCards().get(i).getCard();
+            int amount = state.getShopCards().get(i).getAmount();
+            updateCardView(cardLayout, card, amount);
+            setHighlight(cardLayout, isTurn && state.getBuys() > 0 && card.getCost() <= state.getTreasure() && amount > 0);
+            if (amount == 0) setGrayedOut(cardLayout);
+        }
+
+        /*
         int m = 0;
         for(int i = 0, j = shopLayout.getChildCount(); i < j; i++){
             View shopRow = shopLayout.getChildAt(i);
@@ -404,7 +455,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     m++;
                 }
             }
-        }
+        }*/
         /**
          External Citation
          Date: 11/1/18
@@ -412,6 +463,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
          Source: https://stackoverflow.com/questions/3327599/get-all-tablerows-in-a-tablelayout
          Solution: using getChild and for each look to iterate through
          */
+
     }
 
     /**
@@ -450,7 +502,16 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      * Updates the base piles according to info from game state
      */
     private void updateBasePiles(){
-        basePiles = new ArrayList<>(); //array list will contain all base piles
+        for(int i = 0; i<basePiles.size(); i++){
+            ConstraintLayout cardLayout = basePiles.get(i);
+            DominionCardState card = state.getBaseCards().get(i).getCard();
+            int amount = state.getBaseCards().get(i).getAmount();
+            updateCardView(cardLayout, card, amount);
+            setHighlight(cardLayout, isTurn && state.getBuys() > 0 && card.getCost() <= state.getTreasure() && amount > 0);
+            if (amount == 0) setGrayedOut(cardLayout);
+        }
+
+        /*basePiles = new ArrayList<>(); //array list will contain all base piles
 
         int c = 0, start = 0, end = 2;
         for(int a = 0; a < baseLayout.getChildCount(); a++){
@@ -474,7 +535,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 start = start+2; //to avoid iterating over the same base piles again
                 end = end+2;
             }
-        }
+        }*/
     }
 
     /**
@@ -814,28 +875,45 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 @Override
                 public void onShow(DialogInterface dialog) { //to make sure dialog doesn't close when a button is clicked
                     Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                    Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                    button.setTextColor(Color.parseColor("#ff0000"));
+                    prevButton.setTextColor(Color.parseColor("#ff0000"));
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if(pos< (imageList.size()-1)){
+                                Log.i("Dominion human player", "pos is less than max");
+                                button.setTextColor(Color.parseColor("#ff0000"));
                                 pos++;
                             }
+
                             try{image.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to next image in array list
                                 image.setImageResource(imageList.get(pos));}catch(OutOfMemoryError e){
                                 image.setImageBitmap(null);
                             }
+                            if (pos == (imageList.size()-1)) button.setTextColor(Color.parseColor("#d3d3d3"));
+                            else {
+                                prevButton.setTextColor(Color.parseColor("#ff0000"));
+                                button.setTextColor(Color.parseColor("#ff0000"));
+                            }
+
                         }
                     });
-                    Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
                     prevButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(pos > 0){
+                            if(pos > 0) {
                                 pos--;
                             }
+
                             try{image.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to previous image in array list
                                 image.setImageResource(imageList.get(pos));}catch(OutOfMemoryError e){
                                 image.setImageBitmap(null);
+                            }
+                            if (pos == 0) prevButton.setTextColor(Color.parseColor("#d3d3d3"));
+                            else {
+                                prevButton.setTextColor(Color.parseColor("#ff0000"));
+                                button.setTextColor(Color.parseColor("#ff0000"));
                             }
                         }
                     });
