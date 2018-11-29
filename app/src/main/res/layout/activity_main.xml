@@ -207,6 +207,20 @@
 
         </TableLayout>
 
+        <TextView
+            android:id="@+id/textViewGameOver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/Shop_Cards"
+            app:layout_constraintEnd_toEndOf="@id/Shop_Cards"
+            app:layout_constraintBottom_toBottomOf="@id/Shop_Cards"
+            app:layout_constraintTop_toTopOf="@id/Shop_Cards"
+            android:background="#FFFFFF77"
+            android:visibility="invisible"
+            android:textAlignment="center"
+            android:text=""
+            />
+
         <android.support.constraint.ConstraintLayout
             android:id="@+id/Opponent_Cards"
             android:layout_width="0dp"
