@@ -917,15 +917,16 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private final View.OnClickListener seeCardsListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //inplaylayout
-            //shoplayout
+            Button button = (Button) v;
             if(inplayLayout.getVisibility() == View.VISIBLE){
                 inplayLayout.setVisibility(View.INVISIBLE);
                 shopLayout.setVisibility(View.VISIBLE);
+                button.setText("SEE CARDS IN PLAY");
             }
             else if(shopLayout.getVisibility() == View.VISIBLE){
                 shopLayout.setVisibility(View.INVISIBLE);
                 inplayLayout.setVisibility(View.VISIBLE);
+                button.setText("SEE CARDS IN SHOP");
             }
         }
     };
