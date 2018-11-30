@@ -655,15 +655,15 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             set.setHorizontalBias(id, i*biasMultiplier);
         }
         set.applyTo(inPlayLayout);
-        shopLayout.setVisibility(View.INVISIBLE);
     }
 
     /**
      * Updates cards played view with cards that have been played.
      */
-    /*private void updateInplayWithCards(){
+    private void updateInplayWithCards(){
         //Finds how many cards to display
         inplayLayout.setVisibility(View.VISIBLE);
+        shopLayout.setVisibility(View.INVISIBLE);
         int cardsPlayed;
         DominionPlayerState playerState = state.getDominionPlayer(state.getCurrentTurn());
         cardsPlayed = playerState.getDeck().getInPlaySize();
@@ -674,25 +674,29 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         //Creates new image views and puts them in layout
         ConstraintLayout[] cards = new ConstraintLayout[cardsPlayed];
         for (int i = 0; i < cardsPlayed; i++){
-            cards[i] = new ConstraintLayout(activity); //TODO: add attrset?
-            cards[i].setConstraintSet();
+            cards[i] = (ConstraintLayout) LayoutInflater.from(activity).
+                    inflate(R.layout.player_card, mainLayout, false);
 
-            cards[i].setScaleType(ImageView.ScaleType.FIT_START); //fits one axis, starting at top left
+            //cards[i].setConstraintSet();
+
+            //cards[i].setScaleType(ImageView.ScaleType.FIT_START); //fits one axis, starting at top left
 
             DominionCardState card = playerState.getDeck().getInPlay().get(i);
 
+            updateCardView(cards[i], card, -1);
+
             String name = card.getPhotoId();
             int resID = res.getIdentifier(name, "drawable", "project.katacka.dominion_card_back");
-            */
-            /**
+
+            /*
              * External Citation
              * Date: 11/5/18
              * Problem: setting imageview using string
              * Source: https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
              * Solution: shows how to convert string to resource id to use to set image view
              */
-        /*
-            cards[i].setImageResource(resID);
+
+            //cards[i].setImageResource(resID);
             cards[i].setId(View.generateViewId()); //Needed to allow constraints
             inPlayLayout.addView(cards[i]);
         }
@@ -704,7 +708,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
         //Add constraints to every card image
         for (int i = 0; i < cardsPlayed; i++){
-            ImageView card = cards[i];
+            ConstraintLayout card = cards[i];
             @IdRes int id = card.getId();
 
             //Constrain to all four edges of the layout
@@ -714,18 +718,25 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             set.connect(id, ConstraintSet.BOTTOM, layoutID, ConstraintSet.BOTTOM);
 
             //Have it fill the height it can
-            set.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT); //TODO: fix scaling?
+            set.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
             //Have it be wide enough to maintain aspect ration
-            set.constrainWidth(id, ConstraintSet.WRAP_CONTENT);
+            //set.constrainWidth(id, 300); //TODO: fix hard coding
+
+            int w = mainLayout.getWidth();
+            int cardWidth = w/7;
+            set.constrainWidth(id, cardWidth);
+
+            //set.constrainPercentWidth(id, (float) 0.03);
 
             //Position the card in the correct position
             //This is the entire reason we use a constraint layout
             set.setHorizontalBias(id, i*biasMultiplier);
         }
+
         set.applyTo(inPlayLayout);
         shopLayout.setVisibility(View.INVISIBLE);
     }
-    */
+
 
     /**
      * Prompts user for an alert dialog regarding ending their turn
@@ -825,7 +836,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             updateTurnInfo(state.getActions(), state.getBuys(), state.getTreasure());
             updateDrawDiscard();
             //updateShopPiles();
-            updateInplay();
+            updateInplayWithCards();
             updateBasePiles();
             updatePlayerHand();
 
