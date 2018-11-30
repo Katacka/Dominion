@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ import project.katacka.dominion.gamedisplay.DominionBuyCardInfo;
 import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
 import project.katacka.dominion.gamedisplay.DominionPlayAllAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
+import project.katacka.dominion.gamedisplay.DominionPlayCardInfo;
 import project.katacka.dominion.gameframework.GameHumanPlayer;
 import project.katacka.dominion.gameframework.GameMainActivity;
 import project.katacka.dominion.gameframework.GamePlayer;
@@ -421,8 +423,10 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     /**
      * Updates the shop piles by calling update card view with info from gamestate
      */
+    //TODO: show shop for longer when ai buys card
     private void updateShopPiles(){
         shopLayout.setVisibility(View.VISIBLE);
+        inplayLayout.setVisibility(View.INVISIBLE);
         for(int i = 0; i<shopPiles.size(); i++){
             ConstraintLayout cardLayout = shopPiles.get(i);
             DominionCardState card = state.getShopCards().get(i).getCard();
@@ -592,6 +596,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      */
     private void updateInplay(){
         //Finds how many cards to display
+        inplayLayout.setVisibility(View.VISIBLE);
+        shopLayout.setVisibility(View.INVISIBLE);
         int cardsPlayed;
         DominionPlayerState playerState = state.getDominionPlayer(state.getCurrentTurn());
         cardsPlayed = playerState.getDeck().getInPlaySize();
@@ -651,6 +657,75 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         set.applyTo(inPlayLayout);
         shopLayout.setVisibility(View.INVISIBLE);
     }
+
+    /**
+     * Updates cards played view with cards that have been played.
+     */
+    /*private void updateInplayWithCards(){
+        //Finds how many cards to display
+        inplayLayout.setVisibility(View.VISIBLE);
+        int cardsPlayed;
+        DominionPlayerState playerState = state.getDominionPlayer(state.getCurrentTurn());
+        cardsPlayed = playerState.getDeck().getInPlaySize();
+
+        ConstraintLayout inPlayLayout = activity.findViewById(R.id.Inplay_Cards);
+        inPlayLayout.removeAllViews();
+
+        //Creates new image views and puts them in layout
+        ConstraintLayout[] cards = new ConstraintLayout[cardsPlayed];
+        for (int i = 0; i < cardsPlayed; i++){
+            cards[i] = new ConstraintLayout(activity); //TODO: add attrset?
+            cards[i].setConstraintSet();
+
+            cards[i].setScaleType(ImageView.ScaleType.FIT_START); //fits one axis, starting at top left
+
+            DominionCardState card = playerState.getDeck().getInPlay().get(i);
+
+            String name = card.getPhotoId();
+            int resID = res.getIdentifier(name, "drawable", "project.katacka.dominion_card_back");
+            */
+            /**
+             * External Citation
+             * Date: 11/5/18
+             * Problem: setting imageview using string
+             * Source: https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
+             * Solution: shows how to convert string to resource id to use to set image view
+             */
+        /*
+            cards[i].setImageResource(resID);
+            cards[i].setId(View.generateViewId()); //Needed to allow constraints
+            inPlayLayout.addView(cards[i]);
+        }
+
+        ConstraintSet set = new ConstraintSet();
+        set.clone(inPlayLayout);
+        float biasMultiplier = Math.min(0.2f, 1/(float)cardsPlayed); //How far apart the cards should be, as a percentage
+        @IdRes int layoutID = inPlayLayout.getId();
+
+        //Add constraints to every card image
+        for (int i = 0; i < cardsPlayed; i++){
+            ImageView card = cards[i];
+            @IdRes int id = card.getId();
+
+            //Constrain to all four edges of the layout
+            set.connect(id, ConstraintSet.LEFT, layoutID, ConstraintSet.LEFT);
+            set.connect(id, ConstraintSet.RIGHT, layoutID, ConstraintSet.RIGHT);
+            set.connect(id, ConstraintSet.TOP, layoutID, ConstraintSet.TOP);
+            set.connect(id, ConstraintSet.BOTTOM, layoutID, ConstraintSet.BOTTOM);
+
+            //Have it fill the height it can
+            set.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT); //TODO: fix scaling?
+            //Have it be wide enough to maintain aspect ration
+            set.constrainWidth(id, ConstraintSet.WRAP_CONTENT);
+
+            //Position the card in the correct position
+            //This is the entire reason we use a constraint layout
+            set.setHorizontalBias(id, i*biasMultiplier);
+        }
+        set.applyTo(inPlayLayout);
+        shopLayout.setVisibility(View.INVISIBLE);
+    }
+    */
 
     /**
      * Prompts user for an alert dialog regarding ending their turn
@@ -749,8 +824,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
             updateTurnInfo(state.getActions(), state.getBuys(), state.getTreasure());
             updateDrawDiscard();
-            updateShopPiles();
-            //updateInplay();
+            //updateShopPiles();
+            updateInplay();
             updateBasePiles();
             updatePlayerHand();
 
@@ -796,6 +871,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             //Flash the card layout
             setColorFilter(cardView, BOUGHT_PILE);
             myHandler.postDelayed(new ResetBackground(index, place), 500);
+            updateShopPiles();
+        } else if (info instanceof DominionPlayCardInfo){
+            if(state.getCurrentTurn() != playerNum){
+                updateInplay();
+            }
         }
     }
 
