@@ -919,13 +919,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         public void onClick(View v) {
             Button button = (Button) v;
             if(inplayLayout.getVisibility() == View.VISIBLE){
-                inplayLayout.setVisibility(View.INVISIBLE);
-                shopLayout.setVisibility(View.VISIBLE);
+                updateShopPiles();
                 button.setText("SEE CARDS IN PLAY");
             }
             else if(shopLayout.getVisibility() == View.VISIBLE){
-                shopLayout.setVisibility(View.INVISIBLE);
-                inplayLayout.setVisibility(View.VISIBLE);
+                updateInplayWithCards();
                 button.setText("SEE CARDS IN SHOP");
             }
         }
