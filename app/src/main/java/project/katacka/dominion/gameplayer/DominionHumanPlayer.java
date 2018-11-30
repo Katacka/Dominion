@@ -20,6 +20,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -80,13 +81,16 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private ArrayList<ConstraintLayout> basePiles;
 
     private LinearLayout cardRow = null;
+    private HorizontalScrollView cardScroll = null;
     private ArrayList<DominionCardState> hand;
 
-    private int handOffset = 0;
+    private final int MAX_HAND_SIZE = 5;
+    private int handCardWidth = 0;
 
     private int pos;
 
     private ConstraintLayout mainLayout;
+    private LayoutInflater inflater;
 
     private Resources res;
 
@@ -170,7 +174,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         //Set the default values
         updateTurnInfo(0, 0, 0);
 
-        //Draw and discard piles
+        //Player's hand
+        cardRow = activity.findViewById(R.id.User_Cards);
+        cardScroll = activity.findViewById(R.id.User_Cards_Scroll);
+
+        //Player's draw and discard piles
         tvDrawCount = activity.findViewById(R.id.textViewDrawCount);
         tvDiscardCount = activity.findViewById(R.id.textViewDiscardCount);
         tvDrawCount.setText("0");
@@ -202,6 +210,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         //Resources.
         //Used to load card images
         res = activity.getResources();
+        inflater = activity.getLayoutInflater();
 
         setShopArray();
         setBaseArray();
@@ -341,40 +350,29 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      * Updates player's hand to reflect state
      */
     private void updatePlayerHand(){
+        cardRow.removeAllViews();
         hand = state.getDominionPlayer(playerNum).getDeck().getHand();
-        cardRow = activity.findViewById(R.id.User_Cards);
+        if (handCardWidth == 0) setHandCardWidth();
 
-        int childCount = cardRow.getChildCount();
-        int handSize = hand.size();
+        for(int i = 0; i < hand.size(); i++){
+            ConstraintLayout cardLayout = (ConstraintLayout) inflater.inflate(R.layout.player_card, cardRow, false);
+            cardLayout.setMinWidth(handCardWidth);
+            cardLayout.setOnClickListener(handClickListener);
 
-        for(int i = 0; i < childCount; i++){
-            ConstraintLayout cardLayout = (ConstraintLayout) cardRow.getChildAt(i);
-
-            if(i + handOffset < handSize){
-                adjustHandCardSize(handSize, cardLayout);
-                cardLayout.setOnClickListener(handClickListener);
-                cardLayout.setOnTouchListener(handSwipeListener);
-
-                DominionCardState card = hand.get(i + handOffset);
-                updateCardView(cardLayout, card, -1);
-                setHighlight(cardLayout, isTurn && (card.getType() != DominionCardType.ACTION || state.getActions() > 0));
-                cardLayout.setVisibility(View.VISIBLE);
-            } else {
-                cardLayout.setVisibility(View.GONE);
-            }
+            DominionCardState card = hand.get(i);
+            updateCardView(cardLayout, card, -1);
+            setHighlight(cardLayout, isTurn && (card.getType() != DominionCardType.ACTION || state.getActions() > 0));
+            cardRow.addView(cardLayout);
         }
     }
 
     /**
      * Adjusts hand card size for number of cards in hand
      */
-    private void adjustHandCardSize(int handCardCount, ConstraintLayout cardLayout) {
-        int childCompNum = Math.max(5 - handCardCount, 0);
+    private void setHandCardWidth() {
         float d = res.getDisplayMetrics().density;
-        int childComp = Math.round(2 * childCompNum * d);
-
-        int cardWidth = cardRow.getWidth()/5 - childComp;
-        cardLayout.setMaxWidth(cardWidth);
+        float childComp = 8 * MAX_HAND_SIZE * d;
+        handCardWidth = Math.round(cardScroll.getWidth() - childComp)/MAX_HAND_SIZE;
     }
 
     /**
@@ -591,8 +589,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      */
     private void promptEndTurn() {
         if (isTurn && (hand.size() == 0 || state.getActions() == 0) && state.getBuys() == 0) {
-            handOffset = 0;
-
             if(promptEndTurn == 1) {
                 AlertDialog.Builder endTurnPrompt = new AlertDialog.Builder(activity);
                 endTurnPrompt.setMessage("End Turn?");
@@ -611,15 +607,19 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 );
 
                 CheckBox displayDialogCheck = new CheckBox(activity);
+
+                endTurnPrompt.setView(displayDialogCheck);
+                endTurnPrompt.create();
+                final AlertDialog show = endTurnPrompt.show();
+
                 displayDialogCheck.setText(R.string.display_dialog_check);
                 displayDialogCheck.setOnClickListener((View v) -> {
                     if (displayDialogCheck.isChecked()) {
+                        if (show != null) show.dismiss();
                         promptEndTurnSettings();
                     }
                     else promptEndTurn = 1;
                 });
-
-                endTurnPrompt.setView(displayDialogCheck).create().show();
             }
             else if (promptEndTurn == -1) {
                 endTurnMsg();
@@ -741,24 +741,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     }
 
     /**
-     * Handles navigation of the player hand
-     * TODO: "activity is always null" in the next line of code.
-     */
-    private OnSwipeTouchListener handSwipeListener = new OnSwipeTouchListener(activity) {
-        @Override
-        public void onSwipeRight(float distX) {
-            handOffset = Math.max(handOffset - 1, 0);
-            updatePlayerHand();
-        }
-
-        @Override
-        public void onSwipeLeft(float distX) {
-            handOffset = Math.min(handOffset + 1, Math.max(hand.size() - 5, 0));
-            updatePlayerHand();
-        }
-    };
-
-    /**
      * Handles playing all treasures, ending a turn, and playing cards in the hand
      */
     private final View.OnClickListener handClickListener = new View.OnClickListener(){
@@ -770,23 +752,19 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             if(v == bPlayAll){ //clicked the play all button
                Log.i("DomHumPlayer: HandClickListener onClick: ", "Play all button clicked");
 
-                handOffset = 0;
                 action = new DominionPlayAllAction(thisPlayer);
             } else if(v == bEndTurn) { //clicked the end turn button
                 Log.i("TAG: ", "" + state.getCurrentTurn());
                 Log.i("DomHumPlayer: onClick", "End turn button clicked.");
                 endTurnMsg();
 
-                handOffset = 0;
                 action = new DominionEndTurnAction(thisPlayer);
             //} else if(v instanceof ConstraintLayout){ //v is one of the playerCards
             } else { //v is one of the playerCards
                 Log.i("DomHumPlayer: onClick", "Player's card button clicked.");
 
                 int index = cardRow.indexOfChild(v);
-                int handOffsetTemp = handOffset;
-                handOffset = (hand.size() - handOffset > 5) ? handOffset : Math.max(handOffset - 1, 0);
-                action = new DominionPlayCardAction(thisPlayer, index + handOffsetTemp);
+                action = new DominionPlayCardAction(thisPlayer, index);
             }
             game.sendAction(action);
         }
