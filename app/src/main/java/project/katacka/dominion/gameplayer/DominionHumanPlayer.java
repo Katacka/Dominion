@@ -133,6 +133,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     private boolean isTurn;
 
+    private Button bSeeCards = null;
+
     public DominionHumanPlayer(String name) {
         super(name);
         myHandler = new Handler();
@@ -199,6 +201,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
         //Menu
         bMenu = activity.findViewById(R.id.bMenu);
+
+        //see cards in play or shop button
+        bSeeCards = activity.findViewById(R.id.bSeeCardsInplay);
 
         //Resources.
         //Used to load card images
@@ -833,6 +838,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             bEndTurn.setOnClickListener(handClickListener);
             bPlayAll.setOnClickListener(handClickListener);
             bMenu.setOnClickListener(menuClickListener);
+            bSeeCards.setOnClickListener(seeCardsListener);
 
             promptEndTurn();
         } else if(info instanceof NotYourTurnInfo) {
@@ -894,6 +900,22 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         public void onSwipeLeft(float distX) {
             handOffset = Math.min(handOffset + 1, Math.max(hand.size() - 5, 0));
             updatePlayerHand();
+        }
+    };
+
+    private final View.OnClickListener seeCardsListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //inplaylayout
+            //shoplayout
+            if(inplayLayout.getVisibility() == View.VISIBLE){
+                inplayLayout.setVisibility(View.INVISIBLE);
+                shopLayout.setVisibility(View.VISIBLE);
+            }
+            else if(shopLayout.getVisibility() == View.VISIBLE){
+                shopLayout.setVisibility(View.INVISIBLE);
+                inplayLayout.setVisibility(View.VISIBLE);
+            }
         }
     };
 
