@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -430,8 +429,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      */
     //TODO: show shop for longer when ai buys card
     private void updateShopPiles(){
-        shopLayout.setVisibility(View.VISIBLE);
-        inplayLayout.setVisibility(View.INVISIBLE);
+        //shopLayout.setVisibility(View.VISIBLE);
+        // inplayLayout.setVisibility(View.INVISIBLE);
         for(int i = 0; i<shopPiles.size(); i++){
             ConstraintLayout cardLayout = shopPiles.get(i);
             DominionCardState card = state.getShopCards().get(i).getCard();
@@ -599,6 +598,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     /**
      * Updates cards played view with cards that have been played.
      */
+    /*
     private void updateInplay(){
         //Finds how many cards to display
         inplayLayout.setVisibility(View.VISIBLE);
@@ -620,7 +620,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
             String name = card.getPhotoId();
             int resID = res.getIdentifier(name, "drawable", "project.katacka.dominion_card_back");
-
+        */
             /**
              * External Citation
              * Date: 11/5/18
@@ -628,7 +628,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
              * Source: https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
              * Solution: shows how to convert string to resource id to use to set image view
              */
-
+        /*
             cards[i].setImageResource(resID);
             cards[i].setId(View.generateViewId()); //Needed to allow constraints
             inPlayLayout.addView(cards[i]);
@@ -660,15 +660,15 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             set.setHorizontalBias(id, i*biasMultiplier);
         }
         set.applyTo(inPlayLayout);
-    }
+    }   */
 
     /**
      * Updates cards played view with cards that have been played.
      */
-    private void updateInplayWithCards(){
+    private void updateInplay(){
         //Finds how many cards to display
-        inplayLayout.setVisibility(View.VISIBLE);
-        shopLayout.setVisibility(View.INVISIBLE);
+        //inplayLayout.setVisibility(View.VISIBLE);
+        //shopLayout.setVisibility(View.INVISIBLE);
         int cardsPlayed;
         DominionPlayerState playerState = state.getDominionPlayer(state.getCurrentTurn());
         cardsPlayed = playerState.getDeck().getInPlaySize();
@@ -729,6 +729,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
             int w = mainLayout.getWidth();
             int cardWidth = w/7;
+            //int cardWidth = mainLayout.getMaxWidth() / 7;
             set.constrainWidth(id, cardWidth);
 
             //set.constrainPercentWidth(id, (float) 0.03);
@@ -739,7 +740,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
 
         set.applyTo(inPlayLayout);
-        shopLayout.setVisibility(View.INVISIBLE);
+        //shopLayout.setVisibility(View.INVISIBLE);
+        //TODO: Ashi delete? ^
     }
 
 
@@ -840,8 +842,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
             updateTurnInfo(state.getActions(), state.getBuys(), state.getTreasure());
             updateDrawDiscard();
-            //updateShopPiles();
-            updateInplayWithCards();
+            updateShopPiles();
+            updateInplay();
             updateBasePiles();
             updatePlayerHand();
 
@@ -888,11 +890,19 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             //Flash the card layout
             setColorFilter(cardView, BOUGHT_PILE);
             myHandler.postDelayed(new ResetBackground(index, place), 500);
-            updateShopPiles();
+            setViewVisible(shopLayout);
         } else if (info instanceof DominionPlayCardInfo){
-            if(state.getCurrentTurn() != playerNum){
-                updateInplay();
-            }
+            //updateInplay();
+            //if(state.getCurrentTurn() != playerNum){
+            //inplayLayout.setVisibility(View.VISIBLE);
+            //shopLayout.setVisibility(View.INVISIBLE);
+            //}
+            /*
+            else{
+                inplayLayout.setVisibility(View.INVISIBLE);
+                shopLayout.setVisibility(View.VISIBLE);
+            }*/
+            setViewVisible(inplayLayout);
         }
     }
 
@@ -914,21 +924,59 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     };
 
-    private final View.OnClickListener seeCardsListener = new View.OnClickListener() {
+    /*private final View.OnClickListener seeCardsListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            Log.i("seeCardsListener", "button clicked");
             Button button = (Button) v;
             if(inplayLayout.getVisibility() == View.VISIBLE){
+                Log.i("seeCardsListener", "updating shop");
                 updateShopPiles();
+                shopLayout.setVisibility(View.VISIBLE);
+                inplayLayout.setVisibility(View.INVISIBLE);
                 button.setText("SEE CARDS IN PLAY");
             }
             else if(shopLayout.getVisibility() == View.VISIBLE){
-                updateInplayWithCards();
+                Log.i("seeCardsListener", "updating in play");
+                updateInplay();
+                shopLayout.setVisibility(View.INVISIBLE);
+                inplayLayout.setVisibility(View.VISIBLE);
                 button.setText("SEE CARDS IN SHOP");
+                Log.i("seeCardsListener", "changed text");
+            }
+        }
+    };*/
+
+    private final View.OnClickListener seeCardsListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.i("seeCardsListener", "button clicked");
+            if(shopLayout.getVisibility() == View.VISIBLE){
+                setViewVisible(inplayLayout);
+            }
+            else{
+                setViewVisible(shopLayout);
             }
         }
     };
 
+    private void setViewVisible(View v){
+        if(v == inplayLayout){
+            Log.i("seeCardsListener", "updating in play");
+            updateInplay();
+            shopLayout.setVisibility(View.INVISIBLE);
+            inplayLayout.setVisibility(View.VISIBLE);
+            bSeeCards.setText("SEE CARDS IN SHOP");
+            Log.i("seeCardsListener", "changed text");
+        }
+        else{
+            Log.i("seeCardsListener", "updating shop");
+            updateShopPiles();
+            shopLayout.setVisibility(View.VISIBLE);
+            inplayLayout.setVisibility(View.INVISIBLE);
+            bSeeCards.setText("SEE CARDS IN PLAY");
+        }
+    }
     /**
      * Handles playing all treasures, ending a turn, and playing cards in the hand
      */
@@ -943,6 +991,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
                 handOffset = 0;
                 action = new DominionPlayAllAction(thisPlayer);
+                //setViewVisible(inplayLayout);
+                setViewVisible(shopLayout);
             } else if(v == bEndTurn) { //clicked the end turn button
                 Log.i("TAG: ", "" + state.getCurrentTurn());
                 Log.i("DomHumPlayer: onClick", "End turn button clicked.");
