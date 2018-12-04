@@ -20,6 +20,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -80,13 +81,16 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private ArrayList<ConstraintLayout> basePiles;
 
     private LinearLayout cardRow = null;
+    private HorizontalScrollView cardScroll = null;
     private ArrayList<DominionCardState> hand;
 
-    private int handOffset = 0;
+    private final int MAX_HAND_SIZE = 5;
+    private int handCardWidth = 0;
 
     private int pos;
 
     private ConstraintLayout mainLayout;
+    private LayoutInflater inflater;
 
     private Resources res;
 
@@ -129,6 +133,10 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     private boolean isTurn;
 
+    ArrayList<Integer> imageList;
+    ImageView imageHelp;
+    AlertDialog dialog;
+
     public DominionHumanPlayer(String name) {
         super(name);
         myHandler = new Handler();
@@ -166,7 +174,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         //Set the default values
         updateTurnInfo(0, 0, 0);
 
-        //Draw and discard piles
+        //Player's hand
+        cardRow = activity.findViewById(R.id.User_Cards);
+        cardScroll = activity.findViewById(R.id.User_Cards_Scroll);
+
+        //Player's draw and discard piles
         tvDrawCount = activity.findViewById(R.id.textViewDrawCount);
         tvDiscardCount = activity.findViewById(R.id.textViewDiscardCount);
         tvDrawCount.setText("0");
@@ -198,6 +210,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         //Resources.
         //Used to load card images
         res = activity.getResources();
+        inflater = activity.getLayoutInflater();
 
         setShopArray();
         setBaseArray();
@@ -337,40 +350,29 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      * Updates player's hand to reflect state
      */
     private void updatePlayerHand(){
+        cardRow.removeAllViews();
         hand = state.getDominionPlayer(playerNum).getDeck().getHand();
-        cardRow = activity.findViewById(R.id.User_Cards);
+        if (handCardWidth == 0) setHandCardWidth();
 
-        int childCount = cardRow.getChildCount();
-        int handSize = hand.size();
+        for(int i = 0; i < hand.size(); i++){
+            ConstraintLayout cardLayout = (ConstraintLayout) inflater.inflate(R.layout.player_card, cardRow, false);
+            cardLayout.setMinWidth(handCardWidth);
+            cardLayout.setOnClickListener(handClickListener);
 
-        for(int i = 0; i < childCount; i++){
-            ConstraintLayout cardLayout = (ConstraintLayout) cardRow.getChildAt(i);
-
-            if(i + handOffset < handSize){
-                adjustHandCardSize(handSize, cardLayout);
-                cardLayout.setOnClickListener(handClickListener);
-                cardLayout.setOnTouchListener(handSwipeListener);
-
-                DominionCardState card = hand.get(i + handOffset);
-                updateCardView(cardLayout, card, -1);
-                setHighlight(cardLayout, isTurn && (card.getType() != DominionCardType.ACTION || state.getActions() > 0));
-                cardLayout.setVisibility(View.VISIBLE);
-            } else {
-                cardLayout.setVisibility(View.GONE);
-            }
+            DominionCardState card = hand.get(i);
+            updateCardView(cardLayout, card, -1);
+            setHighlight(cardLayout, isTurn && (card.getType() != DominionCardType.ACTION || state.getActions() > 0));
+            cardRow.addView(cardLayout);
         }
     }
 
     /**
      * Adjusts hand card size for number of cards in hand
      */
-    private void adjustHandCardSize(int handCardCount, ConstraintLayout cardLayout) {
-        int childCompNum = Math.max(5 - handCardCount, 0);
+    private void setHandCardWidth() {
         float d = res.getDisplayMetrics().density;
-        int childComp = Math.round(2 * childCompNum * d);
-
-        int cardWidth = cardRow.getWidth()/5 - childComp;
-        cardLayout.setMaxWidth(cardWidth);
+        float childComp = 8 * MAX_HAND_SIZE * d;
+        handCardWidth = Math.round(cardScroll.getWidth() - childComp)/MAX_HAND_SIZE;
     }
 
     /**
@@ -451,7 +453,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
          * Source: https://developer.android.com/reference/android/graphics/PorterDuff.Mode
          * Solution: Used PorterDuff Multiply mode to make color filter
          */
-        Log.d("Human player", "Setting filter");
         ColorFilter filter = new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY);
         ((ImageView) shopCard.findViewById(R.id.imageViewArt)).setColorFilter(filter);
         shopCard.getBackground().setColorFilter(filter);
@@ -460,7 +461,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     }
 
     private void clearColorFilter(ConstraintLayout shopCard) {
-        Log.d("Human player", "Clearing filter");
         ((ImageView) shopCard.findViewById(R.id.imageViewArt)).clearColorFilter();
         shopCard.getBackground().clearColorFilter();
         ((ImageView) shopCard.findViewById(R.id.imageViewCost)).clearColorFilter();
@@ -643,8 +643,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      */
     private void promptEndTurn() {
         if (isTurn && (hand.size() == 0 || state.getActions() == 0) && state.getBuys() == 0) {
-            handOffset = 0;
-
             if(promptEndTurn == 1) {
                 AlertDialog.Builder endTurnPrompt = new AlertDialog.Builder(activity);
                 endTurnPrompt.setMessage("End Turn?");
@@ -663,15 +661,19 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 );
 
                 CheckBox displayDialogCheck = new CheckBox(activity);
+
+                endTurnPrompt.setView(displayDialogCheck);
+                endTurnPrompt.create();
+                final AlertDialog show = endTurnPrompt.show();
+
                 displayDialogCheck.setText(R.string.display_dialog_check);
                 displayDialogCheck.setOnClickListener((View v) -> {
                     if (displayDialogCheck.isChecked()) {
+                        if (show != null) show.dismiss();
                         promptEndTurnSettings();
                     }
                     else promptEndTurn = 1;
                 });
-
-                endTurnPrompt.setView(displayDialogCheck).create().show();
             }
             else if (promptEndTurn == -1) {
                 endTurnMsg();
@@ -692,6 +694,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 (DialogInterface dialog, int id) -> {
                     promptEndTurn = -1;
                     dialog.dismiss();
+                    endTurnMsg();
+                    game.sendAction(new DominionEndTurnAction(thisPlayer));
                 }
         );
 
@@ -700,6 +704,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 (DialogInterface dialog, int id) -> {
                     promptEndTurn = 0;
                     dialog.dismiss();
+                    endTurnMsg();
+                    game.sendAction(new DominionEndTurnAction(thisPlayer));
                 }
         );
 
@@ -784,23 +790,13 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     }
 
-    /**
-     * Handles navigation of the player hand
-     * TODO: "activity is always null" in the next line of code.
-     */
-    private OnSwipeTouchListener handSwipeListener = new OnSwipeTouchListener(activity) {
-        @Override
-        public void onSwipeRight(float distX) {
-            handOffset = Math.max(handOffset - 1, 0);
-            updatePlayerHand();
-        }
-
-        @Override
-        public void onSwipeLeft(float distX) {
-            handOffset = Math.min(handOffset + 1, Math.max(hand.size() - 5, 0));
-            updatePlayerHand();
-        }
-    };
+    @Override
+    protected void gameIsOver(String message){
+        super.gameIsOver(message);
+        TextView tv = activity.findViewById(R.id.textViewGameOver);
+        tv.setVisibility(View.VISIBLE);
+        tv.setText(message);
+    }
 
     /**
      * Handles playing all treasures, ending a turn, and playing cards in the hand
@@ -814,23 +810,19 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             if(v == bPlayAll){ //clicked the play all button
                Log.i("DomHumPlayer: HandClickListener onClick: ", "Play all button clicked");
 
-                handOffset = 0;
                 action = new DominionPlayAllAction(thisPlayer);
             } else if(v == bEndTurn) { //clicked the end turn button
                 Log.i("TAG: ", "" + state.getCurrentTurn());
                 Log.i("DomHumPlayer: onClick", "End turn button clicked.");
                 endTurnMsg();
 
-                handOffset = 0;
                 action = new DominionEndTurnAction(thisPlayer);
             //} else if(v instanceof ConstraintLayout){ //v is one of the playerCards
             } else { //v is one of the playerCards
                 Log.i("DomHumPlayer: onClick", "Player's card button clicked.");
 
                 int index = cardRow.indexOfChild(v);
-                int handOffsetTemp = handOffset;
-                handOffset = (hand.size() - handOffset > 5) ? handOffset : Math.max(handOffset - 1, 0);
-                action = new DominionPlayCardAction(thisPlayer, index + handOffsetTemp);
+                action = new DominionPlayCardAction(thisPlayer, index);
             }
             game.sendAction(action);
         }
@@ -874,7 +866,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private final View.OnClickListener menuClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
-            /**
+            /*
              * External Citation:
              * Date: November 26, 2018
              * Resource:
@@ -883,13 +875,14 @@ public class DominionHumanPlayer extends GameHumanPlayer {
              * Solution: use Arrays.asList in ArrayList constructor.
              */
 
-            ArrayList<Integer> imageList = new ArrayList<Integer>
-                    (Arrays.asList(R.drawable.rules_manual,
+            imageList = new ArrayList<Integer>
+                    (Arrays.asList(R.drawable.rules_instructions,
                                     R.drawable.rules_play_card,
                                     R.drawable.rules_buy_card,
                                     R.drawable.rules_longpress,
                                     R.drawable.rules_end_turn,
-                                    R.drawable.rules_card_swipe));
+                                    R.drawable.rules_swipe_cards,
+                                    R.drawable.rules_switch));
 
             pos = 0;
 
@@ -897,75 +890,70 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             builder.setPositiveButton("Next", null);
             builder.setNegativeButton("Previous", null);
 
-            final AlertDialog dialog = builder.create();
+            dialog = builder.create();
             LayoutInflater inflater = activity.getLayoutInflater();
             View dialogLayout = inflater.inflate(R.layout.dialog_help, null);
             dialog.setView(dialogLayout);
-            ImageView image = dialogLayout.findViewById(R.id.image_help);
+            imageHelp = dialogLayout.findViewById(R.id.image_help);
 
-            try{
-                image.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                image.setImageResource(imageList.get(pos)); //set dialog image to first image in array list
-            }
-            catch(OutOfMemoryError e){
-                e.printStackTrace();
-                image.setImageBitmap(null);
-            }
+            imageHelp.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageHelp.setImageResource(imageList.get(pos)); //set dialog image to first image in array list
 
             dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                @Override
-                public void onShow(DialogInterface dialog) { //to make sure dialog doesn't close when a button is clicked
-                    Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-                    Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
-                    button.setTextColor(Color.parseColor("#ff0000"));
-                    prevButton.setTextColor(Color.parseColor("#ff0000"));
-                    button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if(pos< (imageList.size()-1)){
-                                Log.i("Dominion human player", "pos is less than max");
-                                button.setTextColor(Color.parseColor("#ff0000"));
-                                pos++;
-                            }
-
-                            try{image.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to next image in array list
-                                image.setImageResource(imageList.get(pos));}catch(OutOfMemoryError e){
-                                image.setImageBitmap(null);
-                            }
-                            if (pos == (imageList.size()-1)) button.setTextColor(Color.parseColor("#d3d3d3"));
-                            else {
-                                prevButton.setTextColor(Color.parseColor("#ff0000"));
-                                button.setTextColor(Color.parseColor("#ff0000"));
-                            }
-
-                        }
-                    });
-                    prevButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if(pos > 0) {
-                                pos--;
-                            }
-
-                            try{image.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to previous image in array list
-                                image.setImageResource(imageList.get(pos));}catch(OutOfMemoryError e){
-                                image.setImageBitmap(null);
-                            }
-                            if (pos == 0) prevButton.setTextColor(Color.parseColor("#d3d3d3"));
-                            else {
-                                prevButton.setTextColor(Color.parseColor("#ff0000"));
-                                button.setTextColor(Color.parseColor("#ff0000"));
-                            }
-                        }
-                    });
-                }
+                 @Override
+                 public void onShow(DialogInterface dialog) { //to make sure dialog doesn't close when a button is clicked
+                     Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                     Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                     button.setTextColor(Color.parseColor("#ff0000"));
+                     prevButton.setTextColor(Color.parseColor("#d3d3d3"));
+                     Log.i("Dominion Human Player", "on show");
+                     button.setOnClickListener(helpClickListener);
+                     prevButton.setOnClickListener(helpClickListener);
+                 }
             });
 
             dialog.show();
 
-            Window window = dialog.getWindow();
-            double width = mainLayout.getWidth() * 0.75;
-            window.setLayout((int) (width), (int) (width * 0.71));
+                Window window = dialog.getWindow();
+                double width = mainLayout.getWidth() * 0.75;
+            window.setLayout((int)(width),(int)(width *0.71));
+
+        }
+    };
+
+    private final View.OnClickListener helpClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(v.getId() == dialog.getButton(AlertDialog.BUTTON_POSITIVE).getId() ){
+                Log.i("Dominion human player", "On click");
+                Button nextButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                if(pos< (imageList.size()-1)){
+                    pos++;
+                }
+                imageHelp.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to next image in array list
+                imageHelp.setImageResource(imageList.get(pos));
+                if (pos == (imageList.size()-1)) nextButton.setTextColor(Color.parseColor("#d3d3d3"));
+                else {
+                    Log.i("On help click", "resetting to red");
+                    prevButton.setTextColor(Color.parseColor("#ff0000"));
+                    nextButton.setTextColor(Color.parseColor("#ff0000"));
+                }
+            }
+            else if(v.getId() == dialog.getButton(AlertDialog.BUTTON_NEGATIVE).getId()){
+                Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                Button nextButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                if(pos > 0) {
+                    pos--;
+                }
+                imageHelp.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to previous image in array list
+                imageHelp.setImageResource(imageList.get(pos));
+                if (pos == 0) prevButton.setTextColor(Color.parseColor("#d3d3d3"));
+                else {
+                    prevButton.setTextColor(Color.parseColor("#ff0000"));
+                    nextButton.setTextColor(Color.parseColor("#ff0000"));
+                }
+            }
         }
     };
 
