@@ -287,7 +287,7 @@ public class DominionDeckState implements Serializable{
      */
     public int countVictory(){
         int totalCards = getTotalCards();
-        return Stream.of(discard.stream(), hand.stream(), draw.stream())
+        return Stream.of(discard.stream(), hand.stream(), draw.stream(), inPlay.stream())
                 .flatMap(s -> s)
                 .mapToInt(s -> s.getVictoryPoints(totalCards))
                 .sum();
