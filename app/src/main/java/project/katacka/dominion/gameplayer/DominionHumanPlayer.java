@@ -822,12 +822,13 @@ public class DominionHumanPlayer extends GameHumanPlayer {
              */
 
             imageList = new ArrayList<Integer>
-                    (Arrays.asList(R.drawable.rules_manual,
+                    (Arrays.asList(R.drawable.rules_instructions,
                                     R.drawable.rules_play_card,
                                     R.drawable.rules_buy_card,
                                     R.drawable.rules_longpress,
                                     R.drawable.rules_end_turn,
-                                    R.drawable.rules_card_swipe));
+                                    R.drawable.rules_swipe_cards,
+                                    R.drawable.rules_switch));
 
             pos = 0;
 
@@ -850,7 +851,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                      Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
                      Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
                      button.setTextColor(Color.parseColor("#ff0000"));
-                     prevButton.setTextColor(Color.parseColor("#ff0000"));
+                     prevButton.setTextColor(Color.parseColor("#d3d3d3"));
                      Log.i("Dominion Human Player", "on show");
                      button.setOnClickListener(helpClickListener);
                      prevButton.setOnClickListener(helpClickListener);
