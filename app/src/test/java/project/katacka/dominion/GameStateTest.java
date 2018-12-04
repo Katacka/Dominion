@@ -11,6 +11,7 @@ import project.katacka.dominion.gamestate.DominionCardPlace;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionDeckState;
 import project.katacka.dominion.gamestate.DominionGameState;
+import project.katacka.dominion.gamestate.DominionPlayerState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
 
 import static org.junit.Assert.*;
@@ -252,6 +253,58 @@ public class GameStateTest {
 
         newWinner = state.getWinner();
         assertEquals(notTurn, newWinner); //the new players should now be the winner
+    }
+
+    /**
+     * Ryan Regier (only one in file not Ashika)
+     * Test of getTiedPlayers().
+     * Tests it returns null when no tie or when getWinner() has not been called.
+     * Tests tiebreaker is handled successfully.
+     * Tests function returns correct result
+     */
+    @Test
+    public void testTies(){
+        //null if getPlayerScores not called
+        int[] tiedPlayers = state.getTiedPlayers();
+        assertNull(tiedPlayers);
+
+        //Still null before getWinner called
+        int[] scores = state.getPlayerScores();
+        tiedPlayers = state.getTiedPlayers();
+        assertNull(tiedPlayers);
+
+        DominionPlayerState firstPlayer = state.getDominionPlayer(0);
+        DominionPlayerState secondPlayer = state.getDominionPlayer(1);
+        DominionDeckState first  = firstPlayer.getDeck();
+        DominionDeckState second = secondPlayer.getDeck();
+        DominionCardState providence = baseCards.get(5).getCard();
+
+        //Still null if not tie
+        first.discardNew(providence);
+        int winner = state.getWinner();
+        tiedPlayers = state.getTiedPlayers();
+        assertNull(tiedPlayers);
+
+        //Tiebreaker: played more turns
+        second.discardNew(providence);
+        //Make sure player 0 has played more turns
+        firstPlayer.startTurn(); //Start turn increments turns played
+        firstPlayer.startTurn(); //Called twice in case player 2 started
+        winner = state.getWinner();
+        assertEquals(1, winner);
+        tiedPlayers = state.getTiedPlayers();
+        assertNull(tiedPlayers);
+
+        //Two player tie (of 4)
+        //Make sure they have played the same number of turns
+        while (secondPlayer.getTurnsPlayed() < firstPlayer.getTurnsPlayed()){
+            secondPlayer.startTurn();
+        }
+        winner = state.getWinner();
+        assertEquals(-1, winner);
+        tiedPlayers = state.getTiedPlayers();
+        int[] expected = {0, 1};
+        assertArrayEquals(expected, tiedPlayers);
     }
 
     @Test
