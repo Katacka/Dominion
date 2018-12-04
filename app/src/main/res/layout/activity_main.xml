@@ -21,21 +21,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/bSeeCardsInplay"
-            android:layout_width="107dp"
-            android:layout_height="48dp"
-            android:text="See cards in play "
-            android:textSize="9sp"
-            app:layout_constraintStart_toStartOf="@id/Base_Cards"
-            app:layout_constraintEnd_toStartOf="@id/OpponentDiscard_Constraint"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/Base_Cards" />
-
-
         <TableLayout
             android:id="@+id/Base_Cards"
-            android:layout_width="75dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:orientation="horizontal"
@@ -125,7 +113,7 @@
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent=".8"
             app:layout_constraintStart_toEndOf="@+id/Base_Cards"
-            app:layout_constraintTop_toBottomOf="@+id/Cards_Inplay"
+            app:layout_constraintTop_toBottomOf="@+id/Opponent_Cards"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".65">
 
@@ -234,7 +222,7 @@
             />
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/Cards_Inplay"
+            android:id="@+id/Opponent_Cards"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -327,7 +315,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:foregroundGravity="top"
-            app:layout_constraintEnd_toStartOf="@id/Cards_Inplay"
+            app:layout_constraintEnd_toStartOf="@id/Opponent_Cards"
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent=".15"
             app:layout_constraintStart_toEndOf="@id/Base_Cards"
@@ -399,7 +387,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent=".15"
-            app:layout_constraintStart_toEndOf="@+id/Cards_Inplay"
+            app:layout_constraintStart_toEndOf="@+id/Opponent_Cards"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".09">

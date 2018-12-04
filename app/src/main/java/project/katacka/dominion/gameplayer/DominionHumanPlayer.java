@@ -9,6 +9,7 @@ import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.constraint.ConstraintLayout;
@@ -543,7 +544,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             handSize = state.getDominionPlayer(player).getDeck().getHandSize();
         }
 
-        ConstraintLayout oppCardsLayout = activity.findViewById(R.id.Cards_Inplay);
+        ConstraintLayout oppCardsLayout = activity.findViewById(R.id.Opponent_Cards);
         oppCardsLayout.removeAllViews();
 
         //Creates new image views and puts them in layout
@@ -582,60 +583,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             set.setHorizontalBias(id, i*biasMultiplier);
         }
         set.applyTo(oppCardsLayout);
-    }
-
-    /**
-     * Updates opponents hand to display the number of cards in their hand
-     */
-    private void updateCardsPlayed(int player){
-        //Finds how many cards to display
-        int cardsPlayed;
-        if (player == playerNum){
-            cardsPlayed = 0;
-        } else {
-            cardsPlayed = state.getDominionPlayer(player).getDeck().getInPlaySize();
-        }
-
-        ConstraintLayout inPlayLayout = activity.findViewById(R.id.Cards_Inplay);
-        inPlayLayout.removeAllViews();
-
-        //Creates new image views and puts them in layout
-        ImageView[] cards = new ImageView[cardsPlayed];
-        for (int i = 0; i < cardsPlayed; i++){
-            cards[i] = new ImageView(activity);
-            cards[i].setScaleType(ImageView.ScaleType.FIT_START); //fits one axis, starting at top left
-            //TODO: set image based on what cards was played
-            cards[i].setImageResource(R.drawable.dominion_opponent_card_back);
-            cards[i].setId(View.generateViewId()); //Needed to allow constraints
-            inPlayLayout.addView(cards[i]);
-        }
-
-        ConstraintSet set = new ConstraintSet();
-        set.clone(inPlayLayout);
-        float biasMultiplier = Math.min(0.2f, 1/(float)cardsPlayed); //How far apart the cards should be, as a percentage
-        @IdRes int layoutID = inPlayLayout.getId();
-
-        //Add constraints to every card image
-        for (int i = 0; i < cardsPlayed; i++){
-            ImageView card = cards[i];
-            @IdRes int id = card.getId();
-
-            //Constrain to all four edges of the layout
-            set.connect(id, ConstraintSet.LEFT, layoutID, ConstraintSet.LEFT);
-            set.connect(id, ConstraintSet.RIGHT, layoutID, ConstraintSet.RIGHT);
-            set.connect(id, ConstraintSet.TOP, layoutID, ConstraintSet.TOP);
-            set.connect(id, ConstraintSet.BOTTOM, layoutID, ConstraintSet.BOTTOM);
-
-            //Have it fill the height it can
-            set.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
-            //Have it be wide enough to maintain aspect ration
-            set.constrainWidth(id, ConstraintSet.WRAP_CONTENT);
-
-            //Position the card in the correct position
-            //This is the entire reason we use a constraint layout
-            set.setHorizontalBias(id, i*biasMultiplier);
-        }
-        set.applyTo(inPlayLayout);
     }
 
     /**
