@@ -69,7 +69,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private final float TAB_ACTIVE = 1f;
 
     private final int EMPTY_PILE = Color.DKGRAY;
-    private final int BOUGHT_PILE = 0xFF80dfff;
+    private final int BOUGHT_PILE = 0xff80dfff;
 
     private DominionGameState state;
     private ConstraintLayout tabLayout = null;
@@ -304,7 +304,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      * @param treasure The current number of player's treasures
      */
     private void updateTurnInfo(int actions, int buys, int treasure){
-        /**
+        /*
          * External Citation
          * Date: 11/6/18
          * Problem: Needed to combine text and number in text view
