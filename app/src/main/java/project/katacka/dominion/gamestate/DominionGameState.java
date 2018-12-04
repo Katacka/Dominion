@@ -425,20 +425,20 @@ public class DominionGameState extends GameState implements Serializable{
             int[] scores = getPlayerScores(); //The scores of every player
             int maxScore = 0; //The highest score seen
             int winner = 0; //The index of the winner
-            int tie = 0;
+            boolean tie = true;
             for (int i = 0; i < numPlayers; i++){
                 int score = scores[i];
                 if(score > maxScore){
                     maxScore = score;
                     winner = i;
-                    tie = 1;
+                    tie = false;
                 }
                 else if(score == maxScore){
-                    tie++;
+                    tie = true;
                 }
             }
 
-            if(tie == 1){
+            if(tie){
                 return winner;
             }
 
@@ -447,25 +447,25 @@ public class DominionGameState extends GameState implements Serializable{
 
             int minTurnsPlayed = dominionPlayers[winner].getTurnsPlayed();
             int tieWinner = winner;
-            int unbreakableTie = 1;
+            int numTied = 0;
             for (int i = winner + 1; i < numPlayers; i++){
                 int turns = dominionPlayers[i].getTurnsPlayed();
                 int score = scores[i];
                 if (score == maxScore && turns < minTurnsPlayed){
                     minTurnsPlayed = turns;
                     tieWinner = i;
-                    unbreakableTie = 1;
+                    numTied = 1;
                 }
                 else if (score == maxScore && turns == minTurnsPlayed){
-                    unbreakableTie++;
+                    numTied++;
                 }
             }
 
-            if(unbreakableTie == 1){
+            if(numTied == 1){
                 return tieWinner;
             }
 
-            tiedPlayers = new int[unbreakableTie];
+            tiedPlayers = new int[numTied];
             int players = 0;
             for (int i = tieWinner; i < numPlayers; i++){
                 if(dominionPlayers[i].getTurnsPlayed() == minTurnsPlayed && scores[i] == maxScore){
