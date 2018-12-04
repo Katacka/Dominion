@@ -904,11 +904,14 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 shopLayout.setVisibility(View.VISIBLE);
             }*/
 
-            //card has not been removed from hand
-            if(playerState.getDeck().getHandSize() != 1){
-                setViewVisible(inplayLayout);
+            int cardIdx = ((DominionPlayCardInfo) info).getCardIndex();
+            if(playerState.getDeck().getHandSize() == 1 &&
+                    playerState.getDeck().getHand().get(cardIdx).getAddedDraw() == 0){
+                shopLayout.setVisibility(View.VISIBLE);
+                inplayLayout.setVisibility(View.INVISIBLE);
             } else {
-                setViewVisible(shopLayout);
+                inplayLayout.setVisibility(View.VISIBLE);
+                shopLayout.setVisibility(View.INVISIBLE);
             }
         }
     }
