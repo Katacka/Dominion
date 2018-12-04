@@ -13,6 +13,7 @@ import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
 import project.katacka.dominion.gamedisplay.DominionPlayAllAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardInfo;
+import project.katacka.dominion.gameframework.GameHumanPlayer;
 import project.katacka.dominion.gameframework.GamePlayer;
 import project.katacka.dominion.gameframework.LocalGame;
 import project.katacka.dominion.gameframework.actionMsg.GameAction;
@@ -168,6 +169,14 @@ public class DominionLocalGame extends LocalGame {
                 for (GamePlayer gamePlayer : players){
                     gamePlayer.sendInfo(info);
                     Log.i("TAG", "sending players buyCard info");
+                }
+            }
+
+            if(!(player instanceof GameHumanPlayer)){
+                try{
+                    Thread.sleep(900);}
+                catch(InterruptedException e){
+                    Log.i("LocalGame makeMove(): ", "Sleep error: " + e);
                 }
             }
 
