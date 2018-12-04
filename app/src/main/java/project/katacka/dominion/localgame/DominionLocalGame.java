@@ -89,7 +89,7 @@ public class DominionLocalGame extends LocalGame {
         int winner = state.getWinner();
         String result;
         if (winner != -1){ //No tie
-            result = String.format(Locale.US, "%s has won.\nScores:\n", playerNames[winner]);
+            result = String.format(Locale.US, "%s won.\nScores:\n", playerNames[winner]);
         } else { //In case of tie
             int[] tiedPlayers = state.getTiedPlayers();
             int numTied = tiedPlayers.length;
