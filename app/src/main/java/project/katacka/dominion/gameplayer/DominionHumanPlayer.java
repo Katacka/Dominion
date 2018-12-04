@@ -903,7 +903,13 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 inplayLayout.setVisibility(View.INVISIBLE);
                 shopLayout.setVisibility(View.VISIBLE);
             }*/
-            setViewVisible(inplayLayout);
+
+            //card has not been removed from hand
+            if(playerState.getDeck().getHandSize() != 1){
+                setViewVisible(inplayLayout);
+            } else {
+                setViewVisible(shopLayout);
+            }
         }
     }
 
