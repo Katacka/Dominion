@@ -25,4 +25,6 @@
     <string name="actions">Actions: %1$d</string>
     <string name="buys">Buys: %1$d</string>
     <string name="treasure">Treasure: %1$d</string>
+
+    <string name="cards_inplay_button">See cards in play</string>
 </resources>

@@ -9,6 +9,7 @@ import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.constraint.ConstraintLayout;
@@ -37,6 +38,7 @@ import project.katacka.dominion.gamedisplay.DominionBuyCardInfo;
 import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
 import project.katacka.dominion.gamedisplay.DominionPlayAllAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
+import project.katacka.dominion.gamedisplay.DominionPlayCardInfo;
 import project.katacka.dominion.gameframework.GameHumanPlayer;
 import project.katacka.dominion.gameframework.GameMainActivity;
 import project.katacka.dominion.gameframework.GamePlayer;
@@ -79,6 +81,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     private TableLayout baseLayout = null;
     private ArrayList<ConstraintLayout> basePiles;
+
+    private ConstraintLayout inplayLayout = null;
 
     private LinearLayout cardRow = null;
     private HorizontalScrollView cardScroll = null;
@@ -137,6 +141,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     ImageView imageHelp;
     AlertDialog dialog;
 
+    private Button bSeeCards = null;
+
     public DominionHumanPlayer(String name) {
         super(name);
         myHandler = new Handler();
@@ -157,6 +163,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         //making array list of tablerows for shop and base cards
         shopLayout = activity.findViewById(R.id.Shop_Cards);
         baseLayout = activity.findViewById(R.id.Base_Cards);
+        inplayLayout = activity.findViewById(R.id.Inplay_Cards);
 
         ///////////////////
         //Save views
@@ -206,6 +213,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
         //Menu
         bMenu = activity.findViewById(R.id.bMenu);
+
+        //see cards in play or shop button
+        bSeeCards = activity.findViewById(R.id.bSeeCardsInplay);
 
         //Resources.
         //Used to load card images
@@ -431,7 +441,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             if (amount == 0) setColorFilter(cardLayout, EMPTY_PILE);
         }
 
-        /**
+        /*
          External Citation
          Date: 11/1/18
          Problem: trying to iterate through table layout
@@ -585,6 +595,89 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     }
 
     /**
+     * Updates cards played view with cards that have been played.
+     */
+    private void updateInplay(){
+        //Finds how many cards to display
+        //inplayLayout.setVisibility(View.VISIBLE);
+        //shopLayout.setVisibility(View.INVISIBLE);
+        int cardsPlayed;
+        DominionPlayerState playerState = state.getDominionPlayer(state.getCurrentTurn());
+        cardsPlayed = playerState.getDeck().getInPlaySize();
+
+        ConstraintLayout inPlayLayout = activity.findViewById(R.id.Inplay_Cards);
+        inPlayLayout.removeAllViews();
+
+        //Creates new image views and puts them in layout
+        ConstraintLayout[] cards = new ConstraintLayout[cardsPlayed];
+        for (int i = 0; i < cardsPlayed; i++){
+            cards[i] = (ConstraintLayout) LayoutInflater.from(activity).
+                    inflate(R.layout.player_card, mainLayout, false);
+
+            //cards[i].setConstraintSet();
+
+            //cards[i].setScaleType(ImageView.ScaleType.FIT_START); //fits one axis, starting at top left
+
+            DominionCardState card = playerState.getDeck().getInPlay().get(i);
+
+            updateCardView(cards[i], card, -1);
+
+            String name = card.getPhotoId();
+            int resID = res.getIdentifier(name, "drawable", "project.katacka.dominion_card_back");
+
+            /*
+             * External Citation
+             * Date: 11/5/18
+             * Problem: setting imageview using string
+             * Source: https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
+             * Solution: shows how to convert string to resource id to use to set image view
+             */
+
+            //cards[i].setImageResource(resID);
+            cards[i].setId(View.generateViewId()); //Needed to allow constraints
+            inPlayLayout.addView(cards[i]);
+        }
+
+        ConstraintSet set = new ConstraintSet();
+        set.clone(inPlayLayout);
+        float biasMultiplier = Math.min(0.2f, 1/(float)cardsPlayed); //How far apart the cards should be, as a percentage
+        @IdRes int layoutID = inPlayLayout.getId();
+
+        //Add constraints to every card image
+        for (int i = 0; i < cardsPlayed; i++){
+            ConstraintLayout card = cards[i];
+            @IdRes int id = card.getId();
+
+            //Constrain to all four edges of the layout
+            set.connect(id, ConstraintSet.LEFT, layoutID, ConstraintSet.LEFT);
+            set.connect(id, ConstraintSet.RIGHT, layoutID, ConstraintSet.RIGHT);
+            set.connect(id, ConstraintSet.TOP, layoutID, ConstraintSet.TOP);
+            set.connect(id, ConstraintSet.BOTTOM, layoutID, ConstraintSet.BOTTOM);
+
+            //Have it fill the height it can
+            set.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
+            //Have it be wide enough to maintain aspect ration
+            //set.constrainWidth(id, 300); //TODO: fix hard coding
+
+            int w = mainLayout.getWidth();
+            int cardWidth = w/7;
+            //int cardWidth = mainLayout.getMaxWidth() / 7;
+            set.constrainWidth(id, cardWidth);
+
+            //set.constrainPercentWidth(id, (float) 0.03);
+
+            //Position the card in the correct position
+            //This is the entire reason we use a constraint layout
+            set.setHorizontalBias(id, i*biasMultiplier);
+        }
+
+        set.applyTo(inPlayLayout);
+        //shopLayout.setVisibility(View.INVISIBLE);
+        //TODO: Ashi delete? ^
+    }
+
+
+    /**
      * Prompts user for an alert dialog regarding ending their turn
      */
     private void promptEndTurn() {
@@ -688,6 +781,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             updateTurnInfo(state.getActions(), state.getBuys(), state.getTreasure());
             updateDrawDiscard();
             updateShopPiles();
+            updateInplay();
             updateBasePiles();
             updatePlayerHand();
 
@@ -695,6 +789,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             bEndTurn.setOnClickListener(handClickListener);
             bPlayAll.setOnClickListener(handClickListener);
             bMenu.setOnClickListener(menuClickListener);
+            bSeeCards.setOnClickListener(seeCardsListener);
 
             promptEndTurn();
         } else if(info instanceof NotYourTurnInfo) {
@@ -733,6 +828,28 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             //Flash the card layout
             setColorFilter(cardView, BOUGHT_PILE);
             myHandler.postDelayed(new ResetBackground(index, place), 500);
+            setViewVisible(shopLayout);
+        } else if (info instanceof DominionPlayCardInfo){
+            //updateInplay();
+            //if(state.getCurrentTurn() != playerNum){
+            //inplayLayout.setVisibility(View.VISIBLE);
+            //shopLayout.setVisibility(View.INVISIBLE);
+            //}
+            /*
+            else{
+                inplayLayout.setVisibility(View.INVISIBLE);
+                shopLayout.setVisibility(View.VISIBLE);
+            }*/
+
+            int cardIdx = ((DominionPlayCardInfo) info).getCardIndex();
+            if(playerState.getDeck().getHandSize() == 1 &&
+                    playerState.getDeck().getHand().get(cardIdx).getAddedDraw() == 0){
+                shopLayout.setVisibility(View.VISIBLE);
+                inplayLayout.setVisibility(View.INVISIBLE);
+            } else {
+                inplayLayout.setVisibility(View.VISIBLE);
+                shopLayout.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
@@ -744,6 +861,36 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         tv.setText(message);
     }
 
+    private final View.OnClickListener seeCardsListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.i("seeCardsListener", "button clicked");
+            if(shopLayout.getVisibility() == View.VISIBLE){
+                setViewVisible(inplayLayout);
+            }
+            else{
+                setViewVisible(shopLayout);
+            }
+        }
+    };
+
+    private void setViewVisible(View v){
+        if(v == inplayLayout){
+            Log.i("seeCardsListener", "updating in play");
+            updateInplay();
+            shopLayout.setVisibility(View.INVISIBLE);
+            inplayLayout.setVisibility(View.VISIBLE);
+            bSeeCards.setText("SEE CARDS IN SHOP");
+            Log.i("seeCardsListener", "changed text");
+        }
+        else{
+            Log.i("seeCardsListener", "updating shop");
+            updateShopPiles();
+            shopLayout.setVisibility(View.VISIBLE);
+            inplayLayout.setVisibility(View.INVISIBLE);
+            bSeeCards.setText("SEE CARDS IN PLAY");
+        }
+    }
     /**
      * Handles playing all treasures, ending a turn, and playing cards in the hand
      */
@@ -757,6 +904,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                Log.i("DomHumPlayer: HandClickListener onClick: ", "Play all button clicked");
 
                 action = new DominionPlayAllAction(thisPlayer);
+                //setViewVisible(inplayLayout);
+                setViewVisible(shopLayout);
             } else if(v == bEndTurn) { //clicked the end turn button
                 Log.i("TAG: ", "" + state.getCurrentTurn());
                 Log.i("DomHumPlayer: onClick", "End turn button clicked.");
