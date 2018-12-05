@@ -151,6 +151,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private int boughtCardIndex;
     private DominionCardPlace boughtCardPlace;
 
+    private TextView tvWait;
+
     public DominionHumanPlayer(String name) {
         super(name);
         myHandler = new Handler();
@@ -214,6 +216,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         oppEmptyDiscard = activity.findViewById(R.id.oppDiscardEmpty);
         tvOppDraw.setText("5");
         tvOppDiscard.setText("0");
+
+        //The "Waiting for players..." textView
+        tvWait = activity.findViewById(R.id.textViewWait);
 
         //Main view
         mainLayout = activity.findViewById(R.id.constraintMain);
@@ -284,6 +289,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             }
             else tabLayout.getChildAt(i).setVisibility(View.GONE);
         }
+        tvWait.setVisibility(View.GONE);
     }
 
     @Override

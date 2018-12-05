@@ -736,6 +736,21 @@
                 android:orientation="horizontal">
             </LinearLayout>
         </HorizontalScrollView>
+
     </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textViewWait"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#FF222222"
+        android:gravity="center"
+        android:text="Waiting for players..."
+        android:textColor="#FFFFFFFF"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
 
