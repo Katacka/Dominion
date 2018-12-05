@@ -264,7 +264,7 @@ public class DominionGameState extends GameState implements Serializable{
                 //Only occurs if card index not in hand, meaning isLegalPlay not working.
                 Log.e("DominionGameState", "Could not put in play");
                 return false;
-            };
+            }
             card.cardAction(this);
             if(card.getType() == DominionCardType.ACTION){
                 actions--;
@@ -438,7 +438,7 @@ public class DominionGameState extends GameState implements Serializable{
                 }
             }
 
-            if(tie){
+            if(!tie){
                 return winner;
             }
 
@@ -447,7 +447,7 @@ public class DominionGameState extends GameState implements Serializable{
 
             int minTurnsPlayed = dominionPlayers[winner].getTurnsPlayed();
             int tieWinner = winner;
-            int numTied = 0;
+            int numTied = 1;
             for (int i = winner + 1; i < numPlayers; i++){
                 int turns = dominionPlayers[i].getTurnsPlayed();
                 int score = scores[i];
