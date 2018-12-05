@@ -19,6 +19,7 @@ import project.katacka.dominion.gamestate.DominionShopPileState;
 
 import static org.junit.Assert.*;
 
+//TODO: Javadoc here and in methods
 public class DominionDeckStateTest {
     private DominionGameState state;
     private DominionDeckState deck;

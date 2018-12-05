@@ -18,6 +18,9 @@ import project.katacka.dominion.gamestate.DominionGameState;
 import project.katacka.dominion.gamestate.DominionPlayerState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
 
+/**
+ * Tests DominionCardState
+ */
 public class CardStateTest {
 
     private DominionGameState state;
@@ -76,6 +79,7 @@ public class CardStateTest {
     //SEPARATE CLASS, test copy constructor
 
     /**
+     * Tests that every card can be played without error.
      * @author Ryan
      */
     @Test
@@ -118,6 +122,7 @@ public class CardStateTest {
     }
 
     /**
+     * Tests that council room effects all players correctly.
      * @author Ryan
      */
     @Test
@@ -144,6 +149,7 @@ public class CardStateTest {
     }
 
     /**
+     * Tests playing a money lender when there is no copper in hand.
      * @author Ryan and Hayden
      */
     @Test
@@ -169,6 +175,7 @@ public class CardStateTest {
     }
 
     /**
+     * Tests money lender when there is only one copper in hand. Makes sure copper is removed.
      * @author Ryan and Hayden
      */
     @Test
@@ -194,6 +201,7 @@ public class CardStateTest {
     }
 
     /**
+     * Tests that money lender will not remove multiple copper from hand
      * @author Ryan, Hayden
      */
     @Test
@@ -234,6 +242,7 @@ public class CardStateTest {
     }
 
     /**
+     * Tests the playing of merchant and silver, and their interaction with each other.
      * @author Ryan, Hayden
      */
     @Test

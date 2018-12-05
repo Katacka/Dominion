@@ -11,6 +11,9 @@ import static org.junit.Assert.*;
  */
 public class CardTypeTest {
 
+    /**
+     * Tests the getTypeFromString method.
+     */
     @Test
     //Ryan Regier
     public void testCardType(){
