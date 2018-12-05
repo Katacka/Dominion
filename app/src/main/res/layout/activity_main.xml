@@ -46,8 +46,8 @@
         <TableLayout
             android:id="@+id/Base_Cards"
             android:layout_width="0dp"
-            android:layout_marginStart="12dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/Shop_Cards"
@@ -135,7 +135,7 @@
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent=".8"
             app:layout_constraintStart_toEndOf="@+id/Base_Cards"
-            app:layout_constraintTop_toBottomOf="@+id/Opp_Cards"
+            app:layout_constraintTop_toBottomOf="@+id/Opponent_Cards"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".65">
 
@@ -229,8 +229,22 @@
 
         </TableLayout>
 
+        <TextView
+            android:id="@+id/textViewGameOver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/Shop_Cards"
+            app:layout_constraintEnd_toEndOf="@id/Shop_Cards"
+            app:layout_constraintBottom_toBottomOf="@id/Shop_Cards"
+            app:layout_constraintTop_toTopOf="@id/Shop_Cards"
+            android:background="#FFFFFF77"
+            android:visibility="invisible"
+            android:textAlignment="center"
+            android:text=""
+            />
+
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/Opp_Cards"
+            android:id="@+id/Opponent_Cards"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -239,9 +253,25 @@
             app:layout_constraintStart_toEndOf="@+id/Base_Cards"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".45">
+            app:layout_constraintWidth_percent=".50" >
 
         </android.support.constraint.ConstraintLayout>
+
+        <ImageButton
+            android:id="@+id/bMusic"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="true"
+            android:background="#40bfbf"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/dominion_music"
+            app:layout_constraintBottom_toTopOf="@id/Player_Tabs"
+            app:layout_constraintEnd_toEndOf="@id/Player_Tabs"
+            app:layout_constraintStart_toStartOf="@id/Player_Tabs"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/Player_Tabs"
@@ -323,7 +353,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:foregroundGravity="top"
-            app:layout_constraintEnd_toStartOf="@id/Opp_Cards"
+            app:layout_constraintEnd_toStartOf="@id/Opponent_Cards"
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent=".15"
             app:layout_constraintStart_toEndOf="@id/Base_Cards"
@@ -345,8 +375,8 @@
                 android:id="@+id/oppDiscardEmpty"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/dominion_card_border_squared"
-                android:src="@drawable/dominion_discard"
+                android:background="@drawable/dominion_card_background_dark"
+                android:src="@drawable/dominion_discard_empty"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="@id/oppDiscardCard"
                 app:layout_constraintStart_toStartOf="@id/oppDiscardCard"
@@ -395,7 +425,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent=".15"
-            app:layout_constraintStart_toEndOf="@+id/Opp_Cards"
+            app:layout_constraintStart_toEndOf="@+id/Opponent_Cards"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent=".09">
@@ -416,8 +446,8 @@
                 android:id="@+id/oppDrawEmpty"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/dominion_card_border_squared"
-                android:src="@drawable/dominion_draw"
+                android:background="@drawable/dominion_card_background_dark"
+                android:src="@drawable/dominion_draw_empty"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="@id/ivOppDrawCard"
                 app:layout_constraintStart_toStartOf="@id/ivOppDrawCard"
@@ -489,7 +519,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/User_Cards"
+            app:layout_constraintEnd_toStartOf="@+id/User_Cards_Scroll"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
@@ -592,14 +622,15 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/User_Draw_Discard"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginEnd="20dp"
+            app:layout_constraintVertical_bias="1.0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/User_Cards"
-            app:layout_constraintTop_toTopOf="@id/User_Cards">
+            app:layout_constraintStart_toEndOf="@id/User_Cards_Scroll"
+            app:layout_constraintTop_toTopOf="@id/User_Cards_Scroll"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".15">
 
             <ImageView
                 android:id="@+id/ivDrawCard"
@@ -621,15 +652,14 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:adjustViewBounds="false"
-                android:background="@drawable/dominion_card_border_squared"
+                android:background="@drawable/dominion_card_background_dark"
                 android:cropToPadding="false"
                 android:scaleType="centerInside"
-                android:src="@drawable/dominion_draw"
+                android:src="@drawable/dominion_draw_empty"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@id/imageViewDiscard"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/ivDrawCard"
+                app:layout_constraintStart_toStartOf="@id/ivDrawCard"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0" />
 
@@ -639,22 +669,22 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/ivDrawCard"
+                app:layout_constraintStart_toStartOf="@id/ivDrawCard"
                 app:layout_constraintTop_toBottomOf="@id/ivDrawCard" />
 
             <ImageView
                 android:id="@+id/imageViewDiscardEmpty"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@drawable/dominion_card_border_squared"
+                android:background="@drawable/dominion_card_background_dark"
                 android:scaleType="centerInside"
-                android:src="@drawable/dominion_discard"
+                android:src="@drawable/dominion_discard_empty"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/ivDrawCard"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivDrawCard"
                 app:layout_constraintTop_toBottomOf="@id/ivDrawCard"
                 app:layout_constraintVertical_bias="1.0" />
 
@@ -699,56 +729,29 @@
 
         </android.support.constraint.ConstraintLayout>
 
-        <LinearLayout
-            android:id="@+id/User_Cards"
+        <HorizontalScrollView
+            android:id="@+id/User_Cards_Scroll"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:gravity="center_horizontal"
-            android:weightSum="5"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/User_Draw_Discard"
             app:layout_constraintStart_toEndOf="@+id/User_Stats_Buttons"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".75">
+            app:layout_constraintWidth_percent=".70"
+            android:gravity="center_horizontal"
+            android:requiresFadingEdge="horizontal"
+            android:fadingEdgeLength="40dp">
 
-            <include
-                layout="@layout/player_card"
+            <LinearLayout
+                android:id="@+id/User_Cards"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:layout_weight="1" />
-
-            <include
-                layout="@layout/player_card"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:layout_weight="1" />
-
-            <include
-                layout="@layout/player_card"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:layout_weight="1" />
-
-            <include
-                layout="@layout/player_card"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:layout_weight="1" />
-
-            <include
-                layout="@layout/player_card"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:layout_weight="1" />
-
-        </LinearLayout>
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+            </LinearLayout>
+        </HorizontalScrollView>
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>
 

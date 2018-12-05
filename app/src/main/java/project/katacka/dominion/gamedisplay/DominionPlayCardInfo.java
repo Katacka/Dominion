@@ -33,9 +33,8 @@ public class DominionPlayCardInfo extends GameInfo {
         this.cardIndex = 0;
     }
 
-    /*
+
     public int getCardIndex() {
         return cardIndex;
     }
-    */
 }

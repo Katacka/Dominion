@@ -122,7 +122,6 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
             game.sendAction(new DominionBuyCardAction(this, pileIdx, place));
             return true;
         }
-
         return false;
     }
 

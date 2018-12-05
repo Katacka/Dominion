@@ -13,6 +13,7 @@ import project.katacka.dominion.gamedisplay.DominionEndTurnAction;
 import project.katacka.dominion.gamedisplay.DominionPlayAllAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardInfo;
+import project.katacka.dominion.gameframework.GameHumanPlayer;
 import project.katacka.dominion.gameframework.GamePlayer;
 import project.katacka.dominion.gameframework.LocalGame;
 import project.katacka.dominion.gameframework.actionMsg.GameAction;
@@ -91,18 +92,18 @@ public class DominionLocalGame extends LocalGame {
         int winner = state.getWinner();
         String result;
         if (winner != -1){ //No tie
-            result = String.format(Locale.US, "%s has won.\nScores:\n", playerNames[winner]);
+            result = String.format(Locale.US, "%s won.\nScores:\n", playerNames[winner]);
         } else { //In case of tie
             int[] tiedPlayers = state.getTiedPlayers();
             int numTied = tiedPlayers.length;
             result = String.format(Locale.US, "There was a %d-way tie between ", numTied);
             for (int i = 0; i < numTied; i++){
                 if (i == numTied-1){ //Last player in tied list.
-                    result += String.format(Locale.US, "%s.\nScores:\n", playerNames[i]);
+                    result += String.format(Locale.US, "%s.\nScores:\n", playerNames[tiedPlayers[i]]);
                 } else if ( i == numTied - 2){ //Second to last player in tied list.
-                    result += String.format(Locale.US, "%s and ", playerNames[i]);
+                    result += String.format(Locale.US, "%s and ", playerNames[tiedPlayers[i]]);
                 } else { //All other players
-                    result += String.format(Locale.US, "%s, ", playerNames[i]);
+                    result += String.format(Locale.US, "%s, ", playerNames[tiedPlayers[i]]);
                 }
             }
         }
@@ -168,6 +169,14 @@ public class DominionLocalGame extends LocalGame {
                 for (GamePlayer gamePlayer : players){
                     gamePlayer.sendInfo(info);
                     Log.i("TAG", "sending players buyCard info");
+                }
+            }
+
+            if(!(player instanceof GameHumanPlayer)){
+                try{
+                    Thread.sleep(900);}
+                catch(InterruptedException e){
+                    Log.i("LocalGame makeMove(): ", "Sleep error: " + e);
                 }
             }
 
