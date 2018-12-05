@@ -266,6 +266,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     ConstraintLayout baseCard = ((ConstraintLayout) ((TableRow) baseRow).getVirtualChildAt(k));
                     basePiles.add(baseCard);
                     baseCard.setOnClickListener(shopClickListener);
+                    baseCard.setOnLongClickListener(shopLongClickListener);
                 }
             }
         }
@@ -853,11 +854,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             int cardIdx = ((DominionPlayCardInfo) info).getCardIndex();
             if(playerState.getDeck().getHandSize() == 1 &&
                     playerState.getDeck().getHand().get(cardIdx).getAddedDraw() == 0){
-                shopLayout.setVisibility(View.VISIBLE);
-                inplayLayout.setVisibility(View.INVISIBLE);
+                setViewVisible(shopLayout);
             } else {
-                inplayLayout.setVisibility(View.VISIBLE);
-                shopLayout.setVisibility(View.INVISIBLE);
+                setViewVisible(inplayLayout);
             }
         }
     }
@@ -917,6 +916,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             bSeeCards.setText("SEE CARDS IN PLAY");
         }
     }
+    
     /**
      * Handles playing all treasures, ending a turn, and playing cards in the hand
      */
@@ -930,7 +930,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                Log.i("DomHumPlayer: HandClickListener onClick: ", "Play all button clicked");
 
                 action = new DominionPlayAllAction(thisPlayer);
-                //setViewVisible(inplayLayout);
                 setViewVisible(shopLayout);
             } else if(v == bEndTurn) { //clicked the end turn button
                 Log.i("TAG: ", "" + state.getCurrentTurn());
@@ -999,13 +998,12 @@ public class DominionHumanPlayer extends GameHumanPlayer {
              */
 
             imageList = new ArrayList<Integer>
-                    (Arrays.asList(R.drawable.rules_instructions,
-                                    R.drawable.rules_play_card,
-                                    R.drawable.rules_buy_card,
-                                    R.drawable.rules_longpress,
-                                    R.drawable.rules_end_turn,
-                                    R.drawable.rules_swipe_cards,
-                                    R.drawable.rules_switch));
+                    (Arrays.asList(R.drawable.dominion_help_rules,
+                                    R.drawable.dominion_help_play,
+                                    R.drawable.dominion_help_buy,
+                                    R.drawable.dominion_help_longpress,
+                                    R.drawable.dominion_help_switch,
+                                    R.drawable.dominion_help_endturn));
 
             pos = 0;
 
@@ -1086,6 +1084,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private final View.OnLongClickListener shopLongClickListener = new View.OnLongClickListener(){
       @Override
       public boolean onLongClick(View v) {
+
           TableRow parentView = (TableRow) v.getParent();
           //is the table row the top row or bottom row
           TableLayout parentLayout = (TableLayout) parentView.getParent();
@@ -1093,7 +1092,14 @@ public class DominionHumanPlayer extends GameHumanPlayer {
           int desiredIndex = parentView.indexOfChild(v) + offSet;
 
           //get dominion shop pile state
-          DominionShopPileState pileState = state.getShopCards().get(desiredIndex);
+          DominionShopPileState pileState;
+
+          if(basePiles.contains(v)){
+              pileState = state.getBaseCards().get(desiredIndex);
+          }
+          else{
+              pileState = state.getShopCards().get(desiredIndex);
+          }
 
           final Dialog dialog = new Dialog(activity);
           dialog.setContentView(populateCardLayout(pileState));
