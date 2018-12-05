@@ -18,6 +18,7 @@ public class DominionPlayCardInfo extends GameInfo {
 
     /**
      * constructor for DominionPlayCardAction
+     * TODO: Why is this constructor here?
      *
      * @param player
      * 		the player who created the action

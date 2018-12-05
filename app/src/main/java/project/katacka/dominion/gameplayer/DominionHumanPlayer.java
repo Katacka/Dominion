@@ -64,6 +64,8 @@ import project.katacka.dominion.gamestate.DominionShopPileState;
  */
 public class DominionHumanPlayer extends GameHumanPlayer {
 
+    //TODO: Comment all the variables :(
+
     private final int ILLEGAL_TOAST_DURATION = 250;
     private final double CARD_WIDTH_RATIO = 0.66;
 
@@ -120,6 +122,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private TextView bMenu;
 
     private int promptEndTurn = 1;
+    private boolean gameOver = false;
 
     private ImageView drawPile;
     private ConstraintLayout discardPile;
@@ -134,14 +137,19 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private final Handler myHandler;
     private Drawable background;
     private Toast illegalMoveToast;
+    private Toast endTurnToast;
 
     private boolean isTurn;
 
-    ArrayList<Integer> imageList;
-    ImageView imageHelp;
-    AlertDialog dialog;
+    private ArrayList<Integer> imageList;
+    private ImageView imageHelp;
+    private AlertDialog dialog;
 
     private Button bSeeCards = null;
+
+    private boolean boughtCard = false;
+    private int boughtCardIndex;
+    private DominionCardPlace boughtCardPlace;
 
     public DominionHumanPlayer(String name) {
         super(name);
@@ -689,8 +697,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 endTurnPrompt.setPositiveButton(
                     "Yes",
                     (DialogInterface dialog, int id) -> {
-                        endTurnMsg();
                         game.sendAction(new DominionEndTurnAction(thisPlayer));
+                        endTurnMsg();
                     }
                 );
 
@@ -715,8 +723,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 });
             }
             else if (promptEndTurn == -1) {
-                endTurnMsg();
                 game.sendAction(new DominionEndTurnAction(thisPlayer));
+                endTurnMsg();
             }
         }
     }
@@ -733,8 +741,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 (DialogInterface dialog, int id) -> {
                     promptEndTurn = -1;
                     dialog.dismiss();
-                    endTurnMsg();
                     game.sendAction(new DominionEndTurnAction(thisPlayer));
+                    endTurnMsg();
                 }
         );
 
@@ -743,8 +751,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 (DialogInterface dialog, int id) -> {
                     promptEndTurn = 0;
                     dialog.dismiss();
-                    endTurnMsg();
                     game.sendAction(new DominionEndTurnAction(thisPlayer));
+                    endTurnMsg();
                 }
         );
 
@@ -752,7 +760,10 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     }
 
     private void endTurnMsg() {
-        Toast.makeText(activity, "Turn ended", Toast.LENGTH_SHORT).show();
+        if (gameOver) return;
+        if (endTurnToast != null) endTurnToast.cancel();
+        endTurnToast = Toast.makeText(activity, "Turn ended", Toast.LENGTH_SHORT);
+        endTurnToast.show();
     }
 
     /**
@@ -765,17 +776,22 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         if(info instanceof DominionGameState){
             state = (DominionGameState) info;
             playerState = state.getDominionPlayer(playerNum);
-            isTurn = playerNum == state.getCurrentTurn();
+            int currentTurn = state.getCurrentTurn();
+            isTurn = playerNum == currentTurn;
 
             //Update tabs to reflect turn
             if (state.getIsAttackTurn()) {
-                updateTabs(state.getCurrentTurn());
+                updateTabs(currentTurn);
                 updateOppDrawDiscard(state.getAttackTurn());
                 updateOppHand(state.getAttackTurn());
             } else {
-                updateTabs(state.getCurrentTurn());
-                updateOppDrawDiscard(state.getCurrentTurn());
-                updateOppHand(state.getCurrentTurn());
+                updateTabs(currentTurn);
+                updateOppDrawDiscard(currentTurn);
+                updateOppHand(currentTurn);
+            }
+
+            if(boughtCard){
+                buyCardFlash();
             }
 
             updateTurnInfo(state.getActions(), state.getBuys(), state.getTreasure());
@@ -786,6 +802,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             updatePlayerHand();
 
             //set listeners
+            //TODO: Move these listeners. They should not be being set with every info received
             bEndTurn.setOnClickListener(handClickListener);
             bPlayAll.setOnClickListener(handClickListener);
             bMenu.setOnClickListener(menuClickListener);
@@ -817,18 +834,10 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             int index = buyInfo.getCardIndex();
             DominionCardPlace place = buyInfo.getPlace();
 
-            //Find the card layout
-            ConstraintLayout cardView;
-            if (place == DominionCardPlace.BASE_CARD){
-                cardView = basePiles.get(index);
-            } else if (place == DominionCardPlace.SHOP_CARD){
-                cardView = shopPiles.get(index);
-            } else return;
+            boughtCard = true;
+            boughtCardPlace = place;
+            boughtCardIndex = index;
 
-            //Flash the card layout
-            setColorFilter(cardView, BOUGHT_PILE);
-            myHandler.postDelayed(new ResetBackground(index, place), 500);
-            setViewVisible(shopLayout);
         } else if (info instanceof DominionPlayCardInfo){
             //updateInplay();
             //if(state.getCurrentTurn() != playerNum){
@@ -853,12 +862,29 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     }
 
+    private void buyCardFlash(){
+        boughtCard = false;
+
+        ConstraintLayout cardView;
+        if (boughtCardPlace == DominionCardPlace.BASE_CARD){
+            cardView = basePiles.get(boughtCardIndex);
+        } else if (boughtCardPlace == DominionCardPlace.SHOP_CARD){
+            cardView = shopPiles.get(boughtCardIndex);
+        } else return;
+
+        //Flash the card layout
+        setViewVisible(shopLayout);
+        setColorFilter(cardView, BOUGHT_PILE);
+        myHandler.postDelayed(new ResetBackground(boughtCardIndex, boughtCardPlace), 500);
+    }
+
     @Override
     protected void gameIsOver(String message){
         super.gameIsOver(message);
         TextView tv = activity.findViewById(R.id.textViewGameOver);
         tv.setVisibility(View.VISIBLE);
         tv.setText(message);
+        gameOver = true;
     }
 
     private final View.OnClickListener seeCardsListener = new View.OnClickListener() {
@@ -935,6 +961,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             TableRow parentView = (TableRow) v.getParent();
 
             //This is the table row the top row or bottom row
+            //TODO: Use view array instead
             TableLayout parentLayout = (TableLayout) parentView.getParent();
             int offSet = parentLayout.indexOfChild(parentView) * parentView.getVirtualChildCount();
             int rawIndex = parentView.indexOfChild(v);
@@ -948,6 +975,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 place = DominionCardPlace.SHOP_CARD;
             }
 
+            //TODO: Why use parent view, when you already have the child (v)?
             TextView cardTitle = parentView.getChildAt(rawIndex).findViewById(R.id.textViewTitle);
             if (state.isLegalBuy(playerNum, desiredIndex, place)) Toast.makeText(activity, "Bought a " + cardTitle.getText(), Toast.LENGTH_SHORT).show();
 
@@ -1104,7 +1132,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         //Background is not saved - this is done when GUI is set
         //This prevents a race condition where the "flashed" background gets saved
         top.setBackgroundColor(color);
-        Log.i("Human", "Starting flash");
 
         myHandler.postDelayed(new Unflasher(getTopView(), background), duration);
     }
@@ -1130,7 +1157,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         public void run() {
             if (view == null) return;
             view.setBackground(background);
-            Log.i("Human", "Ending flash");
         }
     }
 
