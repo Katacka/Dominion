@@ -441,14 +441,13 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             if (amount == 0) setColorFilter(cardLayout, EMPTY_PILE);
         }
 
-        /**
+        /*
          External Citation
          Date: 11/1/18
          Problem: trying to iterate through table layout
          Source: https://stackoverflow.com/questions/3327599/get-all-tablerows-in-a-tablelayout
          Solution: using getChild and for each look to iterate through
          */
-
     }
 
     /**
