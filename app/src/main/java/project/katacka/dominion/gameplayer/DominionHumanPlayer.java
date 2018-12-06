@@ -166,8 +166,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private Resources res;
     private final GamePlayer thisPlayer = this; //to reference "this" human player from listener classes
 
-    //////////////////////////////////////////////////////////////////////
-
     public DominionHumanPlayer(String name) {
         super(name);
         flashHandler = new Handler();
@@ -701,7 +699,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             set.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
 
             int w = mainLayout.getWidth();
-            int cardWidth = w/7;
+            int cardWidth = handCardWidth;
             set.constrainWidth(id, cardWidth);
 
             //Position the card in the correct position
@@ -792,7 +790,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private void endTurnMsg() {
         if (gameOver) return;
         if (endTurnToast != null) endTurnToast.cancel();
-        endTurnToast = Toast.makeText(activity, "Turn ended", Toast.LENGTH_SHORT);
+        endTurnToast = Toast.makeText(activity, R.string.toast_turn_ended, Toast.LENGTH_SHORT);
         endTurnToast.show();
     }
 
@@ -838,8 +836,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             if (illegalMoveToast != null){
                 illegalMoveToast.cancel();
             }
-            illegalMoveToast = Toast.makeText(activity, "Excuse you. It is not your turn.\n" +
-                    "Please wait patiently like a well-mannered citizen.\n\n~~~~~~~~~~~~~~Thank you~~~~~~~~~~~~~~", Toast.LENGTH_SHORT);
+            illegalMoveToast = Toast.makeText(activity, R.string.toast_not_your_turn, Toast.LENGTH_SHORT);
             illegalMoveToast.show();
 
         } else if (info instanceof IllegalMoveInfo){
@@ -848,7 +845,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             if (illegalMoveToast != null){
                 illegalMoveToast.cancel();
             }
-            illegalMoveToast = Toast.makeText(activity, "Illegal move", Toast.LENGTH_SHORT);
+            illegalMoveToast = Toast.makeText(activity, R.string.toast_illegal_move, Toast.LENGTH_SHORT);
             illegalMoveToast.show();
 
         } else if (info instanceof DominionBuyCardInfo){
@@ -982,13 +979,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             TableRow parentView = (TableRow) v.getParent();
 
             //This is the table row the top row or bottom row
-            //TODO: Use view array instead
             TableLayout parentLayout = (TableLayout) parentView.getParent();
             int offSet = parentLayout.indexOfChild(parentView) * parentView.getVirtualChildCount();
             int rawIndex = parentView.indexOfChild(v);
             int desiredIndex = rawIndex + offSet;
 
-            //TODO fix this shit
             if (basePiles.contains(v)) {
                 place = DominionCardPlace.BASE_CARD;
             }
@@ -996,9 +991,10 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 place = DominionCardPlace.SHOP_CARD;
             }
 
-            //TODO: Why use parent view, when you already have the child (v)?
             TextView cardTitle = parentView.getChildAt(rawIndex).findViewById(R.id.textViewTitle);
-            if (state.isLegalBuy(playerNum, desiredIndex, place)) Toast.makeText(activity, "Bought a " + cardTitle.getText(), Toast.LENGTH_SHORT).show();
+
+            if (state.isLegalBuy(playerNum, desiredIndex, place)) Toast.makeText(activity,
+                    activity.getResources().getString(R.string.toast_bought_card) + " " + cardTitle.getText(), Toast.LENGTH_LONG).show();
 
             game.sendAction(new DominionBuyCardAction(thisPlayer, desiredIndex, place));
         }
@@ -1020,12 +1016,12 @@ public class DominionHumanPlayer extends GameHumanPlayer {
              */
 
             imageList = new ArrayList<>
-                    (Arrays.asList(R.drawable.dominion_help_rules,
-                                    R.drawable.dominion_help_play,
-                                    R.drawable.dominion_help_buy,
-                                    R.drawable.dominion_help_longpress,
-                                    R.drawable.dominion_help_switch,
-                                    R.drawable.dominion_help_endturn));
+                    (Arrays.asList(R.drawable.rules_instructions,
+                                    R.drawable.rules_play_card,
+                                    R.drawable.rules_buy_card,
+                                    R.drawable.rules_longpress,
+                                    R.drawable.rules_switch,
+                                    R.drawable.rules_end_turn));
 
             helpPos = 0;
 
