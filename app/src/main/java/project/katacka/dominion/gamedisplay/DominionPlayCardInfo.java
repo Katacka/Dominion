@@ -18,17 +18,6 @@ public class DominionPlayCardInfo extends GameInfo {
 
     /**
      * constructor for DominionPlayCardAction
-     * TODO: Why is this constructor here?
-     *
-     * @param player
-     * 		the player who created the action
-     */
-    public DominionPlayCardInfo(GamePlayer player, int cardIndex) {
-        this.cardIndex = cardIndex;
-    }
-
-    /**
-     * constructor for DominionPlayCardAction
      */
     public DominionPlayCardInfo() {
         this.cardIndex = 0;

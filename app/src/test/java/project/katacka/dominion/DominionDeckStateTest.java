@@ -167,7 +167,11 @@ public class DominionDeckStateTest {
         assertEquals(copper, deck.getDiscard().get(0));
     }
 
-    @Test //Hayden Liao
+    /**
+     * Tests that discard moves card from hand to discard
+     * @author Hayden Liao
+     */
+    @Test
     public void testDiscardByCard() {
         DominionCardState copper = baseCards.get(0).getCard();
 
@@ -217,7 +221,11 @@ public class DominionDeckStateTest {
 
     }
 
-    @Test //Hayden Liao
+    /**
+     * Tests that discard all moves all cards from hand into discard
+     * @author Hayden Liao
+     */
+    @Test
     public void testDiscardAll() {
         deck.getHand().clear();
         ArrayList<DominionCardState> tempHand = new ArrayList<>(deck.getHand().size());
@@ -240,7 +248,11 @@ public class DominionDeckStateTest {
         assertTrue(deck.getDiscard().containsAll(tempHand));
     }
 
-    @Test //Hayden Liao
+    /**
+     * Tests that reshuffle shuffles cards from discard into draw
+     * @author Hayden Liao
+     */
+    @Test
     public void testReshuffle() {
         setupSpecialCardList(deck.getDiscard());
 
@@ -256,6 +268,10 @@ public class DominionDeckStateTest {
         assertEquals( true, deck.getDraw().containsAll(tempDiscard));
     }
 
+    /**
+     * Tests that empty deck has no victory points, and special deck has 3
+     * @author Julian Donovan
+     */
     @Test
     public void testCountVictory() {
         deck.getDiscard().clear();
