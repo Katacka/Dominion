@@ -65,31 +65,6 @@ import project.katacka.dominion.gamestate.DominionShopPileState;
  */
 public class DominionHumanPlayer extends GameHumanPlayer {
 
-    //TODO: Comment all the variables :(
-    /*
-        constants
-        states
-        whole layout
-        main activity
-        shop
-        base
-        inplay
-        playerhand
-            with scroll
-        opponent hand
-        tabs
-        buttons
-        help
-        draw/discard
-        flash illegal move stuff
-        toast stuff
-        turn stuff
-        music
-        /game over stuff
-                wait
-        resources/this
-    */
-
     //CONSTANTS
     private final int ILLEGAL_TOAST_DURATION = 250;
     private final double CARD_WIDTH_RATIO = 0.66;
@@ -105,8 +80,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private DominionGameState state;
     private DominionPlayerState playerState;
 
-    //MAIN ACTIVITY
+    //BIG STUFF
+        // main activity, layout, inflater
     private GameMainActivity activity = null;
+    private ConstraintLayout mainLayout;
+    private LayoutInflater inflater;
 
     //SHOP CARDS
     private TableLayout shopLayout = null;
@@ -119,34 +97,13 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     //INPLAY
     private ConstraintLayout inplayLayout = null;
 
-
     //PLAYER HAND
     private LinearLayout cardRow = null;
     private HorizontalScrollView cardScroll = null;
     private ArrayList<DominionCardState> hand;
     private int handCardWidth = 0;
 
-
-
-    private int helpPos;
-
-    private ConstraintLayout mainLayout;
-    private LayoutInflater inflater;
-
-    private Resources res;
-
-    private Button bEndTurn = null;
-    private Button bPlayAll = null;
-
-    private ConstraintLayout tabLayout = null;
-
-
-
-
-    private TextView tvActions;
-    private TextView tvBuys;
-    private TextView tvTreasure;
-
+    //OPPONENT HAND
     private TextView tvOppDraw;
     private ImageView oppDraw;
     private ImageView oppDrawEmpty;
@@ -154,46 +111,60 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private ConstraintLayout oppDiscardLayout;
     private ImageView oppEmptyDiscard;
 
+    //TABS
+    private ConstraintLayout tabLayout = null;
+
+    //BUTTONS
+    private Button bEndTurn = null;
+    private Button bPlayAll = null;
+    private Button bMenu;
+    private Button bSeeCards = null;
+
+    //PLAYER STATS TEXT
+    private TextView tvActions;
+    private TextView tvBuys;
+    private TextView tvTreasure;
+
+    //HELP MENU
+    private int helpPos;
+    private ArrayList<Integer> imageList;
+    private ImageView imageHelp;
+    private AlertDialog dialog;
+
+    //DRAW/DISCARD
     private TextView tvDrawCount;
     private TextView tvDiscardCount;
-
-    private Button bMenu;
-
-    private int promptEndTurn = 1;
-    private boolean gameOver = false;
-
     private ImageView drawPile;
     private ConstraintLayout discardPile;
     private ImageView emptyDiscardPile;
     private ImageView emptyDrawPile;
 
+    //TURN STUFF
+    private int promptEndTurn = 1;
+    private boolean isTurn;
+    private Toast endTurnToast;
 
-
-    //cannot just use "this" in listeners
-        //"this" references the listener class, not DominionHumanPlayer
-    private final GamePlayer thisPlayer = this;
-
+    //ILLEGAL MOVE STUFF
     private final Handler flashHandler;
     private Drawable background;
     private Toast illegalMoveToast;
-    private Toast endTurnToast;
-
-    private boolean isTurn;
-
-    private ArrayList<Integer> imageList;
-    private ImageView imageHelp;
-    private AlertDialog dialog;
-
-    private Button bSeeCards = null;
-
     private boolean boughtCard = false;
     private int boughtCardIndex;
     private DominionCardPlace boughtCardPlace;
 
-    private TextView tvWait;
-
+    //MUSIC
     MediaPlayer music;
     private ImageButton bMusic = null;
+
+    //START/END GAME
+    private TextView tvWait;
+    private boolean gameOver = false;
+
+    //RESOURCES/THIS
+    private Resources res;
+    private final GamePlayer thisPlayer = this; //to reference "this" human player from listener classes
+
+    //////////////////////////////////////////////////////////////////////
 
     public DominionHumanPlayer(String name) {
         super(name);
