@@ -999,7 +999,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     };
 
     /**
-     * Displays a help menu dialog with multiple images and buttons to navigate
+     * Displays a help menu dialog when help button is clicked
      */
     private final View.OnClickListener menuClickListener = new View.OnClickListener(){
         @Override
@@ -1013,7 +1013,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
              * Solution: use Arrays.asList in ArrayList constructor.
              */
 
-            imageList = new ArrayList<Integer>
+            imageList = new ArrayList<>
                     (Arrays.asList(R.drawable.dominion_help_rules,
                                     R.drawable.dominion_help_play,
                                     R.drawable.dominion_help_buy,
@@ -1042,49 +1042,49 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                      Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
                      Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
                      button.setTextColor(Color.parseColor("#ff0000"));
-                     prevButton.setTextColor(Color.parseColor("#d3d3d3"));
+                     prevButton.setTextColor(Color.parseColor("#d3d3d3")); //prev button initially grey
                      Log.i("Dominion Human Player", "on show");
-                     button.setOnClickListener(helpClickListener);
-                     prevButton.setOnClickListener(helpClickListener);
+                     button.setOnClickListener(menuButtonClickListener);
+                     prevButton.setOnClickListener(menuButtonClickListener);
                  }
             });
 
             dialog.show();
-
-                Window window = dialog.getWindow();
-                double width = mainLayout.getWidth() * 0.75;
+            Window window = dialog.getWindow();
+            double width = mainLayout.getWidth() * 0.75;
             window.setLayout((int)(width),(int)(width *0.71));
 
         }
     };
 
-    private final View.OnClickListener helpClickListener = new View.OnClickListener() {
+    /**
+     * Changes the image displayed in help when next or prev button is clicked
+     */
+    private final View.OnClickListener menuButtonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if(v.getId() == dialog.getButton(AlertDialog.BUTTON_POSITIVE).getId() ){
-                Log.i("Dominion human player", "On click");
-                Button nextButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-                Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
-                if(pos< (imageList.size()-1)){
-                    pos++;
-                }
+                Button nextButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                Button prevButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+                if(pos< (imageList.size()-1)) pos++;
+
                 imageHelp.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to next image in array list
                 imageHelp.setImageResource(imageList.get(pos));
+                //set next button text color to grey if at last image in list
                 if (pos == (imageList.size()-1)) nextButton.setTextColor(Color.parseColor("#d3d3d3"));
                 else {
-                    Log.i("On help click", "resetting to red");
                     prevButton.setTextColor(Color.parseColor("#ff0000"));
                     nextButton.setTextColor(Color.parseColor("#ff0000"));
                 }
             }
             else if(v.getId() == dialog.getButton(AlertDialog.BUTTON_NEGATIVE).getId()){
-                Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
-                Button nextButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-                if(pos > 0) {
-                    pos--;
-                }
+                Button prevButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+                Button nextButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                if(pos > 0) pos--;
+
                 imageHelp.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to previous image in array list
                 imageHelp.setImageResource(imageList.get(pos));
+                //set prev button text color to grey if at first image in list
                 if (pos == 0) prevButton.setTextColor(Color.parseColor("#d3d3d3"));
                 else {
                     prevButton.setTextColor(Color.parseColor("#ff0000"));
@@ -1094,7 +1094,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     };
 
-
+    /**
+     * Plays or pauses the music playing when button is clicked
+     */
     private final View.OnClickListener musicListener = new View.OnClickListener(){
         @Override
         public void onClick(View v){
@@ -1108,7 +1110,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     };
 
     /**
-     * Displays a dialog with card and description for the card in shop that is long pressed
+     * Displays a dialog with card and description for the card in shop or base that is long pressed
      */
     private final View.OnLongClickListener shopLongClickListener = new View.OnLongClickListener(){
       @Override
@@ -1213,7 +1215,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
         /**
          * Resets the card's color filter.
-         * If the card pile is empty, readds the empty pile filter.
+         * If the card pile is empty, reads the empty pile filter.
          */
         public void run(){
             //Vars
