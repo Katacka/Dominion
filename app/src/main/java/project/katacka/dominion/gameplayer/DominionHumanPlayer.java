@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -178,6 +179,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     private TextView tvWait;
 
+    MediaPlayer music;
+    private ImageButton bMusic = null;
+
     public DominionHumanPlayer(String name) {
         super(name);
         flashHandler = new Handler();
@@ -255,6 +259,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         //Used to load card images
         res = activity.getResources();
         inflater = activity.getLayoutInflater();
+
+        music = MediaPlayer.create(activity.getApplicationContext(), R.raw.song);
+        music.setLooping(true);
+        music.start();
+        bMusic = activity.findViewById(R.id.bMusic);
 
         setShopArray();
         setBaseArray();
@@ -826,6 +835,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             bPlayAll.setOnClickListener(handClickListener);
             bMenu.setOnClickListener(menuClickListener);
             bSeeCards.setOnClickListener(seeCardsListener);
+            bMusic.setOnClickListener(musicListener);
 
             promptEndTurn();
         } else if(info instanceof NotYourTurnInfo) {
@@ -1092,6 +1102,19 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     prevButton.setTextColor(Color.parseColor("#ff0000"));
                     nextButton.setTextColor(Color.parseColor("#ff0000"));
                 }
+            }
+        }
+    };
+
+
+    private final View.OnClickListener musicListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View v){
+            if(music.isPlaying()){
+                music.pause();
+            }
+            else if(!music.isPlaying()){
+                music.start();
             }
         }
     };
