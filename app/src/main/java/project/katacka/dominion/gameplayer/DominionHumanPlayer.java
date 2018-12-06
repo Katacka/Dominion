@@ -1119,15 +1119,31 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     };
 
-
+    /**
+     * Used for the play/pause button for the music.
+     */
     private final View.OnClickListener musicListener = new View.OnClickListener(){
+        /**
+         * Button is pressed. Toggles the music on/off and sets the button to the correct image.
+         * @param v The music button. Ignored
+         */
         @Override
         public void onClick(View v){
+            /*
+             * External citation
+             * Date: 12/5
+             * Problem: Needed id of android resource
+             * Resource:
+             *  https://stackoverflow.com/questions/3201643/how-to-use-default-android-drawables
+             * Solution: Use android.R
+             */
             if(music.isPlaying()){
                 music.pause();
+                bMusic.setImageResource(android.R.drawable.ic_media_play);
             }
             else if(!music.isPlaying()){
                 music.start();
+                bMusic.setImageResource(android.R.drawable.ic_media_pause);
             }
         }
     };
