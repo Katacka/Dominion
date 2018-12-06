@@ -53,6 +53,7 @@ public class CardStateTest {
     }
 
     /**
+     * Tests whether copper constructor correctly sets each member variable
      * @author Hayden
      */
     @Test
@@ -103,8 +104,8 @@ public class CardStateTest {
     }
 
     /**
+     * Tests that moat draws two cards
      * @author Hayden Liao
-     * moat +2 cards to hand
      */
     @Test
     public void testMoatAction(){
@@ -306,6 +307,8 @@ public class CardStateTest {
     }
 
     /**
+     * Tests that base action adds, discards and plays correct number of cards
+     *  when called by copper and council
      * @author Hayden Liao
      */
     @Test
