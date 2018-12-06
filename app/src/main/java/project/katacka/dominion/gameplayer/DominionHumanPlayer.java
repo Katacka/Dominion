@@ -9,7 +9,6 @@ import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.constraint.ConstraintLayout;
@@ -65,7 +64,29 @@ import project.katacka.dominion.gamestate.DominionShopPileState;
 public class DominionHumanPlayer extends GameHumanPlayer {
 
     //TODO: Comment all the variables :(
+    /*
+        constants
+                states
+        whole layout
+        main activity
+        shop
+                base
+        inplay
+                playerhand
+        with scroll
+        opponent hand
+        buttons
+                help
+        draw/discard
+        flash illegal move stuff
+        toast stuff
+        turn stuff
+        /game over stuff
+                wait
+        resources/this
+    */
 
+    //CONSTANTS
     private final int ILLEGAL_TOAST_DURATION = 250;
     private final double CARD_WIDTH_RATIO = 0.66;
 
@@ -74,6 +95,10 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     private final int EMPTY_PILE = Color.DKGRAY;
     private final int BOUGHT_PILE = 0xff80dfff;
+
+    private final int MAX_HAND_SIZE = 5;
+
+
 
     private DominionGameState state;
     private ConstraintLayout tabLayout = null;
@@ -90,10 +115,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private HorizontalScrollView cardScroll = null;
     private ArrayList<DominionCardState> hand;
 
-    private final int MAX_HAND_SIZE = 5;
     private int handCardWidth = 0;
 
-    private int pos;
+    private int helpPos;
 
     private ConstraintLayout mainLayout;
     private LayoutInflater inflater;
@@ -119,7 +143,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private TextView tvDrawCount;
     private TextView tvDiscardCount;
 
-    private TextView bMenu;
+    private Button bMenu;
 
     private int promptEndTurn = 1;
     private boolean gameOver = false;
@@ -131,10 +155,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     private DominionPlayerState playerState;
 
-    private final GamePlayer thisPlayer = this; //cannot just use "this" in listeners
-        // b/c "this" references the listener class, not DominionHumanPlayer
+    //cannot just use "this" in listeners
+        //"this" references the listener class, not DominionHumanPlayer
+    private final GamePlayer thisPlayer = this;
 
-    private final Handler myHandler;
+    private final Handler flashHandler;
     private Drawable background;
     private Toast illegalMoveToast;
     private Toast endTurnToast;
@@ -155,7 +180,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     public DominionHumanPlayer(String name) {
         super(name);
-        myHandler = new Handler();
+        flashHandler = new Handler();
     }
 
     public String toString(){
@@ -174,10 +199,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         shopLayout = activity.findViewById(R.id.Shop_Cards);
         baseLayout = activity.findViewById(R.id.Base_Cards);
         inplayLayout = activity.findViewById(R.id.Inplay_Cards);
-
-        ///////////////////
-        //Save views
-        /////////////////
 
         tabLayout = activity.findViewById(R.id.Player_Tabs);
         bEndTurn = activity.findViewById(R.id.buttonEndTurn);
@@ -455,7 +476,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             setHighlight(cardLayout, canBuy(card, amount));
             if (amount == 0) setColorFilter(cardLayout, EMPTY_PILE);
         }
-
         /*
          External Citation
          Date: 11/1/18
@@ -463,7 +483,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
          Source: https://stackoverflow.com/questions/3327599/get-all-tablerows-in-a-tablelayout
          Solution: using getChild and for each look to iterate through
          */
-
     }
 
     /**
@@ -629,10 +648,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             cards[i] = (ConstraintLayout) LayoutInflater.from(activity).
                     inflate(R.layout.player_card, mainLayout, false);
 
-            //cards[i].setConstraintSet();
-
-            //cards[i].setScaleType(ImageView.ScaleType.FIT_START); //fits one axis, starting at top left
-
             DominionCardState card = playerState.getDeck().getInPlay().get(i);
 
             updateCardView(cards[i], card, -1);
@@ -648,7 +663,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
              * Solution: shows how to convert string to resource id to use to set image view
              */
 
-            //cards[i].setImageResource(resID);
             cards[i].setId(View.generateViewId()); //Needed to allow constraints
             inPlayLayout.addView(cards[i]);
         }
@@ -678,8 +692,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             int cardWidth = w/7;
             //int cardWidth = mainLayout.getMaxWidth() / 7;
             set.constrainWidth(id, cardWidth);
-
-            //set.constrainPercentWidth(id, (float) 0.03);
 
             //Position the card in the correct position
             //This is the entire reason we use a constraint layout
@@ -880,7 +892,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         //Flash the card layout
         setViewVisible(shopLayout);
         setColorFilter(cardView, BOUGHT_PILE);
-        myHandler.postDelayed(new ResetBackground(boughtCardIndex, boughtCardPlace), 500);
+        flashHandler.postDelayed(new ResetBackground(boughtCardIndex, boughtCardPlace), 500);
     }
 
     @Override
@@ -1011,7 +1023,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                                     R.drawable.dominion_help_switch,
                                     R.drawable.dominion_help_endturn));
 
-            pos = 0;
+            helpPos = 0;
 
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             builder.setPositiveButton("Next", null);
@@ -1024,7 +1036,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             imageHelp = dialogLayout.findViewById(R.id.image_help);
 
             imageHelp.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            imageHelp.setImageResource(imageList.get(pos)); //set dialog image to first image in array list
+            imageHelp.setImageResource(imageList.get(helpPos)); //set dialog image to first image in array list
 
             dialog.setOnShowListener(new DialogInterface.OnShowListener() {
                  @Override
@@ -1055,12 +1067,12 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 Log.i("Dominion human player", "On click");
                 Button nextButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
                 Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
-                if(pos< (imageList.size()-1)){
-                    pos++;
+                if(helpPos < (imageList.size()-1)){
+                    helpPos++;
                 }
                 imageHelp.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to next image in array list
-                imageHelp.setImageResource(imageList.get(pos));
-                if (pos == (imageList.size()-1)) nextButton.setTextColor(Color.parseColor("#d3d3d3"));
+                imageHelp.setImageResource(imageList.get(helpPos));
+                if (helpPos == (imageList.size()-1)) nextButton.setTextColor(Color.parseColor("#d3d3d3"));
                 else {
                     Log.i("On help click", "resetting to red");
                     prevButton.setTextColor(Color.parseColor("#ff0000"));
@@ -1070,12 +1082,12 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             else if(v.getId() == dialog.getButton(AlertDialog.BUTTON_NEGATIVE).getId()){
                 Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
                 Button nextButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-                if(pos > 0) {
-                    pos--;
+                if(helpPos > 0) {
+                    helpPos--;
                 }
                 imageHelp.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to previous image in array list
-                imageHelp.setImageResource(imageList.get(pos));
-                if (pos == 0) prevButton.setTextColor(Color.parseColor("#d3d3d3"));
+                imageHelp.setImageResource(imageList.get(helpPos));
+                if (helpPos == 0) prevButton.setTextColor(Color.parseColor("#d3d3d3"));
                 else {
                     prevButton.setTextColor(Color.parseColor("#ff0000"));
                     nextButton.setTextColor(Color.parseColor("#ff0000"));
@@ -1145,7 +1157,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         //This prevents a race condition where the "flashed" background gets saved
         top.setBackgroundColor(color);
 
-        myHandler.postDelayed(new Unflasher(getTopView(), background), duration);
+        flashHandler.postDelayed(new Unflasher(getTopView(), background), duration);
     }
 
     /**
