@@ -9,6 +9,7 @@ import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.constraint.ConstraintLayout;
@@ -67,21 +68,23 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     //TODO: Comment all the variables :(
     /*
         constants
-                states
+        states
         whole layout
         main activity
         shop
-                base
+        base
         inplay
-                playerhand
-        with scroll
+        playerhand
+            with scroll
         opponent hand
+        tabs
         buttons
-                help
+        help
         draw/discard
         flash illegal move stuff
         toast stuff
         turn stuff
+        music
         /game over stuff
                 wait
         resources/this
@@ -90,33 +93,40 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     //CONSTANTS
     private final int ILLEGAL_TOAST_DURATION = 250;
     private final double CARD_WIDTH_RATIO = 0.66;
-
-    private final float TAB_INACTIVE = 0.85f;
-    private final float TAB_ACTIVE = 1f;
+    private final int MAX_HAND_SIZE = 5;
 
     private final int EMPTY_PILE = Color.DKGRAY;
     private final int BOUGHT_PILE = 0xff80dfff;
 
-    private final int MAX_HAND_SIZE = 5;
+    private final float TAB_INACTIVE = 0.85f;
+    private final float TAB_ACTIVE = 1f;
 
-
-
+    //STATES
     private DominionGameState state;
-    private ConstraintLayout tabLayout = null;
+    private DominionPlayerState playerState;
 
+    //MAIN ACTIVITY
+    private GameMainActivity activity = null;
+
+    //SHOP CARDS
     private TableLayout shopLayout = null;
     private ArrayList<ConstraintLayout> shopPiles;
 
+    //BASE CARDS
     private TableLayout baseLayout = null;
     private ArrayList<ConstraintLayout> basePiles;
 
+    //INPLAY
     private ConstraintLayout inplayLayout = null;
 
+
+    //PLAYER HAND
     private LinearLayout cardRow = null;
     private HorizontalScrollView cardScroll = null;
     private ArrayList<DominionCardState> hand;
-
     private int handCardWidth = 0;
+
+
 
     private int helpPos;
 
@@ -128,7 +138,10 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private Button bEndTurn = null;
     private Button bPlayAll = null;
 
-    private GameMainActivity activity = null;
+    private ConstraintLayout tabLayout = null;
+
+
+
 
     private TextView tvActions;
     private TextView tvBuys;
@@ -154,7 +167,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private ImageView emptyDiscardPile;
     private ImageView emptyDrawPile;
 
-    private DominionPlayerState playerState;
+
 
     //cannot just use "this" in listeners
         //"this" references the listener class, not DominionHumanPlayer
