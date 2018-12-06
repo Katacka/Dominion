@@ -268,9 +268,9 @@ public class DominionDeckStateTest {
         assertEquals( true, deck.getDraw().containsAll(tempDiscard));
     }
 
-    //TODO: whose is this???
     /**
      * Tests that empty deck has no victory points, and special deck has 3
+     * @author Julian Donovan
      */
     @Test
     public void testCountVictory() {
