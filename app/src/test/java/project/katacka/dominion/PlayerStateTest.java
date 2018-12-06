@@ -17,7 +17,6 @@ import static project.katacka.dominion.GameStateGenerator.getNewState;
 
 /**
  *
- * TODO: Javadoc methods
  * @author Hayden Liao
  */
 
