@@ -900,9 +900,13 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             int index = buyInfo.getCardIndex();
             DominionCardPlace place = buyInfo.getPlace();
 
+            //Saves the information to flash later
             boughtCard = true;
             boughtCardPlace = place;
             boughtCardIndex = index;
+
+            //Switches the screen so the flash is obvious
+            setViewVisible(shopLayout);
 
         } else if (info instanceof DominionPlayCardInfo){
             //Switches the view to show cards in play
