@@ -1,11 +1,9 @@
 package project.katacka.dominion.gamedisplay;
 
-import project.katacka.dominion.gameframework.GamePlayer;
 import project.katacka.dominion.gameframework.infoMsg.GameInfo;
 
-
 /**
- * @author Hayden
+ * @author Ashika Hayden Julian Ryan
  *
  * Sent to players when a card is played.
  * Used to toggle between shop and inplay

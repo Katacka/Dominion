@@ -4,6 +4,8 @@ import project.katacka.dominion.gameframework.infoMsg.GameInfo;
 import project.katacka.dominion.gamestate.DominionCardPlace;
 
 /**
+ * @author Ashika Hayden Julian Ryan
+ *
  * Sent to players when a card is bought.
  * Used to perform buy card animations.
  */

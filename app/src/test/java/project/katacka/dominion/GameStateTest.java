@@ -19,8 +19,6 @@ import static org.junit.Assert.*;
 /**
  * Tests methods in DominionGameState
  *
- * TODO: Javadoc methods
- *
  * @author Ashika
  */
 public class GameStateTest {
@@ -51,6 +49,9 @@ public class GameStateTest {
         shopCards = state.getShopCards();
     }
 
+    /**
+     * Tests canMove method
+     */
     @Test
     public void testCanMove(){
         int turn = state.getCurrentTurn();
@@ -80,6 +81,9 @@ public class GameStateTest {
         }
     }
 
+    /**
+     * Tests getPlayerScores method
+     */
     @Test
     public void testGetPlayerScores(){
         int[] playerScores = state.getPlayerScores();
@@ -100,6 +104,9 @@ public class GameStateTest {
         assertEquals(6, playerScoresNew[turn]);
     }
 
+    /**
+     * Tests isLegalBuy method
+     */
     @Test
     public void testIsLegalBuy() {
         int turn = state.getCurrentTurn();
@@ -127,6 +134,9 @@ public class GameStateTest {
         assertFalse(state.isLegalBuy(notTurn, 3, DominionCardPlace.SHOP_CARD)); //not correct players turn
     }
 
+    /**
+     * Tests isLegalPlay method
+     */
     @Test
     public void testIsLegalPlay(){
         int turn = state.getCurrentTurn();
@@ -146,6 +156,9 @@ public class GameStateTest {
         assertFalse(state.isLegalPlay(notTurn, 0)); //not right player
     }
 
+    /**
+     * Tests playCard method
+     */
     @Test
     public void testPlayCard(){
         int turn = state.getCurrentTurn();
@@ -171,6 +184,9 @@ public class GameStateTest {
         assertFalse(playAnotherCard); //should not be able to play action because actions are at 0
     }
 
+    /**
+     * Tests playALlCards method
+     */
     @Test
     public void testPlayAllCards(){
         int turn = state.getCurrentTurn();
@@ -186,6 +202,9 @@ public class GameStateTest {
         assertTrue(deck.getHand().contains(shopCards.get(MOAT).getCard()));
     }
 
+    /**
+     * Tests endTurn method
+     */
     @Test
     public void testEndTurn(){
         int turn = state.getCurrentTurn();
@@ -195,6 +214,9 @@ public class GameStateTest {
         assertEquals(state.getCurrentTurn(), (turn + 1) % state.getDominionPlayers().length);
     }
 
+    /**
+     * Tests buyCard method
+     */
     @Test
     public void testBuyCard(){
         int turn = state.getCurrentTurn();
@@ -222,6 +244,9 @@ public class GameStateTest {
         assertEquals(buys-1, state.getBuys()); //test that buys have still only decremented 1
     }
 
+    /**
+     * Tests getWinner method
+     */
     @Test
     public void testGetWinner() {
         int[] playerScores = state.getPlayerScores();
@@ -309,6 +334,9 @@ public class GameStateTest {
         assertArrayEquals(expected, tiedPlayers);
     }
 
+    /**
+     * Tests quitGame method
+     */
     @Test
     public void testQuitGame(){
         int turn = state.getCurrentTurn();

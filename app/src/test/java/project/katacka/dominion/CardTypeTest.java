@@ -13,9 +13,9 @@ public class CardTypeTest {
 
     /**
      * Tests the getTypeFromString method.
+     * @author Ryan
      */
     @Test
-    //Ryan Regier
     public void testCardType(){
         assertEquals("VICTORY", DominionCardType.VICTORY, DominionCardType.getTypeFromString("VICTORY"));
         assertEquals("victory", DominionCardType.VICTORY, DominionCardType.getTypeFromString("victory"));

@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import project.katacka.dominion.GameStateGenerator;
 import project.katacka.dominion.gamestate.DominionGameState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
 

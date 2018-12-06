@@ -43,7 +43,7 @@ public class DominionSimpleAIPlayer extends DominionComputerPlayer {
                 if (playTreasure()) break;
             case BUY:
                 if (playSimpleBuyPhase()) break;
-            case END: //TODO: Not reachable case (according to linter)
+            case END: //Reachable through the 'BUY' case cascading
                 endTurn();
                 break;
             case IN_PROGRESS:

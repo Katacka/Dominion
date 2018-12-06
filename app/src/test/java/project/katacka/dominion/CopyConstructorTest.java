@@ -34,6 +34,7 @@ public class CopyConstructorTest {
 
     /**
      * Tests DominionGameState
+     * @author Ryan
      */
     @Test
     public void testState(){
@@ -60,6 +61,7 @@ public class CopyConstructorTest {
 
     /**
      * Tests DominionCardState
+     * @author Ryan
      */
     @Test
     public void testCard(){
@@ -80,6 +82,7 @@ public class CopyConstructorTest {
 
     /**
      * Tests DominionDeckState
+     * @author Ryan
      */
     @Test
     public void testDeck(){
@@ -133,6 +136,7 @@ public class CopyConstructorTest {
 
     /**
      * Tests DominionPlayerState
+     * @author Ryan
      */
     @Test
     public void testPlayer(){
@@ -176,6 +180,7 @@ public class CopyConstructorTest {
 
     /**
      * Tests DominionShopPileState
+     * @author Ryan
      */
     @Test
     public void testShopPile(){
@@ -192,6 +197,8 @@ public class CopyConstructorTest {
      * Clears the arrays that have their cards obfuscated so equality can be checked.
      * Used for comparing copied game states
      * @param state The state to clear from. Modified in place.
+     *
+     * @author Ryan
      */
     private void clearHiddenContent(DominionGameState state){
         int currPlayer = state.getCurrentTurn();
