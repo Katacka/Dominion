@@ -15,6 +15,7 @@ import android.support.annotation.IdRes;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -73,8 +74,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private final int EMPTY_PILE = Color.DKGRAY;
     private final int BOUGHT_PILE = 0xff80dfff;
 
-    private final float TAB_INACTIVE = 0.85f;
-    private final float TAB_ACTIVE = 1f;
+    //DIMENSIONS
+    private float tabInactive;
+    private float tabActive;
 
     //STATES
     private DominionGameState state;
@@ -153,7 +155,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private DominionCardPlace boughtCardPlace;
 
     //MUSIC
-    MediaPlayer music;
+    private MediaPlayer music;
     private ImageButton bMusic = null;
 
     //START/END GAME
@@ -244,6 +246,21 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         res = activity.getResources();
         inflater = activity.getLayoutInflater();
 
+        //Dimensions
+        /*
+         * External citation
+         * Date: 12/5
+         * Problem: Wanted to read tab sizes from xml. Using getDimension failed.
+         * Resource: https://stackoverflow.com/questions/3282390/add-floating-point-value-to-android-resources-values
+         * Solution: Used TypedValue and getValue to retrieve numbers.
+         */
+        TypedValue outValue = new TypedValue();
+        res.getValue(R.dimen.tabInactive, outValue, true);
+        tabInactive = outValue.getFloat();
+        res.getValue(R.dimen.tabActive, outValue, true);
+        tabActive = outValue.getFloat();
+
+        //Music
         music = MediaPlayer.create(activity.getApplicationContext(), R.raw.song);
         music.setLooping(true);
         music.start();
@@ -327,9 +344,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         int[] playerTabs = {R.id.playerTab1, R.id.playerTab2, R.id.playerTab3, R.id.playerTab4};
         for(int i = 0; i < state.getNumPlayers(); i++){
             if(i == activePlayer){
-                c.constrainPercentWidth(playerTabs[i], TAB_ACTIVE);
+                c.constrainPercentWidth(playerTabs[i], tabActive);
             } else {
-                c.constrainPercentWidth(playerTabs[i], TAB_INACTIVE);
+                c.constrainPercentWidth(playerTabs[i], tabInactive);
             }
         }
 
@@ -709,7 +726,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 endTurnPrompt.setPositiveButton(
                     "Yes",
                     (DialogInterface dialog, int id) -> {
-                        game.sendAction(new DominionEndTurnAction(thisPlayer));
+                        game.sendAction(new DominionEndTurnAction(this));
                         endTurnMsg();
                     }
                 );
@@ -735,7 +752,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 });
             }
             else if (promptEndTurn == -1) {
-                game.sendAction(new DominionEndTurnAction(thisPlayer));
+                game.sendAction(new DominionEndTurnAction(this));
                 endTurnMsg();
             }
         }
@@ -753,7 +770,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 (DialogInterface dialog, int id) -> {
                     promptEndTurn = -1;
                     dialog.dismiss();
-                    game.sendAction(new DominionEndTurnAction(thisPlayer));
+                    game.sendAction(new DominionEndTurnAction(this));
                     endTurnMsg();
                 }
         );
@@ -763,7 +780,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 (DialogInterface dialog, int id) -> {
                     promptEndTurn = 0;
                     dialog.dismiss();
-                    game.sendAction(new DominionEndTurnAction(thisPlayer));
+                    game.sendAction(new DominionEndTurnAction(this));
                     endTurnMsg();
                 }
         );
