@@ -273,6 +273,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         res = activity.getResources();
         inflater = activity.getLayoutInflater();
 
+        //Music
         music = MediaPlayer.create(activity.getApplicationContext(), R.raw.song);
         music.setLooping(true);
         music.start();
@@ -280,8 +281,18 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
         setShopArray();
         setBaseArray();
+
+        //set listeners
+        bEndTurn.setOnClickListener(handClickListener);
+        bPlayAll.setOnClickListener(handClickListener);
+        bMenu.setOnClickListener(menuClickListener);
+        bSeeCards.setOnClickListener(seeCardsListener);
+        bMusic.setOnClickListener(musicListener);
     }
 
+    /**
+     * Initializes the array of Constraint layouts (shop cards)
+     */
     public void setShopArray() {
         shopPiles = new ArrayList<>();
         for (int i = 0, j = shopLayout.getChildCount(); i < j; i++) {
@@ -301,6 +312,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     }
 
+    /**
+     * Initializes the array of Constraint layouts (base cards)
+     */
     public void setBaseArray() {
         basePiles = new ArrayList<>();
         for (int i = 0, j = baseLayout.getChildCount(); i < j; i++) {
@@ -445,7 +459,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
     /**
      * Draws the card at the given view
-     * @param cardView The view to draw the card
+     * @param cardView The view used to draw the card
      * @param card The card to display
      * @param num The amount of cards. If -1, amount is hidden.
      */
@@ -479,7 +493,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         /*
          * External Citation
          * Date: 11/5/18
-         * Problem: setting imageview using string
+         * Problem: setting imageView using string
          * Source: https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
          * Solution: shows how to convert string to resource id to use to set image view
          */
@@ -508,8 +522,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     }
 
     /**
-     * Creates a gray filter that is added to the ImageViews of cards in the shop or base piles
+     * Creates a color filter that is added to the cards in the shop or base piles
      * @param shopCard Specifies the card being grayed out
+     * @param color Color to be used for the filter
      */
     private void setColorFilter(ConstraintLayout shopCard, int color) {
         /*
@@ -526,6 +541,10 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         ((ImageView) shopCard.findViewById(R.id.imageViewAmount)).setColorFilter(filter);
     }
 
+    /**
+     * Clears the color filter on cards in the shop
+     * @param shopCard Specifies the card who's filter is being cleared
+     */
     private void clearColorFilter(ConstraintLayout shopCard) {
         ((ImageView) shopCard.findViewById(R.id.imageViewArt)).clearColorFilter();
         shopCard.getBackground().clearColorFilter();
@@ -655,8 +674,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      */
     private void updateInplay(){
         //Finds how many cards to display
-        //inplayLayout.setVisibility(View.VISIBLE);
-        //shopLayout.setVisibility(View.INVISIBLE);
         int cardsPlayed;
         DominionPlayerState playerState = state.getDominionPlayer(state.getCurrentTurn());
         cardsPlayed = playerState.getDeck().getInPlaySize();
@@ -673,17 +690,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             DominionCardState card = playerState.getDeck().getInPlay().get(i);
 
             updateCardView(cards[i], card, -1);
-
-            String name = card.getPhotoId();
-            int resID = res.getIdentifier(name, "drawable", "project.katacka.dominion_card_back");
-
-            /*
-             * External Citation
-             * Date: 11/5/18
-             * Problem: setting imageview using string
-             * Source: https://stackoverflow.com/questions/5254100/how-to-set-an-imageviews-image-from-a-string
-             * Solution: shows how to convert string to resource id to use to set image view
-             */
 
             cards[i].setId(View.generateViewId()); //Needed to allow constraints
             inPlayLayout.addView(cards[i]);
@@ -705,24 +711,17 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             set.connect(id, ConstraintSet.TOP, layoutID, ConstraintSet.TOP);
             set.connect(id, ConstraintSet.BOTTOM, layoutID, ConstraintSet.BOTTOM);
 
-            //Have it fill the height it can
             set.constrainHeight(id, ConstraintSet.MATCH_CONSTRAINT);
-            //Have it be wide enough to maintain aspect ration
-            //set.constrainWidth(id, 300); //TODO: fix hard coding
 
             int w = mainLayout.getWidth();
             int cardWidth = w/7;
-            //int cardWidth = mainLayout.getMaxWidth() / 7;
             set.constrainWidth(id, cardWidth);
 
             //Position the card in the correct position
-            //This is the entire reason we use a constraint layout
             set.setHorizontalBias(id, i*biasMultiplier);
         }
 
         set.applyTo(inPlayLayout);
-        //shopLayout.setVisibility(View.INVISIBLE);
-        //TODO: Ashi delete? ^
     }
 
 
@@ -800,6 +799,9 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         endTurnSettings.create().show();
     }
 
+    /**
+     * Displays end turn toast
+     */
     private void endTurnMsg() {
         if (gameOver) return;
         if (endTurnToast != null) endTurnToast.cancel();
@@ -842,14 +844,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             updateBasePiles();
             updatePlayerHand();
 
-            //set listeners
-            //TODO: Move these listeners. They should not be being set with every info received
-            bEndTurn.setOnClickListener(handClickListener);
-            bPlayAll.setOnClickListener(handClickListener);
-            bMenu.setOnClickListener(menuClickListener);
-            bSeeCards.setOnClickListener(seeCardsListener);
-            bMusic.setOnClickListener(musicListener);
-
             promptEndTurn();
         } else if(info instanceof NotYourTurnInfo) {
             Log.i("DominionHumanPlayer: receiveInfo", "Not your turn.");
@@ -869,6 +863,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             }
             illegalMoveToast = Toast.makeText(activity, "Illegal move", Toast.LENGTH_SHORT);
             illegalMoveToast.show();
+
         } else if (info instanceof DominionBuyCardInfo){
             DominionBuyCardInfo buyInfo = (DominionBuyCardInfo) info;
 
@@ -881,27 +876,19 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             boughtCardIndex = index;
 
         } else if (info instanceof DominionPlayCardInfo){
-            //updateInplay();
-            //if(state.getCurrentTurn() != playerNum){
-            //inplayLayout.setVisibility(View.VISIBLE);
-            //shopLayout.setVisibility(View.INVISIBLE);
-            //}
-            /*
-            else{
-                inplayLayout.setVisibility(View.INVISIBLE);
-                shopLayout.setVisibility(View.VISIBLE);
-            }*/
-
             int cardIdx = ((DominionPlayCardInfo) info).getCardIndex();
             if(playerState.getDeck().getHandSize() == 1 &&
                     playerState.getDeck().getHand().get(cardIdx).getAddedDraw() == 0){
-                setViewVisible(shopLayout);
+                setViewVisible(shopLayout); //sets shop to visible when no more cards to be played
             } else {
                 setViewVisible(inplayLayout);
             }
         }
     }
 
+    /**
+     * Flashes a colored filter over a card pile after it is purchased
+     */
     private void buyCardFlash(){
         boughtCard = false;
 
@@ -918,6 +905,10 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         flashHandler.postDelayed(new ResetBackground(boughtCardIndex, boughtCardPlace), 500);
     }
 
+    /**
+     * Sets textView for when the game is over
+     * @param message End game message
+     */
     @Override
     protected void gameIsOver(String message){
         super.gameIsOver(message);
@@ -927,7 +918,29 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         gameOver = true;
     }
 
-    private final View.OnClickListener seeCardsListener = new View.OnClickListener() {
+    /**
+     * Sets either the shop layout and inPlay layout to visible and updates the text on the button
+     * @param v View to be set visible
+     */
+    private void setViewVisible(View v){
+        if(v == inplayLayout){
+            updateInplay();
+            shopLayout.setVisibility(View.INVISIBLE);
+            inplayLayout.setVisibility(View.VISIBLE);
+            bSeeCards.setText(activity.getString(R.string.cards_inshop_button));
+        }
+        else{
+            updateShopPiles();
+            shopLayout.setVisibility(View.VISIBLE);
+            inplayLayout.setVisibility(View.INVISIBLE);
+            bSeeCards.setText(activity.getString(R.string.cards_inplay_button));
+        }
+    }
+
+    /**
+     * Sets the visibility of the shop view and inPlay view based on what is already visible
+     */
+    private final View.OnClickListener seeCardsListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
             Log.i("seeCardsListener", "button clicked");
@@ -940,24 +953,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         }
     };
 
-    private void setViewVisible(View v){
-        if(v == inplayLayout){
-            Log.i("seeCardsListener", "updating in play");
-            updateInplay();
-            shopLayout.setVisibility(View.INVISIBLE);
-            inplayLayout.setVisibility(View.VISIBLE);
-            bSeeCards.setText("SEE CARDS IN SHOP");
-            Log.i("seeCardsListener", "changed text");
-        }
-        else{
-            Log.i("seeCardsListener", "updating shop");
-            updateShopPiles();
-            shopLayout.setVisibility(View.VISIBLE);
-            inplayLayout.setVisibility(View.INVISIBLE);
-            bSeeCards.setText("SEE CARDS IN PLAY");
-        }
-    }
-    
     /**
      * Handles playing all treasures, ending a turn, and playing cards in the hand
      */
@@ -978,7 +973,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 endTurnMsg();
 
                 action = new DominionEndTurnAction(thisPlayer);
-            //} else if(v instanceof ConstraintLayout){ //v is one of the playerCards
             } else { //v is one of the playerCards
                 Log.i("DomHumPlayer: onClick", "Player's card button clicked.");
 
@@ -1034,7 +1028,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
              * Date: November 26, 2018
              * Resource:
              *  https://www.geeksforgeeks.org/arrays-aslist-method-in-java-with-examples/
-             * Problem: Wanted to init Arraylist with vals  instead of adding one at a time.
+             * Problem: Wanted to init Arraylist with vals instead of adding one at a time.
              * Solution: use Arrays.asList in ArrayList constructor.
              */
 
@@ -1091,12 +1085,12 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             if(v.getId() == dialog.getButton(AlertDialog.BUTTON_POSITIVE).getId() ){
                 Button nextButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
                 Button prevButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-                if(helpPos< (imageList.size()-1)) helpPos++;
+                if(helpPos< (imageList.size()-1)) { helpPos++; }
 
                 imageHelp.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to next image in array list
                 imageHelp.setImageResource(imageList.get(helpPos));
                 //set next button text color to grey if at last image in list
-                if (helpPos == (imageList.size()-1)) nextButton.setTextColor(Color.parseColor("#d3d3d3"));
+                if (helpPos == (imageList.size()-1)) { nextButton.setTextColor(Color.parseColor("#d3d3d3")); }
                 else {
                     prevButton.setTextColor(Color.parseColor("#ff0000"));
                     nextButton.setTextColor(Color.parseColor("#ff0000"));
@@ -1105,12 +1099,12 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             else if(v.getId() == dialog.getButton(AlertDialog.BUTTON_NEGATIVE).getId()){
                 Button prevButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
                 Button nextButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                if(helpPos > 0) helpPos--;
+                if(helpPos > 0) { helpPos--; }
 
                 imageHelp.setScaleType(ImageView.ScaleType.FIT_CENTER); //setting image to previous image in array list
                 imageHelp.setImageResource(imageList.get(helpPos));
                 //set prev button text color to grey if at first image in list
-                if (helpPos == 0) prevButton.setTextColor(Color.parseColor("#d3d3d3"));
+                if (helpPos == 0) { prevButton.setTextColor(Color.parseColor("#d3d3d3")); }
                 else {
                     prevButton.setTextColor(Color.parseColor("#ff0000"));
                     nextButton.setTextColor(Color.parseColor("#ff0000"));
