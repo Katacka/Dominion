@@ -65,31 +65,6 @@ import project.katacka.dominion.gamestate.DominionShopPileState;
  */
 public class DominionHumanPlayer extends GameHumanPlayer {
 
-    //TODO: Comment all the variables :(
-    /*
-        constants
-        states
-        whole layout
-        main activity
-        shop
-        base
-        inplay
-        playerhand
-            with scroll
-        opponent hand
-        tabs
-        buttons
-        help
-        draw/discard
-        flash illegal move stuff
-        toast stuff
-        turn stuff
-        music
-        /game over stuff
-                wait
-        resources/this
-    */
-
     //CONSTANTS
     private final int ILLEGAL_TOAST_DURATION = 250;
     private final double CARD_WIDTH_RATIO = 0.66;
@@ -105,8 +80,11 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private DominionGameState state;
     private DominionPlayerState playerState;
 
-    //MAIN ACTIVITY
+    //BIG STUFF
+        // main activity, layout, inflater
     private GameMainActivity activity = null;
+    private ConstraintLayout mainLayout;
+    private LayoutInflater inflater;
 
     //SHOP CARDS
     private TableLayout shopLayout = null;
@@ -119,34 +97,13 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     //INPLAY
     private ConstraintLayout inplayLayout = null;
 
-
     //PLAYER HAND
     private LinearLayout cardRow = null;
     private HorizontalScrollView cardScroll = null;
     private ArrayList<DominionCardState> hand;
     private int handCardWidth = 0;
 
-
-
-    private int helpPos;
-
-    private ConstraintLayout mainLayout;
-    private LayoutInflater inflater;
-
-    private Resources res;
-
-    private Button bEndTurn = null;
-    private Button bPlayAll = null;
-
-    private ConstraintLayout tabLayout = null;
-
-
-
-
-    private TextView tvActions;
-    private TextView tvBuys;
-    private TextView tvTreasure;
-
+    //OPPONENT HAND
     private TextView tvOppDraw;
     private ImageView oppDraw;
     private ImageView oppDrawEmpty;
@@ -154,46 +111,60 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     private ConstraintLayout oppDiscardLayout;
     private ImageView oppEmptyDiscard;
 
+    //TABS
+    private ConstraintLayout tabLayout = null;
+
+    //BUTTONS
+    private Button bEndTurn = null;
+    private Button bPlayAll = null;
+    private Button bMenu;
+    private Button bSeeCards = null;
+
+    //PLAYER STATS TEXT
+    private TextView tvActions;
+    private TextView tvBuys;
+    private TextView tvTreasure;
+
+    //HELP MENU
+    private int helpPos;
+    private ArrayList<Integer> imageList;
+    private ImageView imageHelp;
+    private AlertDialog dialog;
+
+    //DRAW/DISCARD
     private TextView tvDrawCount;
     private TextView tvDiscardCount;
-
-    private Button bMenu;
-
-    private int promptEndTurn = 1;
-    private boolean gameOver = false;
-
     private ImageView drawPile;
     private ConstraintLayout discardPile;
     private ImageView emptyDiscardPile;
     private ImageView emptyDrawPile;
 
+    //TURN STUFF
+    private int promptEndTurn = 1;
+    private boolean isTurn;
+    private Toast endTurnToast;
 
-
-    //cannot just use "this" in listeners
-        //"this" references the listener class, not DominionHumanPlayer
-    private final GamePlayer thisPlayer = this;
-
+    //ILLEGAL MOVE STUFF
     private final Handler flashHandler;
     private Drawable background;
     private Toast illegalMoveToast;
-    private Toast endTurnToast;
-
-    private boolean isTurn;
-
-    private ArrayList<Integer> imageList;
-    private ImageView imageHelp;
-    private AlertDialog dialog;
-
-    private Button bSeeCards = null;
-
     private boolean boughtCard = false;
     private int boughtCardIndex;
     private DominionCardPlace boughtCardPlace;
 
-    private TextView tvWait;
-
+    //MUSIC
     MediaPlayer music;
     private ImageButton bMusic = null;
+
+    //START/END GAME
+    private TextView tvWait;
+    private boolean gameOver = false;
+
+    //RESOURCES/THIS
+    private Resources res;
+    private final GamePlayer thisPlayer = this; //to reference "this" human player from listener classes
+
+    //////////////////////////////////////////////////////////////////////
 
     public DominionHumanPlayer(String name) {
         super(name);
@@ -1062,7 +1033,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                      Button prevButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
                      button.setTextColor(Color.parseColor("#ff0000"));
                      prevButton.setTextColor(Color.parseColor("#d3d3d3")); //prev button initially grey
-                     Log.i("Dominion Human Player", "on show");
                      button.setOnClickListener(menuButtonClickListener);
                      prevButton.setOnClickListener(menuButtonClickListener);
                  }
@@ -1114,16 +1084,30 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     };
 
     /**
-     * Plays or pauses the music playing when button is clicked
+     * Used for the play/pause button for the music.
      */
     private final View.OnClickListener musicListener = new View.OnClickListener(){
+        /**
+         * Button is pressed. Toggles the music on/off and sets the button to the correct image.
+         * @param v The music button. Ignored
+         */
         @Override
         public void onClick(View v){
+            /*
+             * External citation
+             * Date: 12/5
+             * Problem: Needed id of android resource
+             * Resource:
+             *  https://stackoverflow.com/questions/3201643/how-to-use-default-android-drawables
+             * Solution: Use android.R
+             */
             if(music.isPlaying()){
                 music.pause();
+                bMusic.setImageResource(android.R.drawable.ic_media_play);
             }
             else if(!music.isPlaying()){
                 music.start();
+                bMusic.setImageResource(android.R.drawable.ic_media_pause);
             }
         }
     };
