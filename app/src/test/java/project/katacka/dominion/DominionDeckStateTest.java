@@ -199,7 +199,7 @@ public class DominionDeckStateTest {
     }
 
     /**
-     * Tests the discard method by name, ensuring the specified card is discarded
+     * Tests that discard moves card from hand to discard
      * @author Hayden Liao
      */
     @Test
@@ -261,8 +261,8 @@ public class DominionDeckStateTest {
     }
 
     /**
-     * Tests the discard all method, discarding all of one's hand
-     * @author Julian Donovan
+     * Tests that discard all moves all cards from hand into discard
+     * @author Hayden Liao
      */
     @Test
     public void testDiscardAll() {
@@ -288,7 +288,7 @@ public class DominionDeckStateTest {
     }
 
     /**
-     * Tests the reshuffle method
+     * Tests that reshuffle shuffles cards from discard into draw
      * @author Hayden Liao
      */
     @Test

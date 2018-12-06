@@ -25,8 +25,21 @@
     <string name="actions">Actions: %1$d</string>
     <string name="buys">Buys: %1$d</string>
     <string name="treasure">Treasure: %1$d</string>
+    <!--
+    External Citation
+    Source: https://stackoverflow.com/questions/12627457/format-statement-in-a-string-resource-file
+    Problem: Didn't know how to include numbers in res string
+    -->
+
+
 
     <string name="cards_inplay_button">See cards in play</string>
     <string name="cards_inshop_button">See cards in shop</string>
+
+    <string name="toast_not_your_turn">Excuse you. It is not your turn.\n
+        Please wait patiently like a well-mannered citizen.\n\n~~~~~~~~~~~~~~Thank you~~~~~~~~~~~~~~</string>
+    <string name="toast_illegal_move">Ya can\'t do that, ya heathen!</string>
+    <string name="toast_turn_ended">You have temporarily abdicated your throne!</string>
+    <string name="toast_bought_card">Congratulations! You are now the proud new owner of a </string>
 
 </resources>
