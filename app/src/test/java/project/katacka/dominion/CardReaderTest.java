@@ -1,27 +1,32 @@
 package project.katacka.dominion;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
+
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import project.katacka.dominion.GameStateGenerator;
 import project.katacka.dominion.gamestate.CardReader;
 import project.katacka.dominion.gamestate.DominionCardState;
-import project.katacka.dominion.gamestate.DominionGameState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests the card reader class, ensuring the JSON files are being properly read
+ * @author Julian Donovan
+ */
 public class CardReaderTest { //Note for the grader: GSONDeserializer does not have its own test suite
                               //    as it its functionality is entirely expressed by its wrapper class, CardReader
 
     CardReader cr = new CardReader("base"); //The base expansion set is the only set supported as of current
 
-    @Test //Julian Donovan
+    /**
+     * Tests the generateCards method, ensuring that the JSON data has been properly read and stored
+     * @author Julian Donovan
+     */
+    @Test
     public void testGenerateCards() {
         try (InputStream shopStream = CardReaderTest.class.getClassLoader().getResourceAsStream("shop_cards.json");
              InputStream baseStream = CardReaderTest.class.getClassLoader().getResourceAsStream("base_cards.json")) {
@@ -57,7 +62,11 @@ public class CardReaderTest { //Note for the grader: GSONDeserializer does not h
         }
     }
 
-    @Test //Julian Donovan
+    /**
+     * Tests the generateCards method regarding edge cases, ensuring all data is properly read and stored
+     * @author Julian Donovan
+     */
+    @Test
     public void testGenerateCardsEdgeCases() {
         try (InputStream shopStream = CardReaderTest.class.getClassLoader().getResourceAsStream("shop_cards.json");
              InputStream baseStream = CardReaderTest.class.getClassLoader().getResourceAsStream("base_cards.json")) {

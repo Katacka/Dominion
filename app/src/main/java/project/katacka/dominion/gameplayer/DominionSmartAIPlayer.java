@@ -1,21 +1,14 @@
 package project.katacka.dominion.gameplayer;
 
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.Comparator;
 
 import project.katacka.dominion.gamedisplay.DominionBuyCardAction;
 import project.katacka.dominion.gamedisplay.DominionPlayCardAction;
 import project.katacka.dominion.gameframework.infoMsg.GameInfo;
-import project.katacka.dominion.gameframework.infoMsg.GameState;
 import project.katacka.dominion.gamestate.DominionCardPlace;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionCardType;
-import project.katacka.dominion.gamestate.DominionGameState;
 import project.katacka.dominion.gamestate.DominionShopPileState;
 
 /**
@@ -23,10 +16,6 @@ import project.katacka.dominion.gamestate.DominionShopPileState;
  * @author Julian Donovan, Ryan Regier, Ashika Mulagada, Hayden Liao
  */
 public class DominionSmartAIPlayer extends DominionComputerPlayer {
-    private int remCopper;
-    private int remSilver;
-    private int remGold;
-    private double avgDraw;
 
     /**
      * Constructs a DominionSmartAIPlayer intended to be both adaptable and competitive
@@ -34,7 +23,6 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
      */
     public DominionSmartAIPlayer(String name) {
         super(name);
-        remCopper = 7; //Player starts with 7 cards in their hand
     }
 
     /**
@@ -44,7 +32,6 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
      */
     @Override
     public boolean playTurnPhase(TurnPhases tempPhase) {
-        Log.d("SmartAI", "Using Big Money behavior");
         currentPhase = TurnPhases.IN_PROGRESS;
 
         if(tempPhase == TurnPhases.END) tempPhase = TurnPhases.ACTION;
@@ -56,7 +43,7 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
                 if (playTreasure()) break;
             case BUY:
                 if (playBigMoneyBuyPhase()) break;
-            case END:
+            case END: //Reachable through the 'BUY' case cascading
                 endTurn();
             case IN_PROGRESS:
             default:
@@ -114,7 +101,6 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
         boolean isCopper = hand.stream().anyMatch(card -> card.getTitle().equals("Copper"));
         boolean isMoneylender = targetCard.getTitle().equals("Moneylender");
 
-        if (isMoneylender && isCopper) remCopper--; //Updates known number of copper cards
         return !isMoneylender || isCopper;
     }
 
@@ -125,8 +111,6 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
      */
     private boolean playBigMoneyBuyPhase() {
         if (gameState.getBuys() > 0) {
-            Log.i("a" + gameState.getBuys(), "gameTreasure: " + gameState.getTreasure());
-
             Stream<DominionShopPileState> buyOptionsStream = Stream.of(shopCards.stream(), baseCards.stream())
                                                                    .flatMap(piles -> piles)
                                                                    .filter(pile -> pile.getAmount() > 0 &&
@@ -155,7 +139,6 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
             }
 
             DominionShopPileState selectedPile = orderedActionArray[0];
-            trackTreasure(selectedPile.getCard());
             DominionCardPlace place = selectedPile.getPlace();
             int pileIdx = (place == DominionCardPlace.BASE_CARD) ? baseCards.indexOf(selectedPile) : shopCards.indexOf(selectedPile);
 
@@ -169,72 +152,16 @@ public class DominionSmartAIPlayer extends DominionComputerPlayer {
     }
 
     /**
-     * Keeps track of current treasure quantities after purchase
-     * @param card Describes the card being tracked
-     */
-    private void trackTreasure(DominionCardState card) {
-        switch (card.getTitle()) {
-            case "Copper":
-                remCopper++;
-                break;
-            case "Silver":
-                remSilver++;
-                break;
-            case "Gold":
-                remGold++;
-                break;
-            default:
-                Log.e("trackTreasure: ", "Unexpected case encountered");
-        }
-    }
-
-    /**
      * Receives info from DominionLocalGame regarding DominionGameState
      * @param info Describes the DominionGameState
      */
     @Override
     protected void receiveInfo(GameInfo info) {
         super.receiveInfo(info);
-
-        if(!gameOver && info instanceof GameState && ((DominionGameState) info).canMove(this.playerNum)) {
-            if (draw != null && discard != null && hand != null) {
-                //Draw parameters
-                avgDraw = 5;
-            }
-        }
     }
-
-
-    /**
-     * TODO: Use method
-     * Used to predict the average treasure value the AI will draw from its
-     * @return A double describing the predicted treasure value of a hand
-     */
-    private double predictTreasureDraw() {
-        double expectedTreasure = 0;
-        double statModifier = 1;
-
-        for(double i = avgDraw; i > 0; i--) {
-            if(i < 1) statModifier = i;
-            expectedTreasure += calcExpectedTreasure() * statModifier;
-        }
-        Log.e("Expected treasure", " " + expectedTreasure);
-        return  expectedTreasure;
-    }
-
-    /**
-     * Calculates total treasure base off known treasure distribution
-     * @return A double describing the predicted treasure value of a single draw
-     */
-    private double calcExpectedTreasure() {
-        double remTreasure = (remGold * 3) + (remSilver * 2) + remCopper;
-        return remTreasure / compPlayer.getDeck().getTotalCards();
-    }
-
 
     public String toString(){
         return "CardView Name: " + super.name;
-
     }
 }
 

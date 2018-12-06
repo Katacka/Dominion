@@ -41,8 +41,6 @@ public class CardReader{
         gsonParser = gsonBuilder.create();
     }
 
-    //Known bug: Images have different sizes
-
     /**
      * An overloaded generateCards method intended to simplify cases where all possible
      * DominionShopPileState objects should be extracted from the JSON file in question

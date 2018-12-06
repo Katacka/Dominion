@@ -10,7 +10,6 @@ import java.util.stream.Stream;
 import static org.junit.Assert.*;
 import static project.katacka.dominion.GameStateGenerator.getNewState;
 
-import project.katacka.dominion.gameplayer.DominionHumanPlayer;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionCardType;
 import project.katacka.dominion.gamestate.DominionDeckState;
@@ -53,6 +52,7 @@ public class CardStateTest {
     }
 
     /**
+     * Tests the card state constructor
      * @author Hayden
      */
     @Test

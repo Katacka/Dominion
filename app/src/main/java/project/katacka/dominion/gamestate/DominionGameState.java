@@ -1,7 +1,5 @@
 package project.katacka.dominion.gamestate;
 
-
-import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.Serializable;
@@ -616,7 +614,6 @@ public class DominionGameState extends GameState implements Serializable{
 
     @Override
     public int hashCode() {
-
         int result = Objects.hash(baseCards, shopCards, currentTurn, attackTurn, isAttackTurn, isGameOver, playerQuit, numPlayers, actions, buys, treasure, numMerchants, silverPlayed, emptyPiles, providenceEmpty);
         result = 31 * result + Arrays.hashCode(dominionPlayers);
         result = 31 * result + Arrays.hashCode(tiedPlayers);

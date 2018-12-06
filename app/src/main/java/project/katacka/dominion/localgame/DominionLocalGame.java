@@ -36,7 +36,6 @@ public class DominionLocalGame extends LocalGame {
     private final ArrayList<DominionShopPileState> baseCards;
     private final ArrayList<DominionShopPileState> shopCards;
 
-
     /**
      * Constructor. Reads cards from XML.
      * @param context The context in which the game is created. Used to read the XML.
@@ -51,8 +50,7 @@ public class DominionLocalGame extends LocalGame {
     /**
      * Copies and sends game state. Hides cards that cannot be seen.
      *
-     * @param p
-     * 			the player to notify
+     * @param p The player to notify
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p){
@@ -99,22 +97,21 @@ public class DominionLocalGame extends LocalGame {
             result = String.format(Locale.US, "There was a %d-way tie between ", numTied);
             for (int i = 0; i < numTied; i++){
                 if (i == numTied-1){ //Last player in tied list.
-                    result += String.format(Locale.US, "%s.\nScores:\n", playerNames[tiedPlayers[i]]);
+                    result = result.concat(String.format(Locale.US, "%s.\nScores:\n", playerNames[tiedPlayers[i]]));
                 } else if ( i == numTied - 2){ //Second to last player in tied list.
-                    result += String.format(Locale.US, "%s and ", playerNames[tiedPlayers[i]]);
+                    result = result.concat(String.format(Locale.US, "%s and ", playerNames[tiedPlayers[i]]));
                 } else { //All other players
-                    result += String.format(Locale.US, "%s, ", playerNames[tiedPlayers[i]]);
+                    result = result.concat(String.format(Locale.US, "%s, ", playerNames[tiedPlayers[i]]));
                 }
             }
         }
 
         //Prints everyone's scores out
         for(int i = 0; i < playerNames.length; i++){
-            result += String.format(Locale.US, "%s: %d\n", playerNames[i], scores[i]);
+            result = result.concat(String.format(Locale.US, "%s: %d\n", playerNames[i], scores[i]));
         }
 
-        result += "Thanks for playing!";
-        return result;
+        return result.concat("Thanks for playing!");
     }
 
     /**
@@ -136,7 +133,7 @@ public class DominionLocalGame extends LocalGame {
 
             boolean success = state.playCard(playerID, cardIndex);
 
-            if(success){
+            if (success){
                 DominionPlayCardInfo info = new DominionPlayCardInfo();
                 for (GamePlayer gamePlayer : players){
                     gamePlayer.sendInfo(info);

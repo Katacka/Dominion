@@ -1,17 +1,11 @@
 package project.katacka.dominion;
 
-import android.util.Log;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import project.katacka.dominion.gamestate.CardReader;
 import project.katacka.dominion.gamestate.DominionCardState;
 import project.katacka.dominion.gamestate.DominionDeckState;
 import project.katacka.dominion.gamestate.DominionGameState;
@@ -19,7 +13,10 @@ import project.katacka.dominion.gamestate.DominionShopPileState;
 
 import static org.junit.Assert.*;
 
-//TODO: Javadoc here and in methods
+/**
+ * Tests DominionDeckState methods
+ * @author Julian Donovan
+ */
 public class DominionDeckStateTest {
     private DominionGameState state;
     private DominionDeckState deck;
@@ -30,13 +27,10 @@ public class DominionDeckStateTest {
     private final int COPPER = 0;
     private final int ESTATE = 1;
     private final int MOAT = 0;
-    private final int COUNCIL = 8;
     private final int MONEY_LENDER = 9;
     private final int COUNCIL_ROOM = 8;
     private final int MERCHANT = 3;
     private final int SILVER = 2;
-    private final int GARDEN = 4;
-    private final int PROVINCE = 6;
 
     @BeforeClass
     public static void setupCards(){
@@ -51,12 +45,25 @@ public class DominionDeckStateTest {
         deck = state.getDominionPlayers()[0].getDeck();
     }
 
+    /**
+     * Clones a card list, allowing for one to make before and after comparisons
+     * @param copyList The list to be copied
+     * @param tmpList The list copied to
+     *
+     * @author Julian Donovan
+     */
     public void cloneCardList(ArrayList<DominionCardState> copyList, ArrayList<DominionCardState> tmpList) {
         for (DominionCardState card : copyList){
             tmpList.add(new DominionCardState(card));
         }
     }
 
+    /**
+     * Sets up a card arrayList with specific cards in known positions, this allows for removal, search and insertion testing
+     * @param cardList The list of cards to be modified
+     *
+     * @author Julian Donovan
+     */
     private void setupSpecialCardList(ArrayList<DominionCardState> cardList){
         //Fills the supplied cardList with specifically defined cards
         cardList.clear();
@@ -69,7 +76,11 @@ public class DominionDeckStateTest {
         cardList.add(baseCards.get(SILVER).getCard()); //Seventh card Silver
     }
 
-    @Test //Julian Donovan
+    /**
+     * Tests the reveal method, ensuring a card is properly peeked from the discard
+     * @author Julian Donovan
+     */
+    @Test
     public void testReveal() {
         deck.getDraw().clear();
         deck.getDiscard().clear();
@@ -83,7 +94,11 @@ public class DominionDeckStateTest {
         assertEquals(silver, deck.reveal()); //The top card should be a silver as set by setupSpecialCardList
     }
 
-    @Test //Julian Donovan
+    /**
+     * Tests the draw method, ensuring a card is moved from draw to hand
+     * @author Julian Donovan
+     */
+    @Test
     public void testDraw() {
         deck.getDraw().clear();
         deck.getDiscard().clear();
@@ -104,7 +119,11 @@ public class DominionDeckStateTest {
         assertEquals(silver, deck.getHand().get(lastHandIdx)); //The drawn card should be added to the player's hand
     }
 
-    @Test //Julian Donovan
+    /**
+     * Tests the multi-draw method, ensuring multiple cards (as specified) are moved from draw to hand
+     * @author Julian Donovan
+     */
+    @Test
     public void testDrawMultiple() {
         deck.getDraw().clear();
         deck.getDiscard().clear();
@@ -124,7 +143,11 @@ public class DominionDeckStateTest {
         assertFalse(deck.drawMultiple(1)); //Having drawn the entire discard and draw, attempting to draw more will fail
     }
 
-    @Test //Julian Donovan
+    /**
+     * Tests the putInPlay method, ensuring cards are moved from hand to the inPlay arrayList
+     * @author Julian Donovan
+     */
+    @Test
     public void testPutInPlay() {
         deck.getHand().clear();
         assertFalse(deck.putInPlay(-1)); //Negative 1 is an impossible index
@@ -143,7 +166,11 @@ public class DominionDeckStateTest {
         assertEquals(copper, deck.getInPlay().get(0)); //Ensures an estate has been removed form the hand and put in play
     }
 
-    @Test //Julian Donovan
+    /**
+     * Tests the getLastPlayed method, allowing one to view the top of the inPlay arrayList
+     * @author Julian Donovan
+     */
+    @Test
     public void testGetLastPlayed() {
         deck.getInPlay().clear();
         assertNull(deck.getLastPlayed()); //The inPlay array is empty, as such nothing exists to display
@@ -153,7 +180,11 @@ public class DominionDeckStateTest {
         assertEquals(silver, deck.getLastPlayed()); //The last card put in the inPlay array was a silver
     }
 
-    @Test //Julian Donovan
+    /**
+     * Tests the discard method by index, ensuring the specified card is discarded
+     * @author Julian Donovan
+     */
+    @Test
     public void testDiscardByIndex() {
         assertFalse(deck.discard(deck.getHandSize()));
         assertFalse(deck.discard(-1));
@@ -167,7 +198,11 @@ public class DominionDeckStateTest {
         assertEquals(copper, deck.getDiscard().get(0));
     }
 
-    @Test //Hayden Liao
+    /**
+     * Tests the discard method by name, ensuring the specified card is discarded
+     * @author Hayden Liao
+     */
+    @Test
     public void testDiscardByCard() {
         DominionCardState copper = baseCards.get(0).getCard();
 
@@ -189,7 +224,11 @@ public class DominionDeckStateTest {
         assertTrue(deck.getDiscard().contains(copper));
     }
 
-    @Test //Julian Donovan
+    /**
+     * Tests the discard new method, adding a card to the discard (after buy)
+     * @author Julian Donovan
+     */
+    @Test
     public void testDiscardNew() {
         DominionCardState copper = baseCards.get(0).getCard();
         deck.getDiscard().clear();
@@ -201,7 +240,11 @@ public class DominionDeckStateTest {
         assertEquals(copper, deck.getDiscard().get(0));
     }
 
-    @Test //Julian Donovan
+    /**
+     * Tests the discard method when adding many cards (as specified)
+     * @author Julian Donovan
+     */
+    @Test
     public void testAddManyToDiscard() {
         DominionCardState copper = baseCards.get(0).getCard();
         deck.getDiscard().clear();
@@ -217,7 +260,11 @@ public class DominionDeckStateTest {
 
     }
 
-    @Test //Hayden Liao
+    /**
+     * Tests the discard all method, discarding all of one's hand
+     * @author Julian Donovan
+     */
+    @Test
     public void testDiscardAll() {
         deck.getHand().clear();
         ArrayList<DominionCardState> tempHand = new ArrayList<>(deck.getHand().size());
@@ -240,7 +287,11 @@ public class DominionDeckStateTest {
         assertTrue(deck.getDiscard().containsAll(tempHand));
     }
 
-    @Test //Hayden Liao
+    /**
+     * Tests the reshuffle method
+     * @author Hayden Liao
+     */
+    @Test
     public void testReshuffle() {
         setupSpecialCardList(deck.getDiscard());
 
@@ -256,6 +307,10 @@ public class DominionDeckStateTest {
         assertEquals( true, deck.getDraw().containsAll(tempDiscard));
     }
 
+    /**
+     * Tests the countVictory method, ensuring victory cards have been correctly counted
+     * @author Julian Donovan
+     */
     @Test
     public void testCountVictory() {
         deck.getDiscard().clear();

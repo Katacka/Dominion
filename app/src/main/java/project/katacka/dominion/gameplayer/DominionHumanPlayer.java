@@ -988,7 +988,6 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             int rawIndex = parentView.indexOfChild(v);
             int desiredIndex = rawIndex + offSet;
 
-            //TODO fix this shit
             if (basePiles.contains(v)) {
                 place = DominionCardPlace.BASE_CARD;
             }

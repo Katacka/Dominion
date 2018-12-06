@@ -14,7 +14,7 @@ public enum DominionCardType implements Serializable{
     VICTORY,
     ACTION,
     ATTACK,
-    REACTION, //Not used
+    REACTION,
     BLANK;
 
     /**

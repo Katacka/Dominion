@@ -247,12 +247,6 @@ public abstract class LocalGame implements Game, Tickable {
 					playersFinished[playerIdx] = true;
 					playerFinishedCount++;
 				}
-
-				//TODO: FIX App respawn
-				/*//TODO: Talk to Tirbelhorn about modified behavior
-				if (playerFinishedCount == playersFinished.length) {
-					ProcessPhoenix.triggerRebirth(ContextProvider.getContext());
-				}*/
 			}
 		}
 	}
