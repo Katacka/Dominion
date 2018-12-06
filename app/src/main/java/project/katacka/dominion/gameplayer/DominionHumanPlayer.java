@@ -387,16 +387,19 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     }
 
     /**
-     * Updates player's draw and discard piles to be an empty pile or display top most card
+     * Updates player's draw and discard piles to be an empty pile or display top most card.
      */
     private void updateDrawDiscard(){
         DominionDeckState deck = playerState.getDeck();
         int drawSize = deck.getDrawSize();
         int discardSize = deck.getDiscardSize();
 
+        //Set the pile amounts
         tvDrawCount.setText(Integer.toString(drawSize));
         tvDiscardCount.setText(Integer.toString(discardSize));
 
+        //Replace the card with the empty pile art if the pile is empty
+        //Do this for draw
         if(drawSize == 0){
             drawPile.setVisibility(View.INVISIBLE);
             emptyDrawPile.setVisibility(View.VISIBLE);
@@ -405,6 +408,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             drawPile.setVisibility(View.VISIBLE);
             emptyDrawPile.setVisibility(View.INVISIBLE);
         }
+
+        //Same thing for discard
         if(discardSize == 0){
             discardPile.setVisibility(View.INVISIBLE);
             emptyDiscardPile.setVisibility(View.VISIBLE);
@@ -419,15 +424,21 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      * Updates player's hand to reflect state
      */
     private void updatePlayerHand(){
+        //Clear the hand of any cards in there now
         cardRow.removeAllViews();
+
+        //Get what cards should be in hand
         hand = state.getDominionPlayer(playerNum).getDeck().getHand();
         if (handCardWidth == 0) setHandCardWidth();
 
+        //Add each card to the layout
         for(int i = 0; i < hand.size(); i++){
+            //Create the card
             ConstraintLayout cardLayout = (ConstraintLayout) inflater.inflate(R.layout.player_card, cardRow, false);
             cardLayout.setMinWidth(handCardWidth);
             cardLayout.setOnClickListener(handClickListener);
 
+            //Add it to the layout
             DominionCardState card = hand.get(i);
             updateCardView(cardLayout, card, -1);
             setHighlight(cardLayout, isTurn && (card.getType() != DominionCardType.ACTION || state.getActions() > 0));
@@ -451,12 +462,15 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      * @param num The amount of cards. If -1, amount is hidden.
      */
     private void updateCardView(ConstraintLayout cardView, DominionCardState card, int num){
+        //Update card cost
         TextView cost = cardView.findViewById(R.id.textViewCost);
         cost.setText(Integer.toString(card.getCost()));
 
+        //Update card title
         TextView title = cardView.findViewById(R.id.textViewTitle);
         title.setText(card.getTitle());
 
+        //If this is a pile, update the amount. Otherwise, hide it
         FrameLayout layout = cardView.findViewById(R.id.frameLayoutAmount);
         if (num == -1){
             layout.setVisibility(View.INVISIBLE);
@@ -466,12 +480,14 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             amount.setText(Integer.toString(num));
         }
 
+        //Updates the description and type
         TextView description = cardView.findViewById(R.id.tvDescription);
         description.setText(card.getFormattedText());
 
         TextView type = cardView.findViewById(R.id.textViewType);
         type.setText(card.getType().toString());
 
+        //Gets the image by loading the corresponding image from resources.
         ImageView image = cardView.findViewById(R.id.imageViewArt);
 
         String name = card.getPhotoId();
@@ -579,10 +595,18 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      * Updates opponents draw and discard piles to be an empty pile or display top most card
      */
     private void updateOppDrawDiscard(int player){
+        //Only updates for opponent. Own player is ignored
         if (player == playerNum) return;
+
+        //Get state information to display
         DominionDeckState currPlayerDeck = state.getDominionPlayer(player).getDeck();
+
+        //Update draw pile
+        //Update amount
         int drawSize = currPlayerDeck.getDrawSize();
         tvOppDraw.setText(Integer.toString(drawSize));
+
+        //Display empty pile art if empty
         if (drawSize > 0){
             oppDraw.setVisibility(View.VISIBLE);
             oppDrawEmpty.setVisibility(View.INVISIBLE);
@@ -590,6 +614,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             oppDraw.setVisibility(View.INVISIBLE);
             oppDrawEmpty.setVisibility(View.VISIBLE);
         }
+
+        //Update discard pile in the same way
         int discardSize = currPlayerDeck.getDiscardSize();
         tvOppDiscard.setText(Integer.toString(discardSize));
         if (discardSize > 0) {
@@ -615,6 +641,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             handSize = state.getDominionPlayer(player).getDeck().getHandSize();
         }
 
+        //Clear out all cards currently there
         ConstraintLayout oppCardsLayout = activity.findViewById(R.id.Opponent_Cards);
         oppCardsLayout.removeAllViews();
 
@@ -628,6 +655,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             oppCardsLayout.addView(cards[i]);
         }
 
+        //Gets the set of constraints so we can constrain the cards
         ConstraintSet set = new ConstraintSet();
         set.clone(oppCardsLayout);
         float biasMultiplier = Math.min(0.2f, 1/(float)handSize); //How far apart the cards should be, as a percentage
@@ -665,6 +693,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
         DominionPlayerState playerState = state.getDominionPlayer(state.getCurrentTurn());
         cardsPlayed = playerState.getDeck().getInPlaySize();
 
+        //Remove any cards currently displayed
         ConstraintLayout inPlayLayout = activity.findViewById(R.id.Inplay_Cards);
         inPlayLayout.removeAllViews();
 
@@ -682,6 +711,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             inPlayLayout.addView(cards[i]);
         }
 
+        //Gets set of constraints so we can constrain the cards
         ConstraintSet set = new ConstraintSet();
         set.clone(inPlayLayout);
         float biasMultiplier = Math.min(0.2f, 1/(float)cardsPlayed); //How far apart the cards should be, as a percentage
@@ -716,11 +746,14 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      * Prompts user for an alert dialog regarding ending their turn
      */
     private void promptEndTurn() {
+        //If the player has nothing left to do
         if (isTurn && (hand.size() == 0 || state.getActions() == 0) && state.getBuys() == 0) {
             if(promptEndTurn == 1) {
+                //Create the dialogue asking to end turn
                 AlertDialog.Builder endTurnPrompt = new AlertDialog.Builder(activity);
                 endTurnPrompt.setMessage("End Turn?");
 
+                //If yes pressed, end the turn
                 endTurnPrompt.setPositiveButton(
                     "Yes",
                     (DialogInterface dialog, int id) -> {
@@ -729,6 +762,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     }
                 );
 
+                //If no pressed, do nothing
                 endTurnPrompt.setNegativeButton(
                     "No",
                     (DialogInterface dialog, int id) -> dialog.dismiss()
@@ -736,10 +770,12 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
                 CheckBox displayDialogCheck = new CheckBox(activity);
 
+                //Show dialogue
                 endTurnPrompt.setView(displayDialogCheck);
                 endTurnPrompt.create();
                 final AlertDialog show = endTurnPrompt.show();
 
+                //Deal with the user checking the "hide this dialogue" message
                 displayDialogCheck.setText(R.string.display_dialog_check);
                 displayDialogCheck.setOnClickListener((View v) -> {
                     if (displayDialogCheck.isChecked()) {
@@ -749,6 +785,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                     else promptEndTurn = 1;
                 });
             }
+
+            //End turn without asking if turned on
             else if (promptEndTurn == -1) {
                 game.sendAction(new DominionEndTurnAction(this));
                 endTurnMsg();
@@ -757,7 +795,8 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     }
 
     /**
-     * Prompts user for an alert dialog regarding automated turn ending
+     * Prompts user for an alert dialog regarding automated turn ending.
+     * Called if box is checked in dialogue
      */
     private void promptEndTurnSettings() {
         AlertDialog.Builder endTurnSettings = new AlertDialog.Builder(activity);
@@ -804,6 +843,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
     public void receiveInfo(GameInfo info) {
         //get updated info
         if(info instanceof DominionGameState){
+            //Update state member variables
             state = (DominionGameState) info;
             playerState = state.getDominionPlayer(playerNum);
             int currentTurn = state.getCurrentTurn();
@@ -820,10 +860,12 @@ public class DominionHumanPlayer extends GameHumanPlayer {
                 updateOppHand(currentTurn);
             }
 
+            //Flash the last bought card
             if(boughtCard){
                 buyCardFlash();
             }
 
+            //Update all the different GUI aspects
             updateTurnInfo(state.getActions(), state.getBuys(), state.getTreasure());
             updateDrawDiscard();
             updateShopPiles();
@@ -833,6 +875,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
 
             promptEndTurn();
         } else if(info instanceof NotYourTurnInfo) {
+            //Flash screen and display toast indicating move during other turn
             Log.i("DominionHumanPlayer: receiveInfo", "Not your turn.");
             flash(Color.RED, ILLEGAL_TOAST_DURATION);
             if (illegalMoveToast != null){
@@ -843,6 +886,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             illegalMoveToast.show();
 
         } else if (info instanceof IllegalMoveInfo){
+            //Flash screen and display toast indicating illegal move
             flash(Color.RED, ILLEGAL_TOAST_DURATION);
             Log.i("HumanPlayer", "Illegal move");
             if (illegalMoveToast != null){
@@ -852,6 +896,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             illegalMoveToast.show();
 
         } else if (info instanceof DominionBuyCardInfo){
+            //Save the bought card to flash when the next state is recieved
             DominionBuyCardInfo buyInfo = (DominionBuyCardInfo) info;
 
             //Get information needed to find the card layout
@@ -863,6 +908,7 @@ public class DominionHumanPlayer extends GameHumanPlayer {
             boughtCardIndex = index;
 
         } else if (info instanceof DominionPlayCardInfo){
+            //Switches the view to show cards in play
             int cardIdx = ((DominionPlayCardInfo) info).getCardIndex();
             if(playerState.getDeck().getHandSize() == 1 &&
                     playerState.getDeck().getHand().get(cardIdx).getAddedDraw() == 0){
