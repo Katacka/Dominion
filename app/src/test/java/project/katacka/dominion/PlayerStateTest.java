@@ -57,6 +57,9 @@ public class PlayerStateTest {
         estatePile = baseCards.get(ESTATE);
     }
 
+    /**
+     * Tests that player initializes with 0 turns played
+     */
     @Test
     public void testConstructor(){
         DominionShopPileState copperPile = baseCards.get(COPPER);
@@ -71,6 +74,10 @@ public class PlayerStateTest {
     //NOTE TO GRADER:
     // The copy constructor is tested in a different class called CopyConstructorTest
 
+    /**
+     * Tests that populateStartingDeck puts 7 copper and 3 estates in player's discard
+     * Tests that 7 copper is deducted from copper pile with 4 players
+     */
     @Test
     public void testPopulateStartingDeck(){
         int copperCount = 0;
@@ -106,10 +113,8 @@ public class PlayerStateTest {
         assertEquals("hand", 0, deck.getHand().size());
         assertEquals("inplay", 0, deck.getInPlay().size());
 
-
         //test that there is 7 copper and 3 estates
         ArrayList<DominionCardState> discard = p.getDeck().getDiscard();
-
 
         for(DominionCardState card : discard){
             if(card.getTitle().equals(estatePile.getCard().getTitle())){
@@ -126,6 +131,9 @@ public class PlayerStateTest {
         assertEquals("num copper in pile", 32-7, copperPile.getAmount());
     }
 
+    /**
+     * Tests that 7 copper is deducted from copper pile with 3 players
+     */
     @Test
     public void testPopulateStartingDeck3Player(){
         makeState(3); //resets state w/ 3 players
@@ -135,6 +143,9 @@ public class PlayerStateTest {
         assertEquals("num copper in pile", 39-7, copperPile.getAmount());
     }
 
+    /**
+     * Tests that 7 copper is deducted from copper pile with 2 players
+     */
     @Test
     public void testPopulateStartingDeck2Player(){
         makeState(2); //resets state w/ 3 players
