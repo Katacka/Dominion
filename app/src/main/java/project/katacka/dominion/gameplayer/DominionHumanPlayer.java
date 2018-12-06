@@ -920,8 +920,10 @@ public class DominionHumanPlayer extends GameHumanPlayer {
      * Flashes a colored filter over a card pile after it is purchased
      */
     private void buyCardFlash(){
+        //Reset bought card so it is not flashed twice
         boughtCard = false;
 
+        //Get the card layout
         ConstraintLayout cardView;
         if (boughtCardPlace == DominionCardPlace.BASE_CARD){
             cardView = basePiles.get(boughtCardIndex);
